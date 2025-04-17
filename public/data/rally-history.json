@@ -1,0 +1,36 @@
+{
+    "1960": {
+      "events": [
+        {
+          "id": 1,
+          "title": "First World Rally Championship Race",
+          "summary": "In 1960, the inaugural WRC event took place in Monaco.",
+          "image": "/images/history/1960-monaco.jpg"
+        },
+        {  }
+      ],
+      "drivers": [
+        {
+          "id": 1,
+          "name": "Rauno Aaltonen",
+          "bio": "Known as the ‘Rally Professor’, he won multiple European championships.",
+          "image": "/images/history/1960-aaltonen.jpg"
+        }
+      ],
+      "cars": [
+        {
+          "id": 1,
+          "name": "Mini Cooper S",
+          "description": "Dominated the 1960 Monte Carlo Rally with its nimble handling.",
+          "image": "/images/history/1960-mini.jpg"
+        }
+      ]
+    },
+    "1970": {
+      "events": [ ],
+      "drivers": [  ],
+      "cars":    [  ]
+    }
+    
+  }
+  
