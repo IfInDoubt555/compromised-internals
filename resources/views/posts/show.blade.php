@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="max-w-4xl mx-auto px-4 py-8">
+<a href="{{ route('blog.index') }}" class="text-blue-600 mb-6 inline-block hover:underline">&larr; Back to Blog</a>
     <h1 class="text-3xl font-bold mb-6">{{ $post->title }}</h1>
 
 <!-- debug section for figuing out if auth is working 
@@ -13,7 +15,7 @@
     @if ($post->image_path)
         <img src="{{ asset('storage/' . $post->image_path) }}" alt="{{ $post->title }}" class="rounded-lg shadow-md">
     @else
-        <img src="{{ asset('images/default-post.webp') }}" alt="Default Image" class="rounded-lg shadow-md">
+        <img src="{{ asset('images/default-post.png') }}" alt="Default Image" class="rounded-lg shadow-md">
     @endif
 
     <div class="prose max-w-none">
@@ -30,6 +32,7 @@
                 <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">🗑️ Delete</button>
             </form>
         </div>
+        <a href="{{ route('blog.index') }}" class="text-blue-600 mt-6 inline-block hover:underline">&larr; Back to Blog</a>
     @endcan
 </div>
 @endsection

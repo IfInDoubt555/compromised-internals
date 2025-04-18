@@ -17,7 +17,7 @@
             @if ($post->image_path)
                 <img src="{{ asset('storage/' . $post->image_path) }}" alt="{{ $post->title }}" class="rounded-lg shadow-md">
             @else
-                <img src="{{ asset('images/default-post.webp') }}" alt="Default Post Image" class="rounded-lg shadow-md">
+                <img src="{{ asset('images/default-post.png') }}" alt="Default Post Image" class="rounded-lg shadow-md">
             @endif
 
             <div class="flex items-center gap-3 mt-4 mb-2">
