@@ -21,7 +21,7 @@
             @endif
 
             <div class="flex items-center gap-3 mt-4 mb-2">
-                <a href="{{ route('profile.show', $post->user->id) }}">
+                <a href="{{ route('profile.public', $post->user->id) }}">
                     <x-user-avatar :user="$post->user" size="w-10 h-10" />
                 </a>
                 <div>
