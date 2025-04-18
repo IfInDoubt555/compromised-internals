@@ -8,7 +8,7 @@
   <!-- Hero Section -->
 
   <header class="relative bg-gray-900 text-white">
-    <img src="{{ asset('images/vintagerally.webp') }}" 
+    <img src="{{ asset('images/homepage.png') }}" 
       alt="Rally Hero" 
       class="w-full h-[30em] object-cover object-center opacity-60">
     <div class="absolute inset-0 flex items-center justify-center flex-col text-center">

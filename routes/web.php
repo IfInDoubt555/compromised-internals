@@ -43,10 +43,8 @@ Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-Route::view(
-    'errors/checkout-unavailable',
-    'errors.checkout-unavailable'
-)->name('errors.checkout-unavailable');
+Route::view('/checkout/unavailable', 'errors.checkout-unavailable')
+    ->name('errors.checkout-unavailable');
 
 
 Route::get('/charity', [CharityController::class, 'index'])->name('charity.index');
@@ -92,4 +90,5 @@ Route::middleware(['auth'])->group(function () {
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
+
 require __DIR__.'/auth.php';
