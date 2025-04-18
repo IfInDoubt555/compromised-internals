@@ -34,17 +34,17 @@
   @if ($post->image_path)
     <img src="{{ asset('storage/' . $post->image_path) }}" alt="{{ $post->title }}" class="h-64 w-full object-cover rounded-t-lg">
   @else
-    <img src="{{ asset('images/default-post.webp') }}" alt="Default Image" class="h-64 w-full object-cover rounded-t-lg">
+    <img src="{{ asset('images/default-post.png') }}" alt="Default Image" class="h-64 w-full object-cover rounded-t-lg">
   @endif
   <div class="p-4 flex flex-col flex-grow">
         <h2 class="text-lg font-bold text-gray-900 mb-2">{{ $post->title }}</h2>
         <p class="text-gray-600 flex-grow">{{ $post->summary }}</p>
     </div>
-    <div class="p-4">
-        <a href="{{ route('blog.show', $post->slug) }}" class="inline-block px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700">
-            Read More
-        </a>
-    </div>
+      <div class="p-4">
+          <a href="{{ route('posts.show', $post->slug) }}" class="inline-block px-4 py-2 bg-red-600 text-white  font-semibold rounded hover:bg-red-700">
+              Read More
+          </a>
+      </div>
   </div>
 @endforeach
 

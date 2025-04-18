@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/{user}', function (User $user) {
         return view('profile.public', compact('user'));
-    })->name('profile.show');
+    })->name('profile.public');
     Route::get('/profile/orders', [DashboardController::class, 'orders'])->name('profile.orders')->middleware('auth');
 });
 

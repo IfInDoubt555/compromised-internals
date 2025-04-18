@@ -32,7 +32,9 @@
                 <h2 class="text-xl font-semibold mb-2">{{ $post->title }}</h2>
                 <p class="text-gray-600">{{ $post->excerpt }}</p>
 
-                <a href="{{ route('posts.show', $post->slug) }}" class="text-blue-600 hover:underline mt-2 inline-block">Read more</a>
+                <a href="{{ route('posts.show', $post->slug) }}" class="inline-block px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700">
+                    Read More
+                </a>
 
                 @can('update', $post)
                     <div class="mt-4 flex gap-4">

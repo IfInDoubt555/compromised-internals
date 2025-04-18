@@ -20,7 +20,7 @@
 
                         <x-slot name="content">
                             <x-dropdown-link href="{{ route('dashboard') }}">{{ __('Dashboard') }}</x-dropdown-link>
-                            <x-dropdown-link href="{{ route('profile.edit') }}">{{ __('Profile') }}</x-dropdown-link>
+                            <x-dropdown-link href="{{ route('profile.public', Auth::id()) }}">{{ __('Profile') }}</x-dropdown-link>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link href="{{ route('logout') }}"
@@ -90,7 +90,7 @@
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
 
-                <x-responsive-nav-link href="{{ route('profile.edit') }}">{{ __('Profile') }}</x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('profile.public', Auth::id()) }}">{{ __('Profile') }}</x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('dashboard') }}">{{ __('Dashboard') }}</x-responsive-nav-link>
 
                 <form method="POST" action="{{ route('logout') }}">
