@@ -4,9 +4,12 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
         
-        <div class="bg-white shadow-sm sm:rounded-lg p-6">
-            <h2 class="text-2xl font-semibold mb-4 text-center">Welcome back, {{ Auth::user()->name }}!</h2>
+    <div class="bg-white shadow-sm sm:rounded-lg p-4 max-w-xl mx-auto">
+        <div class="flex items-center gap-4 justify-center">
+            <x-user-avatar size="w-14 h-14" />
+            <h2 class="text-xl font-semibold">Welcome back, {{ Auth::user()->name }}!</h2>
         </div>
+    </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Quick Stats -->
