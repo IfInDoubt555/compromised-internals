@@ -9,21 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class UserAvatar extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        public string $size = 'w-10 h-10'
+    ) {}
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
         return view('components.user-avatar', [
             'user' => Auth::user(),
+            'size' => $this->size,
         ]);
     }
 }

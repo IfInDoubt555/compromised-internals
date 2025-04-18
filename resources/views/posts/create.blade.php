@@ -21,38 +21,71 @@
             <!-- Title -->
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <input type="text" name="title" id="title" class="w-full rounded-xl border-gray-300 focus:ring focus:ring-blue-200" required>
+                <input 
+                    type="text" 
+                    name="title" 
+                    id="title" 
+                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200 focus:outline-none transition bg-white"
+                    required
+                >
             </div>
 
             <!-- Slug -->
             <div>
                 <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">Slug</label>
-                <input type="text" name="slug" id="slug" class="w-full rounded-xl border-gray-300 focus:ring focus:ring-blue-200" required>
+                <input 
+                    type="text" 
+                    name="slug" 
+                    id="slug" 
+                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200 focus:outline-none transition bg-white"
+                    required
+                >
                 <small class="text-gray-500">Use lowercase letters and dashes (e.g. rally-winter-blast)</small>
             </div>
 
             <!-- Excerpt -->
             <div>
                 <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">Excerpt</label>
-                <textarea name="excerpt" id="excerpt" class="w-full rounded-xl border-gray-300 focus:ring focus:ring-blue-200" rows="2" placeholder="Short summary..."></textarea>
+                <textarea 
+                    name="excerpt" 
+                    id="excerpt" 
+                    rows="2" 
+                    placeholder="Short summary..."
+                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200 focus:outline-none transition bg-white"
+                ></textarea>
             </div>
 
             <!-- Body -->
             <div>
                 <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
-                <textarea name="body" id="body" class="w-full rounded-xl border-gray-300 focus:ring focus:ring-blue-200" rows="8" required placeholder="Write your full rally story here..."></textarea>
+                <textarea 
+                    name="body" 
+                    id="body" 
+                    rows="8" 
+                    required 
+                    placeholder="Write your full rally story here..."
+                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200 focus:outline-none transition bg-white"
+                ></textarea>
             </div>
 
             <!-- Image Upload -->
             <div>
                 <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
-                <input type="file" name="image" id="image" class="w-full rounded-xl border-gray-300 focus:ring focus:ring-blue-200 bg-white">
+                <input 
+                    type="file" 
+                    name="image" 
+                    id="image" 
+                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200 focus:outline-none transition bg-white"
+                >
             </div>
 
             <!-- Submit Button -->
             <div class="text-center">
-                <button type="submit" class="inline-block px-6 py-3 bg-blue-600 text-blue font-semibold rounded-xl shadow hover:bg-blue-700 transition">
-                    🚀 Publish Post
+                <button 
+                    type="submit" 
+                    class="inline-block px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition"
+                >
+                    Publish Post 🏁
                 </button>
             </div>
         </form>
