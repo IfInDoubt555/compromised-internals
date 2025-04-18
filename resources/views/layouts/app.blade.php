@@ -23,7 +23,7 @@
         @stack('head')
     </head>
 
-        <body class="antialiased">
+        <body class="antialiased bg-gray-100">
             @include('layouts.navigation')    
             
             @php
