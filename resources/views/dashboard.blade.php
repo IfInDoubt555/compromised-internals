@@ -104,14 +104,16 @@
         <!-- Recent Posts -->
         <div class="bg-white shadow-sm sm:rounded-lg p-6">
             <h3 class="text-xl font-semibold mb-4">Your Latest Posts</h3>
-            @if($posts->count())
-                <ul class="list-disc list-inside">
-                    @foreach($posts as $post)
-                        <li>
+                @if($posts->count())
+                    <ul class="list-disc list-inside">
+                    @foreach ($user->posts as $post)
+                    <li>
+                        <a href="{{ route('posts.show', $post->slug) }}" class="text-blue-600 hover:underline">
                             {{ $post->title }}
-                            <a href="{{ route('posts.edit', $post) }}" class="text-blue-500 hover:underline ml-2">Edit</a>
-                        </li>
-                    @endforeach
+                        </a>
+                        <a href="{{ route('posts.edit', $post) }}" class="text-sm text-gray-500 hover:text-blue-500     ml-2">Edit</        a>
+                    </li>
+                @endforeach
                 </ul>
             @else
                 <p class="text-gray-600">You have no posts yet.</p>

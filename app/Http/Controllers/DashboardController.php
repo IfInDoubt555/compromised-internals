@@ -14,6 +14,8 @@ class DashboardController extends Controller
 }
 public function index()
 {
+    $user = auth()->user();
+    
     $posts = Post::where('user_id', auth()->id())->latest()->take(5)->get();
     $postCount = Post::where('user_id', auth()->id())->count();
 
@@ -25,6 +27,7 @@ public function index()
         'posts' => $posts,
         'postCount' => $postCount,
         'orders' => $orders,
+        'user' => $user,
     ]);
 }
     public function show()
