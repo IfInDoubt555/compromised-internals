@@ -28,7 +28,7 @@
 
     <!-- Back Link -->
     <div class="mt-10 text-center">
-        <a href="{{ route('history') }}?decade={{ $decade }}&tab={{ $tab }}" 
+        <a href="{{ route('history.index') }}?decade={{ $decade }}&tab={{ $tab }}" 
             class="inline-block text-blue-600 hover:text-blue-800 underline transition">
             ← Back to History Timeline
         </a>

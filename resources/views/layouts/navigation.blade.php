@@ -41,7 +41,7 @@
             <!-- Right: Navigation Links -->
             <div class="hidden lg:flex items-center space-x-3">
                 <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">{{ __('Home') }}</x-nav-link>
-                <x-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history')">{{ __('History') }}</x-nav-link>
+                <x-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">{{ __('History') }}</x-nav-link>
                 <div class="flex items-center space-x-1">
                     <x-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index', 'shop.show')">
                         {{ __('Shop') }}
@@ -106,7 +106,7 @@
             @endauth
 
             <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">{{ __('Home') }}</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history')">{{ __('History') }}</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">{{ __('History') }}</x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index')">{{ __('Shop') }}</x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">{{ __('Blog') }}</x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">{{ __('Calendar') }}</x-responsive-nav-link>
