@@ -10,9 +10,9 @@
                 @auth
                     <x-dropdown align="left" width="48">
                         <x-slot name="trigger">
-                            <button class="hidden sm:inline-flex items-center px-3 py-2 border border-transparent text-lg font-semibold tracking-wide text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button class="hidden sm:inline-flex items-center px-3 py-2 border border-transparent text-lg font-semibold tracking-wide text-gray-500 bg-white hover:text-gray-700 focus:outline-hidden transition ease-in-out duration-150">
                                 {{ Auth::user()->name }}
-                                <svg class="ms-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.91l3.71-3.7a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
                                 </svg>
                             </button>
@@ -48,7 +48,7 @@
                     </x-nav-link>
 
                     @if (request()->is('shop*') || request()->is('cart'))
-                        <a href="{{ route('shop.cart.index') }}" class="relative text-gray-600 hover:text-gray-900 transition-transform transform hover:scale-110 mt-1">
+                        <a href="{{ route('shop.cart.index') }}" class="relative text-gray-600 hover:text-gray-900 transition hover:scale-110 mt-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.293 1.293a1 1 0 001.414 1.414L7 13zm10 0l1.293 1.293a1 1 0 01-1.414 1.414L17 13z" />

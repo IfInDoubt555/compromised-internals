@@ -16,8 +16,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter&display=swap"
-  rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter&display=swap" rel="stylesheet"/>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -25,17 +24,17 @@
     </head>
 
         <body class="antialiased">
+            @include('layouts.navigation')    
+            
             @php
                 $isHistoryPage = request()->is('history*'); 
             @endphp
-
+            
             <div id="theme-wrapper" class="min-h-screen {{ request()->is('history*') ? '' : 'bg-gray-100' }}">
-
-            @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
+                <header class="bg-white shadow-sm">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
