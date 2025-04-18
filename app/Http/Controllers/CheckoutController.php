@@ -60,6 +60,8 @@ class CheckoutController extends Controller
                         'product_name' => $item['name'],
                         'quantity' => $item['quantity'],
                         'price' => $item['price'],
+                        'size' => $item['options']['size'] ?? null,
+                        'color' => $item['options']['color'] ?? null,
                     ]);
                 }
             }

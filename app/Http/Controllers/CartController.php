@@ -15,15 +15,27 @@ class CartController extends Controller
     }
 
     // Add to Cart
-    public function add(Product $product)
+    public function add(Request $request, Product $product)
     {
         $cart = session()->get('cart', []);
+
+        $size = $request->input('size');
+        $color = $request->input('color');
+    
+        if (!$product->has_variants) {
+            $size = null;
+            $color = null;
+        }
 
         $cart[$product->id] = [
             "id" => $product->id,
             "name" => $product->name,
             "price" => $product->price,
             "quantity" => isset($cart[$product->id]) ? $cart[$product->id]['quantity'] + 1 : 1,
+            'options' => [
+            'size' => $size,
+            'color' => $color,
+            ]
         ];
 
         session()->put('cart', $cart);

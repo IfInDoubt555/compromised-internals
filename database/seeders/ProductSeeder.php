@@ -19,8 +19,9 @@ class ProductSeeder extends Seeder
             'description' => 'Soft cotton shirt with rally-style branding.',
             'price' => 24.99,
             'type' => 'apparel',
-            'image_path' => 'products/purpleshorts.jpeg',
+            'image_path' => 'products/compint-flatout.png',
             'slug' => Str::slug('Compromised Internals T-Shirt'),
+            'has_variants' => true,  /** false removes size and color, true shows size and color */
         ]);
     
         Product::create([
@@ -28,8 +29,9 @@ class ProductSeeder extends Seeder
             'description' => 'Downloadable PDF of legendary rally routes.',
             'price' => 4.99,
             'type' => 'digital',
-            'image_path' => 'products/whitet.jpg',
+            'image_path' => 'products/map-pack.png',
             'slug' => Str::slug('Rally Course Map Pack'),
+            'has_variants' => false,
         ]);
     }
 }

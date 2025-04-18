@@ -10,13 +10,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Quick Stats -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <h3 class="text-xl font-semibold mb-2">Quick Stats</h3>
-                <ul class="list-disc list-inside text-gray-600">
-                    <li>Posts: {{ $postCount }}</li>
-                    <li>Events: 0</li> <!-- We can fix Events later when you build them -->
-                </ul>
-            </div>
+
 
             <!-- Quick Actions -->
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
@@ -74,7 +68,20 @@
                             <p class="font-semibold">Items:</p>
                             <ul class="list-disc ml-6">
                                 @foreach ($order->items as $item)
-                                    <li>{{ $item->product_name }} (x{{ $item->quantity }})</li>
+                                    <li>
+                                        {{ $item->product_name }} (x{{ $item->quantity }})
+                                        @if ($item->size || $item->color)
+                                            <br>
+                                            <span class="text-sm text-gray-600">
+                                                @if ($item->size)
+                                                    Size: {{ $item->size }}
+                                                @endif
+                                                @if ($item->color)
+                                                    | Color: {{ ucfirst($item->color) }}
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>

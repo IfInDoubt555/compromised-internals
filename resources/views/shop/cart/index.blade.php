@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-2xl mx-auto p-4 mt-4 bg-white rounded shadow w-full sm:w-auto">
+<div class="max-w-2xl mx-auto p-4 mt-0 bg-white rounded shadow w-full sm:w-auto">
     <h1 class="text-3xl font-bold mb-8 text-center">Shopping Cart</h1>
 
     @if (count($cart) > 0)
@@ -16,6 +16,12 @@
                 <div class="bg-white p-4 rounded shadow-md">
                     <h2 class="text-xl font-semibold">{{ $item['name'] }}</h2>
                     <p class="text-gray-600 mb-4">${{ number_format($item['price'], 2) }}</p>
+                    <p class="text-sm text-gray-700 mb-2">
+                        Size: {{ $item['options']['size'] ?? 'N/A' }}
+                    </p>
+                    <p class="text-sm text-gray-700 mb-4">
+                        Color: {{ ucfirst($item['options']['color'] ?? 'N/A') }}
+                    </p>
 
                     <form action="{{ route('shop.cart.update', $item['id']) }}" method="POST" class="flex items-center space-x-2">
                         @csrf

@@ -26,7 +26,7 @@ Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar'
 
 Route::prefix('shop/cart')->name('shop.cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
-    Route::get('/add/{product}', [CartController::class, 'add'])->name('add');
+    Route::post('/add/{product}', [CartController::class, 'add'])->name('add');
     Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
     Route::get('/remove/{id}', [CartController::class, 'remove'])->name('remove');
 });
@@ -36,6 +36,7 @@ Route::get('/cart/count', function () {
         'count' => session('cart') ? count(session('cart')) : 0
     ]);
 })->name('cart.count');
+
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');
 
