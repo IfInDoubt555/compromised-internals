@@ -97,9 +97,10 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        
         $validated = $request->validate([
             'title' => 'required|max:255',
-            'excerpt' => 'required|max:500',
+            'excerpt' => 'nullable|max:200',
             'body' => 'required',
             'image_path' => 'nullable|image|max:2048',
         ]);

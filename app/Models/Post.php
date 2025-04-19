@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // (optional import)
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -29,4 +30,14 @@ class Post extends Model
         return 'slug';
     }
 
+
+    protected static function booted()
+    {
+        static::saving(function ($post) {
+            if (empty($post->excerpt) && !empty($post->body)) {
+                $post->excerpt = Str::limit(strip_tags($post->body), 200); // 200 chars
+            }
+        });
+    }
+    
 }

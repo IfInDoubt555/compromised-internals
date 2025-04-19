@@ -13,7 +13,7 @@
       class="w-full h-[30em] object-cover object-center opacity-60">
     <div class="absolute inset-0 flex items-center justify-center flex-col text-center">
         <h2 class="text-4xl font-bold">Welcome to Compromised Internals</h2>
-        <p class="mt-2 text-lg max-w-xl">Your one-stop hub for everything rally – news, history, events, and more.</p>
+        <p class="mt-2 mb-2 text-lg max-w-xl">Your one-stop hub for everything rally – news, history, events, and more.</p>
         <a href="{{ route('blog.index') }}" class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition">
         Explore the Blog
         </a>
@@ -57,7 +57,7 @@
 
             <!-- Post Title & Summary -->
             <h2 class="text-lg font-bold text-gray-900">{{ $post->title }}</h2>
-            <p class="text-gray-600 flex-grow">{{ $post->summary }}</p>
+            <p class="text-gray-600 flex-grow">{{ $post->excerpt }}</p>
         </div>
     </div>
 @endforeach
