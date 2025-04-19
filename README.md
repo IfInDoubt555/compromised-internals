@@ -45,6 +45,12 @@ It blends passion, purpose, and performance with a mission to support mental hea
 
 ---
 
+## 📜 License
+
+All rights reserved. This repository is not open source.
+
+---
+
 ## 🧪 Local Development
 
 ```bash
