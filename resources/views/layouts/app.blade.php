@@ -95,5 +95,6 @@
                 }, 500); // Wait a moment for server to update
             }
             </script>
+            @include('partials.footer')
     </body>
 </html>

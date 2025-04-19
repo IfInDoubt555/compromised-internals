@@ -62,9 +62,5 @@
     </div>
 @endforeach
 </section>
-  <!-- Footer -->
-  <footer class="bg-gray-100 p-4 text-center text-sm text-gray-500 mt-12">
-    &copy; 2025 Compromised Internals. All rights reserved.
-  </footer>
 </div>
 @endsection
