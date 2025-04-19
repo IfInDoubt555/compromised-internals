@@ -37,13 +37,19 @@ class PostController extends Controller
             'excerpt' => 'required|max:500',
             'body' => 'required',
             'image_path' => 'nullable|image|max:2048',
+            'slug_mode' => 'required|in:auto,manual',
+            'slug' => 'nullable|string|unique:posts,slug',
         ]);
     
         if ($request->hasFile('image_path')) {
             $validated['image_path'] = $request->file('image_path')->store('posts', 'public');
         }
     
-        $validated['slug'] = $this->createUniqueSlug($validated['title']);
+        // Use provided slug or generate one from title
+        $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
+            ? Str::slug($request->slug)
+            : $this->createUniqueSlug($validated['title']);
+    
         $validated['user_id'] = Auth::id();
     
         Post::create($validated);
@@ -97,27 +103,29 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        
         $validated = $request->validate([
             'title' => 'required|max:255',
             'excerpt' => 'nullable|max:200',
             'body' => 'required',
             'image_path' => 'nullable|image|max:2048',
+            'slug_mode' => 'required|in:auto,manual',
+            'slug' => 'nullable|string|unique:posts,slug,' . $post->id,
         ]);
     
         if ($request->hasFile('image_path')) {
             $validated['image_path'] = $request->file('image_path')->store('posts', 'public');
         }
     
-        // 🔥 Always generate a new slug when the title changes
-        $validated['slug'] = $this->createUniqueSlug($validated['title'], $post->id);
+        // Decide which slug to use
+        $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
+            ? Str::slug($request->slug)
+            : $this->createUniqueSlug($validated['title'], $post->id);
     
         $post->update($validated);
     
         return redirect()->route('blog.index')->with('success', 'Post updated successfully!');
     }
     
-
     /**
      * Remove the specified post from storage.
      */
