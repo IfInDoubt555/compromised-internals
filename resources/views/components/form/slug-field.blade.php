@@ -2,7 +2,7 @@
 
 <!-- Slug Mode Radio Buttons -->
 <div class="mb-4">
-    <label class="block text-sm font-medium text-gray-700 mb-1">Slug Mode</label>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Post Tags</label>
     <div class="flex gap-4">
         <label class="flex items-center">
             <input type="radio" name="slug_mode" value="auto"
@@ -19,7 +19,7 @@
 
 <!-- Slug Input -->
 <div id="slug-input-wrapper" class="mb-4">
-    <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">Slug</label>
+    <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
     <input
         type="text"
         name="slug"
