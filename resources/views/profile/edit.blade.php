@@ -5,13 +5,12 @@
 
     <!-- Update Profile Information -->
     <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-semibold mb-4">Update Profile Information</h2>
         @include('profile.partials.update-profile-information-form')
     </div>
 
     <!-- Update Password -->
     <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-semibold mb-4">Update Password</h2>
+        <!-- <h2 class="text-2xl font-semibold mb-4">Update Password</h2> -->
         @include('profile.partials.update-password-form')
     </div>
 

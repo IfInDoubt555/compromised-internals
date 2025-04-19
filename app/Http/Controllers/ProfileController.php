@@ -29,18 +29,17 @@ class ProfileController extends Controller
     {
         $user = $request->user();
     
-        // Handle file upload
+        // Handle profile image upload
         if ($request->hasFile('profile_picture')) {
-            // Delete old image if exists
             if ($user->profile_picture) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
-    
+        
             $path = $request->file('profile_picture')->store('profile_pics', 'public');
             $user->profile_picture = $path;
         }
     
-        // Update other profile info
+        // Update user core info (name, email, etc.)
         $user->fill($request->validated());
     
         if ($user->isDirty('email')) {
@@ -48,6 +47,17 @@ class ProfileController extends Controller
         }
     
         $user->save();
+    
+        // Update or create user profile info
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            $request->only([
+                'display_name', 'location', 'rally_fan_since', 'birthday', 'bio',
+                'favorite_driver', 'favorite_car', 'favorite_event', 'favorite_game', 'car_setup_notes',
+                'website', 'instagram', 'youtube', 'twitter', 'twitch',
+                'profile_color', 'banner_image', 'layout_style',
+            ])
+        );
     
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
