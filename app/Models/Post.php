@@ -35,7 +35,7 @@ class Post extends Model
     {
         static::saving(function ($post) {
             if (empty($post->excerpt) && !empty($post->body)) {
-                $post->excerpt = Str::limit(strip_tags($post->body), 200); // 200 chars
+                $post->excerpt = Str::limit(strip_tags($post->body), 100); // 200 chars
             }
         });
     }
