@@ -22,11 +22,12 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-        'slug' => 'required|string|max:255|unique:posts',
-        'excerpt' => 'nullable|string|max:500',
-        'body' => 'required|string',
-        'image' => 'nullable|image|max:2048',
+            'title' => 'required|max:255',
+            'excerpt' => 'nullable|max:500',
+            'body' => 'required',
+            'image_path' => 'nullable|image|max:2048',
+            'slug_mode' => 'required|in:auto,manual',
+            'slug' => 'nullable|string|unique:posts,slug,' . optional($this->post)->id,
         ];
     }
 }

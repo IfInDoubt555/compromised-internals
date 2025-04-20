@@ -2,137 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
+use App\Services\SlugService;
 use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the posts.
-     */
     public function index()
     {
         $posts = Post::with('user')->latest()->get();
-
         return view('blog.index', compact('posts'));
     }
 
-    /**
-     * Show the form for creating a new post.
-     */
     public function create()
     {
         return view('posts.create');
     }
 
-    /**
-     * Store a newly created post in storage.
-     */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'excerpt' => 'required|max:500',
-            'body' => 'required',
-            'image_path' => 'nullable|image|max:2048',
-            'slug_mode' => 'required|in:auto,manual',
-            'slug' => 'nullable|string|unique:posts,slug',
-        ]);
-    
+        $validated = $request->validated();
+
         if ($request->hasFile('image_path')) {
             $validated['image_path'] = $request->file('image_path')->store('posts', 'public');
         }
-    
-        // Use provided slug or generate one from title
+
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
-            ? Str::slug($request->slug)
-            : $this->createUniqueSlug($validated['title']);
-    
+            ? SlugService::generate($request->slug)
+            : SlugService::generate($validated['title']);
+
         $validated['user_id'] = Auth::id();
-    
+
         Post::create($validated);
-    
+
         return redirect()->route('blog.index')->with('success', 'Post created successfully!');
     }
-    
-    /**
-     * Create a unique slug for a post.
-     */
-    protected function createUniqueSlug($title, $ignoreId = null)
-    {
-        $slug = Str::slug($title);
-        $originalSlug = $slug;
-        $counter = 1;
-    
-        $query = Post::where('slug', $slug);
-        if ($ignoreId) {
-            $query->where('id', '!=', $ignoreId); // 🛡️ ignore the current post's ID
-        }
-    
-        while ($query->exists()) {
-            $slug = $originalSlug . '-' . $counter;
-            $counter++;
-            $query = Post::where('slug', $slug);
-            if ($ignoreId) {
-                $query->where('id', '!=', $ignoreId);
-            }
-        }
-    
-        return $slug;
-    }    
-    /**
-     * Display the specified post.
-     */
+
     public function show(Post $post)
     {
         return view('posts.show', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified post.
-     */
     public function edit(Post $post)
     {
         return view('posts.edit', compact('post'));
     }
 
-    /**
-     * Update the specified post in storage.
-     */
-    public function update(Request $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'excerpt' => 'nullable|max:200',
-            'body' => 'required',
-            'image_path' => 'nullable|image|max:2048',
-            'slug_mode' => 'required|in:auto,manual',
-            'slug' => 'nullable|string|unique:posts,slug,' . $post->id,
-        ]);
-    
+        $validated = $request->validated();
+
         if ($request->hasFile('image_path')) {
             $validated['image_path'] = $request->file('image_path')->store('posts', 'public');
         }
-    
-        // Decide which slug to use
+
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
-            ? Str::slug($request->slug)
-            : $this->createUniqueSlug($validated['title'], $post->id);
-    
+            ? SlugService::generate($request->slug, $post->id)
+            : SlugService::generate($validated['title'], $post->id);
+
         $post->update($validated);
-    
+
         return redirect()->route('blog.index')->with('success', 'Post updated successfully!');
     }
-    
-    /**
-     * Remove the specified post from storage.
-     */
+
     public function destroy(Post $post)
     {
         $post->delete();
-
         return redirect()->route('blog.index')->with('success', 'Post deleted successfully!');
     }
 }

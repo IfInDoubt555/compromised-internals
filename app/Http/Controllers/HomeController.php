@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Models\Post;
 
 class HomeController extends Controller
@@ -20,8 +21,13 @@ class HomeController extends Controller
 
     public function showHistoryEvent($decade, $event)
     {
-        $json = file_get_contents(public_path('data/rally-history.json'));
-        $data = json_decode($json, true);
+        $jsonPath = public_path('data/rally-history.json');
+
+        if (!File::exists($jsonPath)) {
+            abort(500, 'History data file not found.');
+        }
+
+        $data = json_decode(file_get_contents($jsonPath), true);
 
         $eventData = collect($data[$decade] ?? [])->firstWhere('id', $event);
 

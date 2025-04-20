@@ -7,61 +7,56 @@ use App\Models\Product;
 
 class CartController extends Controller
 {
-    // Show Cart
     public function index()
     {
         $cart = session()->get('cart', []);
         return view('shop.cart.index', compact('cart'));
     }
 
-    // Add to Cart
     public function add(Request $request, Product $product)
     {
         $cart = session()->get('cart', []);
 
         $size = $request->input('size');
         $color = $request->input('color');
-    
+
         if (!$product->has_variants) {
             $size = null;
             $color = null;
         }
 
         $cart[$product->id] = [
-            "id" => $product->id,
-            "name" => $product->name,
-            "price" => $product->price,
-            "quantity" => isset($cart[$product->id]) ? $cart[$product->id]['quantity'] + 1 : 1,
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->price,
+            'quantity' => isset($cart[$product->id]) ? $cart[$product->id]['quantity'] + 1 : 1,
             'options' => [
-            'size' => $size,
-            'color' => $color,
+                'size' => $size,
+                'color' => $color,
             ]
         ];
 
         session()->put('cart', $cart);
 
-        return redirect()->route('shop.cart.index')->with('success', "{$product->name} added to cart!");
+        return redirect()->route('shop.cart.index')->with('success', "$product->name added to cart!");
     }
 
-    // Update Quantity
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'quantity' => 'required|integer|min:1'
         ]);
-    
+
         $cart = session()->get('cart', []);
-    
+
         if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = $request->quantity; // <== just use $request
+            $cart[$id]['quantity'] = $validated['quantity'];
             session()->put('cart', $cart);
         }
-    
+
         return redirect()->route('shop.cart.index');
     }
-    
 
-    // Remove Item
     public function remove($id)
     {
         $cart = session()->get('cart', []);

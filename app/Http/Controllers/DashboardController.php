@@ -3,57 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
+
 
 class DashboardController extends Controller
 {
     public function __construct()
-{
-    $this->middleware('auth');
-}
-public function index()
-{
-    $user = auth()->user();
-    
-    $posts = Post::where('user_id', auth()->id())->latest()->take(5)->get();
-    $postCount = Post::where('user_id', auth()->id())->count();
+    {
+        $this->middleware('auth');
+    }
 
-    $orders = auth()->check() 
-        ? auth()->user()->orders()->with('items')->latest()->get()
-        : collect(); // Empty if not logged in (safety fallback)
+    public function index()
+    {
+        $user = Auth::user();
 
-    return view('dashboard', [
-        'posts' => $posts,
-        'postCount' => $postCount,
-        'orders' => $orders,
-        'user' => $user,
-    ]);
-}
+        $posts = Post::where('user_id', $user->id)->latest()->take(5)->get();
+        $postCount = Post::where('user_id', $user->id)->count();
+
+        $orders = $user->orders()->with('items')->latest()->get();
+
+        return view('dashboard', compact('posts', 'postCount', 'orders', 'user'));
+    }
+
     public function show()
-{
-    return view('dashboard.show');
-}
+    {
+        return view('dashboard.show');
+    }
 
     public function edit()
-{
-    return view('dashboard.edit');
-}
+    {
+        return view('dashboard.edit');
+    }
 
-public function update(Request $request)
-{
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'body' => 'required|string',
-    ]);
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+        ]);
 
-    // Example of updating a post or user profile goes here.
-}
-public function orders()
-{
-    $orders = auth()->user()->orders()->with('items')->latest()->get();
+        // Example logic placeholder: update user profile or content here
+        // e.g., Auth::user()->update($validated);
+    }
 
-    return view('profile.orders', compact('orders'));
-}
-
+    public function orders()
+    {
+        $orders = Auth::user()->orders()->with('items')->latest()->get();
+        return view('profile.orders', compact('orders'));
+    }
 }

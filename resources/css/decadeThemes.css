@@ -15,7 +15,7 @@
   }
   
   #theme-wrapper.decade-1980 {
-    background: radial-gradient(circle at 50% 50%, #1a0033, #050505);
+    background: radial-gradient(circle at 50% 50%, #1a0033, #014064);
     background-size: 250% 250%;
     animation: shiftBg 12s ease-in-out infinite;
     color: #ffffff;

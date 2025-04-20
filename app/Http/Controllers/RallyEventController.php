@@ -9,21 +9,20 @@ class RallyEventController extends Controller
 {
     public function index()
     {
-        $events = \App\Models\RallyEvent::orderBy('start_date')->get();
-
+        // Paginate instead of loading all
+        $events = RallyEvent::orderBy('start_date')->paginate(10);
         return view('calendar.index', compact('events'));
     }
 
     public function api()
     {
-        $events = RallyEvent::all()->map(function ($event) {
-            return [
-                'title' => $event->name,
-                'start' => $event->start_date,
-                'end' => $event->end_date,
-                'url' => route('calendar.show', $event->slug),
-            ];
-        });
+        // Only return necessary fields via a resource array
+        $events = RallyEvent::all()->map(fn($event) => [
+            'title' => $event->name,
+            'start' => $event->start_date,
+            'end' => $event->end_date,
+            'url' => route('calendar.show', $event->slug),
+        ]);
 
         return response()->json($events);
     }
