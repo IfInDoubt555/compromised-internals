@@ -95,5 +95,4 @@ Route::middleware(['auth'])->group(function () {
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
-
 require __DIR__.'/auth.php';

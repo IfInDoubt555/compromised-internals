@@ -20,6 +20,7 @@
         "@fullcalendar/core": "^6.1.17",
         "@fullcalendar/daygrid": "^6.1.17",
         "@fullcalendar/interaction": "^6.1.17",
-        "alpinejs": "^3.14.9"
+        "alpinejs": "^3.14.9",
+        "nouislider": "^15.8.1"
     }
 }

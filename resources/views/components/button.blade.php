@@ -3,8 +3,7 @@
 <button
     type="{{ $type }}"
     {{ $attributes->merge([
-        'class' => 'inline-block px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition'
+        'class' => 'inline-block px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition disabled:opacity-50    disabled:cursor-not-allowed'
     ]) }}
->
     {{ $slot }}
 </button>
