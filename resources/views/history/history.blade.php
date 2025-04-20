@@ -14,13 +14,9 @@
     <div id="selected-decade-title" class="text-xl font-semibold text-center mb-4"></div>
 
     <div class="flex justify-center gap-4 mb-6">
-        <button class="tab-btn px-4 py-2 bg-gray-300 rounded hover:bg-gray-400" data-tab="events">Events</button>
-        <button class="tab-btn px-4 py-2 bg-gray-300 rounded hover:bg-gray-400" data-tab="cars">Cars</button>
-        <button class="tab-btn px-4 py-2 bg-gray-300 rounded hover:bg-gray-400" data-tab="drivers">Drivers</button>
-    </div>
-
-    <div class="text-center">
-        <button id="view-button" class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700">View History</button>
+        <button class="tab-btn px-4 py-2 bg-blue-600 rounded hover:bg-gray-400" data-tab="events">Events</button>
+        <button class="tab-btn px-4 py-2 bg-blue-600 rounded hover:bg-gray-400" data-tab="cars">Cars</button>
+        <button class="tab-btn px-4 py-2 bg-blue-600 rounded hover:bg-gray-400" data-tab="drivers">Drivers</button>
     </div>
 
     <div id="history-content" class="mt-10 space-y-6"></div>

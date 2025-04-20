@@ -22,9 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const slider = document.getElementById("slider");
     const selectedYear = document.getElementById("selected-decade-title");
     const viewButton = document.getElementById("view-button");
-
-    viewButton.disabled = true;
-    viewButton.innerText = 'Loading...';
+    if (viewButton) {
+        viewButton.disabled = true;
+        viewButton.innerText = 'Loading...';
+    }
     historyContent = document.getElementById("history-content");
 
     fetch("/data/rally-history.json?version=" + new Date().getTime())
@@ -71,23 +72,27 @@ document.addEventListener("DOMContentLoaded", function () {
             slider.noUiSlider.set(startDecade);
             loadHistoryContent(activeTab, currentDecade);
 
-            viewButton.disabled = false;
-            viewButton.innerText = 'View History';
+            if (viewButton) {
+                viewButton.disabled = false;
+                viewButton.innerText = 'View History';
+            }
         })
         .catch(err => {
             console.error("Failed to load JSON:", err);
             viewButton.innerText = 'Error loading history!';
         });
 
-    viewButton.addEventListener("click", function () {
-        if (!historyData) return alert("History data is still loading. Please wait.");
-
-        const raw = slider.noUiSlider.get();
-        const key = Math.floor(raw / 10) * 10;
-        currentDecade = key;
-        updateDecadeTheme(currentDecade);
-        loadHistoryContent(activeTab, currentDecade);
-    });
+        if (viewButton) {
+            viewButton.addEventListener("click", function () {
+                if (!historyData) return alert("History data is still loading. Please wait.");
+            
+                const raw = slider.noUiSlider.get();
+                const key = Math.floor(raw / 10) * 10;
+                currentDecade = key;
+                updateDecadeTheme(currentDecade);
+                loadHistoryContent(activeTab, currentDecade);
+            });
+        }
 
     document.querySelectorAll(".tab-btn").forEach(btn => {
         btn.addEventListener("click", function () {
