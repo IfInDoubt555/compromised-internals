@@ -18,7 +18,7 @@
             <p class="text-gray-600 mb-6">{{ $product->description }}</p>
             <p class="text-2xl font-semibold mb-6">${{ number_format($product->price, 2) }}</p>
 
-            <form action="{{ route('shop.cart.add', ['product' => $product->id]) }}" method="POST">
+            <form action="{{ route('shop.cart.add', $product) }}" method="POST">
                 @csrf
 
                 @if ($product->has_variants)
