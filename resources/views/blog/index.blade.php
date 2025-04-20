@@ -2,13 +2,21 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">Rally Blog 🏁</h1>
+    <div class="flex justify-center items-center gap-2 mb-6">
+      <h1 class="text-3xl font-bold">Rally Blog</h1>
+      <span class="text-3xl inline-block animate-floatWave origin-bottom-left">🏁</span>
+    </div>
+
     @auth
-        <div class="mb-6">
-            <a href="{{ route('posts.create') }}" class="inline-block px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 mb-6">
-                + New Post
-            </a>
-        </div>
+    {{-- Floating button, bottom right --}}
+    <a href="{{ route('posts.create') }}" 
+            class="fixed bottom-6 right-6 bg-red-600 hover:bg-red-700 text-white rounded-full p-4 shadow-lg z-50 transition"
+            title="New Post">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" 
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14m7-7H5"/>
+            </svg>
+        </a>
     @endauth
 
     <div class="grid md:grid-cols-2 gap-6">

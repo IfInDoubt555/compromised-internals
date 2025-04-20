@@ -44,7 +44,9 @@
         </div>
 
         <div class="flex items-center gap-4">
-        <x-button>Save</x-button>
+        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition">
+            💾 Save
+        </button>
 
             @if (session('status') === 'password-updated')
                 <p

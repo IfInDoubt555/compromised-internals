@@ -43,19 +43,45 @@
         <!-- Profile Picture -->
         <div>
             <label for="profile_picture" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
-            <input 
-                id="profile_picture"
-                name="profile_picture"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-200 focus:outline-none transition bg-white text-sm"
-            />
+
+            <div class="flex items-center gap-4">
+                <input 
+                    id="profile_picture"
+                    name="profile_picture"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onchange="previewAvatar(event)"
+                    class="file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition text-sm border        border-gray-300 rounded-xl w-full max-w-sm"
+                />
+                <script>
+                function previewAvatar(event) {
+                    const input = event.target;
+                    const preview = document.getElementById('avatar-preview');
+                
+                    if (input.files && input.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            preview.src = e.target.result;
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+                </script>
+
+                <!-- Avatar Preview -->
+                <img id="avatar-preview" 
+                     src="{{ $user->profile_picture_url ?? '/images/default-avatar.png' }}" 
+                     alt="Avatar Preview" 
+                     class="w-29 h-29 rounded-full shadow border object-cover" 
+                />
+            </div>
+
+            <p class="text-xs text-gray-500 mt-1">Max file size: 2MB. Formats: JPG, PNG, WebP</p>
+
             @error('profile_picture')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
         </div>
-
-        <hr class="my-6">
 
         <!-- Extended Profile Details -->
         <h2 class="text-lg font-semibold text-gray-700 mb-2">Profile Details</h2>
@@ -72,8 +98,9 @@
         <x-textarea name="bio" label="About Me" value="{{ old('bio', $user->profile->bio ?? '') }}" class="mt-4" />
 
         <div class="flex items-center gap-4 mt-6">
-            <x-button>Save</x-button>
-
+        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition">
+            💾 Save
+        </button>
             @if (session('status') === 'profile-updated')
                 <p
                     x-data="{ show: true }"
