@@ -18,7 +18,7 @@ return new class extends Migration
             // Basic Info
             $table->string('display_name')->nullable();
             $table->string('location')->nullable();
-            $table->year('rally_fan_since')->nullable();
+            $table->string('rally_fan_since')->nullable();
             $table->date('birthday')->nullable();
             $table->text('bio')->nullable();
     
