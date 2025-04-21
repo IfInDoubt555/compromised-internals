@@ -17,11 +17,16 @@ class PostController extends Controller
 
     public function create()
     {
+        // You may authorize here too if desired
+        $this->authorize('create', Post::class);
         return view('posts.create');
     }
-
+    
     public function store(StorePostRequest $request)
     {
+        // Explicitly authorize the creation of the post
+        $this->authorize('create', Post::class);
+
         $validated = $request->validated();
 
         if ($request->hasFile('image_path')) {
@@ -37,7 +42,7 @@ class PostController extends Controller
         Post::create($validated);
 
         return redirect()->route('blog.index')->with('success', 'Post created successfully!');
-    }
+    }    
 
     public function show(Post $post)
     {

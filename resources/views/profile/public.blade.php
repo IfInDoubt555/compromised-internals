@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-3xl mx-auto mt-12 bg-white p-6 rounded-xl shadow text-center">
-    <x-user-avatar :user="$user" size="w-24 h-24" class="mx-auto mb-4" />
-
     @if (auth()->check() && auth()->id() === $user->id)
-        <a href="{{ route('profile.edit') }}" class="text-blue-600 hover:underline text-sm mb-2 inline-block">
-            ✏️ Edit Your Profile
-        </a>
+        <div class="text-center mb-4">
+            <a href="{{ route('profile.edit') }}" class="inline-block px-4 py-2 mt-6 bg-yellow-400 text-black text-sm font-semibold rounded-full shadow      hover:bg-yellow-500 transition">
+                ✏️ Edit Your Profile
+            </a>
+        </div>
     @endif
+<div class="max-w-3xl mx-auto mt-6 bg-white p-6 rounded-xl shadow text-center">
+    <x-user-avatar :user="$user" size="w-24 h-24" class="mx-auto mb-4" />
 
     <h1 class="text-2xl font-bold">{{ $user->name }}</h1>
 
@@ -41,3 +42,4 @@
     @endif
 </div>
 @endsection
+ 

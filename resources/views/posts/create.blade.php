@@ -53,8 +53,8 @@
                 <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
                 <input
                     type="file"
-                    name="image"
-                    id="image"
+                    name="image_path"
+                    id="image_path"
                     class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
                 >
             </div>
