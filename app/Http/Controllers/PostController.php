@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
-
 class PostController extends Controller
 {
     public function index()
@@ -22,20 +21,22 @@ class PostController extends Controller
 
     public function create()
     {
-        // You may authorize here too if desired
         $this->authorize('create', Post::class);
         return view('posts.create');
     }
-    
+
     public function store(StorePostRequest $request)
     {
-        // Explicitly authorize the creation of the post
         $this->authorize('create', Post::class);
-
         $validated = $request->validated();
 
-        if ($request->hasFile('image_path')) {
-            $validated['image_path'] = $request->file('image_path')->store('posts', 'public');
+        // Handle image if provided
+        if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
+            $processedPath = $this->processAndStoreImage($request->file('image_path'));
+            if (!$processedPath) {
+                return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
+            }
+            $validated['image_path'] = $processedPath;
         }
 
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
@@ -47,7 +48,7 @@ class PostController extends Controller
         Post::create($validated);
 
         return redirect()->route('blog.index')->with('success', 'Post created successfully!');
-    }    
+    }
 
     public function show(Post $post)
     {
@@ -62,50 +63,66 @@ class PostController extends Controller
     public function update(StorePostRequest $request, Post $post)
     {
         $validated = $request->validated();
-    
+
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
-            $manager = new ImageManager(new Driver());
-            $file = $request->file('image_path');
-    
-            try {
-                // Read image from file contents
-                $image = $manager->read($file->getContent());
-    
-                // Resize while preserving aspect ratio
-                $image->resize(1280, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
-    
-                $filename = uniqid('post_') . '.jpg';
-    
-                // Save image to storage
-                Storage::disk('public')->put("posts/{$filename}", (string) $image->toJpeg(90));
-    
-                // Update the validated data with the image path
-                $validated['image_path'] = "posts/{$filename}";
-            } catch (\Throwable $e) {
-                \Log::error('Image decode failed', [
-                    'message' => $e->getMessage(),
-                ]);
-    
+            // Optional: delete old image
+            if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
+                Storage::disk('public')->delete($post->image_path);
+            }
+
+            $processedPath = $this->processAndStoreImage($request->file('image_path'));
+            if (!$processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
+            $validated['image_path'] = $processedPath;
         }
-    
+
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
             ? SlugService::generate($request->slug, $post->id)
             : SlugService::generate($validated['title'], $post->id);
-    
+
         $post->update($validated);
-    
+
         return redirect()->route('blog.index')->with('success', 'Post updated successfully!');
     }
-        
-    
+
     public function destroy(Post $post)
     {
+        if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
+            Storage::disk('public')->delete($post->image_path);
+        }
+
         $post->delete();
+
         return redirect()->route('blog.index')->with('success', 'Post deleted successfully!');
+    }
+
+    /**
+     * Process and store an uploaded image using Intervention
+     *
+     * @param \Illuminate\Http\UploadedFile $file
+     * @return string|null
+     */
+    private function processAndStoreImage($file): ?string
+    {
+        try {
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($file->getContent());
+
+            $image->resize(1280, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            $filename = uniqid('post_') . '.jpg';
+            Storage::disk('public')->put("posts/{$filename}", (string) $image->toJpeg(90));
+
+            return "posts/{$filename}";
+        } catch (\Throwable $e) {
+            Log::error('Image processing failed', [
+                'message' => $e->getMessage(),
+            ]);
+            return null;
+        }
     }
 }
