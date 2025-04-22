@@ -25,9 +25,9 @@ class StorePostRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
-            'excerpt' => 'nullable|max:500',
             'body' => 'required',
-            'image_path' => 'nullable|image|max:2048',
+            'excerpt' => 'nullable|max:120',
+            'image_path' => 'nullable|image|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
             'slug_mode' => 'required|in:auto,manual',
             'slug' => 'nullable|string|unique:posts,slug,' . optional($this->post)->id,
         ];

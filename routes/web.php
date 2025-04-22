@@ -13,7 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Models\User;
-
+use Intervention\Image\Facades\Image;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -80,5 +80,6 @@ Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/profile/{user}', function (User $user) {
     return view('profile.public', compact('user'));
 })->name('profile.public');
+
 
 require __DIR__.'/auth.php';

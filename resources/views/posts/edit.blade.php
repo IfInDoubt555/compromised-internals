@@ -16,7 +16,7 @@
     @endif
 
     {{-- Edit Form --}}
-    <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PATCH')
 
@@ -36,6 +36,16 @@
         {{-- Slug Field --}}
         <x-form.slug-field :slug="$post->slug" :defaultMode="'manual'" />
 
+        {{-- Excerptr Field --}}
+        <div>
+            <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">Excerpt</label>
+            <textarea
+                name="excerpt"
+                id="excerpt"
+                class="block w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
+            >{{ old('excerpt', $post->excerpt) }}</textarea>
+        </div>
+
         {{-- Body --}}
         <div>
             <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
@@ -49,11 +59,13 @@
         </div>
 
         {{-- Image Upload --}}
+        
         <div>
             <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
             <input 
                 type="file" 
                 name="image_path" 
+                accept="image/*"
                 id="image_path"
                 class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
             >
