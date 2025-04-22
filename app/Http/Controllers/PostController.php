@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Services\SlugService;
+use App\Services\ImageService;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 
 class PostController extends Controller
 {
@@ -30,12 +28,19 @@ class PostController extends Controller
         $this->authorize('create', Post::class);
         $validated = $request->validated();
 
-        // Handle image if provided
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
-            $processedPath = $this->processAndStoreImage($request->file('image_path'));
+            $processedPath = ImageService::processAndStore(
+                $request->file('image_path'),
+                'posts',
+                'post_',
+                1280,
+                null
+            );
+
             if (!$processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
+
             $validated['image_path'] = $processedPath;
         }
 
@@ -65,15 +70,22 @@ class PostController extends Controller
         $validated = $request->validated();
 
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
-            // Optional: delete old image
             if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
                 Storage::disk('public')->delete($post->image_path);
             }
 
-            $processedPath = $this->processAndStoreImage($request->file('image_path'));
+            $processedPath = ImageService::processAndStore(
+                $request->file('image_path'),
+                'posts',
+                'post_',
+                1280,
+                null
+            );
+
             if (!$processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
+
             $validated['image_path'] = $processedPath;
         }
 
@@ -95,34 +107,5 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('blog.index')->with('success', 'Post deleted successfully!');
-    }
-
-    /**
-     * Process and store an uploaded image using Intervention
-     *
-     * @param \Illuminate\Http\UploadedFile $file
-     * @return string|null
-     */
-    private function processAndStoreImage($file): ?string
-    {
-        try {
-            $manager = new ImageManager(new Driver());
-            $image = $manager->read($file->getContent());
-
-            $image->resize(1280, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-
-            $filename = uniqid('post_') . '.jpg';
-            Storage::disk('public')->put("posts/{$filename}", (string) $image->toJpeg(90));
-
-            return "posts/{$filename}";
-        } catch (\Throwable $e) {
-            Log::error('Image processing failed', [
-                'message' => $e->getMessage(),
-            ]);
-            return null;
-        }
     }
 }
