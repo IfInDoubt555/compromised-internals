@@ -73,7 +73,7 @@
         @endforeach
     </div>
 
-    <div class="mt-8">
+    <div class="mt-6">
         {{ $posts->links() }}
     </div>
 </div>
