@@ -23,10 +23,18 @@
         @foreach($posts as $post)
             <article class="bg-white rounded-xl shadow p-4 transition hover:shadow-md hover:-translate-y-1">
                 @if ($post->image_path)
-                    <img src="{{ Storage::url($post->image_path) }}" alt="{{ $post->title }}" class="rounded-lg shadow-md">
+                    <img
+                        src="{{ Storage::url($post->image_path) }}" 
+                        alt="{{ $post->title }}" 
+                        class="w-full h-64 object-cover rounded-lg shadow-md"
+                        >
                 @else
-                    <img src="{{ asset('images/default-post.png') }}" alt="Default Post Image" class="rounded-lg shadow-md">
-                @endif
+                    <img 
+                        src="{{ asset('images/default-post.png') }}" 
+                        alt="Default Post Image" 
+                        class="w-full h-64 object-cover rounded-lg shadow-md"
+                    >
+                        @endif
 
                 <div class="flex items-center gap-3 mt-4 mb-2">
                     <a href="{{ route('profile.public', $post->user->id) }}">
