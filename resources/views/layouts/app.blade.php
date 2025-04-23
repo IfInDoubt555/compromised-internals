@@ -16,7 +16,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter&display=swap" rel="stylesheet"/>
 
         <!-- Vite Build -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
 
         @stack('head')
     </head>

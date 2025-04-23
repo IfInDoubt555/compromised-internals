@@ -1,5 +1,6 @@
 @import "./decadeThemes.css";
 @import "tailwindcss";
+@import './fade.css';
 
 @layer base {
     html {
