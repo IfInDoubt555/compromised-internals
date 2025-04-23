@@ -19,59 +19,68 @@
         </a>
     @endauth
 
-    <div class="grid md:grid-cols-2 gap-6">
-        @foreach($posts as $post)
-            <article class="bg-white rounded-xl shadow p-4 transition hover:shadow-md hover:-translate-y-1">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    @foreach($posts as $post)
+        <article class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
+            <!-- Image -->
+            <div class="h-64 w-full flex items-center justify-center overflow-hidden bg-black/5 hover:bg-black/10 transition-colors duration-300">
                 @if ($post->image_path)
-                    <img
-                        src="{{ Storage::url($post->image_path) }}" 
-                        alt="{{ $post->title }}" 
-                        class="w-full h-64 object-cover rounded-lg shadow-md"
-                        >
+                    <img src="{{ Storage::url($post->image_path) }}"
+                         alt="{{ $post->title }}"
+                         class="max-h-full max-w-full object-contain" />
                 @else
-                    <img 
-                        src="{{ asset('images/default-post.png') }}" 
-                        alt="Default Post Image" 
-                        class="w-full h-64 object-cover rounded-lg shadow-md"
-                    >
-                        @endif
+                    <img src="{{ asset('images/default-post.png') }}"
+                         alt="Default Post Image"
+                         class="max-h-full max-w-full object-contain" />
+                @endif
+            </div>
 
-                <div class="flex items-center gap-3 mt-4 mb-2">
-                    <a href="{{ route('profile.public', $post->user->id) }}">
-                        <x-user-avatar :user="$post->user" size="w-10 h-10" />
-                    </a>
-                    <div>
-                        <p class="font-semibold text-sm">{{ $post->user->name }}</p>
-                        <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
+            <!-- Post Info -->
+            <div class="p-4 flex flex-col flex-grow space-y-3">
+                <!-- Author Row -->
+                <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <a href="{{ route('profile.public', $post->user->id) }}">
+                                <x-user-avatar :user="$post->user" size="w-10 h-10" />
+                            </a>
+                            <div>
+                                <p class="font-semibold text-sm">{{ $post->user->name }}</p>
+                                <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
+                            </div>
+                        </div>
+    
+                        <a href="{{ route('posts.show', $post->slug) }}" class="px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded       hover:bg-red-700">
+                            Read More
+                        </a>
                     </div>
-                </div>
 
-                <h2 class="text-xl font-semibold mb-2">
+                <!-- Title -->
+                <h2 class="text-lg font-bold text-gray-900">
                     <a href="{{ route('posts.show', $post->slug) }}" class="hover:text-red-600 transition">
                         {{ $post->title }}
                     </a>
                 </h2>
 
-                <p class="text-gray-600 mb-4">{{ $post->excerpt }}</p>
+                <!-- Excerpt -->
+                <p class="text-gray-600 flex-grow">{{ $post->excerpt }}</p>
 
-                <a href="{{ route('posts.show', $post->slug) }}" class="inline-block px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700">
-                    Read More
-                </a>
-
+                <!-- Admin Options -->
                 @can('update', $post)
-                    <div class="mt-4 flex gap-4">
+                    <div class="mt-2 flex gap-4 text-sm">
                         <a href="{{ route('posts.edit', $post) }}" class="text-yellow-500 hover:underline">✏️ Edit</a>
 
-                        <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                        <form action="{{ route('posts.destroy', $post) }}" method="POST"
+                              onsubmit="return confirm('Are you sure you want to delete this post?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-red-500 hover:underline">🗑️ Delete</button>
                         </form>
                     </div>
                 @endcan
-            </article>
-        @endforeach
-    </div>
+            </div>
+        </article>
+    @endforeach
+</div>
 
     <div class="mt-6">
         {{ $posts->links() }}
