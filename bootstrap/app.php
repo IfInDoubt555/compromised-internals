@@ -8,6 +8,7 @@ use App\Console\Commands\PruneSessions;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__ . '/../routes/web.php',
+        api: __DIR__ . '/../routes/api.php', // ✅ Add this line
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
