@@ -3,7 +3,7 @@
         
         <!-- Left Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-            <img src="{{ asset('images/left-image.png') }}"
+            <img src="{{ asset('images/reg-left-image.png') }}"
                  alt="Sno-Drift Attack"
                  class="h-full w-full object-cover mask-fade-left" />
         </div>
@@ -58,7 +58,7 @@
 
         <!-- Right Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-            <img src="{{ asset('images/right-image.png') }}"
+            <img src="{{ asset('images/reg-right-image.png') }}"
                  alt="Forest Push"
                  class="h-full w-full object-cover mask-fade-right" />
         </div>

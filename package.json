@@ -2,9 +2,12 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
+      "dev": "vite",
+      "build": "vite build",
+      "build:prod": "vite build && node scripts/fix-manifest.js"
+    }
+
+,
     "devDependencies": {
         "@tailwindcss/cli": "^4.1.4",
         "@tailwindcss/postcss": "^4.1.4",

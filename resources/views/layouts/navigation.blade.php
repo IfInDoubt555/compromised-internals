@@ -53,10 +53,10 @@
                         <a href="{{ route('shop.cart.index') }}" class="relative text-gray-600 hover:text-gray-900 transition hover:scale-110 mt-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.293 1.293a1 1 0 001.414 1.414L7 13zm10 0l1.293 1.293a1 1 0 01-1.414 1.414L17                13z" />
+                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.293 1.293a1 1 0 001.414 1.414L7 13zm10 0l1.293 1.293a1 1 0 01-1.414 1.414L17 13z" />
                             </svg>
                             @if (session('cart') && count(session('cart')) > 0)
-                                <span id="cart-badge" class="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold text-white                bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
+                                <span id="cart-badge" class="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold text-white  bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
                                     {{ array_sum(array_column(session('cart'), 'quantity')) }}
                                 </span>
                             @endif
