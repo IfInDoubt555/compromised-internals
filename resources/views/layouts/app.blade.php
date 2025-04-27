@@ -21,10 +21,10 @@
         @stack('head')
     </head>
 
-    <body class="antialiased bg-gray-100">
+    <body class="antialiased bg-slate-100">
         @include('layouts.navigation')
 
-        <div id="theme-wrapper" class="min-h-screen {{ request()->is('history*') ? '' : 'bg-gray-100' }}">
+        <div id="theme-wrapper" class="min-h-screen {{ request()->is('history*') ? '' : 'bg-slate-100' }}">
 
             @isset($header)
                 <header class="bg-white shadow-sm">
