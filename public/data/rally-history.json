@@ -401,7 +401,37 @@
         "name": "Sandro Munari",
         "bio": "The 'Il Drago' (The Dragon) of Italy, Munari began his rally career in the late 1960s and would later become a Lancia legend.",
         "image": "/images/history/drivers/sandro-munari.jpg"
-      }      
+      },
+      {
+        "id": 9,
+        "name": "Roger Clark",
+        "bio": "A British rallying pioneer, Clark was known for his skill in navigating the challenging British forest stages.",
+        "image": "/images/history/drivers/roger-clark.jpg"
+      },
+      {
+        "id": 10,
+        "name": "Bertie Fisher",
+        "bio": "An Irish rally driver who made a name for himself in the late 1960s and early 1970s, known for his tenacity and skill.",
+        "image": "/images/history/drivers/bertie-fisher.jpg"
+      },
+      {
+        "id": 11,
+        "name": "Miki Biasion",
+        "bio": "An Italian rally driver who began his career in the late 1960s, Biasion would later become a two-time World Champion.",
+        "image": "/images/history/drivers/miki-biasion.jpg"
+      },
+      {
+        "id": 12,
+        "name": "Henri Toivonen",
+        "bio": "A Finnish rally driver known for his spectacular driving style and tragic death in the 1986 Tour de Corse.",
+        "image": "/images/history/drivers/henri-toivonen.jpg"
+      },
+      {
+        "id": 13,
+        "name": "Alain Oreille",
+        "bio": "A French rally driver who made a name for himself in the late 1960s and early 1970s, known for his skill on tarmac.",
+        "image": "/images/history/drivers/alain-oreille.jpg"
+      }
     ],
 
     "cars": [
@@ -440,10 +470,449 @@
         "name": "Lancia Fulvia HF",
         "description": "An elegant Italian coupe with front-wheel drive, the Fulvia HF rose to fame toward the end of the 1960s and into the early 1970s with consistent rally wins.",
         "image": "/images/history/cars/lancia-fulvia-hf.jpg"
-      }      
+      },
+      {
+        "id": 7,
+        "name": "Porsche 911",
+        "description": "The iconic Porsche 911 made its rally debut in the late 1960s, showcasing its rear-engine layout and agility on tarmac stages.",
+        "image": "/images/history/cars/porsche-911.jpg"
+      },
+      {
+        "id": 8,
+        "name": "Fiat 124 Sport Coupe",
+        "description": "A stylish coupe that became a formidable competitor in the late 1960s, known for its balance and handling.",
+        "image": "/images/history/cars/fiat-124-sport-coupe.jpg"
+      }
     ]
   },
   "1970": {
+    "events": [
+      {
+        "id": 51,
+        "year": 1970,
+        "title": "1970 Rallye Automobile Monte-Carlo",
+        "summary": "The Alpine-Renault A110 took a dominant win, showing superior performance on icy tarmac stages.",
+        "image": "/images/history/events/1970-monte-carlo.jpg"
+      },
+      {
+        "id": 52,
+        "year": 1970,
+        "title": "1970 Acropolis Rally",
+        "summary": "Endurance and vehicle toughness defined the Acropolis Rally, with several top drivers failing to finish.",
+        "image": "/images/history/events/1970-acropolis.jpg"
+      },
+      {
+        "id": 53,
+        "year": 1970,
+        "title": "1970 1000 Lakes Rally (Finland)",
+        "summary": "The Finnish rally was known for its high-speed stages and massive jumps, with local drivers dominating the event.",
+        "image": "/images/history/events/1970-1000lakes.jpg"
+      },
+      {
+        "id": 54,
+        "year": 1970,
+        "title": "1970 RAC Rally (UK)",
+        "summary": "British weather and muddy stages made the RAC Rally a standout event, with Ford continuing to shine.",
+        "image": "/images/history/events/1970-rac.jpg"
+      },
+      {
+        "id": 55,
+        "year": 1970,
+        "title": "1970 TAP Rallye de Portugal",
+        "summary": "Portugal's challenging gravel roads and unpredictable weather made this rally a true test of skill and endurance.",
+        "image": "/images/history/events/1970-portugal.jpg"
+      },
+      {
+        "id": 56,
+        "year": 1970,
+        "title": "1970 East African Safari Rally",
+        "summary": "The Safari Rally was known for its extreme conditions, with mud, dust, and river crossings testing the limits of both drivers and cars.",
+        "image": "/images/history/events/1970-safari.jpg"
+      },
+      {
+        "id": 57,
+        "year": 1971,
+        "title": "1971 Rallye Automobile Monte-Carlo",
+        "summary": "Ove Andersson won for Alpine-Renault, kicking off what would become a championship-winning season.",
+        "image": "/images/history/events/1971-monte-carlo.jpg"
+      },
+      {
+        "id": 58,
+        "year": 1971,
+        "title": "1971 East African Safari Rally",
+        "summary": "Often called the world’s toughest rally, the Safari Rally destroyed vehicles with mud, dust, and river crossings.",
+        "image": "/images/history/events/1971-safari.jpg"
+      },
+      {
+        "id": 59,
+        "year": 1971,
+        "title": "1971 RAC Rally (UK)",
+        "summary": "Ford’s Escort RS1600 claimed another win, asserting dominance across European gravel stages.",
+        "image": "/images/history/events/1971-rac.jpg"
+      },
+      {
+        "id": 60,
+        "year": 1971,
+        "title": "1971 TAP Rallye de Portugal",
+        "summary": "The Portuguese stages were a mix of gravel and tarmac, with the event becoming a key fixture in the WRC calendar.",
+        "image": "/images/history/events/1971-portugal.jpg"
+      },
+      {
+        "id": 61,
+        "year": 1971,
+        "title": "1971 1000 Lakes Rally (Finland)",
+        "summary": "The Finnish rally was known for its high-speed stages and massive jumps, with local drivers dominating the event.",
+        "image": "/images/history/events/1971-1000lakes.jpg"
+      },
+      {
+        "id": 62,
+        "year": 1972,
+        "title": "1972 Rallye Automobile Monte-Carlo",
+        "summary": "Jean-Claude Andruet won in an Alpine A110, continuing the car’s stranglehold on European rallies.",
+        "image": "/images/history/events/1972-monte-carlo.jpg"
+      },
+      {
+        "id": 63,
+        "year": 1972,
+        "title": "1972 TAP Rallye de Portugal",
+        "summary": "Portugal's tough gravel roads and night stages made this one of the most challenging rallies of the year.",
+        "image": "/images/history/events/1972-portugal.jpg"
+      },
+      {
+        "id": 64,
+        "year": 1972,
+        "title": "1972 RAC Rally (UK)",
+        "summary": "Ford and Alpine battled fiercely through the British forests, with local crowds cheering every corner slide.",
+        "image": "/images/history/events/1972-rac.jpg"
+      },
+      {
+        "id": 65,
+        "year": 1972,
+        "title": "1972 1000 Lakes Rally (Finland)",
+        "summary": "The Finnish rally was known for its high-speed stages and massive jumps, with local drivers dominating the event.",
+        "image": "/images/history/events/1972-1000lakes.jpg"
+      },
+      {
+        "id": 66,
+        "year": 1972,
+        "title": "1972 East African Safari Rally",
+        "summary": "The Safari Rally was known for its extreme conditions, with mud, dust, and river crossings testing the limits of both drivers and cars.",
+        "image": "/images/history/events/1972-safari.jpg"
+      },
+      {
+        "id": 67,
+        "year": 1973,
+        "title": "1973 Rallye Automobile Monte-Carlo",
+        "summary": "The inaugural WRC event saw Alpine-Renault dominate the snow-covered roads of Monaco, cementing their early lead in the new championship.",
+        "image": "/images/history/events/1973-monte-carlo.jpg"
+      },
+      {
+        "id": 68,
+        "year": 1973,
+        "title": "1973 Rallye de Portugal",
+        "summary": "The Portuguese stages offered a brutal mix of gravel, dust, and technical precision, rewarding the most balanced teams.",
+        "image": "/images/history/events/1973-portugal.jpg"
+      },
+      {
+        "id": 69,
+        "year": 1973,
+        "title": "1973 Safari Rally (Kenya)",
+        "summary": "Alpine survived East Africa’s punishing terrain, and the event quickly became the most grueling of the new WRC calendar.",
+        "image": "/images/history/events/1973-safari.jpg"
+      },  
+      {
+        "id": 70,
+        "year": 1973,
+        "title": "1973 1000 Lakes Rally (Finland)",
+        "summary": "The Finnish rally was known for its high-speed stages and massive jumps, with local drivers dominating the event.",
+        "image": "/images/history/events/1973-1000lakes.jpg"
+      },
+      {
+        "id": 71,
+        "year": 1973,
+        "title": "1973 RAC Rally (UK)",
+        "summary": "The RAC Rally continued to grow in prestige, with a mix of British weather and challenging stages testing the best teams.",
+        "image": "/images/history/events/1973-rac.jpg"
+      },
+      {
+        "id": 72,
+        "year": 1974,
+        "title": "1974 Monte Carlo Rally",
+        "summary": "Despite being shortened due to the oil crisis, Monte Carlo remained a precision tarmac rally with iconic snowy switchbacks.",
+        "image": "/images/history/events/1974-monte-carlo.jpg"
+      },
+      {
+        "id": 73,
+        "year": 1974,
+        "title": "1974 1000 Lakes Rally (Finland)",
+        "summary": "Known for high speed and huge jumps, the 1000 Lakes Rally was ruled by the Flying Finns and their Ford Escorts.",
+        "image": "/images/history/events/1974-1000lakes.jpg"
+      },
+      {
+        "id": 74,
+        "year": 1974,
+        "title": "1974 TAP Rallye de Portugal",
+        "summary": "Portugal's challenging gravel roads and unpredictable weather made this rally a true test of skill and endurance.",
+        "image": "/images/history/events/1974-portugal.jpg"
+      },
+      {
+        "id": 75,
+        "year": 1974,
+        "title": "1974 East African Safari Rally",
+        "summary": "The Safari Rally was known for its extreme conditions, with mud, dust, and river crossings testing the limits of both drivers and cars.",
+        "image": "/images/history/events/1974-safari.jpg"
+      },
+      {
+        "id": 76,
+        "year": 1974,
+        "title": "1974 Acropolis Rally",
+        "summary": "The Acropolis Rally continued to destroy cars and reward only the toughest teams as the summer heat scorched the Greek mountains.",
+        "image": "/images/history/events/1974-acropolis.jpg"
+      },
+      {
+        "id": 77,
+        "year": 1974,
+        "title": "1974 RAC Rally (UK)",
+        "summary": "British forests tested traction and timing in a damp, muddy season closer that thrilled the crowds.",
+        "image": "/images/history/events/1974-rac.jpg"
+      },
+      {
+        "id": 78,
+        "year": 1975,
+        "title": "1975 Monte Carlo Rally",
+        "summary": "Fiat entered the scene with force, as the Lancia Stratos began to show its full potential on the world stage.",
+        "image": "/images/history/events/1975-monte-carlo.jpg"
+      },
+      {
+        "id": 79,
+        "year": 1975,
+        "title": "1975 Acropolis Rally",
+        "summary": "Rocky roads and soaring temperatures pushed suspensions and engines to the brink in Greece's signature event.",
+        "image": "/images/history/events/1975-acropolis.jpg"
+      },
+      {
+        "id": 80,
+        "year": 1975,
+        "title": "1975 Sanremo Rally (Italy)",
+        "summary": "Lancia’s home event delivered a mix of gravel and tarmac, giving the Stratos the advantage and drawing massive Italian crowds.",
+        "image": "/images/history/events/1975-sanremo.jpg"
+      },
+      {
+        "id": 81,
+        "year": 1975,
+        "title": "1975 TAP Rallye de Portugal",
+        "summary": "Portugal's challenging gravel roads and unpredictable weather made this rally a true test of skill and endurance.",
+        "image": "/images/history/events/1975-portugal.jpg"
+      },
+      {
+        "id": 82,
+        "year": 1975,
+        "title": "1975 East African Safari Rally",
+        "summary": "The Safari Rally was known for its extreme conditions, with mud, dust, and river crossings testing the limits of both drivers and cars.",
+        "image": "/images/history/events/1975-safari.jpg"
+      },
+      {
+        "id": 83,
+        "year": 1975,
+        "title": "1975 RAC Rally (UK)",
+        "summary": "The RAC Rally continued to grow in prestige, with a mix of British weather and challenging stages testing the best teams.",
+        "image": "/images/history/events/1975-rac.jpg"
+      },
+      {
+        "id": 84,
+        "year": 1976,
+        "title": "1976 Monte Carlo Rally",
+        "summary": "Lancia’s Stratos continued to dominate the snow and tarmac of Monte Carlo with unmatched power and agility.",
+        "image": "/images/history/events/1976-monte-carlo.jpg"
+      },
+      {
+        "id": 85,
+        "year": 1976,
+        "title": "1976 Rallye de Portugal",
+        "summary": "Portugal’s rough stages and poor weather made this event notorious, but the Stratos once again powered through.",
+        "image": "/images/history/events/1976-portugal.jpg"
+      },
+      {
+        "id": 86,
+        "year": 1976,
+        "title": "1976 1000 Lakes Rally (Finland)",
+        "summary": "Scandinavian drivers dominated their home turf, launching through forests and over legendary jumps.",
+        "image": "/images/history/events/1976-1000lakes.jpg"
+      },
+      {
+        "id": 87,
+        "year": 1977,
+        "title": "1977 Monte Carlo Rally",
+        "summary": "Fiat and Lancia continued to battle for supremacy as snow and drama returned to Monaco.",
+        "image": "/images/history/events/1977-monte-carlo.jpg"
+      },
+      {
+        "id": 88,
+        "year": 1977,
+        "title": "1977 Acropolis Rally",
+        "summary": "Brutal Greek roads shattered suspensions and shook loose even the best-built rally machines.",
+        "image": "/images/history/events/1977-acropolis.jpg"
+      },
+      {
+        "id": 89,
+        "year": 1977,
+        "title": "1977 Safari Rally",
+        "summary": "Unforgiving African terrain challenged drivers to the limit. Local crowds and wildlife added to the spectacle.",
+        "image": "/images/history/events/1977-safari.jpg"
+      },
+      {
+        "id": 90,
+        "year": 1978,
+        "title": "1978 Monte Carlo Rally",
+        "summary": "Bernard Darniche piloted the Stratos to victory, marking one of the car’s final great performances.",
+        "image": "/images/history/events/1978-monte-carlo.jpg"
+      },
+      {
+        "id": 91,
+        "year": 1978,
+        "title": "1978 Rallye Sanremo",
+        "summary": "The mixed-surface Italian classic delivered chaos as rain turned gravel to mud and tarmac to slick ice.",
+        "image": "/images/history/events/1978-sanremo.jpg"
+      },
+      {
+        "id": 92,
+        "year": 1978,
+        "title": "1978 RAC Rally (UK)",
+        "summary": "The British forests once again favored Ford, with the Escort RS1800 charging to a popular home victory.",
+        "image": "/images/history/events/1978-rac.jpg"
+      },
+      {
+        "id": 93,
+        "year": 1979,
+        "title": "1979 Monte Carlo Rally",
+        "summary": "Bernard Darniche claimed his second Monte win in the Lancia Stratos, pushing the car beyond its expected era.",
+        "image": "/images/history/events/1979-monte-carlo.jpg"
+      },
+      {
+        "id": 94,
+        "year": 1979,
+        "title": "1979 Safari Rally (Kenya)",
+        "summary": "Björn Waldegård’s victory in the Safari helped secure his position as the first-ever WRC Drivers' Champion.",
+        "image": "/images/history/events/1979-safari.jpg"
+      },
+      {
+        "id": 95,
+        "year": 1979,
+        "title": "1979 Rallye Côte d'Ivoire",
+        "summary": "The rugged African terrain made this one of the most brutal rallies of the season, with few finishing at all.",
+        "image": "/images/history/events/1979-cote-divoire.jpg"
+      }      
+    ],
+    "drivers": [
+      {
+        "id": 14,
+        "name": "Björn Waldegård",
+        "bio": "The first-ever official World Rally Champion in 1979, Waldegård was known for his fearless pace and versatility across all terrains.",
+        "image": "/images/history/drivers/bjorn-waldegard.jpg"
+      },
+      {
+        "id": 15,
+        "name": "Walter Röhrl",
+        "bio": "One of the greatest drivers in rally history, Röhrl combined raw speed with analytical precision, winning Monte Carlo in a variety of cars.",
+        "image": "/images/history/drivers/walter-rohrl.jpg"
+      },
+      {
+        "id": 16,
+        "name": "Hannu Mikkola",
+        "bio": "A master of high-speed gravel rallies, especially in Finland and Kenya, Mikkola became a Ford and Audi legend across the decades.",
+        "image": "/images/history/drivers/hannu-mikkola.jpg"
+      },
+      {
+        "id": 17,
+        "name": "Markku Alén",
+        "bio": "Known for his aggressive style and passion, Alén was key to Fiat and Lancia’s success throughout the 1970s and 1980s.",
+        "image": "/images/history/drivers/markku-alen.jpg"
+      },
+      {
+        "id": 18,
+        "name": "Jean-Luc Thérier",
+        "bio": "One of Alpine-Renault’s top talents, Thérier played a major role in securing Alpine's early WRC constructor titles.",
+        "image": "/images/history/drivers/jean-luc-therier.jpg"
+      },
+      {
+        "id": 19,
+        "name": "Ove Andersson",
+        "bio": "Founder of Toyota Team Europe and a skilled driver, Andersson was key to Toyota’s rise in rally racing later on.",
+        "image": "/images/history/drivers/ove-andersson.jpg"
+      },
+      {
+        "id": 20,
+        "name": "Bernard Darniche",
+        "bio": "Specialist of tarmac rallies, Darniche excelled at Monte Carlo and the Tour de Corse, piloting the powerful Lancia Stratos to glory.",
+        "image": "/images/history/drivers/bernard-darniche.jpg"
+      }   
+    ],
+    "cars": [
+      {
+        "id": 7,
+        "name": "Lancia Stratos HF",
+        "description": "The first car designed purely for rally racing, the mid-engined Stratos dominated the mid-to-late 1970s with its aggressive handling and unmistakable wedge shape.",
+        "image": "/images/history/cars/lancia-stratos-hf.jpg"
+      },
+      {
+        "id": 8,
+        "name": "Ford Escort RS1600",
+        "description": "A rally icon, the rear-wheel-drive Escort RS1600 was light, powerful, and exceptionally successful on gravel rallies across Europe and Africa.",
+        "image": "/images/history/cars/ford-escort-rs1600.jpg"
+      },
+      {
+        "id": 9,
+        "name": "Fiat 131 Abarth Rally",
+        "description": "Built from a humble family sedan, the Fiat 131 Abarth became a rally legend in the late 1970s with its balance of durability and speed.",
+        "image": "/images/history/cars/fiat-131-abarth.jpg"
+      },
+      {
+        "id": 10,
+        "name": "Alpine A110 1600",
+        "description": "An evolution of the 1960s Alpine, the 1600 model dominated tarmac rallies early in the WRC and helped Alpine secure the inaugural 1973 constructors' championship.",
+        "image": "/images/history/cars/alpine-a110-1600.jpg"
+      },
+      {
+        "id": 11,
+        "name": "Porsche 911 Carrera RS",
+        "description": "Though less common in rallying, the 911 Carrera RS proved highly effective in events like Monte Carlo, excelling on snowy, technical courses.",
+        "image": "/images/history/cars/porsche-911-carrera-rs.jpg"
+      },
+      {
+        "id": 12,
+        "name": "Toyota Celica",
+        "description": "The Celica made its rally debut in the late 1970s, quickly becoming a competitive force in the WRC with its agile handling and reliability.",
+        "image": "/images/history/cars/toyota-celica.jpg"
+      },
+      {
+        "id": 13,
+        "name": "Lancia Beta Montecarlo",
+        "description": "A mid-engine coupe that made its rally debut in the late 1970s, the Beta Montecarlo was known for its speed and handling on tarmac stages.",
+        "image": "/images/history/cars/lancia-beta-montecarlo.jpg"
+      }  
+    ]
+  },
+  "1980": {
+    "events": [],
+    "drivers": [],
+    "cars": []
+  },
+  "1990": {
+    "events": [],
+    "drivers": [],
+    "cars": []
+  },
+  "2000": {
+    "events": [],
+    "drivers": [],
+    "cars": []
+  },
+  "2010": {
+    "events": [],
+    "drivers": [],
+    "cars": []
+  },
+  "2020": {
     "events": [],
     "drivers": [],
     "cars": []
