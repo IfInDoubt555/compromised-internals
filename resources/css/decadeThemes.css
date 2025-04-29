@@ -1,67 +1,58 @@
 #theme-wrapper.decade-1960 {
-    background: radial-gradient(circle, #f7f3ec, #e2dcd3, #d5c8b4);
-    background-size: 180% 180%;
-    animation: shiftBg 20s ease-in-out infinite;
-    color: #2d2d2d;
-    font-family: 'Georgia', serif;
-  }  
-  
+  background: radial-gradient(circle, #f4f1e7, #dcd2b8, #b89f7a); /* dusty white to aged beige */
+  background-size: 180% 180%;
+  animation: shiftBg 20s ease-in-out infinite;
+  color: #2d2d2d;
+  font-family: 'Georgia', serif;
+}
+
 #theme-wrapper.decade-1970 {
-    background: radial-gradient(circle, #fff3cd, #f6c453, #d68b28);
-    background-size: 200% 200%;
-    animation: shiftBg 15s ease infinite;
-    color: #5e3200;
-    font-family: 'Courier New', monospace;
-  }
-  
-  #theme-wrapper.decade-1980 {
-    background: radial-gradient(circle at 50% 50%, #1a0033, #014064);
-    background-size: 250% 250%;
-    animation: shiftBg 12s ease-in-out infinite;
-    color: #ffffff;
-    font-family: 'Orbitron', sans-serif;
-  }
-  
-  #theme-wrapper.decade-1990 {
-    background: radial-gradient(circle, #e0f7fa, #b2ebf2, #80deea);
-    background-size: 160% 160%;
-    animation: shiftBg 25s ease infinite;
-    color: #004d40;
-    font-family: 'Tahoma', sans-serif;
-  }
-  
-  
-  #theme-wrapper.decade-2000 {
-    background: radial-gradient(circle, #afdde6, #f5f5f5, #ffffff);
-    background-size: 200% 200%;
-    animation: shiftBg 20s ease infinite;
-    color: #212121;
-    font-family: 'Verdana', sans-serif;
-  }
-  
-  #theme-wrapper.decade-2010 {
-    background: radial-gradient(circle, #f3f4f6, #e5e7eb, #d1d5db);
-    background-size: 220% 220%;
-    animation: shiftBg 30s ease-in-out infinite;
-    color: #374151;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  #theme-wrapper.decade-2020 {
-    background: radial-gradient(circle, #e0eafc, #cfdef3, #ffffff);
-    background-size: 250% 250%;
-    animation: shiftBg 30s ease-in-out infinite;
-    color: #1f2937;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  .decade-2020 .card {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(8px);
-    border-radius: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-  }
+  background: radial-gradient(circle, #394049, #798083, #c1a064); /* steel gray to golden RAC brown */
+  background-size: 200% 200%;
+  animation: shiftBg 15s ease-in-out infinite;
+  color: #fff8e6;
+  font-family: 'Courier New', monospace;
+}
+
+#theme-wrapper.decade-1980 {
+  background: radial-gradient(circle, #fff03a, #bb1e10, #111111); /* Group B yellow to Lancia red to dark asphalt */
+  background-size: 250% 250%;
+  animation: shiftBg 12s ease-in-out infinite;
+  color: #ffffff;
+  font-family: 'Orbitron', sans-serif;
+}
+
+#theme-wrapper.decade-1990 {
+  background: radial-gradient(circle, #002b6b, #264b8b, #7eb3e1); /* Subaru blue fade */
+  background-size: 180% 180%;
+  animation: shiftBg 25s ease-in-out infinite;
+  color: #e0f7fa;
+  font-family: 'Tahoma', sans-serif;
+}
+
+#theme-wrapper.decade-2000 {
+  background: radial-gradient(circle, #ce0000, #202020, #fffaf4); /* Citroën red to stage dark to white noise */
+  background-size: 200% 200%;
+  animation: shiftBg 20s ease infinite;
+  color: #fefefe;
+  font-family: 'Verdana', sans-serif;
+}
+
+#theme-wrapper.decade-2010 {
+  background: radial-gradient(circle, #003049, #1a1a1a, #e0e0e0); /* VW & Hyundai era: cool modern palette */
+  background-size: 220% 220%;
+  animation: shiftBg 30s ease-in-out infinite;
+  color: #dce2e9;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#theme-wrapper.decade-2020 {
+  background: radial-gradient(circle, #9c27b0, #1f1f1f, #121212); /* Hybrid era, purple + carbon fiber dark */
+  background-size: 250% 250%;
+  animation: shiftBg 30s ease-in-out infinite;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+}
 
  @keyframes shiftBg {
   0% { background-position: 0% 50%; }
@@ -94,5 +85,3 @@
   50% { background-position: 100% 100%; }
   100% { background-position: 0% 0%; }
 }
-
-  
