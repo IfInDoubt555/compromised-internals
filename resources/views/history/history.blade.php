@@ -12,6 +12,14 @@
 
     <div id="slider" class="w-full sm:w-2/3 max-w-xl mx-auto my-6"></div>
     <div id="selected-decade-title" class="text-xl font-semibold text-center mb-4"></div>
+    <div class="text-center my-4">
+        <label for="year-select" class="font-semibold text-gray-700">Choose a year:</label>
+        <select id="year-select" class="ml-2 p-2 border rounded">
+            <option value="">All Years</option>
+            <!-- Populated dynamically -->
+        </select>
+    </div>
+
 
     <div class="flex justify-center gap-4 mb-6">
         <button class="tab-btn px-4 py-2 bg-blue-600 rounded hover:bg-gray-400" data-tab="events">Events</button>

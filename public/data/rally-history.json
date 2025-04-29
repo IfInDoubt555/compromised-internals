@@ -1,36 +1,451 @@
 {
-    "1960": {
-      "events": [
-        {
-          "id": 1,
-          "title": "First World Rally Championship Race",
-          "summary": "In 1960, the inaugural WRC event took place in Monaco.",
-          "image": "/images/history/events/1960rac.jpg"
-        },
-        {  }
-      ],
-      "drivers": [
-        {
-          "id": 1,
-          "name": "Rauno Aaltonen",
-          "bio": "Known as the ‘Rally Professor’, he won multiple European championships.",
-          "image": "/images/history/drivers/1960-aaltonen.jpg"
-        }
-      ],
-      "cars": [
-        {
-          "id": 1,
-          "name": "Mini Cooper S",
-          "description": "Dominated the 1960 Monte Carlo Rally with its nimble handling.",
-          "image": "/images/history/cars/1960-mini.jpg"
-        }
-      ]
-    },
-    "1970": {
-      "events": [ ],
-      "drivers": [  ],
-      "cars":    [  ]
-    }
-    
+  "1960": {
+    "events": [
+      {
+        "id": 1,
+        "year": 1960,
+        "title": "First World Rally Championship Race",
+        "summary": "In 1960, the inaugural WRC event took place in Monaco.",
+        "image": "/images/history/events/1960rac.jpg"
+      },
+      {
+        "id": 2,
+        "year": 1960,
+        "title": "1960 Rallye Automobile Monte-Carlo",
+        "summary": "A landmark event where the Mini Cooper S began its legacy, dominating snow-covered Alpine roads.",
+        "image": "/images/history/events/1960-monte-carlo.jpg"
+      },
+      {
+        "id": 3,
+        "year": 1960,
+        "title": "1960 Tulip Rally (Rally van Nederland)",
+        "summary": "Held in the Netherlands, the Tulip Rally was a major European fixture attracting international competitors.",
+        "image": "/images/history/events/1960-tulip.jpg"
+      },
+      {
+        "id": 4,
+        "year": 1960,
+        "title": "1960 Acropolis Rally",
+        "summary": "The Greek Acropolis Rally featured brutal gravel stages and mountain terrain, testing both car durability and driver endurance.",
+        "image": "/images/history/events/1960-acropolis.jpg"
+      },
+      {
+        "id": 5,
+        "year": 1960,
+        "title": "1960 RAC Rally (UK)",
+        "summary": "One of Britain's most prestigious rallies, the RAC Rally in 1960 took competitors through challenging forestry routes.",
+        "image": "/images/history/events/1960-rac-uk.jpg"
+      },
+      {
+        "id": 6,
+        "year": 1961,
+        "title": "1961 Rallye Automobile Monte-Carlo",
+        "summary": "The Monte Carlo Rally of 1961 was heavily influenced by icy conditions and featured new entries from British and Scandinavian teams.",
+        "image": "/images/history/events/1961-monte-carlo.jpg"
+      },
+      {
+        "id": 7,
+        "year": 1961,
+        "title": "1961 Acropolis Rally",
+        "summary": "Greece’s Acropolis Rally returned with rough gravel terrain and extreme temperatures, further solidifying its reputation for brutality.",
+        "image": "/images/history/events/1961-acropolis.jpg"
+      },
+      {
+        "id": 8,
+        "year": 1961,
+        "title": "1961 RAC Rally (UK)",
+        "summary": "The RAC Rally featured stages across rugged British forests and welcomed a growing number of international competitors.",
+        "image": "/images/history/events/1961-rac.jpg"
+      },
+      {
+        "id": 9,
+        "year": 1961,
+        "title": "1961 Tulip Rally",
+        "summary": "The Netherlands’ signature rally once again drew top talent from across Europe, becoming a proving ground for emerging manufacturers.",
+        "image": "/images/history/events/1961-tulip.jpg"
+      },
+      {
+        "id": 10,
+        "year": 1961,
+        "title": "1961 Liège–Sofia–Liège Rally",
+        "summary": "A marathon endurance rally covering thousands of kilometers across Europe, infamous for its punishing pace and minimal rest stops.",
+        "image": "/images/history/events/1961-liege.jpg"
+      },
+      {
+        "id": 11,
+        "year": 1962,
+        "title": "1962 Rallye Automobile Monte-Carlo",
+        "summary": "The 1962 Monte Carlo Rally highlighted the continued rise of British cars, with challenging snow-covered passes across the Alps.",
+        "image": "/images/history/events/1962-monte-carlo.jpg"
+      },
+      {
+        "id": 12,
+        "year": 1962,
+        "title": "1962 Acropolis Rally",
+        "summary": "Greece’s mountainous terrain and punishing roads tested drivers' endurance in this growingly popular event.",
+        "image": "/images/history/events/1962-acropolis.jpg"
+      },
+      {
+        "id": 13,
+        "year": 1962,
+        "title": "1962 RAC Rally (UK)",
+        "summary": "The RAC Rally in 1962 brought together factory teams and independents on slippery gravel routes through British forests.",
+        "image": "/images/history/events/1962-rac.jpg"
+      },
+      {
+        "id": 14,
+        "year": 1962,
+        "title": "1962 Tulip Rally",
+        "summary": "A staple of the European rally scene, the Tulip Rally challenged drivers with complex navigation and narrow roads.",
+        "image": "/images/history/events/1962-tulip.jpg"
+      },
+      {
+        "id": 15,
+        "year": 1962,
+        "title": "1962 Liège–Sofia–Liège Rally",
+        "summary": "One of the most demanding rallies in the world, covering over 5,000 km non-stop across Europe.",
+        "image": "/images/history/events/1962-liege.jpg"
+      },
+      {
+        "id": 16,
+        "year": 1963,
+        "title": "1963 Rallye Automobile Monte-Carlo",
+        "summary": "Severe snowstorms in 1963 made the Monte Carlo Rally one of the toughest editions in history, rewarding precision driving.",
+        "image": "/images/history/events/1963-monte-carlo.jpg"
+      },
+      {
+        "id": 17,
+        "year": 1963,
+        "title": "1963 Acropolis Rally",
+        "summary": "The 1963 Acropolis Rally pushed competitors through some of the harshest gravel stages in Europe under intense heat.",
+        "image": "/images/history/events/1963-acropolis.jpg"
+      },
+      {
+        "id": 18,
+        "year": 1963,
+        "title": "1963 RAC Rally (UK)",
+        "summary": "Expanded forestry stages and worsening weather made the 1963 RAC Rally a major endurance challenge for drivers and mechanics alike.",
+        "image": "/images/history/events/1963-rac.jpg"
+      },
+      {
+        "id": 19,
+        "year": 1963,
+        "title": "1963 Tulip Rally",
+        "summary": "The Tulip Rally continued to gain prestige, drawing top drivers from across Europe to tackle the Netherlands' complex route network.",
+        "image": "/images/history/events/1963-tulip.jpg"
+      },
+      {
+        "id": 20,
+        "year": 1963,
+        "title": "1963 Liège–Sofia–Liège Rally",
+        "summary": "Still considered the ultimate test of driver stamina and mechanical durability, the 1963 Liège Rally remained legendary.",
+        "image": "/images/history/events/1963-liege.jpg"
+      },
+      {
+        "id": 21,
+        "year": 1964,
+        "title": "1964 Rallye Automobile Monte-Carlo",
+        "summary": "Paddy Hopkirk secured a historic victory for the Mini Cooper S at the Monte Carlo Rally, cementing the car's rally legend status.",
+        "image": "/images/history/events/1964-monte-carlo.jpg"
+      },
+      {
+        "id": 22,
+        "year": 1964,
+        "title": "1964 Acropolis Rally",
+        "summary": "The Acropolis Rally's rugged Greek landscapes punished cars and drivers alike in one of the season’s toughest events.",
+        "image": "/images/history/events/1964-acropolis.jpg"
+      },
+      {
+        "id": 23,
+        "year": 1964,
+        "title": "1964 RAC Rally (UK)",
+        "summary": "Expanding its reputation, the RAC Rally in 1964 featured longer special stages through dense and muddy British forests.",
+        "image": "/images/history/events/1964-rac.jpg"
+      },
+      {
+        "id": 24,
+        "year": 1964,
+        "title": "1964 Tulip Rally",
+        "summary": "Once again drawing strong European fields, the 1964 Tulip Rally continued to reward precise navigation and steady pacing.",
+        "image": "/images/history/events/1964-tulip.jpg"
+      },
+      {
+        "id": 25,
+        "year": 1964,
+        "title": "1964 Liège–Sofia–Liège Rally",
+        "summary": "A brutal marathon across Europe's mountains and rough roads, solidifying its reputation as one of the hardest rallies to finish.",
+        "image": "/images/history/events/1964-liege.jpg"
+      },
+      {
+        "id": 26,
+        "year": 1965,
+        "title": "1965 Rallye Automobile Monte-Carlo",
+        "summary": "Another controversial Monte Carlo Rally where unexpected weather shifts challenged even the most prepared teams.",
+        "image": "/images/history/events/1965-monte-carlo.jpg"
+      },
+      {
+        "id": 27,
+        "year": 1965,
+        "title": "1965 Acropolis Rally",
+        "summary": "The Acropolis Rally continued to destroy cars and reward only the toughest teams as the summer heat scorched the Greek mountains.",
+        "image": "/images/history/events/1965-acropolis.jpg"
+      },
+      {
+        "id": 28,
+        "year": 1965,
+        "title": "1965 RAC Rally (UK)",
+        "summary": "Improved special stages and a growing field made the 1965 RAC Rally one of the most competitive editions so far.",
+        "image": "/images/history/events/1965-rac.jpg"
+      },
+      {
+        "id": 29,
+        "year": 1965,
+        "title": "1965 Tulip Rally",
+        "summary": "As rallying became increasingly professional, the Tulip Rally drew fierce competition from major manufacturers and privateers.",
+        "image": "/images/history/events/1965-tulip.jpg"
+      },
+      {
+        "id": 30,
+        "year": 1965,
+        "title": "1965 Liège–Sofia–Liège Rally",
+        "summary": "Endurance, strategy, and a little luck were key as the 1965 Liège rally pushed entrants to their physical and mechanical limits.",
+        "image": "/images/history/events/1965-liege.jpg"
+      },
+      {
+        "id": 31,
+        "year": 1966,
+        "title": "1966 Rallye Automobile Monte-Carlo",
+        "summary": "The 1966 Monte Carlo Rally became infamous after several top finishers, including Mini Cooper S drivers, were controversially disqualified on technicalities.",
+        "image": "/images/history/events/1966-monte-carlo.jpg"
+      },
+      {
+        "id": 32,
+        "year": 1966,
+        "title": "1966 Acropolis Rally",
+        "summary": "Tough Greek terrain and brutal summer heat made the Acropolis Rally a survival contest once again in 1966.",
+        "image": "/images/history/events/1966-acropolis.jpg"
+      },
+      {
+        "id": 33,
+        "year": 1966,
+        "title": "1966 RAC Rally (UK)",
+        "summary": "The RAC Rally continued growing internationally, becoming one of the most prestigious rally events outside mainland Europe.",
+        "image": "/images/history/events/1966-rac.jpg"
+      },
+      {
+        "id": 34,
+        "year": 1966,
+        "title": "1966 Tulip Rally",
+        "summary": "More powerful factory cars began dominating the Tulip Rally, marking the shift toward professional factory teams in rallying.",
+        "image": "/images/history/events/1966-tulip.jpg"
+      },
+      {
+        "id": 35,
+        "year": 1966,
+        "title": "1966 Liège–Sofia–Liège Rally",
+        "summary": "The endurance epic across Europe once again broke cars, drivers, and spirits — and remained a proving ground for the world's toughest rally racers.",
+        "image": "/images/history/events/1966-liege.jpg"
+      },
+      {
+        "id": 36,
+        "year": 1967,
+        "title": "1967 Rallye Automobile Monte-Carlo",
+        "summary": "Rauno Aaltonen claimed victory for Mini in a redemption drive after the controversial 1966 disqualification, solidifying Mini's rally legacy.",
+        "image": "/images/history/events/1967-monte-carlo.jpg"
+      },
+      {
+        "id": 37,
+        "year": 1967,
+        "title": "1967 Acropolis Rally",
+        "summary": "The brutal heat and mountainous stages continued to make the Acropolis Rally one of the most grueling tests on the calendar.",
+        "image": "/images/history/events/1967-acropolis.jpg"
+      },
+      {
+        "id": 38,
+        "year": 1967,
+        "title": "1967 RAC Rally (UK)",
+        "summary": "Torrential rain turned the 1967 RAC Rally into a slippery, treacherous challenge through the forests of Britain.",
+        "image": "/images/history/events/1967-rac.jpg"
+      },
+      {
+        "id": 39,
+        "year": 1967,
+        "title": "1967 Tulip Rally",
+        "summary": "Continued innovation in navigation technology and growing manufacturer investment made the 1967 Tulip Rally a highly technical event.",
+        "image": "/images/history/events/1967-tulip.jpg"
+      },
+      {
+        "id": 40,
+        "year": 1967,
+        "title": "1967 Liège–Sofia–Liège Rally",
+        "summary": "Still legendary for its no-sleep, multi-day brutality, the Liège Rally tested human and mechanical limits like no other event.",
+        "image": "/images/history/events/1967-liege.jpg"
+      },
+      {
+        "id": 41,
+        "year": 1968,
+        "title": "1968 Rallye Automobile Monte-Carlo",
+        "summary": "Weather disruptions and ice made the 1968 Monte Carlo Rally unpredictable, but Alpine-Renault emerged victorious, beginning a French rally dynasty.",
+        "image": "/images/history/events/1968-monte-carlo.jpg"
+      },
+      {
+        "id": 42,
+        "year": 1968,
+        "title": "1968 Acropolis Rally",
+        "summary": "Mechanical failure rates were brutally high at the 1968 Acropolis Rally as rough Greek roads tore vehicles apart.",
+        "image": "/images/history/events/1968-acropolis.jpg"
+      },
+      {
+        "id": 43,
+        "year": 1968,
+        "title": "1968 RAC Rally (UK)",
+        "summary": "Ford began asserting dominance at the RAC Rally, with their new Escort model making a huge impact.",
+        "image": "/images/history/events/1968-rac.jpg"
+      },
+      {
+        "id": 44,
+        "year": 1968,
+        "title": "1968 Tulip Rally",
+        "summary": "Dutch weather played a major factor at the 1968 Tulip Rally, with rain-soaked stages challenging even the best navigators and drivers.",
+        "image": "/images/history/events/1968-tulip.jpg"
+      },
+      {
+        "id": 45,
+        "year": 1968,
+        "title": "1968 Liège–Sofia–Liège Rally",
+        "summary": "A shortened but still grueling route in 1968 couldn't tame the reputation of the Liège Rally as Europe's toughest endurance event.",
+        "image": "/images/history/events/1968-liege.jpg"
+      },
+      {
+        "id": 46,
+        "year": 1969,
+        "title": "1969 Rallye Automobile Monte-Carlo",
+        "summary": "Jean-Claude Andruet took an iconic win for Alpine-Renault at Monte Carlo, further establishing French dominance in rally racing.",
+        "image": "/images/history/events/1969-monte-carlo.jpg"
+      },
+      {
+        "id": 47,
+        "year": 1969,
+        "title": "1969 Acropolis Rally",
+        "summary": "Dust storms, intense heat, and rough mountain tracks defined the grueling 1969 Acropolis Rally.",
+        "image": "/images/history/events/1969-acropolis.jpg"
+      },
+      {
+        "id": 48,
+        "year": 1969,
+        "title": "1969 RAC Rally (UK)",
+        "summary": "Ford’s Escort RS models began dominating the British stages, with a particularly strong showing at the 1969 RAC Rally.",
+        "image": "/images/history/events/1969-rac.jpg"
+      },
+      {
+        "id": 49,
+        "year": 1969,
+        "title": "1969 Tulip Rally",
+        "summary": "Navigation became even more critical at the 1969 Tulip Rally, where small mistakes cost drivers dearly among fierce competition.",
+        "image": "/images/history/events/1969-tulip.jpg"
+      },
+      {
+        "id": 50,
+        "year": 1969,
+        "title": "1969 Liège–Sofia–Liège Rally",
+        "summary": "The Liège Rally saw its final traditional running in 1969, ending an era of true non-stop endurance rally racing.",
+        "image": "/images/history/events/1969-liege.jpg"
+      }                             
+    ],
+
+    "drivers": [
+      {
+        "id": 1,
+        "name": "Rauno Aaltonen",
+        "bio": "Known as the ‘Rally Professor’, he won multiple European championships.",
+        "image": "/images/history/drivers/1960-aaltonen.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Erik Carlsson",
+        "bio": "Known as 'Mr. Saab', Erik Carlsson brought global attention to the Saab brand by dominating rallies in the early 1960s.",
+        "image": "/images/history/drivers/erik-carlsson.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Paddy Hopkirk",
+        "bio": "A Northern Irish legend, Hopkirk famously won the 1964 Monte Carlo Rally in a Mini Cooper S, becoming a rally icon.",
+        "image": "/images/history/drivers/paddy-hopkirk.jpg"
+      },
+      {
+        "id": 4,
+        "name": "Timo Mäkinen",
+        "bio": "One of the original 'Flying Finns', Mäkinen was crucial to Mini's rally success, especially in treacherous conditions.",
+        "image": "/images/history/drivers/timo-makinen.jpg"
+      },
+      {
+        "id": 5,
+        "name": "Jean-Claude Andruet",
+        "bio": "A master of tarmac rallies, Andruet helped establish France’s dominance in rallying by winning Monte Carlo and other major events.",
+        "image": "/images/history/drivers/jean-claude-andruet.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Vic Elford",
+        "bio": "Nicknamed 'Quick Vic', Elford excelled in both rally and circuit racing, famously winning the Monte Carlo Rally and Daytona 24 Hours in the same year.",
+        "image": "/images/history/drivers/vic-elford.jpg"
+      },
+      {
+        "id": 7,
+        "name": "Pauli Toivonen",
+        "bio": "Another 'Flying Finn', Toivonen became an unlikely Monte Carlo winner in 1966 after controversial disqualifications of others.",
+        "image": "/images/history/drivers/pauli-toivonen.jpg"
+      },
+      {
+        "id": 8,
+        "name": "Sandro Munari",
+        "bio": "The 'Il Drago' (The Dragon) of Italy, Munari began his rally career in the late 1960s and would later become a Lancia legend.",
+        "image": "/images/history/drivers/sandro-munari.jpg"
+      }      
+    ],
+
+    "cars": [
+      {
+        "id": 1,
+        "name": "Mini Cooper S",
+        "description": "Dominated the 1960 Monte Carlo Rally with its nimble handling.",
+        "image": "/images/history/cars/1960-mini.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Saab 96",
+        "description": "Driven to multiple victories by Erik Carlsson, the Saab 96 was famous for its toughness, front-wheel drive agility, and ability to survive brutal events like Monte Carlo and Liège rallies.",
+        "image": "/images/history/cars/saab-96.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Ford Cortina Lotus",
+        "description": "A lightweight, powerful evolution of the Ford Cortina, tuned by Lotus, that dominated rally stages and helped Ford gain a foothold in motorsport.",
+        "image": "/images/history/cars/ford-cortina-lotus.jpg"
+      },
+      {
+        "id": 4,
+        "name": "Ford Escort Twin Cam",
+        "description": "Introduced late in the 1960s, the Escort Twin Cam quickly became one of the most successful rally cars ever, setting the stage for Ford's dominance into the 1970s.",
+        "image": "/images/history/cars/ford-escort-twincam.jpg"
+      },
+      {
+        "id": 5,
+        "name": "Alpine A110",
+        "description": "The Alpine A110 began its rally career in the late 1960s, becoming a tarmac terror and setting the foundations for Alpine's dominance in early WRC seasons.",
+        "image": "/images/history/cars/alpine-a110.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Lancia Fulvia HF",
+        "description": "An elegant Italian coupe with front-wheel drive, the Fulvia HF rose to fame toward the end of the 1960s and into the early 1970s with consistent rally wins.",
+        "image": "/images/history/cars/lancia-fulvia-hf.jpg"
+      }      
+    ]
+  },
+  "1970": {
+    "events": [],
+    "drivers": [],
+    "cars": []
   }
-  
+}
