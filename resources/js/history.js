@@ -151,17 +151,22 @@ function loadHistoryContent(tab, decade) {
     grid.classList.add("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-3", "gap-6");
 
     data.forEach(item => {
+        const title = item.title || item.name || "Untitled";
+        const description = item.summary || item.description || item.bio || "No description available.";
+        const imageUrl = item.image 
+            ? `<img src="${item.image}" alt="${title}" class="w-full h-48 object-cover mb-4 rounded">`
+            : `<img src="/images/placeholder.png" alt="No Image" class="w-full h-48 object-cover mb-4 rounded opacity-50">`;
+
+        const link = `/history/${tab}/${selectedYear || decade}/${item.id}`;
+
         const div = document.createElement("div");
         div.classList.add("card", "bg-white", "rounded-lg", "shadow-md", "overflow-hidden", "flex", "flex-col", "items-center", "p-4");
 
         div.innerHTML = `
-            ${item.image 
-                ? `<img src="${item.image}" alt="${item.title || item.name || 'No title'}" class="w-full h-48 object-cover mb-4 rounded">`
-                : `<img src="/images/placeholder.png" alt="No Image" class="w-full h-48 object-cover mb-4 rounded opacity-50">`
-            }
-            <h2 class="text-xl font-bold mb-2 text-center">${item.title || item.name || "Untitled"}</h2>
-            <p class="text-gray-600 mb-4 text-center">${item.summary || item.description || item.bio || "No description available."}</p>
-            <a href="/history/${selectedYear || decade}/${item.id}?tab=${tab}" class="mt-auto text-blue-600 hover:underline">Read More</a>
+            ${imageUrl}
+            <h2 class="text-xl font-bold mb-2 text-center">${title}</h2>
+            <p class="text-gray-600 mb-4 text-center">${description}</p>
+            <a href="${link}" class="mt-auto text-blue-600 hover:underline">Read More</a>
         `;
 
         grid.appendChild(div);

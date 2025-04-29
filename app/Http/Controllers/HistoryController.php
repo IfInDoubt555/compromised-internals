@@ -9,12 +9,7 @@ use Parsedown;
 
 class HistoryController extends Controller
 {
-    public function index()
-    {
-        return view('history.history'); // renders UI for interactive timeline
-    }
-
-    public function show($decade, $event)
+    public function show($tab, $decade, $id)
     {
         $jsonPath = public_path('data/rally-history.json');
 
@@ -24,23 +19,32 @@ class HistoryController extends Controller
 
         $data = json_decode(file_get_contents($jsonPath), true);
 
-        $eventData = collect($data[$decade]['events'] ?? [])
-            ->merge($data[$decade]['drivers'] ?? [])
-            ->merge($data[$decade]['cars'] ?? [])
-            ->firstWhere('id', $event);
+        if (!isset($data[$decade][$tab])) {
+            abort(404, 'Invalid decade or category.');
+        }
 
-        if (!$eventData) {
+        $item = collect($data[$decade][$tab])->firstWhere('id', (int) $id);
+
+        if (!$item) {
             abort(404);
         }
 
         $parsedown = new Parsedown();
-        $eventData['details_html'] = !empty($eventData['details'])
-            ? $parsedown->text($eventData['details'])
+        $item['details_html'] = !empty($item['details'])
+            ? $parsedown->text($item['details'])
             : null;
 
         return view('history.show', [
-            'event' => $eventData,
+            'item' => $item,
+            'tab' => $tab,
             'decade' => $decade,
         ]);
+    }
+    public function index(Request $request)
+    {
+        $decade = $request->query('decade', 1960);
+        $tab = $request->query('tab', 'events');
+
+        return view('history.history', compact('decade', 'tab'));
     }
 }

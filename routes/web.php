@@ -61,8 +61,9 @@ Route::prefix('blog')->name('blog.')->group(function () {
 
 Route::prefix('history')->name('history.')->group(function () {
     Route::get('/', [HistoryController::class, 'index'])->name('index');
-    Route::get('/{decade}/{event}', [HistoryController::class, 'show'])->name('show');
+    Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
+
 
 Route::middleware('auth')->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
