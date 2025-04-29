@@ -1,5 +1,5 @@
 #theme-wrapper.decade-1960 {
-  background: radial-gradient(circle, #f4f1e7, #dcd2b8, #b89f7a); /* dusty white to aged beige */
+  background: radial-gradient(circle, #9c9445, #dcd2b8, #b89f7a); /* dusty white to aged beige */
   background-size: 180% 180%;
   animation: shiftBg 20s ease-in-out infinite;
   color: #2d2d2d;
