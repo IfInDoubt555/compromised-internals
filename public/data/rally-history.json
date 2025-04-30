@@ -2219,9 +2219,690 @@
     ]
   },
   "2000": {
-    "events": [],
-    "drivers": [],
-    "cars": []
+    "events": [
+      {
+        "id": 247,
+        "year": 2000,
+        "title": "2000 Rallye Monte-Carlo",
+        "summary": "Tommi Mäkinen opened the new millennium with a win for Mitsubishi, navigating snowy tarmac with veteran calm.",
+        "image": "/images/history/events/2000-monte-carlo.jpg"
+      },
+      {
+        "id": 248,
+        "year": 2000,
+        "title": "2000 Swedish Rally",
+        "summary": "Marcus Grönholm claimed his first WRC win, mastering Sweden’s snowy forests and introducing himself as a title contender.",
+        "image": "/images/history/events/2000-swedish.jpg"
+      },
+      {
+        "id": 249,
+        "year": 2000,
+        "title": "2000 Safari Rally (Kenya)",
+        "summary": "Richard Burns conquered Africa’s brutal roads in his Subaru, taking a commanding win in the legendary endurance rally.",
+        "image": "/images/history/events/2000-safari.jpg"
+      },
+      {
+        "id": 250,
+        "year": 2000,
+        "title": "2000 Rally Portugal",
+        "summary": "Carlos Sainz kept Ford in the hunt with a win in Portugal, using patience and precision on unpredictable gravel.",
+        "image": "/images/history/events/2000-portugal.jpg"
+      },
+      {
+        "id": 251,
+        "year": 2000,
+        "title": "2000 Acropolis Rally (Greece)",
+        "summary": "Grönholm’s Peugeot 206 survived the rock-punishing Greek roads to grab another win and extend his championship lead.",
+        "image": "/images/history/events/2000-acropolis.jpg"
+      },
+      {
+        "id": 252,
+        "year": 2000,
+        "title": "2000 Rally Finland (1000 Lakes)",
+        "summary": "Grönholm thrilled the home crowd with a flat-out masterclass, leaping to victory and building title momentum.",
+        "image": "/images/history/events/2000-finland.jpg"
+      },
+      {
+        "id": 253,
+        "year": 2000,
+        "title": "2000 Rally Australia",
+        "summary": "Burns answered with a clean and confident win, narrowing the gap and taking the title fight down to the final round.",
+        "image": "/images/history/events/2000-australia.jpg"
+      },
+      {
+        "id": 254,
+        "year": 2000,
+        "title": "2000 Rally GB (United Kingdom)",
+        "summary": "Marcus Grönholm sealed his first World Championship in the Welsh forests, defeating Burns and Peugeot’s rivals in style.",
+        "image": "/images/history/events/2000-rallygb.jpg"
+      },
+      {
+        "id": 255,
+        "year": 2001,
+        "title": "2001 Rallye Monte-Carlo",
+        "summary": "Tommi Mäkinen took a stunning victory in Monte Carlo as rivals crashed or spun in the changing mountain conditions.",
+        "image": "/images/history/events/2001-monte-carlo.jpg"
+      },
+      {
+        "id": 256,
+        "year": 2001,
+        "title": "2001 Swedish Rally",
+        "summary": "Harri Rovanperä grabbed his first WRC win in the snow for Peugeot, showcasing their depth and speed early in the season.",
+        "image": "/images/history/events/2001-swedish.jpg"
+      },
+      {
+        "id": 257,
+        "year": 2001,
+        "title": "2001 Safari Rally (Kenya)",
+        "summary": "Richard Burns kept his title hopes alive with a smart and durable drive through Kenya's punishing terrain.",
+        "image": "/images/history/events/2001-safari.jpg"
+      },
+      {
+        "id": 258,
+        "year": 2001,
+        "title": "2001 Rally Argentina",
+        "summary": "Colin McRae bounced back with a classic win, flying through Argentina’s gravel to close the championship gap.",
+        "image": "/images/history/events/2001-argentina.jpg"
+      },
+      {
+        "id": 259,
+        "year": 2001,
+        "title": "2001 Acropolis Rally (Greece)",
+        "summary": "The rough stages of Greece broke many contenders, but Peugeot’s Marcus Grönholm survived to take an important win.",
+        "image": "/images/history/events/2001-acropolis.jpg"
+      },
+      {
+        "id": 260,
+        "year": 2001,
+        "title": "2001 Rally Finland",
+        "summary": "McRae thrilled fans with a high-speed assault through the forests, earning back-to-back victories and a lead in the title race.",
+        "image": "/images/history/events/2001-finland.jpg"
+      },
+      {
+        "id": 261,
+        "year": 2001,
+        "title": "2001 Rally New Zealand",
+        "summary": "Burns delivered a perfect performance on smooth gravel roads, setting up a dramatic final showdown in the UK.",
+        "image": "/images/history/events/2001-newzealand.jpg"
+      },
+      {
+        "id": 262,
+        "year": 2001,
+        "title": "2001 Rally GB (United Kingdom)",
+        "summary": "Richard Burns clinched his first and only WRC title in front of the home crowd, capping a career-defining season with Subaru.",
+        "image": "/images/history/events/2001-rallygb.jpg"
+      },
+      {
+        "id": 263,
+        "year": 2002,
+        "title": "2002 Rallye Monte-Carlo",
+        "summary": "Sébastien Loeb nearly took his first WRC win for Citroën, but a time penalty handed victory to Tommi Mäkinen instead.",
+        "image": "/images/history/events/2002-monte-carlo.jpg"
+      },
+      {
+        "id": 264,
+        "year": 2002,
+        "title": "2002 Swedish Rally",
+        "summary": "Marcus Grönholm showed strength on snow, earning a critical win early in the season with his Peugeot 206 WRC.",
+        "image": "/images/history/events/2002-swedish.jpg"
+      },
+      {
+        "id": 265,
+        "year": 2002,
+        "title": "2002 Safari Rally (Kenya)",
+        "summary": "Colin McRae took his final WRC win with a calculated and fast drive across Kenya’s brutal landscape.",
+        "image": "/images/history/events/2002-safari.jpg"
+      },
+      {
+        "id": 266,
+        "year": 2002,
+        "title": "2002 Rally Argentina",
+        "summary": "Grönholm’s dominance continued with a smooth win through South America, reinforcing his position in the points.",
+        "image": "/images/history/events/2002-argentina.jpg"
+      },
+      {
+        "id": 267,
+        "year": 2002,
+        "title": "2002 Rally Finland",
+        "summary": "Grönholm crushed the Finnish gravel stages in front of his home fans, winning with blistering pace.",
+        "image": "/images/history/events/2002-finland.jpg"
+      },
+      {
+        "id": 268,
+        "year": 2002,
+        "title": "2002 Rallye Deutschland",
+        "summary": "Loeb stunned on tarmac with a masterclass performance for Citroën, proving he was a rising force in the WRC.",
+        "image": "/images/history/events/2002-germany.jpg"
+      },
+      {
+        "id": 269,
+        "year": 2002,
+        "title": "2002 Rally Australia",
+        "summary": "Petter Solberg took his first WRC win for Subaru in a breakout performance on fast Australian gravel.",
+        "image": "/images/history/events/2002-australia.jpg"
+      },
+      {
+        "id": 270,
+        "year": 2002,
+        "title": "2002 Rally GB (United Kingdom)",
+        "summary": "Grönholm secured his second WRC title with a strong final showing in Wales, ending a dominant season for Peugeot.",
+        "image": "/images/history/events/2002-rallygb.jpg"
+      },
+      {
+        "id": 271,
+        "year": 2003,
+        "title": "2003 Rallye Monte-Carlo",
+        "summary": "Loeb kicked off the season with a win for Citroën on Monte Carlo’s icy tarmac, asserting himself as a serious title contender.",
+        "image": "/images/history/events/2003-monte-carlo.jpg"
+      },
+      {
+        "id": 272,
+        "year": 2003,
+        "title": "2003 Swedish Rally",
+        "summary": "Peugeot’s Marcus Grönholm bounced back on snow, winning Sweden with classic Scandinavian control.",
+        "image": "/images/history/events/2003-swedish.jpg"
+      },
+      {
+        "id": 273,
+        "year": 2003,
+        "title": "2003 Rally of Turkey",
+        "summary": "Turkey debuted on the WRC calendar, and Carlos Sainz claimed a surprise victory for Citroën on rugged, unfamiliar terrain.",
+        "image": "/images/history/events/2003-turkey.jpg"
+      },
+      {
+        "id": 274,
+        "year": 2003,
+        "title": "2003 Cyprus Rally",
+        "summary": "Grönholm clawed back ground with a hot-weather win, proving Peugeot could still hang in on twisty and technical gravel.",
+        "image": "/images/history/events/2003-cyprus.jpg"
+      },
+      {
+        "id": 275,
+        "year": 2003,
+        "title": "2003 Rally Finland",
+        "summary": "Markko Märtin stunned in Finland, winning for Ford and proving himself one of the fastest on high-speed gravel.",
+        "image": "/images/history/events/2003-finland.jpg"
+      },
+      {
+        "id": 276,
+        "year": 2003,
+        "title": "2003 Rallye Deutschland",
+        "summary": "Loeb dominated again on tarmac in Germany, showing off his unmatched precision on asphalt.",
+        "image": "/images/history/events/2003-germany.jpg"
+      },
+      {
+        "id": 277,
+        "year": 2003,
+        "title": "2003 Rally Australia",
+        "summary": "Petter Solberg flew to victory on the fast flowing roads of Australia, keeping his title hopes alive heading into the final rounds.",
+        "image": "/images/history/events/2003-australia.jpg"
+      },
+      {
+        "id": 278,
+        "year": 2003,
+        "title": "2003 Wales Rally GB",
+        "summary": "Petter Solberg won in dramatic fashion to clinch the WRC title for Subaru, holding off Loeb in one of the tightest finishes in WRC history.",
+        "image": "/images/history/events/2003-wales.jpg"
+      },
+      {
+        "id": 279,
+        "year": 2004,
+        "title": "2004 Rallye Monte-Carlo",
+        "summary": "Loeb dominated the opening round with a commanding win on the icy mountain roads of Monte Carlo.",
+        "image": "/images/history/events/2004-monte-carlo.jpg"
+      },
+      {
+        "id": 280,
+        "year": 2004,
+        "title": "2004 Rally of Sweden",
+        "summary": "Petter Solberg answered back on snow, taking Subaru’s first win of the season and keeping title hopes alive.",
+        "image": "/images/history/events/2004-sweden.jpg"
+      },
+      {
+        "id": 281,
+        "year": 2004,
+        "title": "2004 Rally of Mexico",
+        "summary": "In Mexico’s WRC debut, Loeb struck again, mastering the hot gravel roads with ease.",
+        "image": "/images/history/events/2004-mexico.jpg"
+      },
+      {
+        "id": 282,
+        "year": 2004,
+        "title": "2004 Cyprus Rally",
+        "summary": "Loeb extended his lead with another win on the rocky stages of Cyprus, fending off Peugeot’s pursuit.",
+        "image": "/images/history/events/2004-cyprus.jpg"
+      },
+      {
+        "id": 283,
+        "year": 2004,
+        "title": "2004 Rally Finland",
+        "summary": "Marcus Grönholm thrilled the home crowd, flying to victory on the high-speed jumps of Finland.",
+        "image": "/images/history/events/2004-finland.jpg"
+      },
+      {
+        "id": 284,
+        "year": 2004,
+        "title": "2004 Rallye Deutschland",
+        "summary": "Loeb’s tarmac dominance continued in Germany, taking another precise win on military roads.",
+        "image": "/images/history/events/2004-germany.jpg"
+      },
+      {
+        "id": 285,
+        "year": 2004,
+        "title": "2004 Rally Japan",
+        "summary": "Petter Solberg brought Subaru a major win in Japan’s debut, proving he was still a championship threat.",
+        "image": "/images/history/events/2004-japan.jpg"
+      },
+      {
+        "id": 286,
+        "year": 2004,
+        "title": "2004 Wales Rally GB",
+        "summary": "Loeb sealed his first WRC title in Wales, finishing second but scoring enough to become World Champion.",
+        "image": "/images/history/events/2004-wales.jpg"
+      },
+      {
+        "id": 287,
+        "year": 2005,
+        "title": "2005 Monte Carlo Rally",
+        "summary": "Loeb crushed Monte Carlo again, delivering a flawless drive and starting his title defense with dominance.",
+        "image": "/images/history/events/2005-monte-carlo.jpg"
+      },
+      {
+        "id": 288,
+        "year": 2005,
+        "title": "2005 Swedish Rally",
+        "summary": "Petter Solberg won Sweden for Subaru, breaking Loeb’s streak and showing he was still a championship contender.",
+        "image": "/images/history/events/2005-sweden.jpg"
+      },
+      {
+        "id": 289,
+        "year": 2005,
+        "title": "2005 Rally Mexico",
+        "summary": "Loeb responded on Mexico’s dusty roads, delivering another calm and commanding gravel win.",
+        "image": "/images/history/events/2005-mexico.jpg"
+      },
+      {
+        "id": 290,
+        "year": 2005,
+        "title": "2005 Rally Italy (Sardinia)",
+        "summary": "Marcus Grönholm took victory in Sardinia for Peugeot, capitalizing on Loeb’s rare misstep.",
+        "image": "/images/history/events/2005-italy.jpg"
+      },
+      {
+        "id": 291,
+        "year": 2005,
+        "title": "2005 Rally of Cyprus",
+        "summary": "Loeb regained control on Cyprus’s rocky gravel, beating Solberg and Grönholm in scorching heat.",
+        "image": "/images/history/events/2005-cyprus.jpg"
+      },
+      {
+        "id": 292,
+        "year": 2005,
+        "title": "2005 Rally Finland",
+        "summary": "Grönholm won on home turf, dominating Finland’s fast forest stages while Loeb played it safe.",
+        "image": "/images/history/events/2005-finland.jpg"
+      },
+      {
+        "id": 293,
+        "year": 2005,
+        "title": "2005 Rallye Deutschland",
+        "summary": "Loeb’s tarmac magic continued in Germany, where he claimed yet another smooth and error-free win.",
+        "image": "/images/history/events/2005-germany.jpg"
+      },
+      {
+        "id": 294,
+        "year": 2005,
+        "title": "2005 Wales Rally GB",
+        "summary": "Loeb sealed his second WRC title early with a strategic drive in Wales, capping a near-perfect season.",
+        "image": "/images/history/events/2005-wales.jpg"
+      },
+      {
+        "id": 295,
+        "year": 2006,
+        "title": "2006 Monte Carlo Rally",
+        "summary": "Loeb opened the season in dominant fashion, mastering the icy tarmac with his new Citroën Xsara WRC.",
+        "image": "/images/history/events/2006-monte-carlo.jpg"
+      },
+      {
+        "id": 296,
+        "year": 2006,
+        "title": "2006 Swedish Rally",
+        "summary": "Marcus Grönholm stormed to victory for Ford on Sweden’s snow, showing the new Focus WRC was a real threat.",
+        "image": "/images/history/events/2006-sweden.jpg"
+      },
+      {
+        "id": 297,
+        "year": 2006,
+        "title": "2006 Rally Mexico",
+        "summary": "Loeb returned to the top in Mexico, driving cleanly and consistently across dusty terrain.",
+        "image": "/images/history/events/2006-mexico.jpg"
+      },
+      {
+        "id": 298,
+        "year": 2006,
+        "title": "2006 Rally Argentina",
+        "summary": "Grönholm took another win in Argentina after Loeb suffered mechanical issues in the mountains.",
+        "image": "/images/history/events/2006-argentina.jpg"
+      },
+      {
+        "id": 299,
+        "year": 2006,
+        "title": "2006 Rally Finland",
+        "summary": "Grönholm soared to a home win in Finland, tightening the title fight in front of cheering fans.",
+        "image": "/images/history/events/2006-finland.jpg"
+      },
+      {
+        "id": 300,
+        "year": 2006,
+        "title": "2006 Rallye Deutschland",
+        "summary": "Loeb dominated German tarmac again, putting on a clinic of precision through the vineyard roads.",
+        "image": "/images/history/events/2006-germany.jpg"
+      },
+      {
+        "id": 301,
+        "year": 2006,
+        "title": "2006 Rally Japan",
+        "summary": "Grönholm kept the championship alive with a victory in Japan, as Loeb watched from home with injury.",
+        "image": "/images/history/events/2006-japan.jpg"
+      },
+      {
+        "id": 302,
+        "year": 2006,
+        "title": "2006 Wales Rally GB",
+        "summary": "Despite not racing, Loeb’s points lead held. Grönholm’s win gave Ford the manufacturers’ title, but Loeb claimed his third WRC crown.",
+        "image": "/images/history/events/2006-wales.jpg"
+      },
+      {
+        "id": 303,
+        "year": 2007,
+        "title": "2007 Monte Carlo Rally",
+        "summary": "Loeb opened the season with a confident win in the debuting Citroën C4 WRC, proving it was a worthy successor.",
+        "image": "/images/history/events/2007-monte-carlo.jpg"
+      },
+      {
+        "id": 304,
+        "year": 2007,
+        "title": "2007 Rally Sweden",
+        "summary": "Ford’s Marcus Grönholm claimed a classic snow win, keeping the title race neck-and-neck early on.",
+        "image": "/images/history/events/2007-sweden.jpg"
+      },
+      {
+        "id": 305,
+        "year": 2007,
+        "title": "2007 Rally Mexico",
+        "summary": "Loeb struck again in Mexico with a clean and composed drive, retaking the championship lead.",
+        "image": "/images/history/events/2007-mexico.jpg"
+      },
+      {
+        "id": 306,
+        "year": 2007,
+        "title": "2007 Rally Finland",
+        "summary": "Grönholm thrilled the home crowd, flying to a spectacular victory and momentarily leading the points.",
+        "image": "/images/history/events/2007-finland.jpg"
+      },
+      {
+        "id": 307,
+        "year": 2007,
+        "title": "2007 Rallye Deutschland",
+        "summary": "Loeb extended his tarmac dominance with a fourth straight Germany win, keeping Citroën on top.",
+        "image": "/images/history/events/2007-germany.jpg"
+      },
+      {
+        "id": 308,
+        "year": 2007,
+        "title": "2007 Rally Japan",
+        "summary": "Mikko Hirvonen emerged victorious in a chaotic rally, while Loeb and Grönholm both crashed out.",
+        "image": "/images/history/events/2007-japan.jpg"
+      },
+      {
+        "id": 309,
+        "year": 2007,
+        "title": "2007 Rally Ireland",
+        "summary": "Loeb dominated Ireland’s slippery asphalt in rainy conditions, setting up a dramatic title decider.",
+        "image": "/images/history/events/2007-ireland.jpg"
+      },
+      {
+        "id": 310,
+        "year": 2007,
+        "title": "2007 Wales Rally GB",
+        "summary": "Loeb played it smart to finish third, enough to secure his fourth consecutive WRC championship in a nail-biting finale.",
+        "image": "/images/history/events/2007-wales.jpg"
+      },
+      {
+        "id": 311,
+        "year": 2008,
+        "title": "2008 Monte Carlo Rally",
+        "summary": "Loeb opened the season with a smooth and dominant win in Monte Carlo, setting the tone for another title run.",
+        "image": "/images/history/events/2008-monte-carlo.jpg"
+      },
+      {
+        "id": 312,
+        "year": 2008,
+        "title": "2008 Rally Sweden",
+        "summary": "Jari-Matti Latvala stunned the field by becoming the youngest WRC event winner in history with a win in Sweden.",
+        "image": "/images/history/events/2008-sweden.jpg"
+      },
+      {
+        "id": 313,
+        "year": 2008,
+        "title": "2008 Rally Mexico",
+        "summary": "Loeb returned to form in Mexico, dominating the gravel roads with precise and commanding speed.",
+        "image": "/images/history/events/2008-mexico.jpg"
+      },
+      {
+        "id": 314,
+        "year": 2008,
+        "title": "2008 Rally Finland",
+        "summary": "Hirvonen defended home soil with a clean and fast win in Finland, momentarily overtaking Loeb in points.",
+        "image": "/images/history/events/2008-finland.jpg"
+      },
+      {
+        "id": 315,
+        "year": 2008,
+        "title": "2008 Rallye Deutschland",
+        "summary": "Loeb dominated the German tarmac yet again, claiming his seventh straight victory at the event.",
+        "image": "/images/history/events/2008-germany.jpg"
+      },
+      {
+        "id": 316,
+        "year": 2008,
+        "title": "2008 Rally of Japan",
+        "summary": "Loeb played it safe, clinching enough points to secure his fifth straight WRC drivers' championship.",
+        "image": "/images/history/events/2008-japan.jpg"
+      },
+      {
+        "id": 317,
+        "year": 2008,
+        "title": "2008 Wales Rally GB",
+        "summary": "Loeb sealed the season with another win, putting an exclamation point on one of the most dominant WRC seasons ever.",
+        "image": "/images/history/events/2008-wales.jpg"
+      },
+      {
+        "id": 318,
+        "year": 2009,
+        "title": "2009 Rally Ireland",
+        "summary": "Loeb opened the season with a tight win over Hirvonen on wet Irish tarmac, continuing his championship streak.",
+        "image": "/images/history/events/2009-ireland.jpg"
+      },
+      {
+        "id": 319,
+        "year": 2009,
+        "title": "2009 Rally Norway",
+        "summary": "Hirvonen answered back on snow, winning in Norway and taking an early lead in the title fight.",
+        "image": "/images/history/events/2009-norway.jpg"
+      },
+      {
+        "id": 320,
+        "year": 2009,
+        "title": "2009 Rally Cyprus",
+        "summary": "Loeb took a commanding win on Cyprus’s slow, rough gravel, regaining momentum with the Citroën C4 WRC.",
+        "image": "/images/history/events/2009-cyprus.jpg"
+      },
+      {
+        "id": 321,
+        "year": 2009,
+        "title": "2009 Rally Argentina",
+        "summary": "Loeb dominated Argentina once again, winning his fourth consecutive round and pulling ahead in points.",
+        "image": "/images/history/events/2009-argentina.jpg"
+      },
+      {
+        "id": 322,
+        "year": 2009,
+        "title": "2009 Rally Finland",
+        "summary": "Hirvonen thrilled the home crowd with a flawless win in Finland, keeping his championship hopes alive.",
+        "image": "/images/history/events/2009-finland.jpg"
+      },
+      {
+        "id": 323,
+        "year": 2009,
+        "title": "2009 Rally Australia",
+        "summary": "Hirvonen took advantage of Loeb’s penalties to win in Australia, setting up a nail-biting title decider.",
+        "image": "/images/history/events/2009-australia.jpg"
+      },
+      {
+        "id": 324,
+        "year": 2009,
+        "title": "2009 Wales Rally GB",
+        "summary": "Loeb won the final round after Hirvonen’s hood flipped up during a stage, clinching his sixth WRC title by just one point.",
+        "image": "/images/history/events/2009-wales.jpg"
+      }
+    ],
+    "drivers": [
+      {
+        "id": 39,
+        "name": "Sébastien Loeb",
+        "bio": "The most dominant rally driver in WRC history, Loeb won nine consecutive world titles starting in 2004. Known for his unmatched precision, he became synonymous with Citroën and tarmac perfection.",
+        "image": "/images/history/drivers/sebastien-loeb.jpg"
+      },
+      {
+        "id": 40,
+        "name": "Petter Solberg",
+        "bio": "The charismatic Norwegian won the 2003 WRC title for Subaru and was known for his flat-out driving style, consistent pace, and strong performances across gravel and tarmac.",
+        "image": "/images/history/drivers/petter-solberg.jpg"
+      },
+      {
+        "id": 41,
+        "name": "Marcus Grönholm",
+        "bio": "A two-time world champion (2000, 2002), Grönholm was the dominant force for Peugeot and later Ford. He was especially feared on fast gravel stages like Finland.",
+        "image": "/images/history/drivers/marcus-gronholm.jpg"
+      },
+      {
+        "id": 42,
+        "name": "Mikko Hirvonen",
+        "bio": "Hirvonen came closest to dethroning Loeb, finishing runner-up multiple times. A consistent, smooth driver and Ford’s lead man during the late 2000s.",
+        "image": "/images/history/drivers/mikko-hirvonen.jpg"
+      },
+      {
+        "id": 43,
+        "name": "Jari-Matti Latvala",
+        "bio": "The youngest WRC winner at the time, Latvala burst onto the scene in 2008. Known for his speed and raw talent, he became a long-term Ford and later Toyota star.",
+        "image": "/images/history/drivers/jari-matti-latvala.jpg"
+      },
+      {
+        "id": 44,
+        "name": "Markko Märtin",
+        "bio": "Estonia’s greatest rally driver of the era, Märtin delivered fast, technical performances for Ford and Peugeot, including landmark wins in Finland and Corsica.",
+        "image": "/images/history/drivers/markko-martin.jpg"
+      },
+      {
+        "id": 45,
+        "name": "François Duval",
+        "bio": "A Belgian talent with flashes of brilliance, Duval was known for his speed on tarmac and for challenging the top tier during his time with Ford and Citroën.",
+        "image": "/images/history/drivers/francois-duval.jpg"
+      },
+      {
+        "id": 46,
+        "name": "Henning Solberg",
+        "bio": "Petter Solberg’s brother, Henning was a consistent performer for Ford and Subaru, known for his tenacity and ability to score points in tough conditions.",
+        "image": "/images/history/drivers/henning-solberg.jpg"
+      },
+      {
+        "id": 47,
+        "name": "Daniel Sordo",
+        "bio": "A Spanish driver who became a key part of Citroën’s lineup, Sordo was known for his smooth driving style and strong performances on tarmac.",
+        "image": "/images/history/drivers/daniel-sordo.jpg"
+      },
+      {
+        "id": 48,
+        "name": "Gigi Galli",
+        "bio": "An Italian driver known for his flamboyant style and speed, Galli made a name for himself with memorable performances in the late 2000s.",
+        "image": "/images/history/drivers/gigi-galli.jpg"
+      },
+      {
+        "id": 49,
+        "name": "Chris Atkinson",
+        "bio": "An Australian driver who made a name for himself with Subaru, Atkinson was known for his speed on tarmac and ability to score points in tough conditions.",
+        "image": "/images/history/drivers/chris-atkinson.jpg"
+      },
+      {
+        "id": 50,
+        "name": "Matthew Wilson",
+        "bio": "A British driver who competed for Ford, Wilson was known for his consistency and ability to score points in the WRC.",
+        "image": "/images/history/drivers/matthew-wilson.jpg"
+      }   
+    ],
+    "cars": [
+      {
+        "id": 21,
+        "name": "Citroën Xsara WRC",
+        "description": "Driven by Sébastien Loeb, the Xsara WRC dominated the early 2000s. Agile on tarmac and fast on gravel, it secured Citroën’s rise to power and Loeb’s first titles.",
+        "image": "/images/history/cars/citroen-xsara-wrc.jpg"
+      },
+      {
+        "id": 22,
+        "name": "Subaru Impreza WRC 2003–2008",
+        "description": "Subaru’s updated Impreza featured aggressive aero and reliability. It helped Petter Solberg win the 2003 title and remained competitive until Subaru’s WRC exit in 2008.",
+        "image": "/images/history/cars/subaru-impreza-wrc-2000s.jpg"
+      },
+      {
+        "id": 23,
+        "name": "Peugeot 206 WRC",
+        "description": "Compact and light, the 206 WRC won two titles with Marcus Grönholm in 2000 and 2002, dominating twisty gravel and narrow tarmac with ease.",
+        "image": "/images/history/cars/peugeot-206-wrc.jpg"
+      },
+      {
+        "id": 24,
+        "name": "Ford Focus RS WRC 03/04/06/07",
+        "description": "Ford’s Focus RS WRC series evolved into one of the most successful 2000s platforms, driven by Colin McRae, Marcus Grönholm, and Mikko Hirvonen.",
+        "image": "/images/history/cars/ford-focus-rs-wrc.jpg"
+      },
+      {
+        "id": 25,
+        "name": "Citroën C4 WRC",
+        "description": "Successor to the Xsara, the C4 WRC carried Loeb through the second half of the 2000s. It was flawless on tarmac and brutally efficient everywhere else.",
+        "image": "/images/history/cars/citroen-c4-wrc.jpg"
+      },
+      {
+        "id": 26,
+        "name": "Skoda Fabia WRC",
+        "description": "Skoda’s Fabia WRC entered with high hopes but struggled to match the front-runners. Still, it laid groundwork for future rally success in lower classes.",
+        "image": "/images/history/cars/skoda-fabia-wrc.jpg"
+      },
+      {
+        "id": 27,
+        "name": "Hyundai Accent WRC",
+        "description": "Hyundai’s first WRC attempt in the early 2000s wasn’t a title threat, but the Accent WRC showed moments of promise before the program was paused in 2003.",
+        "image": "/images/history/cars/hyundai-accent-wrc.jpg"
+      },
+      {
+        "id": 28,
+        "name": "Suzuki SX4 WRC",
+        "description": "Suzuki entered WRC in 2008 with the SX4 WRC — a solid but short-lived entry that struggled to reach the podium before the program ended.",
+        "image": "/images/history/cars/suzuki-sx4-wrc.jpg"
+      },
+      {
+        "id": 29,
+        "name": "Mitsubishi Lancer WRC 04–06",
+        "description": "Mitsubishi returned with the Lancer WRC, but without Tommi Mäkinen and with limited factory support, it couldn’t recapture its 90s glory.",
+        "image": "/images/history/cars/mitsubishi-lancer-wrc-2000s.jpg"
+      },
+      {
+        "id": 31,
+        "name": "Ford Fiesta RS WRC",
+        "description": "The Fiesta RS WRC debuted in 2011, but its development began in the late 2000s. It became a competitive force in the WRC, especially with M-Sport.",
+        "image": "/images/history/cars/ford-fiesta-rs-wrc.jpg"
+      }      
+    ]
   },
   "2010": {
     "events": [],
