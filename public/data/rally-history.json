@@ -3523,8 +3523,100 @@
         "image": "/images/history/events/2019-australia.jpg"
       }           
     ],
-    "drivers": [],
-    "cars": []
+    "drivers": [
+      {
+        "id": 46,
+        "name": "Sébastien Ogier",
+        "bio": "Ogier defined the 2010s, winning 6 straight world titles from 2013 to 2018 with Volkswagen and M-Sport Ford. Master of mixed conditions, he's the most complete modern driver.",
+        "image": "/images/history/drivers/sebastien-ogier.jpg"
+      },
+      {
+        "id": 47,
+        "name": "Thierry Neuville",
+        "bio": "Hyundai’s lead driver for nearly the entire decade, Neuville was runner-up five times and the most consistent challenger to Ogier.",
+        "image": "/images/history/drivers/thierry-neuville.jpg"
+      },
+      {
+        "id": 48,
+        "name": "Ott Tänak",
+        "bio": "Aggressively fast and precise, Tänak became Toyota’s ace and won the 2019 WRC title — the first non-French driver to win in 15 years.",
+        "image": "/images/history/drivers/ott-tanak.jpg"
+      },
+      {
+        "id": 49,
+        "name": "Elfyn Evans",
+        "bio": "Evans emerged as a top-tier talent late in the decade, scoring key wins for M-Sport and Toyota with a smooth, risk-aware driving style.",
+        "image": "/images/history/drivers/elfyn-evans.jpg"
+      },
+      {
+        "id": 50,
+        "name": "Jari-Matti Latvala",
+        "bio": "A WRC veteran through the 2010s, Latvala raced for Volkswagen and Toyota, collecting wins and setting the record for most rally starts.",
+        "image": "/images/history/drivers/jari-matti-latvala-2010s.jpg"
+      },
+      {
+        "id": 51,
+        "name": "Andreas Mikkelsen",
+        "bio": "Often Volkswagen’s third driver, Mikkelsen showed elite pace and skill, scoring podiums and keeping pressure on the lead pack all decade.",
+        "image": "/images/history/drivers/andreas-mikkelsen.jpg"
+      },
+      {
+        "id": 52,
+        "name": "Hayden Paddon",
+        "bio": "New Zealand’s rally hero, Paddon scored Hyundai’s first WRC win outside Europe and was a fan favorite with aggressive gravel speed.",
+        "image": "/images/history/drivers/hayden-paddon.jpg"
+      },
+      {
+        "id": 53,
+        "name": "Esapekka Lappi",
+        "bio": "Lappi won Rally Finland for Toyota in only his fourth start, becoming one of the most promising new faces of the late 2010s.",
+        "image": "/images/history/drivers/esapekka-lappi.jpg"
+      }      
+    ],
+    "cars": [
+      {
+        "id": 30,
+        "name": "Volkswagen Polo R WRC",
+        "description": "Debuting in 2013, the Polo R WRC won 4 straight manufacturers’ titles and dominated with Sébastien Ogier, becoming one of the most successful cars in WRC history.",
+        "image": "/images/history/cars/vw-polo-r-wrc.jpg"
+      },
+      {
+        "id": 31,
+        "name": "Ford Fiesta RS WRC (2011–2016)",
+        "description": "Ford’s factory entry post-Focus, the Fiesta RS WRC was driven by Ogier, Latvala, and later Tänak. It helped M-Sport win back-to-back drivers’ titles in 2017–2018.",
+        "image": "/images/history/cars/ford-fiesta-rs-wrc.jpg"
+      },
+      {
+        "id": 32,
+        "name": "Hyundai i20 WRC",
+        "description": "Hyundai’s modern rally return began with the i20 WRC. It became increasingly competitive throughout the decade, delivering wins for Neuville and Paddon.",
+        "image": "/images/history/cars/hyundai-i20-wrc.jpg"
+      },
+      {
+        "id": 33,
+        "name": "Citroën DS3 WRC",
+        "description": "Replacing the C4, the DS3 WRC carried Loeb to his final two titles and gave Citroën multiple wins before falling behind the new-generation cars.",
+        "image": "/images/history/cars/citroen-ds3-wrc.jpg"
+      },
+      {
+        "id": 34,
+        "name": "Toyota Yaris WRC",
+        "description": "Toyota’s comeback car from 2017 onward, the Yaris WRC won multiple events and the 2018 manufacturers’ title with Tänak, Latvala, and Lappi.",
+        "image": "/images/history/cars/toyota-yaris-wrc.jpg"
+      },
+      {
+        "id": 35,
+        "name": "Citroën C3 WRC",
+        "description": "The C3 WRC replaced the DS3 in 2017. Though inconsistent, it scored wins with Meeke and a memorable 2018 victory for Loeb in Spain.",
+        "image": "/images/history/cars/citroen-c3-wrc.jpg"
+      },
+      {
+        "id": 36,
+        "name": "Mini John Cooper Works WRC",
+        "description": "Mini’s short-lived WRC return in 2011–2012 with the JCW WRC showed flashes of potential, but funding and reliability limited its success.",
+        "image": "/images/history/cars/mini-jcw-wrc.jpg"
+      }      
+    ]
   },
   "2020": {
     "events": [],

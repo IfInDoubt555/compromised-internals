@@ -10,7 +10,7 @@
   background: radial-gradient(circle, #394049, #798083, #c1a064); /* steel gray to golden RAC brown */
   background-size: 200% 200%;
   animation: shiftBg 15s ease-in-out infinite;
-  color: #fff8e6;
+  color: #2d2d2d;
   font-family: 'Courier New', monospace;
 }
 
@@ -18,7 +18,7 @@
   background: radial-gradient(circle, #fff03a, #bb1e10, #111111); /* Group B yellow to Lancia red to dark asphalt */
   background-size: 250% 250%;
   animation: shiftBg 12s ease-in-out infinite;
-  color: #ffffff;
+  color: #2d2d2d;
   font-family: 'Orbitron', sans-serif;
 }
 
@@ -26,7 +26,7 @@
   background: radial-gradient(circle, #002b6b, #264b8b, #7eb3e1); /* Subaru blue fade */
   background-size: 180% 180%;
   animation: shiftBg 25s ease-in-out infinite;
-  color: #e0f7fa;
+  color: #2d2d2d;
   font-family: 'Tahoma', sans-serif;
 }
 
@@ -34,7 +34,7 @@
   background: radial-gradient(circle, #ce0000, #202020, #fffaf4); /* Citroën red to stage dark to white noise */
   background-size: 200% 200%;
   animation: shiftBg 20s ease infinite;
-  color: #fefefe;
+  color: #2d2d2d;
   font-family: 'Verdana', sans-serif;
 }
 
@@ -42,7 +42,7 @@
   background: radial-gradient(circle, #003049, #1a1a1a, #e0e0e0); /* VW & Hyundai era: cool modern palette */
   background-size: 220% 220%;
   animation: shiftBg 30s ease-in-out infinite;
-  color: #dce2e9;
+  color: #2d2d2d;
   font-family: 'Segoe UI', sans-serif;
 }
 
@@ -50,7 +50,7 @@
   background: radial-gradient(circle, #9c27b0, #1f1f1f, #121212); /* Hybrid era, purple + carbon fiber dark */
   background-size: 250% 250%;
   animation: shiftBg 30s ease-in-out infinite;
-  color: #ffffff;
+  color: #2d2d2d;
   font-family: 'Inter', sans-serif;
 }
 
