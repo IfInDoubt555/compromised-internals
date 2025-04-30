@@ -67,6 +67,13 @@
                 <x-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-nav-link>
                 <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-nav-link>
                 <x-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-nav-link>
+                
+                @can('access-admin')
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        Admin Panel
+                    </x-nav-link>
+                @endcan
+
             </div>
 
             <!-- Hamburger Menu (Mobile) -->
@@ -110,6 +117,13 @@
             <x-responsive-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
+            
+            @can('access-admin')
+                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    Admin Panel
+                </x-responsive-nav-link>
+            @endcan
+
         </div>
     </div>
 </nav>

@@ -9,13 +9,16 @@ use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    public function boot(): void
-    {
-        Gate::policy(Post::class, PostPolicy::class);
-    }
     protected $policies = [
         Post::class => PostPolicy::class,
-        \App\Models\Post::class => \App\Policies\PostPolicy::class,
     ];
-    
+
+    public function boot(): void
+    {
+        Gate::define('access-admin', function ($user) {
+            return $user->isAdmin();
+        });
+
+        $this->registerPolicies(); // optional, Laravel often handles this automatically
+    }
 }

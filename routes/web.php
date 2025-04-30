@@ -13,7 +13,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Models\User;
+use App\Http\Controllers\AttributionController;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -86,4 +89,7 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
+Route::get('/check-admin', function () {
+    dd(Auth::user()?->isAdmin());
+});
 require __DIR__.'/auth.php';
