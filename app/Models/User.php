@@ -25,12 +25,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_admin' => 'integer', // ✅ This will now actually work
+    ];
+    
+    public function isAdmin(): bool
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return (int) $this->is_admin === 1;
     }
 
     public function posts()
@@ -44,9 +47,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function profile()
     {
         return $this->hasOne(UserProfile::class);
-    }
-    public function isAdmin(): bool
-    {
-        return $this->is_admin === 1;
     }
 }

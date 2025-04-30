@@ -89,7 +89,8 @@ Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
-Route::get('/check-admin', function () {
-    dd(Auth::user()?->isAdmin());
-});
+// Route::get('/check-admin-gate', function () {
+//     return Gate::allows('access-admin') ? '✅ Gate allows access' : '❌ Gate denies access';
+// })->middleware('auth');
+
 require __DIR__.'/auth.php';

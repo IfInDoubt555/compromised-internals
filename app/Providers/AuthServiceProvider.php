@@ -15,10 +15,10 @@ class AuthServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Gate::define('access-admin', function ($user) {
-            return $user->isAdmin();
-        });
+        $this->registerPolicies(); // ✅ Call this first!
 
-        $this->registerPolicies(); // optional, Laravel often handles this automatically
+        Gate::define('access-admin', function ($user) {
+            return $user->isAdmin(); // ✅ Will now work reliably
+        });
     }
 }

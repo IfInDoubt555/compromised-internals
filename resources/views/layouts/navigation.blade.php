@@ -69,7 +69,7 @@
                 <x-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-nav-link>
                 
                 @can('access-admin')
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
                         Admin Panel
                     </x-nav-link>
                 @endcan
@@ -119,9 +119,9 @@
             <x-responsive-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
             
             @can('access-admin')
-                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    Admin Panel
-                </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
+                Admin Panel
+            </x-responsive-nav-link>
             @endcan
 
         </div>
