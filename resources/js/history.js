@@ -148,14 +148,14 @@ function loadHistoryContent(tab, decade) {
     }
 
     const grid = document.createElement("div");
-    grid.classList.add("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-3", "gap-6");
+    grid.classList.add("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-4", "gap-6");
 
     data.forEach(item => {
         const title = item.title || item.name || "Untitled";
         const description = item.summary || item.description || item.bio || "No description available.";
         const imageUrl = item.image 
-            ? `<img src="${item.image}" alt="${title}" class="w-full h-48 object-cover mb-4 rounded">`
-            : `<img src="/images/placeholder.png" alt="No Image" class="w-full h-48 object-cover mb-4 rounded opacity-50">`;
+            ? `<img src="${item.image}" alt="${title}" class="w-full h-120 object-cover mb-4 rounded">`
+            : `<img src="/images/placeholder.png" alt="No Image" class="w-full h-70 object-cover mb-4 rounded opacity-50">`;
 
         const link = `/history/${tab}/${selectedYear || decade}/${item.id}`;
 
