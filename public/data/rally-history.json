@@ -478,11 +478,23 @@
         "image": "/images/history/cars/porsche-911.webp"
       },
       {
+        "id": 10,
+        "name": "Citroën DS21",
+        "description": "With its innovative hydropneumatic suspension and aerodynamic styling, the Citroën DS21 became famous in the 1960s for excelling on rough and unpredictable rally terrain, offering both comfort and unmatched handling.",
+        "image": "/images/history/cars/citroen-ds21.webp"
+      },      
+      {
         "id": 8,
         "name": "Fiat 124 Sport Coupe",
         "description": "A stylish coupe that became a formidable competitor in the late 1960s, known for its balance and handling.",
         "image": "/images/history/cars/fiat-124-sport-coupe.webp"
-      }
+      },
+      {
+        "id": 9,
+        "name": "Mercedes-Benz 300SE",
+        "description": "Dominating the long-distance rallies of the 1960s, the Mercedes-Benz 300SE was renowned for its rugged reliability, refined engineering, and exceptional comfort on challenging rally stages.",
+        "image": "/images/history/cars/mercedes-benz-300se.webp"
+      }      
     ]
   },
   "1970": {
@@ -849,43 +861,43 @@
     ],
     "cars": [
       {
-        "id": 7,
+        "id": 10,
         "name": "Lancia Stratos HF",
         "description": "The first car designed purely for rally racing, the mid-engined Stratos dominated the mid-to-late 1970s with its aggressive handling and unmistakable wedge shape.",
         "image": "/images/history/cars/lancia-stratos-hf.webp"
       },
       {
-        "id": 8,
+        "id": 11,
         "name": "Ford Escort RS1600",
         "description": "A rally icon, the rear-wheel-drive Escort RS1600 was light, powerful, and exceptionally successful on gravel rallies across Europe and Africa.",
         "image": "/images/history/cars/ford-escort-rs1600.webp"
       },
       {
-        "id": 9,
+        "id": 12,
         "name": "Fiat 131 Abarth Rally",
         "description": "Built from a humble family sedan, the Fiat 131 Abarth became a rally legend in the late 1970s with its balance of durability and speed.",
         "image": "/images/history/cars/fiat-131-abarth.webp"
       },
       {
-        "id": 10,
+        "id": 13,
         "name": "Alpine A110 1600",
         "description": "An evolution of the 1960s Alpine, the 1600 model dominated tarmac rallies early in the WRC and helped Alpine secure the inaugural 1973 constructors' championship.",
         "image": "/images/history/cars/alpine-a110-1600.webp"
       },
       {
-        "id": 11,
+        "id": 14,
         "name": "Porsche 911 Carrera RS",
         "description": "Though less common in rallying, the 911 Carrera RS proved highly effective in events like Monte Carlo, excelling on snowy, technical courses.",
         "image": "/images/history/cars/porsche-911-carrera-rs.webp"
       },
       {
-        "id": 12,
+        "id": 15,
         "name": "Toyota Celica",
         "description": "The Celica made its rally debut in the late 1970s, quickly becoming a competitive force in the WRC with its agile handling and reliability.",
         "image": "/images/history/cars/toyota-celica.webp"
       },
       {
-        "id": 13,
+        "id": 16,
         "name": "Lancia Beta Montecarlo",
         "description": "A mid-engine coupe that made its rally debut in the late 1970s, the Beta Montecarlo was known for its speed and handling on tarmac stages.",
         "image": "/images/history/cars/lancia-beta-montecarlo.webp"
@@ -1507,43 +1519,43 @@
     ],
     "cars": [
       {
-        "id": 14,
+        "id": 17,
         "name": "Audi Quattro A1/A2",
         "description": "The original revolution — Audi’s Quattro brought all-wheel-drive into rallying, forever changing the sport with its grip and brutal power.",
         "image": "/images/history/cars/audi-quattro-a2.webp"
       },
       {
-        "id": 15,
+        "id": 18,
         "name": "Peugeot 205 Turbo 16",
         "description": "The mid-engined, turbocharged 205 T16 crushed the Group B competition with its balance of power, agility, and reliability, dominating the mid-1980s.",
         "image": "/images/history/cars/peugeot-205-t16.webp"
       },
       {
-        "id": 16,
+        "id": 19,
         "name": "Lancia Delta S4",
         "description": "A twin-charged monster — supercharged and turbocharged — the Delta S4 was one of the fastest and deadliest Group B machines ever built.",
         "image": "/images/history/cars/lancia-delta-s4.webp"
       },
       {
-        "id": 17,
+        "id": 20,
         "name": "Ford RS200",
         "description": "Designed from scratch for Group B, the RS200 featured a mid-engine layout, lightweight frame, and tremendous handling, but arrived too late to fully dominate.",
         "image": "/images/history/cars/ford-rs200.webp"
       },
       {
-        "id": 18,
+        "id": 21,
         "name": "MG Metro 6R4",
         "description": "Britain’s Group B beast, the Metro 6R4 ran a naturally aspirated V6 and featured brutal instant power delivery — wild but less successful.",
         "image": "/images/history/cars/mg-metro-6r4.webp"
       },
       {
-        "id": 19,
+        "id": 22,
         "name": "Toyota Celica Twin-Cam Turbo (TA64)",
         "description": "Built for African endurance, the 'Safari Special' Celica crushed the Safari and Ivory Coast rallies with toughness unmatched even by European rivals.",
         "image": "/images/history/cars/toyota-celica-ta64.webp"
       },
       {
-        "id": 20,
+        "id": 23,
         "name": "Lancia Delta HF Integrale",
         "description": "After Group B, the Delta Integrale dominated Group A with unstoppable all-wheel-drive traction, turbocharged punch, and legendary rally consistency.",
         "image": "/images/history/cars/lancia-delta-hf-integrale.webp"
@@ -2163,55 +2175,55 @@
     ],
     "cars": [
       {
-        "id": 21,
+        "id": 24,
         "name": "Subaru Impreza 555",
         "description": "Launched in 1993, the turbocharged all-wheel-drive Impreza 555 became an instant icon, carrying Colin McRae to his 1995 World Title and Subaru’s first manufacturers’ championship.",
         "image": "/images/history/cars/subaru-impreza-555.webp"
       },
       {
-        "id": 22,
+        "id": 25,
         "name": "Mitsubishi Lancer Evolution III-VI",
         "description": "The Evolution series dominated the mid-to-late 1990s, with Tommi Mäkinen winning four straight WRC titles driving successive versions of the fearsome Lancer Evolution.",
         "image": "/images/history/cars/mitsubishi-lancer-evo.webp"
       },
       {
-        "id": 23,
+        "id": 26,
         "name": "Toyota Celica GT-Four ST185",
         "description": "Toyota’s turbocharged all-wheel-drive Celica GT-Four (ST185) helped Carlos Sainz and Didier Auriol dominate the early 90s, famous for its durability on gravel and tarmac.",
         "image": "/images/history/cars/toyota-celica-gtfour-st185.webp"
       },
       {
-        "id": 24,
+        "id": 27,
         "name": "Toyota Corolla WRC",
         "description": "Launched in the late 90s, the Corolla WRC combined reliability and speed, allowing Carlos Sainz to fight for the 1998 championship to the final stage.",
         "image": "/images/history/cars/toyota-corolla-wrc.webp"
       },
       {
-        "id": 25,
+        "id": 28,
         "name": "Ford Escort RS Cosworth",
         "description": "Developed in the early 1990s, the Escort RS Cosworth became a cult hero for its aggressive styling, turbocharged punch, and iconic rear wing.",
         "image": "/images/history/cars/ford-escort-rs-cosworth.webp"
       },
       {
-        "id": 26,
+        "id": 29,
         "name": "Subaru Legacy RS",
         "description": "Before the Impreza, the Legacy RS carried Subaru into the big leagues, helping drivers like Ari Vatanen and Colin McRae announce Subaru’s rally ambitions to the world.",
         "image": "/images/history/cars/subaru-legacy-rs.webp"
       },
       {
-        "id": 27,
+        "id": 30,
         "name": "Peugeot 306 Maxi",
         "description": "Though never a full WRC contender, the F2-class 306 Maxi stunned crowds with its insane speed on tarmac, driven by Gilles Panizzi and Francois Delecour.",
         "image": "/images/history/cars/peugeot-306-maxi.webp"
       },
       {
-        "id": 28,
+        "id": 31,
         "name": "Peugeot 206 WRC",
         "description": "The 206 WRC debuted in 1999, quickly becoming a dominant force with its compact design and turbocharged engine, setting the stage for Peugeot’s success in the early 2000s.",
         "image": "/images/history/cars/peugeot-206-wrc.webp"
       },
       {
-        "id": 29,
+        "id": 32,
         "name": "Ford Focus WRC",
         "description": "Launched in 1999, the Focus WRC was a game-changer for Ford, combining speed and reliability to help Colin McRae win the championship in 1995.",
         "image": "/images/history/cars/ford-focus-wrc.webp"
@@ -2843,61 +2855,61 @@
     ],
     "cars": [
       {
-        "id": 21,
+        "id": 33,
         "name": "Citroën Xsara WRC",
         "description": "Driven by Sébastien Loeb, the Xsara WRC dominated the early 2000s. Agile on tarmac and fast on gravel, it secured Citroën’s rise to power and Loeb’s first titles.",
         "image": "/images/history/cars/citroen-xsara-wrc.webp"
       },
       {
-        "id": 22,
+        "id": 34,
         "name": "Subaru Impreza WRC 2003–2008",
         "description": "Subaru’s updated Impreza featured aggressive aero and reliability. It helped Petter Solberg win the 2003 title and remained competitive until Subaru’s WRC exit in 2008.",
         "image": "/images/history/cars/subaru-impreza-wrc-2000s.webp"
       },
       {
-        "id": 23,
+        "id": 35,
         "name": "Peugeot 206 WRC",
         "description": "Compact and light, the 206 WRC won two titles with Marcus Grönholm in 2000 and 2002, dominating twisty gravel and narrow tarmac with ease.",
         "image": "/images/history/cars/peugeot-206-wrc.webp"
       },
       {
-        "id": 24,
+        "id": 36,
         "name": "Ford Focus RS WRC 03/04/06/07",
         "description": "Ford’s Focus RS WRC series evolved into one of the most successful 2000s platforms, driven by Colin McRae, Marcus Grönholm, and Mikko Hirvonen.",
         "image": "/images/history/cars/ford-focus-rs-wrc.webp"
       },
       {
-        "id": 25,
+        "id": 37,
         "name": "Citroën C4 WRC",
         "description": "Successor to the Xsara, the C4 WRC carried Loeb through the second half of the 2000s. It was flawless on tarmac and brutally efficient everywhere else.",
         "image": "/images/history/cars/citroen-c4-wrc.webp"
       },
       {
-        "id": 26,
+        "id": 38,
         "name": "Skoda Fabia WRC",
         "description": "Skoda’s Fabia WRC entered with high hopes but struggled to match the front-runners. Still, it laid groundwork for future rally success in lower classes.",
         "image": "/images/history/cars/skoda-fabia-wrc.webp"
       },
       {
-        "id": 27,
+        "id": 39,
         "name": "Hyundai Accent WRC",
         "description": "Hyundai’s first WRC attempt in the early 2000s wasn’t a title threat, but the Accent WRC showed moments of promise before the program was paused in 2003.",
         "image": "/images/history/cars/hyundai-accent-wrc.webp"
       },
       {
-        "id": 28,
+        "id": 40,
         "name": "Suzuki SX4 WRC",
         "description": "Suzuki entered WRC in 2008 with the SX4 WRC — a solid but short-lived entry that struggled to reach the podium before the program ended.",
         "image": "/images/history/cars/suzuki-sx4-wrc.webp"
       },
       {
-        "id": 29,
+        "id": 41,
         "name": "Mitsubishi Lancer WRC 04–06",
         "description": "Mitsubishi returned with the Lancer WRC, but without Tommi Mäkinen and with limited factory support, it couldn’t recapture its 90s glory.",
         "image": "/images/history/cars/mitsubishi-lancer-wrc-2000s.webp"
       },
       {
-        "id": 31,
+        "id": 42,
         "name": "Ford Fiesta RS WRC",
         "description": "The Fiesta RS WRC debuted in 2011, but its development began in the late 2000s. It became a competitive force in the WRC, especially with M-Sport.",
         "image": "/images/history/cars/ford-fiesta-rs-wrc.webp"
@@ -3575,43 +3587,43 @@
     ],
     "cars": [
       {
-        "id": 30,
+        "id": 43,
         "name": "Volkswagen Polo R WRC",
         "description": "Debuting in 2013, the Polo R WRC won 4 straight manufacturers’ titles and dominated with Sébastien Ogier, becoming one of the most successful cars in WRC history.",
         "image": "/images/history/cars/vw-polo-r-wrc.webp"
       },
       {
-        "id": 31,
+        "id": 44,
         "name": "Ford Fiesta RS WRC (2011–2016)",
         "description": "Ford’s factory entry post-Focus, the Fiesta RS WRC was driven by Ogier, Latvala, and later Tänak. It helped M-Sport win back-to-back drivers’ titles in 2017–2018.",
         "image": "/images/history/cars/ford-fiesta-rs-wrc.webp"
       },
       {
-        "id": 32,
+        "id": 45,
         "name": "Hyundai i20 WRC",
         "description": "Hyundai’s modern rally return began with the i20 WRC. It became increasingly competitive throughout the decade, delivering wins for Neuville and Paddon.",
         "image": "/images/history/cars/hyundai-i20-wrc.webp"
       },
       {
-        "id": 33,
+        "id": 46,
         "name": "Citroën DS3 WRC",
         "description": "Replacing the C4, the DS3 WRC carried Loeb to his final two titles and gave Citroën multiple wins before falling behind the new-generation cars.",
         "image": "/images/history/cars/citroen-ds3-wrc.webp"
       },
       {
-        "id": 34,
+        "id": 47,
         "name": "Toyota Yaris WRC",
         "description": "Toyota’s comeback car from 2017 onward, the Yaris WRC won multiple events and the 2018 manufacturers’ title with Tänak, Latvala, and Lappi.",
         "image": "/images/history/cars/toyota-yaris-wrc.webp"
       },
       {
-        "id": 35,
+        "id": 48,
         "name": "Citroën C3 WRC",
         "description": "The C3 WRC replaced the DS3 in 2017. Though inconsistent, it scored wins with Meeke and a memorable 2018 victory for Loeb in Spain.",
         "image": "/images/history/cars/citroen-c3-wrc.webp"
       },
       {
-        "id": 36,
+        "id": 49,
         "name": "Mini John Cooper Works WRC",
         "description": "Mini’s short-lived WRC return in 2011–2012 with the JCW WRC showed flashes of potential, but funding and reliability limited its success.",
         "image": "/images/history/cars/mini-jcw-wrc.webp"
