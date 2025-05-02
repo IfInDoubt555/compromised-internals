@@ -10,9 +10,9 @@
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <aside class="w-64 bg-gray-900 text-white hidden md:block">
-            <div class="p-6 text-xl font-bold border-b border-gray-700">
+            <a href="{{ route('dashboard') }}" class="block p-6 text-xl font-bold border-b border-gray-700 hover:text-blue-400 transition">
                 Admin Panel
-            </div>
+            </a>
             <nav class="p-4 space-y-2 text-sm">
                 @can('access-admin')
                     <a href="{{ route('admin.attributions.index') }}"
