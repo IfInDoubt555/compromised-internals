@@ -8,7 +8,7 @@
         <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('attributions.update') }}" method="POST">
+    <form action="{{ route('admin.attributions.bulkUpdate') }}" method="POST">
         @csrf
         <div class="overflow-x-auto">
             <table class="table-auto w-full text-sm border border-gray-300">

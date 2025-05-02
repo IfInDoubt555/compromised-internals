@@ -9,15 +9,18 @@
 
   <header class="relative bg-gray-900 text-white">
     <img src="{{ asset('images/subarubg.webp') }}" 
-      alt="Rally Hero" 
-      class="w-full h-[30em] object-cover object-center opacity-60">
-    <div class="absolute inset-0 flex items-center justify-center flex-col text-center">
-        <h2 class="text-4xl font-bold">Welcome to Compromised Internals</h2>
-        <p class="mt-2 mb-2 text-lg max-w-xl">Your one-stop hub for everything rally – news, history, events, and more.</p>
-        <a href="{{ route('blog.index') }}" class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition">
-        Explore the Blog
-        </a>
-    </div>
+       alt="Rally Hero" 
+       class="w-[1000px] h-[45em] object-cover object-center mx-auto opacity-60">
+       <div class="absolute inset-0 flex items-center justify-center">
+        <div class="bg-black/30 backdrop-blur-sm rounded-md p-6 text-center text-white">
+          <h1 class="text-2xl font-bold">Welcome to Compromised Internals</h1>
+          <p class="mt-2">Your one-stop hub for everything rally – news, history, events, and more.</p>
+          <a href="/blog" class="inline-block mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white font-semibold">
+            Explore the Blog
+          </a>
+        </div>
+</div>
+
 </header>
 
   <!-- Blog Cards Section -->
