@@ -13,14 +13,33 @@
             <div class="p-6 text-xl font-bold border-b border-gray-700">
                 Admin Panel
             </div>
-            <nav class="p-4 space-y-2">
+            <nav class="p-4 space-y-2 text-sm">
                 @can('access-admin')
                     <a href="{{ route('admin.attributions.index') }}"
-                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('attributions.*') ? 'bg-gray-800' : '' }}">
+                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.attributions.*') ? 'bg-gray-800' : '' }}">
                         📸 Image Attributions
                     </a>
+
+                    <a href="#"
+                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-gray-800' : '' }}">
+                        👥 Manage Users
+                    </a>
+
+                    <a href="#"
+                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.posts.*') ? 'bg-gray-800' : '' }}">
+                        📝 Blog Moderation
+                    </a>
+
+                    <a href="#"
+                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.events.*') ? 'bg-gray-800' : '' }}">
+                        🏁 Rally Events
+                    </a>
+
+                    <a href="#"
+                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.analytics.*') ? 'bg-gray-800' : '' }}">
+                        📊 Analytics (Coming Soon)
+                    </a>
                 @endcan
-                <!-- You can add more admin-only links below -->
             </nav>
         </aside>
 
