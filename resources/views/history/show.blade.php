@@ -27,15 +27,15 @@
 
         {{-- Details --}}
         {{-- Details --}}
-        <div class="prose max-w-none text-gray-700 mt-10 text-lg leading-relaxed">
-            @if (!empty($item['details_html']))
+        <div class="prose max-w-none text-gray-800 mt-10 text-lg leading-relaxed bg-white/80 backdrop-blur-md rounded-xl shadow-xl p-6">
+        @if (!empty($item['details_html']))
                 {!! $item['details_html'] !!}
             @else
                 @php
                     $details = $item['description'] ?? $item['summary'] ?? $item['bio'] ?? null;
                     $paragraphs = $details ? explode("\n", $details) : [];
                 @endphp
-        
+
                 @if (count($paragraphs))
                     @foreach ($paragraphs as $para)
                         @if (trim($para) !== '')
