@@ -25,9 +25,9 @@
                         👥 Manage Users
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('admin.posts.moderation') }}"
                        class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.posts.*') ? 'bg-gray-800' : '' }}">
-                        📝 Blog Moderation
+                       📝 Blog Moderation
                     </a>
 
                     <a href="#"

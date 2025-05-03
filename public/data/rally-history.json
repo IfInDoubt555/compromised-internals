@@ -4,352 +4,703 @@
       {
         "id": 1,
         "year": 1960,
-        "title": "First World Rally Championship Race",
-        "summary": "In 1960, the inaugural WRC event took place in Monaco.",
-        "image": "/images/history/events/1960-monaco.webp"
-      },
+        "title": "1960 Rallye Automobile Monte-Carlo",
+        "summary": "Held in January, the 29th Monte Carlo Rally marked the beginning of the European rally calendar.      Mercedes-Benz dominated with a 1-2-3 finish on snow-covered mountain roads.",
+        "description": "Held from January 18 to 24, the 29th Monte Carlo Rally marked the beginning of the European rally       calendar.\n\n- Spanned approximately 3,567 kilometers across snow-covered and asphalt roads.\n- Tested both driver      skill and vehicle durability in grueling winter conditions.\n- Mercedes-Benz secured a dominant 1-2-3 finish:\n   •     1st: Walter Schock & Rolf Moll – Mercedes-Benz 220 SE\n   • 2nd: Eugen Böhringer & Hermann Socher – Mercedes-Benz     220 SE\n   • 3rd: Ott & Mahle – Mercedes-Benz 220 SE\n- The 220 SE proved its value with fuel-injection reliability    and strong handling in treacherous terrain.\n- Featured 311 entries starting from cities like Athens, Glasgow, and       Oslo.\n- Competitors faced icy mountain passes and mechanically punishing routes.\n- Pat Moss & Ann Wisdom (Austin      A40) won the Coupe des Dames (Ladies' Cup), highlighting the skill of female rally drivers.\n- The event remains      legendary for its fierce competition and engineering excellence under pressure.",
+        "image": "/images/history/events/1960-monte-carlo.webp"
+      },      
       {
         "id": 2,
         "year": 1960,
-        "title": "1960 Rallye Automobile Monte-Carlo",
-        "summary": "A landmark event where the Mini Cooper S began its legacy, dominating snow-covered Alpine roads.",
-        "image": "/images/history/events/1960-monte-carlo.webp"
+        "title": "1960 Tulip Rally (Rally van Nederland)",
+        "summary": "Held in April, the Tulip Rally attracted international competitors across the Netherlands with its mix of tarmac andcountryside stages.",
+        "image": "/images/history/events/1960-tulip.webp"
       },
       {
         "id": 3,
         "year": 1960,
-        "title": "1960 Tulip Rally (Rally van Nederland)",
-        "summary": "Held in the Netherlands, the Tulip Rally was a major European fixture attracting international competitors.",
-        "image": "/images/history/events/1960-tulip.webp"
+        "title": "1960 East African Safari Rally",
+        "summary": "Held across Kenya, Uganda, and Tanzania, the 1960 Safari Rally was one of the toughest motorsport events of the year, famousfor its brutal terrain and unpredictable African weather.",
+        "image": "/images/history/events/1960-safari.webp"
       },
       {
         "id": 4,
         "year": 1960,
-        "title": "1960 Acropolis Rally",
-        "summary": "The Greek Acropolis Rally featured brutal gravel stages and mountain terrain, testing both car durability and driver endurance.",
-        "image": "/images/history/events/1960-acropolis.webp"
+        "title": "1960 Rallye du Maroc (Rally of Morocco)",
+        "summary": "This May event crossed the deserts and mountains of North Africa, combining extreme temperatures and treacherous terrain inone of the toughest endurance rallies of the year.",
+        "image": "/images/history/events/1960-morocco.webp"
       },
       {
         "id": 5,
         "year": 1960,
-        "title": "1960 RAC Rally (UK)",
-        "summary": "One of Britain's most prestigious rallies, the RAC Rally in 1960 took competitors through challenging forestry routes.",
-        "image": "/images/history/events/1960-rac-uk.webp"
+        "title": "1960 Acropolis Rally",
+        "summary": "Held in June on Greece’s rugged gravel roads and mountainous terrain, the Acropolis Rally was a brutal mid-year challenge forman and machine.",
+        "image": "/images/history/events/1960-acropolis.webp"
       },
       {
         "id": 6,
+        "year": 1960,
+        "title": "1960 Alpine Rally (Coupe des Alpes)",
+        "summary": "Run in early July, the Alpine Rally weaved through the French, Swiss, and Italian Alps, demanding both speed and precision onnarrow mountain passes.",
+        "image": "/images/history/events/1960-alpine.webp"
+      },
+      {
+        "id": 7,
+        "year": 1960,
+        "title": "1960 Liège–Sofia–Liège Rally",
+        "summary": "Taking place in August, this marathon rally spanned across Europe, running non-stop from Belgium to Bulgaria and back with norest stages—brutal even by today’s standards.",
+        "image": "/images/history/events/1960-liege-sofia.webp"
+      },
+      {
+        "id": 8,
+        "year": 1960,
+        "title": "1960 1000 Lakes Rally (Finland)",
+        "summary": "Held in late August, Finland’s premier rally featured fast gravel tracks and massive jumps, earning it a reputation as aproving ground for rally legends.",
+        "image": "/images/history/events/1960-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1960,
+        "title": "1960 Rallye de Portugal",
+        "summary": "Still growing in international status, this September event included rugged Iberian stages and laid the groundwork forPortugal’s future WRC involvement.",
+        "image": "/images/history/events/1960-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1960,
+        "title": "1960 RAC Rally (United Kingdom)",
+        "summary": "Held in November, the RAC Rally was Britain’s top rally event, challenging drivers with wet forestry roads and unpredictableweather.",
+        "image": "/images/history/events/1960-rac-uk.webp"
+      },      
+      {
+        "id": 1,
         "year": 1961,
         "title": "1961 Rallye Automobile Monte-Carlo",
         "summary": "The Monte Carlo Rally of 1961 was heavily influenced by icy conditions and featured new entries from British and Scandinavian teams.",
         "image": "/images/history/events/1961-monte-carlo.webp"
       },
       {
-        "id": 7,
+        "id": 2,
+        "year": 1961,
+        "title": "1961 Tulip Rally (Rally van Nederland)",
+        "summary": "Held in April, the Tulip Rally continued to grow in prominence, attracting international teams to compete across the Netherlands' scenic roads.",
+        "image": "/images/history/events/1961-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1961,
+        "title": "1961 East African Safari Rally",
+        "summary": "This year's Safari Rally pushed drivers across punishing African terrain with unexpected rainstorms and grueling endurance challenges.",
+        "image": "/images/history/events/1961-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1961,
+        "title": "1961 Rallye du Maroc (Rally of Morocco)",
+        "summary": "Featuring desert and mountain terrain, the Moroccan rally tested navigation skills and mechanical durability in the heart of North Africa.",
+        "image": "/images/history/events/1961-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1961,
         "title": "1961 Acropolis Rally",
         "summary": "Greece’s Acropolis Rally returned with rough gravel terrain and extreme temperatures, further solidifying its reputation for brutality.",
         "image": "/images/history/events/1961-acropolis.webp"
       },
       {
-        "id": 8,
+        "id": 6,
         "year": 1961,
-        "title": "1961 RAC Rally (UK)",
-        "summary": "The RAC Rally featured stages across rugged British forests and welcomed a growing number of international competitors.",
-        "image": "/images/history/events/1961-rac-uk.webp"
+        "title": "1961 Alpine Rally (Coupe des Alpes)",
+        "summary": "This Alpine challenge sent competitors through narrow switchbacks and high-altitude roads, demanding focus and consistency.",
+        "image": "/images/history/events/1961-alpine.webp"
       },
       {
-        "id": 9,
-        "year": 1961,
-        "title": "1961 Tulip Rally",
-        "summary": "The Netherlands’ signature rally once again drew top talent from across Europe, becoming a proving ground for emerging manufacturers.",
-        "image": "/images/history/events/1961-tulip.webp"
-      },
-      {
-        "id": 10,
+        "id": 7,
         "year": 1961,
         "title": "1961 Liège–Sofia–Liège Rally",
         "summary": "A marathon endurance rally covering thousands of kilometers across Europe, infamous for its punishing pace and minimal rest stops.",
         "image": "/images/history/events/1961-liege.webp"
       },
       {
-        "id": 11,
+        "id": 8,
+        "year": 1961,
+        "title": "1961 1000 Lakes Rally (Finland)",
+        "summary": "Finland’s 1000 Lakes Rally thrilled fans with its fast gravel routes, huge jumps, and growing Scandinavian dominance.",
+        "image": "/images/history/events/1961-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1961,
+        "title": "1961 Rallye de Portugal",
+        "summary": "Portugal’s rough terrain and unpredictable weather made this year’s rally a key battleground for European teams.",
+        "image": "/images/history/events/1961-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1961,
+        "title": "1961 RAC Rally (United Kingdom)",
+        "summary": "The RAC Rally featured stages across rugged British forests and welcomed a growing number of international competitors.",
+        "image": "/images/history/events/1961-rac-uk.webp"
+      },
+      {
+        "id": 1,
         "year": 1962,
         "title": "1962 Rallye Automobile Monte-Carlo",
         "summary": "The 1962 Monte Carlo Rally highlighted the continued rise of British cars, with challenging snow-covered passes across the Alps.",
         "image": "/images/history/events/1962-monte-carlo.webp"
       },
       {
-        "id": 12,
+        "id": 2,
+        "year": 1962,
+        "title": "1962 Tulip Rally (Rally van Nederland)",
+        "summary": "A staple of the European rally scene, the Tulip Rally challenged drivers with complex navigation and narrow roads across the Netherlands.",
+        "image": "/images/history/events/1962-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1962,
+        "title": "1962 East African Safari Rally",
+        "summary": "The 1962 Safari Rally spanned thousands of brutal kilometers across Kenya, Uganda, and Tanzania—featuring deep mud, river crossings, and unpredictable African weather.",
+        "image": "/images/history/events/1962-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1962,
+        "title": "1962 Rallye du Maroc (Rally of Morocco)",
+        "summary": "Racers faced intense desert heat and rugged mountain roads in Morocco’s premier endurance rally, demanding resilience and mechanical reliability.",
+        "image": "/images/history/events/1962-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1962,
         "title": "1962 Acropolis Rally",
         "summary": "Greece’s mountainous terrain and punishing roads tested drivers' endurance in this growingly popular event.",
         "image": "/images/history/events/1962-acropolis.webp"
       },
       {
-        "id": 13,
+        "id": 6,
         "year": 1962,
-        "title": "1962 RAC Rally (UK)",
+        "title": "1962 Alpine Rally (Coupe des Alpes)",
+        "summary": "Held across winding high-altitude roads through the Alps, the 1962 Alpine Rally pushed both drivers and machines to their limits.",
+        "image": "/images/history/events/1962-alpine.webp"
+      },
+      {
+        "id": 7,
+        "year": 1962,
+        "title": "1962 Liège–Sofia–Liège Rally",
+        "summary": "One of the most demanding rallies in the world, covering over 5,000 km non-stop across Europe with virtually no breaks for sleep.",
+        "image": "/images/history/events/1962-liege.webp"
+      },
+      {
+        "id": 8,
+        "year": 1962,
+        "title": "1962 1000 Lakes Rally (Finland)",
+        "summary": "Scandinavian roads and airborne gravel jumps made Finland’s 1000 Lakes Rally one of the most thrilling events of the season.",
+        "image": "/images/history/events/1962-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1962,
+        "title": "1962 Rallye de Portugal",
+        "summary": "Still rising in stature, the Portuguese rally challenged crews with long, dusty mountain stages and unpredictable fall weather.",
+        "image": "/images/history/events/1962-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1962,
+        "title": "1962 RAC Rally (United Kingdom)",
         "summary": "The RAC Rally in 1962 brought together factory teams and independents on slippery gravel routes through British forests.",
         "image": "/images/history/events/1962-rac.webp"
       },
       {
-        "id": 14,
-        "year": 1962,
-        "title": "1962 Tulip Rally",
-        "summary": "A staple of the European rally scene, the Tulip Rally challenged drivers with complex navigation and narrow roads.",
-        "image": "/images/history/events/1962-tulip.webp"
-      },
-      {
-        "id": 15,
-        "year": 1962,
-        "title": "1962 Liège–Sofia–Liège Rally",
-        "summary": "One of the most demanding rallies in the world, covering over 5,000 km non-stop across Europe.",
-        "image": "/images/history/events/1962-liege.webp"
-      },
-      {
-        "id": 16,
+        "id": 1,
         "year": 1963,
         "title": "1963 Rallye Automobile Monte-Carlo",
         "summary": "Severe snowstorms in 1963 made the Monte Carlo Rally one of the toughest editions in history, rewarding precision driving.",
         "image": "/images/history/events/1963-monte-carlo.webp"
       },
       {
-        "id": 17,
+        "id": 2,
+        "year": 1963,
+        "title": "1963 Tulip Rally (Rally van Nederland)",
+        "summary": "The Tulip Rally continued to gain prestige, drawing top drivers from across Europe to tackle the Netherlands' complex route network.",
+        "image": "/images/history/events/1963-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1963,
+        "title": "1963 East African Safari Rally",
+        "summary": "Known for its brutal terrain and unpredictable rain, the 1963 Safari Rally was a punishing test of driver and vehicle endurance through Kenya, Uganda, and Tanzania.",
+        "image": "/images/history/events/1963-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1963,
+        "title": "1963 Rallye du Maroc (Rally of Morocco)",
+        "summary": "Drivers tackled the harsh desert and mountain routes of North Africa, navigating punishing heat and technical terrain in the Moroccan rally.",
+        "image": "/images/history/events/1963-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1963,
         "title": "1963 Acropolis Rally",
         "summary": "The 1963 Acropolis Rally pushed competitors through some of the harshest gravel stages in Europe under intense heat.",
         "image": "/images/history/events/1963-acropolis.webp"
       },
       {
-        "id": 18,
+        "id": 6,
         "year": 1963,
-        "title": "1963 RAC Rally (UK)",
-        "summary": "Expanded forestry stages and worsening weather made the 1963 RAC Rally a major endurance challenge for drivers and mechanics alike.",
-        "image": "/images/history/events/1963-rac.webp"
+        "title": "1963 Alpine Rally (Coupe des Alpes)",
+        "summary": "Twisting Alpine roads and high-altitude climbs made the 1963 Alpine Rally a precision event through France, Switzerland, and Italy.",
+        "image": "/images/history/events/1963-alpine.webp"
       },
       {
-        "id": 19,
-        "year": 1963,
-        "title": "1963 Tulip Rally",
-        "summary": "The Tulip Rally continued to gain prestige, drawing top drivers from across Europe to tackle the Netherlands' complex route network.",
-        "image": "/images/history/events/1963-tulip.webp"
-      },
-      {
-        "id": 20,
+        "id": 7,
         "year": 1963,
         "title": "1963 Liège–Sofia–Liège Rally",
         "summary": "Still considered the ultimate test of driver stamina and mechanical durability, the 1963 Liège Rally remained legendary.",
         "image": "/images/history/events/1963-liege.webp"
       },
       {
-        "id": 21,
+        "id": 8,
+        "year": 1963,
+        "title": "1963 1000 Lakes Rally (Finland)",
+        "summary": "Finland’s 1000 Lakes Rally thrilled spectators with airborne gravel stages, high speeds, and fearless Scandinavian driving talent.",
+        "image": "/images/history/events/1963-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1963,
+        "title": "1963 Rallye de Portugal",
+        "summary": "Portugal’s rugged backroads and unpredictable conditions made the 1963 edition a true test of reliability and rally discipline.",
+        "image": "/images/history/events/1963-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1963,
+        "title": "1963 RAC Rally (United Kingdom)",
+        "summary": "Expanded forestry stages and worsening weather made the 1963 RAC Rally a major endurance challenge for drivers and mechanics alike.",
+        "image": "/images/history/events/1963-rac.webp"
+      },
+      {
+        "id": 1,
         "year": 1964,
         "title": "1964 Rallye Automobile Monte-Carlo",
         "summary": "Paddy Hopkirk secured a historic victory for the Mini Cooper S at the Monte Carlo Rally, cementing the car's rally legend status.",
         "image": "/images/history/events/1964-monte-carlo.webp"
       },
       {
-        "id": 22,
+        "id": 2,
+        "year": 1964,
+        "title": "1964 Tulip Rally (Rally van Nederland)",
+        "summary": "Once again drawing strong European fields, the 1964 Tulip Rally continued to reward precise navigation and steady pacing.",
+        "image": "/images/history/events/1964-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1964,
+        "title": "1964 East African Safari Rally",
+        "summary": "Deep mud, rainstorms, and wildlife encounters marked the 1964 Safari Rally, pushing even the best-prepared teams to their breaking point.",
+        "image": "/images/history/events/1964-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1964,
+        "title": "1964 Rallye du Maroc (Rally of Morocco)",
+        "summary": "High-speed desert runs and rocky mountain climbs defined the Moroccan rally, demanding relentless endurance and navigation skill.",
+        "image": "/images/history/events/1964-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1964,
         "title": "1964 Acropolis Rally",
         "summary": "The Acropolis Rally's rugged Greek landscapes punished cars and drivers alike in one of the season’s toughest events.",
         "image": "/images/history/events/1964-acropolis.webp"
       },
       {
-        "id": 23,
+        "id": 6,
         "year": 1964,
-        "title": "1964 RAC Rally (UK)",
-        "summary": "Expanding its reputation, the RAC Rally in 1964 featured longer special stages through dense and muddy British forests.",
-        "image": "/images/history/events/1964-rac.webp"
+        "title": "1964 Alpine Rally (Coupe des Alpes)",
+        "summary": "Set across Alpine passes with sheer drops and narrow roads, the 1964 edition tested both nerve and endurance over thousands of kilometers.",
+        "image": "/images/history/events/1964-alpine.webp"
       },
       {
-        "id": 24,
-        "year": 1964,
-        "title": "1964 Tulip Rally",
-        "summary": "Once again drawing strong European fields, the 1964 Tulip Rally continued to reward precise navigation and steady pacing.",
-        "image": "/images/history/events/1964-tulip.webp"
-      },
-      {
-        "id": 25,
+        "id": 7,
         "year": 1964,
         "title": "1964 Liège–Sofia–Liège Rally",
         "summary": "A brutal marathon across Europe's mountains and rough roads, solidifying its reputation as one of the hardest rallies to finish.",
         "image": "/images/history/events/1964-liege.webp"
       },
       {
-        "id": 26,
+        "id": 8,
+        "year": 1964,
+        "title": "1964 1000 Lakes Rally (Finland)",
+        "summary": "Massive jumps and rapid gravel straights in Finland challenged drivers in one of the year’s fastest and most technical rallies.",
+        "image": "/images/history/events/1964-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1964,
+        "title": "1964 Rallye de Portugal",
+        "summary": "Portugal’s rally presented rough terrain, river crossings, and long road sections that pushed cars and crews deep into autumn fatigue.",
+        "image": "/images/history/events/1964-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1964,
+        "title": "1964 RAC Rally (United Kingdom)",
+        "summary": "Expanding its reputation, the RAC Rally in 1964 featured longer special stages through dense and muddy British forests.",
+        "image": "/images/history/events/1964-rac.webp"
+      },
+      {
+        "id": 1,
         "year": 1965,
         "title": "1965 Rallye Automobile Monte-Carlo",
         "summary": "Another controversial Monte Carlo Rally where unexpected weather shifts challenged even the most prepared teams.",
         "image": "/images/history/events/1965-monte.webp"
       },
       {
-        "id": 27,
+        "id": 2,
+        "year": 1965,
+        "title": "1965 Tulip Rally (Rally van Nederland)",
+        "summary": "As rallying became increasingly professional, the Tulip Rally drew fierce competition from major manufacturers and privateers",
+        "image": "/images/history/events/1965-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1965,
+        "title": "1965 East African Safari Rally",
+        "summary": "Flooded river crossings, axle-breaking ruts, and unrelenting mud made the 1965 Safari Rally one of the most punishing editionsin history.",
+        "image": "/images/history/events/1965-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1965,
+        "title": "1965 Rallye du Maroc (Rally of Morocco)",
+        "summary": "A high-speed desert endurance event, the 1965 Moroccan rally featured remote routes, sandstorms, and intense navigationdemands.",
+        "image": "/images/history/events/1965-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1965,
         "title": "1965 Acropolis Rally",
-        "summary": "The Acropolis Rally continued to destroy cars and reward only the toughest teams as the summer heat scorched the Greek mountains.",
+        "summary": "The Acropolis Rally continued to destroy cars and reward only the toughest teams as the summer heat scorched the Greekmountains.",
         "image": "/images/history/events/1965-acropolis.webp"
       },
       {
-        "id": 28,
+        "id": 6,
         "year": 1965,
-        "title": "1965 RAC Rally (UK)",
+        "title": "1965 Alpine Rally (Coupe des Alpes)",
+        "summary": "Snow melt, rockslides, and punishing altitudes made the 1965 Alpine Rally a dramatic test of car control through Europe'smountain passes.",
+        "image": "/images/history/events/1965-alpine.webp"
+      },
+      {
+        "id": 7,
+        "year": 1965,
+        "title": "1965 Liège–Sofia–Liège Rally",
+        "summary": "Endurance, strategy, and a little luck were key as the 1965 Liège rally pushed entrants to their physical and mechanicallimits.",
+        "image": "/images/history/events/1965-liege.webp"
+      },
+      {
+        "id": 8,
+        "year": 1965,
+        "title": "1965 1000 Lakes Rally (Finland)",
+        "summary": "Finland’s iconic event showcased fearless driving over blind crests and through pine forests, helping to define rallying'sairborne era.",
+        "image": "/images/history/events/1965-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1965,
+        "title": "1965 Rallye de Portugal",
+        "summary": "Portugal’s rugged backcountry trails, mixed surfaces, and tricky navigation made it one of the most diverse events of the year",
+        "image": "/images/history/events/1965-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1965,
+        "title": "1965 RAC Rally (United Kingdom)",
         "summary": "Improved special stages and a growing field made the 1965 RAC Rally one of the most competitive editions so far.",
         "image": "/images/history/events/1965-rac.webp"
       },
       {
-        "id": 29,
-        "year": 1965,
-        "title": "1965 Tulip Rally",
-        "summary": "As rallying became increasingly professional, the Tulip Rally drew fierce competition from major manufacturers and privateers.",
-        "image": "/images/history/events/1965-tulip.webp"
-      },
-      {
-        "id": 30,
-        "year": 1965,
-        "title": "1965 Liège–Sofia–Liège Rally",
-        "summary": "Endurance, strategy, and a little luck were key as the 1965 Liège rally pushed entrants to their physical and mechanical limits.",
-        "image": "/images/history/events/1965-liege.webp"
-      },
-      {
-        "id": 31,
+        "id": 1,
         "year": 1966,
         "title": "1966 Rallye Automobile Monte-Carlo",
-        "summary": "The 1966 Monte Carlo Rally became infamous after several top finishers, including Mini Cooper S drivers, were controversially disqualified on technicalities.",
+        "summary": "The 1966 Monte Carlo Rally became infamous after several top finishers, including Mini Cooper S drivers, were controversiallydisqualified on technicalities.",
         "image": "/images/history/events/1966-monte-carlo.webp"
       },
       {
-        "id": 32,
+        "id": 2,
+        "year": 1966,
+        "title": "1966 Tulip Rally (Rally van Nederland)",
+        "summary": "More powerful factory cars began dominating the Tulip Rally, marking the shift toward professional factory teams in rallying.",
+        "image": "/images/history/events/1966-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1966,
+        "title": "1966 East African Safari Rally",
+        "summary": "Heavy rains turned sections of the 1966 Safari Rally into muddy chaos, as teams fought both nature and time through EastAfrica.",
+        "image": "/images/history/events/1966-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1966,
+        "title": "1966 Rallye du Maroc (Rally of Morocco)",
+        "summary": "Long, isolated desert stages made the Moroccan rally a severe navigation and mechanical challenge under scorching heat.",
+        "image": "/images/history/events/1966-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1966,
         "title": "1966 Acropolis Rally",
         "summary": "Tough Greek terrain and brutal summer heat made the Acropolis Rally a survival contest once again in 1966.",
         "image": "/images/history/events/1966-acropolis.webp"
       },
       {
-        "id": 33,
+        "id": 6,
         "year": 1966,
-        "title": "1966 RAC Rally (UK)",
-        "summary": "The RAC Rally continued growing internationally, becoming one of the most prestigious rally events outside mainland Europe.",
-        "image": "/images/history/events/1966-rac.webp"
+        "title": "1966 Alpine Rally (Coupe des Alpes)",
+        "summary": "Fog, elevation, and endless hairpins defined the Alpine Rally, which continued to reward precision and endurance onmountainous terrain.",
+        "image": "/images/history/events/1966-alpine.webp"
       },
       {
-        "id": 34,
-        "year": 1966,
-        "title": "1966 Tulip Rally",
-        "summary": "More powerful factory cars began dominating the Tulip Rally, marking the shift toward professional factory teams in rallying.",
-        "image": "/images/history/events/1966-tulip.webp"
-      },
-      {
-        "id": 35,
+        "id": 7,
         "year": 1966,
         "title": "1966 Liège–Sofia–Liège Rally",
-        "summary": "The endurance epic across Europe once again broke cars, drivers, and spirits — and remained a proving ground for the world's toughest rally racers.",
+        "summary": "The endurance epic across Europe once again broke cars, drivers, and spirits — and remained a proving ground for the world'stoughest rally racers.",
         "image": "/images/history/events/1966-liege.webp"
       },
       {
-        "id": 36,
+        "id": 8,
+        "year": 1966,
+        "title": "1966 1000 Lakes Rally (Finland)",
+        "summary": "High-speed jumps and narrow forest roads in Finland pushed limits as Scandinavian drivers continued their gravel dominance.",
+        "image": "/images/history/events/1966-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1966,
+        "title": "1966 Rallye de Portugal",
+        "summary": "Emerging as a true contender, Portugal’s rally combined long-distance stages, mountainous roads, and tough weather for anall-around test.",
+        "image": "/images/history/events/1966-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1966,
+        "title": "1966 RAC Rally (United Kingdom)",
+        "summary": "The RAC Rally continued growing internationally, becoming one of the most prestigious rally events outside mainland Europe.",
+        "image": "/images/history/events/1966-rac.webp"
+      },      
+      {
+        "id": 1,
         "year": 1967,
         "title": "1967 Rallye Automobile Monte-Carlo",
         "summary": "Rauno Aaltonen claimed victory for Mini in a redemption drive after the controversial 1966 disqualification, solidifying Mini's rally legacy.",
         "image": "/images/history/events/1967-monte-carlo.webp"
       },
       {
-        "id": 37,
+        "id": 2,
+        "year": 1967,
+        "title": "1967 Tulip Rally (Rally van Nederland)",
+        "summary": "Continued innovation in navigation technology and growing manufacturer investment made the 1967 Tulip Rally a highly technical event.",
+        "image": "/images/history/events/1967-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1967,
+        "title": "1967 East African Safari Rally",
+        "summary": "Dust clouds, wildlife crossings, and mechanical mayhem defined the 1967 Safari Rally, where only the toughest teams could finish.",
+        "image": "/images/history/events/1967-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1967,
+        "title": "1967 Rallye du Maroc (Rally of Morocco)",
+        "summary": "Through heat-scorched deserts and mountainous tracks, the Moroccan rally offered one of the year’s most punishing challenges.",
+        "image": "/images/history/events/1967-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1967,
         "title": "1967 Acropolis Rally",
         "summary": "The brutal heat and mountainous stages continued to make the Acropolis Rally one of the most grueling tests on the calendar.",
         "image": "/images/history/events/1967-acropolis.webp"
       },
       {
-        "id": 38,
+        "id": 6,
         "year": 1967,
-        "title": "1967 RAC Rally (UK)",
-        "summary": "Torrential rain turned the 1967 RAC Rally into a slippery, treacherous challenge through the forests of Britain.",
-        "image": "/images/history/events/1967-rac.webp"
+        "title": "1967 Alpine Rally (Coupe des Alpes)",
+        "summary": "With its fast descents and snowy peaks, the 1967 Alpine Rally challenged crews with altitude, endurance, and timing precision.",
+        "image": "/images/history/events/1967-alpine.webp"
       },
       {
-        "id": 39,
-        "year": 1967,
-        "title": "1967 Tulip Rally",
-        "summary": "Continued innovation in navigation technology and growing manufacturer investment made the 1967 Tulip Rally a highly technical event.",
-        "image": "/images/history/events/1967-tulip.webp"
-      },
-      {
-        "id": 40,
+        "id": 7,
         "year": 1967,
         "title": "1967 Liège–Sofia–Liège Rally",
         "summary": "Still legendary for its no-sleep, multi-day brutality, the Liège Rally tested human and mechanical limits like no other event.",
         "image": "/images/history/events/1967-liege.webp"
       },
       {
-        "id": 41,
+        "id": 8,
+        "year": 1967,
+        "title": "1967 1000 Lakes Rally (Finland)",
+        "summary": "The 1000 Lakes Rally once again showcased Finland’s rapid gravel roads and fearless local drivers dominating their home event.",
+        "image": "/images/history/events/1967-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1967,
+        "title": "1967 Rallye de Portugal",
+        "summary": "Portugal’s dusty mountain trails and rugged scenery made it a rising star among European rally events.",
+        "image": "/images/history/events/1967-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1967,
+        "title": "1967 RAC Rally (United Kingdom)",
+        "summary": "Torrential rain turned the 1967 RAC Rally into a slippery, treacherous challenge through the forests of Britain.",
+        "image": "/images/history/events/1967-rac.webp"
+      },
+      {
+        "id": 1,
         "year": 1968,
         "title": "1968 Rallye Automobile Monte-Carlo",
         "summary": "Weather disruptions and ice made the 1968 Monte Carlo Rally unpredictable, but Alpine-Renault emerged victorious, beginning a French rally dynasty.",
         "image": "/images/history/events/1968-monte-carlo.webp"
       },
       {
-        "id": 42,
+        "id": 2,
+        "year": 1968,
+        "title": "1968 Tulip Rally (Rally van Nederland)",
+        "summary": "Dutch weather played a major factor at the 1968 Tulip Rally, with rain-soaked stages challenging even the best navigators and drivers.",
+        "image": "/images/history/events/1968-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1968,
+        "title": "1968 East African Safari Rally",
+        "summary": "Mud-choked trails and treacherous water crossings marked the 1968 Safari Rally, where finishers were few and triumph was survival.",
+        "image": "/images/history/events/1968-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1968,
+        "title": "1968 Rallye du Maroc (Rally of Morocco)",
+        "summary": "Tough desert conditions and long navigation stretches made the 1968 Moroccan rally another harsh test of endurance.",
+        "image": "/images/history/events/1968-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1968,
         "title": "1968 Acropolis Rally",
         "summary": "Mechanical failure rates were brutally high at the 1968 Acropolis Rally as rough Greek roads tore vehicles apart.",
         "image": "/images/history/events/1968-acropolis.webp"
       },
       {
-        "id": 43,
+        "id": 6,
         "year": 1968,
-        "title": "1968 RAC Rally (UK)",
-        "summary": "Ford began asserting dominance at the RAC Rally, with their new Escort model making a huge impact.",
-        "image": "/images/history/events/1968-rac.webp"
+        "title": "1968 Alpine Rally (Coupe des Alpes)",
+        "summary": "Spanning the Swiss and French Alps, the Alpine Rally featured narrow cliffs, unpredictable weather, and technical tarmac stages.",
+        "image": "/images/history/events/1968-alpine.webp"
       },
       {
-        "id": 44,
-        "year": 1968,
-        "title": "1968 Tulip Rally",
-        "summary": "Dutch weather played a major factor at the 1968 Tulip Rally, with rain-soaked stages challenging even the best navigators and drivers.",
-        "image": "/images/history/events/1968-tulip.webp"
-      },
-      {
-        "id": 45,
+        "id": 7,
         "year": 1968,
         "title": "1968 Liège–Sofia–Liège Rally",
         "summary": "A shortened but still grueling route in 1968 couldn't tame the reputation of the Liège Rally as Europe's toughest endurance event.",
         "image": "/images/history/events/1968-liege.webp"
       },
       {
-        "id": 46,
+        "id": 8,
+        "year": 1968,
+        "title": "1968 1000 Lakes Rally (Finland)",
+        "summary": "High speeds, blind crests, and fearless Scandinavian driving made the 1000 Lakes Rally a fan favorite and technical masterpiece.",
+        "image": "/images/history/events/1968-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1968,
+        "title": "1968 Rallye de Portugal",
+        "summary": "Still growing in reputation, the Portuguese rally offered varied terrain and extreme weather across a rugged Iberian landscape.",
+        "image": "/images/history/events/1968-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1968,
+        "title": "1968 RAC Rally (United Kingdom)",
+        "summary": "Ford began asserting dominance at the RAC Rally, with their new Escort model making a huge impact.",
+        "image": "/images/history/events/1968-rac.webp"
+      },
+      {
+        "id": 1,
         "year": 1969,
         "title": "1969 Rallye Automobile Monte-Carlo",
         "summary": "Jean-Claude Andruet took an iconic win for Alpine-Renault at Monte Carlo, further establishing French dominance in rally racing.",
         "image": "/images/history/events/1969-monte-carlo.webp"
       },
       {
-        "id": 47,
+        "id": 2,
+        "year": 1969,
+        "title": "1969 Tulip Rally (Rally van Nederland)",
+        "summary": "Navigation became even more critical at the 1969 Tulip Rally, where small mistakes cost drivers dearly among fierce competition.",
+        "image": "/images/history/events/1969-tulip.webp"
+      },
+      {
+        "id": 3,
+        "year": 1969,
+        "title": "1969 East African Safari Rally",
+        "summary": "Torrential weather and wildlife obstacles made the 1969 Safari Rally one of the most brutal in the event’s already punishing history.",
+        "image": "/images/history/events/1969-safari.webp"
+      },
+      {
+        "id": 4,
+        "year": 1969,
+        "title": "1969 Rallye du Maroc (Rally of Morocco)",
+        "summary": "Long desert straights and broken terrain pushed vehicles and drivers to their limits across the rugged Moroccan landscape.",
+        "image": "/images/history/events/1969-morocco.webp"
+      },
+      {
+        "id": 5,
         "year": 1969,
         "title": "1969 Acropolis Rally",
         "summary": "Dust storms, intense heat, and rough mountain tracks defined the grueling 1969 Acropolis Rally.",
         "image": "/images/history/events/1969-acropolis.webp"
       },
       {
-        "id": 48,
+        "id": 6,
         "year": 1969,
-        "title": "1969 RAC Rally (UK)",
-        "summary": "Ford’s Escort RS models began dominating the British stages, with a particularly strong showing at the 1969 RAC Rally.",
-        "image": "/images/history/events/1969-rac.webp"
+        "title": "1969 Alpine Rally (Coupe des Alpes)",
+        "summary": "Tarmac hairpins, weather extremes, and rapid descents made the 1969 Alpine Rally a favorite among precision-focused drivers.",
+        "image": "/images/history/events/1969-alpine.webp"
       },
       {
-        "id": 49,
-        "year": 1969,
-        "title": "1969 Tulip Rally",
-        "summary": "Navigation became even more critical at the 1969 Tulip Rally, where small mistakes cost drivers dearly among fierce competition.",
-        "image": "/images/history/events/1969-tulip.webp"
-      },
-      {
-        "id": 50,
+        "id": 7,
         "year": 1969,
         "title": "1969 Liège–Sofia–Liège Rally",
         "summary": "The Liège Rally saw its final traditional running in 1969, ending an era of true non-stop endurance rally racing.",
         "image": "/images/history/events/1969-liege.webp"
+      },
+      {
+        "id": 8,
+        "year": 1969,
+        "title": "1969 1000 Lakes Rally (Finland)",
+        "summary": "Scandinavian drivers thrilled fans once more with full-throttle pace and fearless jumps at the legendary 1000 Lakes Rally.",
+        "image": "/images/history/events/1969-1000-lakes.webp"
+      },
+      {
+        "id": 9,
+        "year": 1969,
+        "title": "1969 Rallye de Portugal",
+        "summary": "Portugal’s evolving rally featured more competitive stages, shifting surfaces, and an international field of rising talent.",
+        "image": "/images/history/events/1969-portugal.webp"
+      },
+      {
+        "id": 10,
+        "year": 1969,
+        "title": "1969 RAC Rally (United Kingdom)",
+        "summary": "Ford’s Escort RS models began dominating the British stages, with a particularly strong showing at the 1969 RAC Rally.",
+        "image": "/images/history/events/1969-rac.webp"
       }                             
     ],
 
@@ -448,6 +799,12 @@
         "image": "/images/history/cars/saab-96.webp"
       },
       {
+        "id": 12,
+        "name": "Triumph TR3A",
+        "description": "Competed across alpine and endurance rallies in the early 1960s, including the Alpine Rally and Liège–Sofia–Liège.",
+        "image": "/images/history/cars/1960-triumph-tr3a.webp"
+      },      
+      {
         "id": 3,
         "name": "Ford Cortina Lotus",
         "description": "A lightweight, powerful evolution of the Ford Cortina, tuned by Lotus, that dominated rally stages and helped Ford gain a foothold in motorsport.",
@@ -477,6 +834,12 @@
         "description": "The iconic Porsche 911 made its rally debut in the late 1960s, showcasing its rear-engine layout and agility on tarmac stages.",
         "image": "/images/history/cars/porsche-911.webp"
       },
+      {
+        "id": 13,
+        "name": "Ford Falcon",
+        "description": "Powered its way to victory in the 1963 Alpine Rally with unexpected agility and durability in the challenging mountain terrain.",
+        "image": "/images/history/cars/1963-ford-falcon.webp"
+      },      
       {
         "id": 10,
         "name": "Citroën DS21",
@@ -526,6 +889,13 @@
         "title": "1970 RAC Rally (UK)",
         "summary": "British weather and muddy stages made the RAC Rally a standout event, with Ford continuing to shine.",
         "image": "/images/history/events/1970-rac.webp"
+      },
+      {
+        "id": 54,
+        "year": 1970,
+        "title": "1970 Tulip Rally",
+        "summary": "The Tulip Rally continued to gain prestige, drawing top drivers from across Europe to tackle the Netherlands' complex route network.",
+        "image": "/images/history/events/1970-tulip.webp"
       },
       {
         "id": 55,

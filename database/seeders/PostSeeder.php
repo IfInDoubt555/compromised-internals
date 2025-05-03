@@ -13,20 +13,10 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
-        // Post::create([
-        //     'title' => 'Classic Subaru at Monte Carlo',
-        //     'slug' => 'classic-subaru-monte-carlo',
-        //     'summary' => 'A look at Subaru’s legacy and its iconic rally history.',
-        //     'body' => 'Here’s the full article content...',
-        //     'image_path' => 'images/Rally_Car_Scene.jpeg',
-        // ]);
-    
-        // Post::create([
-        //     'title' => 'Rally Finland Highlights',
-        //     'slug' => 'rally-finland-highlights',
-        //     'summary' => 'Insane jumps, speed, and drama through Finnish forests.',
-        //     'body' => 'Full content of the Rally Finland recap...',
-        //     'image_path' => 'images/rs200.jpg',
-        // ]);
+        $user = \App\Models\User::first() ?? \App\Models\User::factory()->create();
+
+        \App\Models\Post::factory()->count(25)->create([
+            'user_id' => $user->id,
+        ]);
     }
 }

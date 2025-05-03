@@ -26,9 +26,27 @@
         @endif
 
         {{-- Details --}}
+        {{-- Details --}}
         <div class="prose max-w-none text-gray-700 mt-10 text-lg leading-relaxed">
-            {!! $item['details_html'] ?? $item['summary'] ?? $item['description'] ?? $item['bio'] ?? 'No additional details available.' !!}
-        </div>
+            @if (!empty($item['details_html']))
+                {!! $item['details_html'] !!}
+            @else
+                @php
+                    $details = $item['description'] ?? $item['summary'] ?? $item['bio'] ?? null;
+                    $paragraphs = $details ? explode("\n", $details) : [];
+                @endphp
+        
+                @if (count($paragraphs))
+                    @foreach ($paragraphs as $para)
+                        @if (trim($para) !== '')
+                            <p class="mb-4">{{ $para }}</p>
+                        @endif
+                    @endforeach
+                @else
+                    <p>No additional details available.</p>
+                @endif
+            @endif
+        </div>  
 
         {{-- Back Link --}}
         <div class="mt-10 text-center">
