@@ -8,7 +8,7 @@
 
 <div id="theme-wrapper" class="theme-wrapper decade-{{ $decade }}">
     <div class="max-w-4xl mx-auto px-4 py-10">
-        
+
         {{-- Title --}}
         <h1 class="text-3xl font-extrabold text-center mb-8">
             {{ $item['title'] ?? $item['name'] ?? 'Untitled' }}
@@ -26,13 +26,14 @@
         @endif
 
         {{-- Details --}}
-        {{-- Details --}}
         <div class="prose max-w-none text-gray-800 mt-10 text-lg leading-relaxed bg-white/80 backdrop-blur-md rounded-xl shadow-xl p-6">
-        @if (!empty($item['details_html']))
+            @if (!empty($item['details_html']))
                 {!! $item['details_html'] !!}
+            @elseif (!empty($item['description']))
+                {!! $item['description'] !!}
             @else
                 @php
-                    $details = $item['description'] ?? $item['summary'] ?? $item['bio'] ?? null;
+                    $details = $item['summary'] ?? $item['bio'] ?? null;
                     $paragraphs = $details ? explode("\n", $details) : [];
                 @endphp
 
@@ -46,7 +47,7 @@
                     <p>No additional details available.</p>
                 @endif
             @endif
-        </div>  
+        </div>
 
         {{-- Back Link --}}
         <div class="mt-10 text-center">
