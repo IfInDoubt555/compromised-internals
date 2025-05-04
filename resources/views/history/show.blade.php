@@ -50,13 +50,13 @@
         </div>
 
         <div class="mt-10 relative z-10">
-            <div class="backdrop-blur-md bg-white/40 dark:bg-black/20 rounded-xl px-6 py-4 shadow-inner flex justify-between        items-center max-w-4xl mx-auto">
+            <div class="backdrop-blur-md bg-white/40 dark:bg-black/20 rounded-xl px-6 py-4 shadow-xl flex justify-between        items-center max-w-4xl mx-auto">
 
                 {{-- Previous --}}
                 @if ($previousItem)
                     <a 
                         href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']]) }}" 
-                        class="text-red-600 hover:text-red-800 transition font-medium"
+                        class="text-red-800 hover:text-red-950 transition font-medium"
                     >
                         ← Previous Event
                     </a>
@@ -76,7 +76,7 @@
                 @if ($nextItem)
                     <a 
                         href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']]) }}" 
-                        class="text-green-600 hover:text-green-800 transition font-medium"
+                        class="text-green-800 hover:text-green-950 transition font-medium"
                     >
                         Next Event →
                     </a>
