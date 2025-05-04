@@ -26,7 +26,7 @@
         @endif
 
         {{-- Details --}}
-        <div class="prose max-w-none text-gray-800 mt-10 text-lg leading-relaxed bg-white/80 backdrop-blur-md rounded-xl shadow-xl p-6">
+        <div class="prose max-w-none text-gray-800 mt-10 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6">
             @if (!empty($item['details_html']))
                 {!! $item['details_html'] !!}
             @elseif (!empty($item['description']))
@@ -49,40 +49,42 @@
             @endif
         </div>
 
-        {{-- Back Link --}}
-        <div class="mt-10 text-center">
-            <a 
-                href="{{ route('history.index') }}?decade={{ $decade }}&tab={{ $tab }}" 
-                class="inline-block text-blue-600 hover:text-blue-800 underline transition"
-            >
-                ← Back to History Timeline
-            </a>
-        </div>
+        <div class="mt-10 relative z-10">
+            <div class="backdrop-blur-md bg-white/40 dark:bg-black/20 rounded-xl px-6 py-4 shadow-inner flex justify-between        items-center max-w-4xl mx-auto">
 
-        <div class="mt-4 flex justify-between items-center text-center">
-            {{-- Previous Button --}}
-            @if ($previousItem)
-                <a 
-                    href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']]) }}" 
-                    class="inline-flex items-center gap-2 text-red-600 hover:text-red-800 transition font-medium"
-                >
-                    ← Previous Event
-                </a>
-            @else
-                <div></div>
-            @endif
+                {{-- Previous --}}
+                @if ($previousItem)
+                    <a 
+                        href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']]) }}" 
+                        class="text-red-600 hover:text-red-800 transition font-medium"
+                    >
+                        ← Previous Event
+                    </a>
+                @else
+                    <div></div>
+                @endif
 
-            {{-- Next Button --}}
-            @if ($nextItem)
+                {{-- Back --}}
                 <a 
-                    href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']]) }}" 
-                    class="inline-flex items-center gap-2 text-green-600 hover:text-green-800 transition font-medium"
+                    href="{{ route('history.index') }}?decade={{ $decade }}&tab={{ $tab }}" 
+                    class="text-blue-600 hover:text-blue-800 underline transition font-medium"
                 >
-                    Next Event →
+                    ← Back to History Timeline
                 </a>
-            @else
-                <div></div>
-            @endif
+
+                {{-- Next --}}
+                @if ($nextItem)
+                    <a 
+                        href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']]) }}" 
+                        class="text-green-600 hover:text-green-800 transition font-medium"
+                    >
+                        Next Event →
+                    </a>
+                @else
+                    <div></div>
+                @endif
+
+            </div>
         </div>
     </div>
 </div>
