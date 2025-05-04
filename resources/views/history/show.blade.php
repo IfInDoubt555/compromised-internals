@@ -58,6 +58,32 @@
                 ← Back to History Timeline
             </a>
         </div>
+
+        <div class="mt-4 flex justify-between items-center text-center">
+            {{-- Previous Button --}}
+            @if ($previousItem)
+                <a 
+                    href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']]) }}" 
+                    class="inline-flex items-center gap-2 text-red-600 hover:text-red-800 transition font-medium"
+                >
+                    ← Previous Event
+                </a>
+            @else
+                <div></div>
+            @endif
+
+            {{-- Next Button --}}
+            @if ($nextItem)
+                <a 
+                    href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']]) }}" 
+                    class="inline-flex items-center gap-2 text-green-600 hover:text-green-800 transition font-medium"
+                >
+                    Next Event →
+                </a>
+            @else
+                <div></div>
+            @endif
+        </div>
     </div>
 </div>
 @endsection
