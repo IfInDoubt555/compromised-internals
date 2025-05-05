@@ -12,36 +12,36 @@ class HistoryController extends Controller
     public function show($tab, $decade, $id)
     {
         $jsonPath = public_path('data/rally-history.json');
-    
+
         if (!File::exists($jsonPath)) {
             abort(500, 'History data file not found.');
         }
-    
+
         $data = json_decode(file_get_contents($jsonPath), true);
-    
+
         if (!isset($data[$decade][$tab])) {
             abort(404, 'Invalid decade or category.');
         }
-    
+
         $collection = collect($data[$decade][$tab]);
         $item = $collection->firstWhere('id', (int) $id);
-    
+
         if (!$item) {
             abort(404);
         }
-    
-        // Add next item logic
-        $items = array_values($collection->all()); // Reset indexes
+
+        // Add next/previous item logic
+        $items = array_values($collection->all());
         $currentIndex = collect($items)->search(fn ($e) => $e['id'] == (int) $id);
         $previousItem = $items[$currentIndex - 1] ?? null;
         $nextItem = $items[$currentIndex + 1] ?? null;
-    
-        // Parse markdown
-        $parsedown = new Parsedown();
-        $item['details_html'] = !empty($item['details'])
-            ? $parsedown->text($item['details'])
-            : null;
-    
+
+        // Parse markdown only if details_html is not already set
+        if (empty($item['details_html']) && !empty($item['details'])) {
+            $parsedown = new Parsedown();
+            $item['details_html'] = $parsedown->text($item['details']);
+        }
+
         return view('history.show', [
             'item' => $item,
             'tab' => $tab,
@@ -49,7 +49,8 @@ class HistoryController extends Controller
             'nextItem' => $nextItem,
             'previousItem' => $previousItem,
         ]);
-    }    
+    }
+
     public function index(Request $request)
     {
         $decade = $request->query('decade', 1960);
