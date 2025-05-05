@@ -49,41 +49,49 @@
             @endif
         </div>
 
+        @php
+            $label = match ($tab) {
+                'drivers' => 'Driver',
+                'cars' => 'Car',
+                default => 'Event',
+            };
+        @endphp
+        
         <div class="mt-10 relative z-10">
-            <div class="backdrop-blur-md bg-white/40 dark:bg-black/20 rounded-xl px-6 py-4 shadow-xl flex justify-between        items-center max-w-4xl mx-auto">
-
+            <div class="backdrop-blur-md bg-white/40 dark:bg-black/20 rounded-xl px-6 py-4 shadow-xl flex justify-between items-center max-w-4xl mx-auto">
+        
                 {{-- Previous --}}
                 @if ($previousItem)
                     <a 
                         href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']]) }}" 
                         class="text-red-800 hover:text-red-950 transition font-medium"
                     >
-                        ← Previous Event
+                        ← Previous {{ $label }}
                     </a>
                 @else
                     <div></div>
                 @endif
-
+        
                 {{-- Back --}}
                 <a 
                     href="{{ route('history.index') }}?decade={{ $decade }}&tab={{ $tab }}" 
                     class="text-blue-600 hover:text-blue-800 underline transition font-medium"
                 >
-                    ← Back to History Timeline
+                    ← Back to {{ ucfirst($label) }} Timeline
                 </a>
-
+        
                 {{-- Next --}}
                 @if ($nextItem)
                     <a 
                         href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']]) }}" 
                         class="text-green-800 hover:text-green-950 transition font-medium"
                     >
-                        Next Event →
+                        Next {{ $label }} →
                     </a>
                 @else
                     <div></div>
                 @endif
-
+        
             </div>
         </div>
     </div>
