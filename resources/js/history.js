@@ -82,6 +82,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.classList.add("bg-blue-600", "text-white");
 
                     activeTab = this.dataset.tab;
+                    if (activeTab === "events") {
+                        if (yearSelect?.value === "") {
+                            selectedYear = null;
+                        }
+                    } else {
+                        selectedYear = null;
+                        yearSelect.value = ""; // Optional: ensure dropdown resets too
+                    }
                     populateYearOptions(currentDecade);
                     loadHistoryContent(activeTab, currentDecade);
                 });
@@ -113,7 +121,17 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function populateYearOptions(decade) {
+    const yearFilter = document.getElementById("year-filter");
     const yearSelect = document.getElementById("year-select");
+
+    // Hide the entire label + dropdown if not on the "events" tab
+    if (activeTab !== "events") {
+        yearFilter.style.display = "none";
+        return;
+    }
+
+    // Show and populate the dropdown if on "events"
+    yearFilter.style.display = "block";
     yearSelect.innerHTML = `<option value="">All Years</option>`;
 
     const tabData = historyData?.[decade]?.[activeTab] || [];
@@ -138,12 +156,16 @@ function loadHistoryContent(tab, decade) {
 
     let data = decadeData[tab] || [];
 
-    if (selectedYear) {
+    // Only filter by year if we're on the "events" tab
+    if (tab === "events" && selectedYear) {
         data = data.filter(item => item.year === parseInt(selectedYear));
     }
 
     if (!data.length) {
-        historyContent.innerHTML = `<p class="text-center text-gray-500">No ${tab} available for the selected year.</p>`;
+        const reason = tab === "events" && selectedYear
+            ? `No ${tab} available for the selected year.`
+            : `No ${tab} available for the ${decade}s.`;
+        historyContent.innerHTML = `<p class="text-center text-gray-500">${reason}</p>`;
         return;
     }
 
@@ -157,7 +179,9 @@ function loadHistoryContent(tab, decade) {
             ? `<img src="${item.image}" alt="${title}" class="w-full h-95 object-cover mb-4 rounded">`
             : `<img src="/images/placeholder.png" alt="No Image" class="w-full h-70 object-cover mb-4 rounded opacity-50">`;
 
-        const link = `/history/${tab}/${selectedYear || decade}/${item.id}`;
+        // Only include selectedYear in the URL for events
+        const yearPart = tab === "events" ? (selectedYear || decade) : decade;
+        const link = `/history/${tab}/${yearPart}/${item.id}`;
 
         const div = document.createElement("div");
         div.classList.add("card", "bg-white", "rounded-lg", "shadow-md", "overflow-hidden", "flex", "flex-col", "items-center", "p-4");
