@@ -21,7 +21,7 @@
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
     @foreach($posts as $post)
-        <article class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
+        <article class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
             <!-- Image -->
             <div class="h-64 w-full flex items-center justify-center overflow-hidden bg-black/5 hover:bg-black/10 transition-colors duration-300">
                 @if ($post->image_path)
@@ -36,7 +36,7 @@
             </div>
 
             <!-- Post Info -->
-            <div class="p-4 flex flex-col flex-grow space-y-3">
+            <div class="p-4 flex flex-col flex-grow space-y-3 bg-gray-300">
                 <!-- Author Row -->
                 <div class="flex justify-between items-center">
                         <div class="flex items-center space-x-3">
@@ -62,7 +62,7 @@
                 </h2>
 
                 <!-- Excerpt -->
-                <p class="text-gray-600 flex-grow">{{ $post->excerpt }}</p>
+                <p class="text-gray-600 text-center flex-grow">{{ $post->excerpt }}</p>
 
                 <!-- Admin Options -->
                 @can('update', $post)
@@ -82,7 +82,7 @@
     @endforeach
 </div>
 
-    <div class="mt-6">
+    <div class="flex justify-center mt-6">
         {{ $posts->links() }}
     </div>
 </div>
