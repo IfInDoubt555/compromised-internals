@@ -1,0 +1,548 @@
+[
+  {
+    "id": 176,
+    "year": 1990,
+    "title": "1990 Rallye Automobile Monte-Carlo",
+    "bio": "Carlos Sainz signaled a new era by finishing a strong second behind Lancia’s Biasion, foreshadowing his rise to the top.",
+    "image": "/images/history/events/1990-monte-carlo.webp"
+  },
+  {
+    "id": 177,
+    "year": 1990,
+    "title": "1990 Swedish Rally",
+    "bio": "The snow returned with intensity, but Toyota and Sainz proved their car could now win anywhere — even on Scandinavian ground.",
+    "image": "/images/history/events/1990-swedish.webp"
+  },
+  {
+    "id": 178,
+    "year": 1990,
+    "title": "1990 Safari Rally (Kenya)",
+    "bio": "Toyota's durability dominated Africa again, with Sainz surviving the rocks and rivers of Kenya to earn crucial points.",
+    "image": "/images/history/events/1990-safari.webp"
+  },
+  {
+    "id": 179,
+    "year": 1990,
+    "title": "1990 Rally de Portugal",
+    "bio": "Sainz took full control of the championship lead with a confident victory on Portugal’s gravel, building unstoppable momentum.",
+    "image": "/images/history/events/1990-portugal.webp"
+  },
+  {
+    "id": 180,
+    "year": 1990,
+    "title": "1990 Tour de Corse (France)",
+    "bio": "Corsica's tight tarmac stages allowed Didier Auriol to showcase his smooth, efficient driving style in a perfect victory for Lancia.",
+    "image": "/images/history/events/1990-tourdecorse.webp"
+  },
+  {
+    "id": 181,
+    "year": 1990,
+    "title": "1990 Acropolis Rally (Greece)",
+    "bio": "Dusty and brutal as ever, the Acropolis gave Sainz another strong finish and widened his title lead heading into summer.",
+    "image": "/images/history/events/1990-acropolis.webp"
+  },
+  {
+    "id": 182,
+    "year": 1990,
+    "title": "1990 1000 Lakes Rally (Finland)",
+    "bio": "Sainz tamed the Flying Finns in their backyard, winning 1000 Lakes in a Toyota — a huge milestone for non-Scandinavian drivers.",
+    "image": "/images/history/events/1990-1000lakes.webp"
+  },
+  {
+    "id": 183,
+    "year": 1990,
+    "title": "1990 RAC Rally (UK)",
+    "bio": "A cautious finish was all Sainz needed to clinch the 1990 World Championship, marking Toyota’s first title in WRC history.",
+    "image": "/images/history/events/1990-rac.webp"
+  },
+  {
+    "id": 184,
+    "year": 1991,
+    "title": "1991 Rallye Automobile Monte-Carlo",
+    "bio": "Juha Kankkunen struck first for Lancia in Monte Carlo, showing the Italian marque would not give Sainz an easy title defense.",
+    "image": "/images/history/events/1991-monte-carlo.webp"
+  },
+  {
+    "id": 185,
+    "year": 1991,
+    "title": "1991 Swedish Rally",
+    "bio": "Sainz held strong in Sweden’s slippery forests, staying in the points while the Scandinavians dominated their home ground.",
+    "image": "/images/history/events/1991-swedish.webp"
+  },
+  {
+    "id": 186,
+    "year": 1991,
+    "title": "1991 Safari Rally (Kenya)",
+    "bio": "Carlos Sainz took a massive win in the Safari, surviving one of the toughest routes of the decade in his Toyota Celica GT-Four.",
+    "image": "/images/history/events/1991-safari.webp"
+  },
+  {
+    "id": 187,
+    "year": 1991,
+    "title": "1991 Rally de Portugal",
+    "bio": "Fast and dusty, Portugal rewarded consistency. Lancia responded strongly to Sainz's Safari success with a win by Didier Auriol.",
+    "image": "/images/history/events/1991-portugal.webp"
+  },
+  {
+    "id": 188,
+    "year": 1991,
+    "title": "1991 Tour de Corse (France)",
+    "bio": "Auriol’s mastery of tarmac brought Lancia another win in Corsica, narrowing the gap to Toyota’s early championship lead.",
+    "image": "/images/history/events/1991-tourdecorse.webp"
+  },
+  {
+    "id": 189,
+    "year": 1991,
+    "title": "1991 Acropolis Rally (Greece)",
+    "bio": "Sainz survived the rocks and heat of Greece to land on the podium, but it was Auriol’s Lancia that stood on top again.",
+    "image": "/images/history/events/1991-acropolis.webp"
+  },
+  {
+    "id": 190,
+    "year": 1991,
+    "title": "1991 1000 Lakes Rally (Finland)",
+    "bio": "Kankkunen thrilled the Finnish crowds with a commanding win on home soil, tightening the title race heading into the finale.",
+    "image": "/images/history/events/1991-1000lakes.webp"
+  },
+  {
+    "id": 191,
+    "year": 1991,
+    "title": "1991 RAC Rally (UK)",
+    "bio": "Sainz gave everything in Britain’s muddy forests, but Lancia sealed the manufacturers’ crown as Kankkunen clinched the driver title by just 10 points.",
+    "image": "/images/history/events/1991-rac.webp"
+  },
+  {
+    "id": 192,
+    "year": 1992,
+    "title": "1992 Rallye Automobile Monte-Carlo",
+    "bio": "Didier Auriol opened the season with a classic tarmac win for Lancia, edging out rivals on Monte Carlo’s icy curves.",
+    "image": "/images/history/events/1992-monte-carlo.webp"
+  },
+  {
+    "id": 193,
+    "year": 1992,
+    "title": "1992 Swedish Rally",
+    "bio": "Snow and ice favored local drivers, but Juha Kankkunen managed a strong finish that kept him in early title contention.",
+    "image": "/images/history/events/1992-swedish.webp"
+  },
+  {
+    "id": 194,
+    "year": 1992,
+    "title": "1992 Safari Rally (Kenya)",
+    "bio": "Toyota’s Celica proved bulletproof once again in Africa, with Markku Alén taking victory in one of the toughest rallies on the planet.",
+    "image": "/images/history/events/1992-safari.webp"
+  },
+  {
+    "id": 195,
+    "year": 1992,
+    "title": "1992 Rally de Portugal",
+    "bio": "Auriol claimed another victory for Lancia, putting pressure on Kankkunen while the Toyota-Lancia rivalry intensified.",
+    "image": "/images/history/events/1992-portugal.webp"
+  },
+  {
+    "id": 196,
+    "year": 1992,
+    "title": "1992 Tour de Corse (France)",
+    "bio": "Tarmac titan Auriol made it three wins for the year on Corsica’s narrow roads, pushing Lancia toward yet another manufacturers’ title.",
+    "image": "/images/history/events/1992-tourdecorse.webp"
+  },
+  {
+    "id": 197,
+    "year": 1992,
+    "title": "1992 Acropolis Rally (Greece)",
+    "bio": "The Greek rally punished every car except Kankkunen’s Lancia, as he clawed back points with a confident win.",
+    "image": "/images/history/events/1992-acropolis.webp"
+  },
+  {
+    "id": 198,
+    "year": 1992,
+    "title": "1992 1000 Lakes Rally (Finland)",
+    "bio": "The Flying Finns ruled again, but this time it was Kankkunen who flew highest, delighting the home crowd and tightening the title race.",
+    "image": "/images/history/events/1992-1000lakes.webp"
+  },
+  {
+    "id": 199,
+    "year": 1992,
+    "title": "1992 RAC Rally (UK)",
+    "bio": "Kankkunen sealed the deal on a fourth world title with a smart and steady drive through the wet British forests, giving Lancia its final WRC championship.",
+    "image": "/images/history/events/1992-rac.webp"
+  },
+  {
+    "id": 200,
+    "year": 1993,
+    "title": "1993 Rallye Automobile Monte-Carlo",
+    "bio": "François Delecour took his first WRC win with Ford, proving the Escort RS Cosworth was ready to fight for podiums all year long.",
+    "image": "/images/history/events/1993-monte-carlo.webp"
+  },
+  {
+    "id": 201,
+    "year": 1993,
+    "title": "1993 Swedish Rally",
+    "bio": "Juha Kankkunen started building his championship campaign with a smart win on Sweden’s snow-packed forest stages.",
+    "image": "/images/history/events/1993-swedish.webp"
+  },
+  {
+    "id": 202,
+    "year": 1993,
+    "title": "1993 Safari Rally (Kenya)",
+    "bio": "Toyota swept Kenya once again with Ian Duncan leading a 1-2-3 finish, proving the Celica GT-Four’s reliability was unmatched.",
+    "image": "/images/history/events/1993-safari.webp"
+  },
+  {
+    "id": 203,
+    "year": 1993,
+    "title": "1993 Rally de Portugal",
+    "bio": "Carlos Sainz took a much-needed win in Portugal, keeping Toyota’s hopes alive and showcasing his consistency.",
+    "image": "/images/history/events/1993-portugal.webp"
+  },
+  {
+    "id": 204,
+    "year": 1993,
+    "title": "1993 Tour de Corse (France)",
+    "bio": "Corsica belonged to Delecour this year, as his precision on tarmac left rivals trailing on the island’s cliffside roads.",
+    "image": "/images/history/events/1993-tourdecorse.webp"
+  },
+  {
+    "id": 205,
+    "year": 1993,
+    "title": "1993 Acropolis Rally (Greece)",
+    "bio": "The brutal Greek terrain tore through the field, but Kankkunen stayed cool and took another big win for Toyota.",
+    "image": "/images/history/events/1993-acropolis.webp"
+  },
+  {
+    "id": 206,
+    "year": 1993,
+    "title": "1993 1000 Lakes Rally (Finland)",
+    "bio": "In a home rally masterclass, Kankkunen won 1000 Lakes and tightened his grip on the championship with pure high-speed perfection.",
+    "image": "/images/history/events/1993-1000lakes.webp"
+  },
+  {
+    "id": 207,
+    "year": 1993,
+    "title": "1993 RAC Rally (UK)",
+    "bio": "Subaru’s Colin McRae stunned everyone by winning the RAC Rally in the Legacy RS — a star was born, and the world took notice.",
+    "image": "/images/history/events/1993-rac.webp"
+  },
+  {
+    "id": 208,
+    "year": 1994,
+    "title": "1994 Rallye Automobile Monte-Carlo",
+    "bio": "François Delecour opened the season with a win for Ford, delivering flawless pace on tarmac in the Escort RS Cosworth.",
+    "image": "/images/history/events/1994-monte-carlo.webp"
+  },
+  {
+    "id": 209,
+    "year": 1994,
+    "title": "1994 Swedish Rally",
+    "bio": "Sweden’s snow belonged to Tommi Mäkinen, who scored his first WRC win in a privateer Ford — the future Finnish icon was here.",
+    "image": "/images/history/events/1994-swedish.webp"
+  },
+  {
+    "id": 210,
+    "year": 1994,
+    "title": "1994 Safari Rally (Kenya)",
+    "bio": "Juha Kankkunen triumphed in the toughest rally of the year, helping Toyota push ahead in the early championship battle.",
+    "image": "/images/history/events/1994-safari.webp"
+  },
+  {
+    "id": 211,
+    "year": 1994,
+    "title": "1994 Rally de Portugal",
+    "bio": "Sainz gave Subaru’s Legacy a proper send-off with a dominant win, just before the arrival of the iconic Impreza 555.",
+    "image": "/images/history/events/1994-portugal.webp"
+  },
+  {
+    "id": 212,
+    "year": 1994,
+    "title": "1994 Tour de Corse (France)",
+    "bio": "Auriol showed his tarmac mastery on Corsica’s winding roads, holding off strong drives from both Ford and Subaru.",
+    "image": "/images/history/events/1994-tourdecorse.webp"
+  },
+  {
+    "id": 213,
+    "year": 1994,
+    "title": "1994 Acropolis Rally (Greece)",
+    "bio": "Brutal heat and rocks punished the field again; Auriol claimed victory and tightened his grip on the title fight.",
+    "image": "/images/history/events/1994-acropolis.webp"
+  },
+  {
+    "id": 214,
+    "year": 1994,
+    "title": "1994 Rally New Zealand",
+    "bio": "Colin McRae claimed his **first WRC win**, mastering the flowing gravel roads and beginning his path to rally greatness.",
+    "image": "/images/history/events/1994-newzealand.webp"
+  },
+  {
+    "id": 215,
+    "year": 1994,
+    "title": "1994 RAC Rally (UK)",
+    "bio": "Didier Auriol sealed the drivers' title with a calm and calculated drive; Toyota capped the season as champions.",
+    "image": "/images/history/events/1994-rac.webp"
+  },
+  {
+    "id": 216,
+    "year": 1995,
+    "title": "1995 Rallye Automobile Monte-Carlo",
+    "bio": "Carlos Sainz started strong with a win for Subaru, navigating snowy Monte Carlo with clinical precision in the Impreza 555.",
+    "image": "/images/history/events/1995-monte-carlo.webp"
+  },
+  {
+    "id": 217,
+    "year": 1995,
+    "title": "1995 Swedish Rally",
+    "bio": "Kenneth Eriksson kept Subaru’s winning streak going on the frozen stages of Sweden, edging out the local specialists.",
+    "image": "/images/history/events/1995-swedish.webp"
+  },
+  {
+    "id": 218,
+    "year": 1995,
+    "title": "1995 Rally de Portugal",
+    "bio": "Colin McRae roared back with a victory in Portugal, showing that he wouldn’t let teammate Sainz run away with the title.",
+    "image": "/images/history/events/1995-portugal.webp"
+  },
+  {
+    "id": 219,
+    "year": 1995,
+    "title": "1995 Tour de Corse (France)",
+    "bio": "Gilles Panizzi took his first WRC win, mastering the tarmac twists of Corsica and surprising the championship contenders.",
+    "image": "/images/history/events/1995-tourdecorse.webp"
+  },
+  {
+    "id": 220,
+    "year": 1995,
+    "title": "1995 Rally of New Zealand",
+    "bio": "Carlos Sainz grabbed another crucial win in New Zealand’s flowing gravel stages, keeping his points lead intact.",
+    "image": "/images/history/events/1995-newzealand.webp"
+  },
+  {
+    "id": 221,
+    "year": 1995,
+    "title": "1995 Rally Australia",
+    "bio": "McRae fought back again, claiming victory in Australia and setting up an epic winner-takes-all showdown at the RAC.",
+    "image": "/images/history/events/1995-australia.webp"
+  },
+  {
+    "id": 222,
+    "year": 1995,
+    "title": "1995 RAC Rally (UK)",
+    "bio": "Colin McRae delivered an emotional home win, clinching the WRC title in front of roaring British fans and forever cementing his legend.",
+    "image": "/images/history/events/1995-rac.webp"
+  },
+  {
+    "id": 223,
+    "year": 1996,
+    "title": "1996 Rallye Monte-Carlo",
+    "bio": "Patrick Bernardini surprised everyone with a privateer Ford Escort RS Cosworth win after a chaotic Monte Carlo opener.",
+    "image": "/images/history/events/1996-monte-carlo.webp"
+  },
+  {
+    "id": 224,
+    "year": 1996,
+    "title": "1996 Swedish Rally",
+    "bio": "Tommi Mäkinen powered through the snow in his Mitsubishi Lancer Evo III, claiming his first win of the season.",
+    "image": "/images/history/events/1996-swedish.webp"
+  },
+  {
+    "id": 225,
+    "year": 1996,
+    "title": "1996 Safari Rally (Kenya)",
+    "bio": "Subaru proved its toughness in Africa, with Colin McRae winning the Safari and gaining critical points.",
+    "image": "/images/history/events/1996-safari.webp"
+  },
+  {
+    "id": 226,
+    "year": 1996,
+    "title": "1996 Rally Indonesia",
+    "bio": "In sweltering heat and tropical terrain, Mäkinen took a key win in Indonesia — his momentum building rapidly.",
+    "image": "/images/history/events/1996-indonesia.webp"
+  },
+  {
+    "id": 227,
+    "year": 1996,
+    "title": "1996 Rally Finland (1000 Lakes)",
+    "bio": "The Flying Finns flew again — Mäkinen dominated his home event and took a giant leap toward the title.",
+    "image": "/images/history/events/1996-finland.webp"
+  },
+  {
+    "id": 228,
+    "year": 1996,
+    "title": "1996 Rally Australia",
+    "bio": "Mäkinen clinched the title with another flawless victory on the fast and flowing Aussie gravel.",
+    "image": "/images/history/events/1996-australia.webp"
+  },
+  {
+    "id": 229,
+    "year": 1996,
+    "title": "1996 RAC Rally (UK)",
+    "bio": "Colin McRae gave the British fans something to cheer about with a victory in the final round — but Mäkinen had already sealed the title.",
+    "image": "/images/history/events/1996-rac.webp"
+  },
+  {
+    "id": 230,
+    "year": 1997,
+    "title": "1997 Rallye Monte-Carlo",
+    "bio": "Piero Liatti took a surprise win for Subaru as the new Impreza WRC debuted with instant success on the icy roads of Monte Carlo.",
+    "image": "/images/history/events/1997-monte-carlo.webp"
+  },
+  {
+    "id": 231,
+    "year": 1997,
+    "title": "1997 Swedish Rally",
+    "bio": "Kenneth Eriksson delivered a dominant snow win for Subaru, giving them a 2-for-2 start to the season under the new WRC rules.",
+    "image": "/images/history/events/1997-swedish.webp"
+  },
+  {
+    "id": 232,
+    "year": 1997,
+    "title": "1997 Safari Rally (Kenya)",
+    "bio": "Tommi Mäkinen endured the harsh Kenyan roads to claim Mitsubishi’s first win of the year, jumpstarting his title defense.",
+    "image": "/images/history/events/1997-safari.webp"
+  },
+  {
+    "id": 233,
+    "year": 1997,
+    "title": "1997 Rally de Portugal",
+    "bio": "Gilles Panizzi looked quick on the gravel, but Mäkinen’s consistency delivered another win and boosted his points total.",
+    "image": "/images/history/events/1997-portugal.webp"
+  },
+  {
+    "id": 234,
+    "year": 1997,
+    "title": "1997 Tour de Corse (France)",
+    "bio": "Panizzi dominated on tarmac, giving Peugeot a boost and showcasing the future of France’s rally excellence.",
+    "image": "/images/history/events/1997-tourdecorse.webp"
+  },
+  {
+    "id": 235,
+    "year": 1997,
+    "title": "1997 Rally Finland (1000 Lakes)",
+    "bio": "Mäkinen thrilled home fans with another high-speed win through the Finnish forests, keeping Mitsubishi in the championship lead.",
+    "image": "/images/history/events/1997-finland.webp"
+  },
+  {
+    "id": 236,
+    "year": 1997,
+    "title": "1997 Rally Australia",
+    "bio": "In a pivotal late-season win, Mäkinen sealed the drivers' title for a second year in a row, mastering the flowing gravel stages.",
+    "image": "/images/history/events/1997-australia.webp"
+  },
+  {
+    "id": 237,
+    "year": 1997,
+    "title": "1997 RAC Rally (UK)",
+    "bio": "Colin McRae dominated the muddy UK finale in his Impreza WRC, but it was too late to stop Mäkinen’s back-to-back title win.",
+    "image": "/images/history/events/1997-rac.webp"
+  },
+  {
+    "id": 231,
+    "year": 1998,
+    "title": "1998 Rallye Monte Carlo",
+    "bio": "Tommi Mäkinen opened his title defense with a precision win in Monte Carlo’s mixed snow and tarmac conditions.",
+    "image": "/images/history/events/1998-monte-carlo.webp"
+  },
+  {
+    "id": 232,
+    "year": 1998,
+    "title": "1998 Swedish Rally",
+    "bio": "Mäkinen kept the pressure on with another dominant snow win, extending his early championship lead.",
+    "image": "/images/history/events/1998-swedish.webp"
+  },
+  {
+    "id": 233,
+    "year": 1998,
+    "title": "1998 Safari Rally (Kenya)",
+    "bio": "Toyota proved their toughness with a win in Africa, and Carlos Sainz quietly kept his title campaign alive.",
+    "image": "/images/history/events/1998-safari.webp"
+  },
+  {
+    "id": 234,
+    "year": 1998,
+    "title": "1998 Rally Portugal",
+    "bio": "Colin McRae won in Portugal for Subaru with a blistering drive, putting himself back into title contention.",
+    "image": "/images/history/events/1998-portugal.webp"
+  },
+  {
+    "id": 235,
+    "year": 1998,
+    "title": "1998 Rally Argentina",
+    "bio": "Mäkinen struck again on gravel, outpacing both Toyota and Subaru in the rough South American terrain.",
+    "image": "/images/history/events/1998-argentina.webp"
+  },
+  {
+    "id": 236,
+    "year": 1998,
+    "title": "1998 1000 Lakes Rally (Finland)",
+    "bio": "McRae delivered one of the drives of the year, flying through Finland’s jumps to win in front of Mäkinen’s home crowd.",
+    "image": "/images/history/events/1998-1000lakes.webp"
+  },
+  {
+    "id": 237,
+    "year": 1998,
+    "title": "1998 Rallye Sanremo (Italy)",
+    "bio": "Toyota's Didier Auriol showed tarmac brilliance with a dominant Sanremo victory, boosting Sainz’s title hopes.",
+    "image": "/images/history/events/1998-sanremo.webp"
+  },
+  {
+    "id": 238,
+    "year": 1998,
+    "title": "1998 RAC Rally (UK)",
+    "bio": "Sainz was on track to win the championship… until his Toyota failed **just 500 meters from the finish**, handing Mäkinen his third straight title in heartbreaking fashion.",
+    "image": "/images/history/events/1998-rac.webp"
+  },
+  {
+    "id": 239,
+    "year": 1999,
+    "title": "1999 Rallye Monte Carlo",
+    "bio": "Tommi Mäkinen edged out fierce competition on tarmac and ice to open the year with a win that set the tone for his fourth title run.",
+    "image": "/images/history/events/1999-monte-carlo.webp"
+  },
+  {
+    "id": 240,
+    "year": 1999,
+    "title": "1999 Swedish Rally",
+    "bio": "Thomas Rådström gave Ford a much-needed snow win, holding off Subaru’s Richard Burns in slippery conditions.",
+    "image": "/images/history/events/1999-swedish.webp"
+  },
+  {
+    "id": 241,
+    "year": 1999,
+    "title": "1999 Safari Rally (Kenya)",
+    "bio": "Subaru’s Richard Burns took a major win in the African wilderness, proving his grit and endurance in brutal conditions.",
+    "image": "/images/history/events/1999-safari.webp"
+  },
+  {
+    "id": 242,
+    "year": 1999,
+    "title": "1999 Rally Portugal",
+    "bio": "Colin McRae claimed Ford’s first big win with the Focus WRC, blasting through gravel in classic sideways fashion.",
+    "image": "/images/history/events/1999-portugal.webp"
+  },
+  {
+    "id": 243,
+    "year": 1999,
+    "title": "1999 Tour de Corse (France)",
+    "bio": "Gilles Panizzi stunned the field with a tarmac masterclass for Peugeot, setting the stage for the 206 WRC’s arrival.",
+    "image": "/images/history/events/1999-tourdecorse.webp"
+  },
+  {
+    "id": 244,
+    "year": 1999,
+    "title": "1999 Rally Argentina",
+    "bio": "Subaru’s consistency paid off as Burns earned another strong finish, while Mäkinen hit problems and the title race tightened.",
+    "image": "/images/history/events/1999-argentina.webp"
+  },
+  {
+    "id": 245,
+    "year": 1999,
+    "title": "1999 1000 Lakes Rally (Finland)",
+    "bio": "Mäkinen thrilled the home crowd with a heroic win through the forests and jumps, regaining control of the points battle.",
+    "image": "/images/history/events/1999-1000lakes.webp"
+  },
+  {
+    "id": 246,
+    "year": 1999,
+    "title": "1999 Rally GB (UK)",
+    "bio": "Mäkinen sealed his **fourth consecutive WRC title** in the rainy Welsh forests, closing the decade as its greatest champion.",
+    "image": "/images/history/events/1999-rac.webp"
+  }
+]
