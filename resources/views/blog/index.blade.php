@@ -49,7 +49,7 @@
                             </div>
                         </div>
     
-                        <a href="{{ route('posts.show', $post->slug) }}" class="px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded       hover:bg-red-700">
+                        <a href="{{ route('posts.show', $post->slug) }}" class="px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded hover:bg-red-700">
                             Read More
                         </a>
                     </div>

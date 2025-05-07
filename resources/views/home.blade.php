@@ -6,21 +6,21 @@
 <div class="min-h-screen bg-white text-gray-900 font-sans">
 
   <!-- Hero Section -->
-
   <header class="relative bg-gray-900 text-white">
     <img src="{{ asset('images/subarubg.webp') }}" 
-       alt="Rally Hero" 
-       class="w-[1000px] h-[45em] object-cover object-center mx-auto opacity-60">
-       <div class="absolute inset-0 flex items-center justify-center">
+         alt="Rally Hero" 
+         class="w-[800px] h-[40em] object-cover object-center mx-auto opacity-60">
+    
+    {{-- Move box to top center --}}
+    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-22">
         <div class="bg-black/30 backdrop-blur-sm rounded-md p-6 text-center text-white">
-          <h1 class="text-2xl font-bold">Welcome to Compromised Internals</h1>
-          <p class="mt-2">Your one-stop hub for everything rally – news, history, events, and more.</p>
-          <a href="/blog" class="inline-block mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white font-semibold">
-            Explore the Blog
-          </a>
+            <h1 class="text-2xl font-bold">Welcome to Compromised Internals</h1>
+            <p class="mt-2">Your one-stop hub for everything rally – news, history, events, and more.</p>
+            <a href="/blog" class="inline-block mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white font-semibold">
+                Explore the Blog
+            </a>
         </div>
-</div>
-
+    </div>
 </header>
 
   <!-- Blog Cards Section -->
@@ -39,7 +39,7 @@
                     @endif
                 </div>
 
-                <div class="p-4 flex flex-col flex-grow space-y-2">
+                <div class="p-4 flex flex-col bg-gray-300 flex-grow space-y-2">
                     <!-- Author & Button Row -->
                     <div class="flex justify-between items-center">
                         <div class="flex items-center space-x-3">
@@ -47,7 +47,7 @@
                                 <x-user-avatar :user="$post->user" size="w-10 h-10" />
                             </a>
                             <div>
-                                <p class="font-semibold text-sm">{{ $post->user?->name ?? 'Unknown Author' }}                                </p>
+                                <p class="font-semibold text-sm">{{ $post->user?->name ?? 'Unknown Author' }}</p>
                                 <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
                             </div>
                         </div>
