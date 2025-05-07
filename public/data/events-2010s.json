@@ -1,0 +1,618 @@
+[
+  {
+    "id": 325,
+    "year": 2010,
+    "title": "2010 Rally Sweden",
+    "bio": "Mikko Hirvonen opened the season with a strong win in Sweden’s snowy forests, holding off Loeb in a tight finish.",
+    "image": "/images/history/events/2010-sweden.webp"
+  },
+  {
+    "id": 326,
+    "year": 2010,
+    "title": "2010 Rally México",
+    "bio": "Loeb bounced back on Mexican gravel, delivering a dominant performance to regain the championship lead.",
+    "image": "/images/history/events/2010-mexico.webp"
+  },
+  {
+    "id": 327,
+    "year": 2010,
+    "title": "2010 Jordan Rally",
+    "bio": "Loeb edged Latvala in one of the closest finishes in WRC history, winning by just 0.2 seconds.",
+    "image": "/images/history/events/2010-jordan.webp"
+  },
+  {
+    "id": 328,
+    "year": 2010,
+    "title": "2010 Rally of Turkey",
+    "bio": "Petter Solberg showed flashes of his past brilliance, finishing second behind Loeb in the rough Turkish stages.",
+    "image": "/images/history/events/2010-turkey.webp"
+  },
+  {
+    "id": 329,
+    "year": 2010,
+    "title": "2010 Rally New Zealand",
+    "bio": "Latvala took his only win of the season after Loeb and Ogier made costly errors in a chaotic final stage.",
+    "image": "/images/history/events/2010-newzealand.webp"
+  },
+  {
+    "id": 330,
+    "year": 2010,
+    "title": "2010 Rally Finland",
+    "bio": "Loeb conquered Finland for the first time, breaking the Scandinavian stronghold on the event with surgical pace.",
+    "image": "/images/history/events/2010-finland.webp"
+  },
+  {
+    "id": 331,
+    "year": 2010,
+    "title": "2010 Rallye Deutschland",
+    "bio": "Loeb extended his German dominance with a clinical win on his favorite tarmac stages, pushing toward another title.",
+    "image": "/images/history/events/2010-germany.webp"
+  },
+  {
+    "id": 332,
+    "year": 2010,
+    "title": "2010 Rallye de France (Alsace)",
+    "bio": "Loeb won his seventh WRC title at home in France, becoming the most successful WRC driver ever in front of his hometown fans.",
+    "image": "/images/history/events/2010-france.webp"
+  },
+  {
+    "id": 333,
+    "year": 2010,
+    "title": "2010 Wales Rally GB",
+    "bio": "Latvala won the final round in Wales, but Loeb’s consistency had already secured him the championship.",
+    "image": "/images/history/events/2010-wales.webp"
+  },
+  {
+    "id": 334,
+    "year": 2011,
+    "title": "2011 Rally Sweden",
+    "bio": "Mikko Hirvonen started the new WRC era with a win in Sweden, leading a Ford 1–2–3 and setting the tone for a close title fight.",
+    "image": "/images/history/events/2011-sweden.webp"
+  },
+  {
+    "id": 335,
+    "year": 2011,
+    "title": "2011 Rally México",
+    "bio": "Sébastien Loeb struck back on gravel with a commanding win in Mexico, proving the DS3 WRC was up to the task.",
+    "image": "/images/history/events/2011-mexico.webp"
+  },
+  {
+    "id": 336,
+    "year": 2011,
+    "title": "2011 Rally Portugal",
+    "bio": "Ogier took a breakthrough win in Portugal, beating Loeb in a clean fight and declaring himself a title contender.",
+    "image": "/images/history/events/2011-portugal.webp"
+  },
+  {
+    "id": 337,
+    "year": 2011,
+    "title": "2011 Jordan Rally",
+    "bio": "Ogier narrowly defeated Latvala by 0.2 seconds in the second-closest finish in WRC history.",
+    "image": "/images/history/events/2011-jordan.webp"
+  },
+  {
+    "id": 338,
+    "year": 2011,
+    "title": "2011 Rally Argentina",
+    "bio": "Loeb pulled off a stunning comeback after a bad road position, winning on the final stage after a three-way battle.",
+    "image": "/images/history/events/2011-argentina.webp"
+  },
+  {
+    "id": 339,
+    "year": 2011,
+    "title": "2011 Rally Finland",
+    "bio": "Ogier won in Finland — a rare feat for a non-Scandinavian — proving his gravel pace was world class.",
+    "image": "/images/history/events/2011-finland.webp"
+  },
+  {
+    "id": 340,
+    "year": 2011,
+    "title": "2011 Rallye Deutschland",
+    "bio": "Loeb dominated tarmac again in Germany, making no mistakes while his rivals faltered.",
+    "image": "/images/history/events/2011-germany.webp"
+  },
+  {
+    "id": 341,
+    "year": 2011,
+    "title": "2011 Rally France (Alsace)",
+    "bio": "Loeb retired early with engine failure, allowing Hirvonen to take the win and bring the title fight to the wire.",
+    "image": "/images/history/events/2011-france.webp"
+  },
+  {
+    "id": 342,
+    "year": 2011,
+    "title": "2011 Wales Rally GB",
+    "bio": "Hirvonen retired with radiator damage after hitting a log, handing Loeb his 8th consecutive world title despite crashing out himself.",
+    "image": "/images/history/events/2011-wales.webp"
+  },
+  {
+    "id": 343,
+    "year": 2012,
+    "title": "2012 Monte Carlo Rally",
+    "bio": "Back on the calendar after a 3-year break, Monte Carlo was conquered by Loeb with signature confidence on slick mountain roads.",
+    "image": "/images/history/events/2012-monte-carlo.webp"
+  },
+  {
+    "id": 344,
+    "year": 2012,
+    "title": "2012 Rally Sweden",
+    "bio": "Jari-Matti Latvala delivered a strong win on snow, keeping Ford in the title hunt with a dominant drive.",
+    "image": "/images/history/events/2012-sweden.webp"
+  },
+  {
+    "id": 345,
+    "year": 2012,
+    "title": "2012 Rally Mexico",
+    "bio": "Loeb returned to the top on Mexican gravel, edging out Hirvonen in a Citroën 1–2 finish.",
+    "image": "/images/history/events/2012-mexico.webp"
+  },
+  {
+    "id": 346,
+    "year": 2012,
+    "title": "2012 Rally Portugal",
+    "bio": "Mads Østberg was awarded the win after Hirvonen was excluded for a technical infringement, marking the Norwegian’s first career WRC victory.",
+    "image": "/images/history/events/2012-portugal.webp"
+  },
+  {
+    "id": 347,
+    "year": 2012,
+    "title": "2012 Rally Argentina",
+    "bio": "Loeb showed off-road dominance again, winning in Argentina despite pressure from Latvala and Østberg.",
+    "image": "/images/history/events/2012-argentina.webp"
+  },
+  {
+    "id": 348,
+    "year": 2012,
+    "title": "2012 Rallye Deutschland",
+    "bio": "Loeb won his ninth consecutive Germany rally, continuing his dominance on tarmac and all but sealing the title.",
+    "image": "/images/history/events/2012-germany.webp"
+  },
+  {
+    "id": 349,
+    "year": 2012,
+    "title": "2012 Rallye de France – Alsace",
+    "bio": "Loeb sealed his **ninth and final WRC championship** with a victory at home in Alsace, bringing his full-time career to a perfect close.",
+    "image": "/images/history/events/2012-france.webp"
+  },
+  {
+    "id": 350,
+    "year": 2012,
+    "title": "2012 Rally Catalunya (Spain)",
+    "bio": "Latvala claimed victory in Spain with Ford’s final factory WRC event before withdrawing, ending an era.",
+    "image": "/images/history/events/2012-spain.webp"
+  },
+  {
+    "id": 351,
+    "year": 2012,
+    "title": "2012 Rally GB (Wales)",
+    "bio": "Loeb finished second behind Latvala, closing out the season with his 113th career podium and retiring as a nine-time WRC champion.",
+    "image": "/images/history/events/2012-wales.webp"
+  },
+  {
+    "id": 352,
+    "year": 2013,
+    "title": "2013 Rallye Monte-Carlo",
+    "bio": "Loeb returned for a part-time campaign and won Monte Carlo with vintage precision under icy, changing conditions.",
+    "image": "/images/history/events/2013-monte-carlo.webp"
+  },
+  {
+    "id": 353,
+    "year": 2013,
+    "title": "2013 Rally Sweden",
+    "bio": "Sébastien Ogier earned Volkswagen’s first WRC win on just their second event, signaling the start of a new era.",
+    "image": "/images/history/events/2013-sweden.webp"
+  },
+  {
+    "id": 354,
+    "year": 2013,
+    "title": "2013 Rally Mexico",
+    "bio": "Ogier destroyed the field on Mexico’s gravel, earning his second straight win and the points lead.",
+    "image": "/images/history/events/2013-mexico.webp"
+  },
+  {
+    "id": 355,
+    "year": 2013,
+    "title": "2013 Rally Argentina",
+    "bio": "Loeb took a thrilling win over Ogier in Argentina — their final head-to-head battle before Loeb stepped away.",
+    "image": "/images/history/events/2013-argentina.webp"
+  },
+  {
+    "id": 356,
+    "year": 2013,
+    "title": "2013 Rally Finland",
+    "bio": "Ogier conquered Finland with a near-flawless performance, further solidifying his grip on the championship.",
+    "image": "/images/history/events/2013-finland.webp"
+  },
+  {
+    "id": 357,
+    "year": 2013,
+    "title": "2013 Rallye Deutschland",
+    "bio": "Dani Sordo claimed his first career WRC win in Germany after Ogier and Latvala crashed on tarmac.",
+    "image": "/images/history/events/2013-germany.webp"
+  },
+  {
+    "id": 358,
+    "year": 2013,
+    "title": "2013 Rally Australia",
+    "bio": "Ogier cruised to victory in the forests of Australia, setting up a title win on the next round.",
+    "image": "/images/history/events/2013-australia.webp"
+  },
+  {
+    "id": 359,
+    "year": 2013,
+    "title": "2013 Rallye de France (Alsace)",
+    "bio": "Ogier sealed his first WRC title at home in France with a controlled drive and emotional celebration.",
+    "image": "/images/history/events/2013-france.webp"
+  },
+  {
+    "id": 360,
+    "year": 2013,
+    "title": "2013 Wales Rally GB",
+    "bio": "Latvala ended the season with a win for Volkswagen in Wales, giving the team a dominant 1–3 title finish.",
+    "image": "/images/history/events/2013-wales.webp"
+  },
+  {
+    "id": 361,
+    "year": 2014,
+    "title": "2014 Rallye Monte-Carlo",
+    "bio": "Bouffier led early in changing conditions, but Ogier surged back with late-stage brilliance to win his first Monte Carlo.",
+    "image": "/images/history/events/2014-monte-carlo.webp"
+  },
+  {
+    "id": 362,
+    "year": 2014,
+    "title": "2014 Rally Sweden",
+    "bio": "Latvala outpaced his teammate Ogier on snow, winning Sweden and igniting a true title battle within VW.",
+    "image": "/images/history/events/2014-sweden.webp"
+  },
+  {
+    "id": 363,
+    "year": 2014,
+    "title": "2014 Rally Mexico",
+    "bio": "Ogier won comfortably in Mexico’s high-altitude gravel, showing VW’s pace was still unmatched.",
+    "image": "/images/history/events/2014-mexico.webp"
+  },
+  {
+    "id": 364,
+    "year": 2014,
+    "title": "2014 Rally Portugal",
+    "bio": "Latvala took his second win of the season after Ogier made an uncharacteristic early error.",
+    "image": "/images/history/events/2014-portugal.webp"
+  },
+  {
+    "id": 365,
+    "year": 2014,
+    "title": "2014 Rally Argentina",
+    "bio": "Latvala claimed a hard-fought victory on rough Argentine roads, continuing to pressure Ogier in the standings.",
+    "image": "/images/history/events/2014-argentina.webp"
+  },
+  {
+    "id": 366,
+    "year": 2014,
+    "title": "2014 Rally Finland",
+    "bio": "Ogier finally won Rally Finland, overcoming the Finnish stronghold with unmatched consistency and speed.",
+    "image": "/images/history/events/2014-finland.webp"
+  },
+  {
+    "id": 367,
+    "year": 2014,
+    "title": "2014 Rallye Deutschland",
+    "bio": "Hyundai’s Thierry Neuville scored his first career win after both VW drivers crashed out on tarmac.",
+    "image": "/images/history/events/2014-germany.webp"
+  },
+  {
+    "id": 368,
+    "year": 2014,
+    "title": "2014 Rally France (Alsace)",
+    "bio": "Latvala bounced back with a win on Loeb’s former home turf, keeping the title alive with two rounds to go.",
+    "image": "/images/history/events/2014-france.webp"
+  },
+  {
+    "id": 369,
+    "year": 2014,
+    "title": "2014 Wales Rally GB",
+    "bio": "Ogier locked up his second world title with a dominant win in the muddy forests of Wales.",
+    "image": "/images/history/events/2014-wales.webp"
+  },
+  {
+    "id": 370,
+    "year": 2015,
+    "title": "2015 Rallye Monte-Carlo",
+    "bio": "Ogier started his title defense with a confident win on home tarmac and ice, keeping VW’s streak alive.",
+    "image": "/images/history/events/2015-monte-carlo.webp"
+  },
+  {
+    "id": 371,
+    "year": 2015,
+    "title": "2015 Rally Sweden",
+    "bio": "Ogier edged out Thierry Neuville in a nail-biting snow battle, winning by less than a second on the final stage.",
+    "image": "/images/history/events/2015-sweden.webp"
+  },
+  {
+    "id": 372,
+    "year": 2015,
+    "title": "2015 Rally Mexico",
+    "bio": "Ogier dominated Mexico’s gravel roads for a third consecutive win, extending his championship lead.",
+    "image": "/images/history/events/2015-mexico.webp"
+  },
+  {
+    "id": 373,
+    "year": 2015,
+    "title": "2015 Rally Argentina",
+    "bio": "Kris Meeke broke VW’s streak with a massive win in Argentina for Citroën, marking his first career victory.",
+    "image": "/images/history/events/2015-argentina.webp"
+  },
+  {
+    "id": 374,
+    "year": 2015,
+    "title": "2015 Rally Portugal",
+    "bio": "Ogier struck back in Portugal, holding off Latvala in a tight fight through dusty mountain passes.",
+    "image": "/images/history/events/2015-portugal.webp"
+  },
+  {
+    "id": 375,
+    "year": 2015,
+    "title": "2015 Rally Finland",
+    "bio": "Jari-Matti Latvala thrilled the home fans with a near-perfect run through Finland’s lightning-fast jumps and forests.",
+    "image": "/images/history/events/2015-finland.webp"
+  },
+  {
+    "id": 376,
+    "year": 2015,
+    "title": "2015 Rallye Deutschland",
+    "bio": "Ogier returned to dominance on tarmac, conquering Germany with clean and calculated pace.",
+    "image": "/images/history/events/2015-germany.webp"
+  },
+  {
+    "id": 377,
+    "year": 2015,
+    "title": "2015 Tour de Corse (France)",
+    "bio": "Elfyn Evans nearly stole the win, but Latvala held strong to take his first Corsica victory for VW.",
+    "image": "/images/history/events/2015-corsica.webp"
+  },
+  {
+    "id": 378,
+    "year": 2015,
+    "title": "2015 Wales Rally GB",
+    "bio": "Ogier wrapped up the season with another dominant display in the Welsh mud, securing his third straight title.",
+    "image": "/images/history/events/2015-wales.webp"
+  },
+  {
+    "id": 379,
+    "year": 2016,
+    "title": "2016 Rallye Monte-Carlo",
+    "bio": "Ogier kicked off the season with a dominant win on home roads, navigating tricky ice and tarmac in Monte Carlo.",
+    "image": "/images/history/events/2016-monte-carlo.webp"
+  },
+  {
+    "id": 380,
+    "year": 2016,
+    "title": "2016 Rally Sweden",
+    "bio": "Hayden Paddon pushed Ogier hard, but the Frenchman held on to win Sweden by a slim margin.",
+    "image": "/images/history/events/2016-sweden.webp"
+  },
+  {
+    "id": 381,
+    "year": 2016,
+    "title": "2016 Rally Mexico",
+    "bio": "Ogier extended his points lead with another confident gravel win under the hot Mexican sun.",
+    "image": "/images/history/events/2016-mexico.webp"
+  },
+  {
+    "id": 382,
+    "year": 2016,
+    "title": "2016 Rally Argentina",
+    "bio": "Hayden Paddon took a career-first victory, beating Ogier in a dramatic showdown and making history for Hyundai.",
+    "image": "/images/history/events/2016-argentina.webp"
+  },
+  {
+    "id": 383,
+    "year": 2016,
+    "title": "2016 Rally Poland",
+    "bio": "Andreas Mikkelsen stormed to his second career win after a tight duel with Ott Tänak, giving VW a late-season boost.",
+    "image": "/images/history/events/2016-poland.webp"
+  },
+  {
+    "id": 384,
+    "year": 2016,
+    "title": "2016 Rally Finland",
+    "bio": "Kris Meeke crushed the competition in Finland, becoming the first non-Nordic driver to win with such a margin.",
+    "image": "/images/history/events/2016-finland.webp"
+  },
+  {
+    "id": 385,
+    "year": 2016,
+    "title": "2016 Tour de Corse (France)",
+    "bio": "Ogier dominated Corsica’s technical tarmac stages, cruising to another flawless French win.",
+    "image": "/images/history/events/2016-corsica.webp"
+  },
+  {
+    "id": 386,
+    "year": 2016,
+    "title": "2016 Wales Rally GB",
+    "bio": "Ogier sealed his fourth WRC title in the Welsh forests, delivering one final title-winning performance for Volkswagen.",
+    "image": "/images/history/events/2016-wales.webp"
+  },
+  {
+    "id": 387,
+    "year": 2017,
+    "title": "2017 Rallye Monte-Carlo",
+    "bio": "Ogier won a dramatic season opener for M-Sport after Neuville crashed from the lead in icy conditions.",
+    "image": "/images/history/events/2017-monte-carlo.webp"
+  },
+  {
+    "id": 388,
+    "year": 2017,
+    "title": "2017 Rally Sweden",
+    "bio": "Jari-Matti Latvala delivered Toyota’s first WRC win since 1999, dominating snow-covered Swedish roads.",
+    "image": "/images/history/events/2017-sweden.webp"
+  },
+  {
+    "id": 389,
+    "year": 2017,
+    "title": "2017 Rally Mexico",
+    "bio": "Kris Meeke won in Mexico despite a last-stage off into a spectator parking lot, recovering to finish seconds ahead of Ogier.",
+    "image": "/images/history/events/2017-mexico.webp"
+  },
+  {
+    "id": 390,
+    "year": 2017,
+    "title": "2017 Tour de Corse",
+    "bio": "Thierry Neuville claimed his first win of the season after Ogier struggled and mechanical issues slowed Meeke.",
+    "image": "/images/history/events/2017-corsica.webp"
+  },
+  {
+    "id": 391,
+    "year": 2017,
+    "title": "2017 Rally Portugal",
+    "bio": "Ogier increased his points lead with a clean win on Portuguese gravel, outpacing Tänak and Neuville.",
+    "image": "/images/history/events/2017-portugal.webp"
+  },
+  {
+    "id": 392,
+    "year": 2017,
+    "title": "2017 Rally Finland",
+    "bio": "Esapekka Lappi stunned the field with a win at home in only his fourth WRC start, giving Toyota their second win of the season.",
+    "image": "/images/history/events/2017-finland.webp"
+  },
+  {
+    "id": 393,
+    "year": 2017,
+    "title": "2017 Rallye Deutschland",
+    "bio": "Ott Tänak drove clean and fast to take his first career WRC win for M-Sport on mixed-surface tarmac.",
+    "image": "/images/history/events/2017-germany.webp"
+  },
+  {
+    "id": 394,
+    "year": 2017,
+    "title": "2017 Wales Rally GB",
+    "bio": "Elfyn Evans took a commanding win at home in wet Welsh conditions, giving DMACK its first and only WRC victory.",
+    "image": "/images/history/events/2017-wales.webp"
+  },
+  {
+    "id": 395,
+    "year": 2017,
+    "title": "2017 Rally Australia",
+    "bio": "Neuville won the final round, but Ogier’s consistency across the season gave him his fifth WRC title — this time with M-Sport Ford.",
+    "image": "/images/history/events/2017-australia.webp"
+  },
+  {
+    "id": 396,
+    "year": 2018,
+    "title": "2018 Rallye Monte-Carlo",
+    "bio": "Ogier narrowly beat Neuville in ever-changing Monte Carlo conditions to start his title defense with a win.",
+    "image": "/images/history/events/2018-monte-carlo.webp"
+  },
+  {
+    "id": 397,
+    "year": 2018,
+    "title": "2018 Rally Sweden",
+    "bio": "Neuville bounced back with a dominant snow win in Sweden, taking the early points lead from Ogier.",
+    "image": "/images/history/events/2018-sweden.webp"
+  },
+  {
+    "id": 398,
+    "year": 2018,
+    "title": "2018 Rally Mexico",
+    "bio": "Ogier won in Mexico for the fourth time, showing masterful gravel control and regaining the championship lead.",
+    "image": "/images/history/events/2018-mexico.webp"
+  },
+  {
+    "id": 399,
+    "year": 2018,
+    "title": "2018 Rally Argentina",
+    "bio": "Ott Tänak gave Toyota a crushing win on Argentina’s rough gravel, signaling his rise as a true title challenger.",
+    "image": "/images/history/events/2018-argentina.webp"
+  },
+  {
+    "id": 400,
+    "year": 2018,
+    "title": "2018 Rally Finland",
+    "bio": "Tänak repeated his domination in Finland, winning from start to finish in high-speed style.",
+    "image": "/images/history/events/2018-finland.webp"
+  },
+  {
+    "id": 401,
+    "year": 2018,
+    "title": "2018 Rallye Deutschland",
+    "bio": "Tänak completed a hat trick of wins, mastering mixed German tarmac while rivals struggled.",
+    "image": "/images/history/events/2018-germany.webp"
+  },
+  {
+    "id": 402,
+    "year": 2018,
+    "title": "2018 Rally Spain",
+    "bio": "Sébastien Loeb shocked the field with a surprise comeback win in Spain, his first WRC victory since 2013.",
+    "image": "/images/history/events/2018-spain.webp"
+  },
+  {
+    "id": 403,
+    "year": 2018,
+    "title": "2018 Rally Australia",
+    "bio": "Ogier played it smart while Tänak and Neuville crashed, securing his 6th WRC title in dramatic fashion.",
+    "image": "/images/history/events/2018-australia.webp"
+  },
+  {
+    "id": 404,
+    "year": 2019,
+    "title": "2019 Rallye Monte-Carlo",
+    "bio": "Ogier won Monte Carlo by just 2.2 seconds over Neuville, starting the season strong in his Citroën return.",
+    "image": "/images/history/events/2019-monte-carlo.webp"
+  },
+  {
+    "id": 405,
+    "year": 2019,
+    "title": "2019 Rally Sweden",
+    "bio": "Ott Tänak took control in Sweden with a commanding snow win, his first step toward the title.",
+    "image": "/images/history/events/2019-sweden.webp"
+  },
+  {
+    "id": 406,
+    "year": 2019,
+    "title": "2019 Rally Mexico",
+    "bio": "Ogier dominated Mexico once again, staying in the championship hunt with a clean gravel victory.",
+    "image": "/images/history/events/2019-mexico.webp"
+  },
+  {
+    "id": 407,
+    "year": 2019,
+    "title": "2019 Tour de Corse",
+    "bio": "Elfyn Evans led most of the rally, but a last-stage puncture handed the win to Thierry Neuville.",
+    "image": "/images/history/events/2019-corsica.webp"
+  },
+  {
+    "id": 408,
+    "year": 2019,
+    "title": "2019 Rally Argentina",
+    "bio": "Tänak dominated Argentina’s rough stages, putting Toyota back in the championship lead.",
+    "image": "/images/history/events/2019-argentina.webp"
+  },
+  {
+    "id": 409,
+    "year": 2019,
+    "title": "2019 Rally Finland",
+    "bio": "Tänak repeated his high-speed masterclass in Finland, extending his title lead.",
+    "image": "/images/history/events/2019-finland.webp"
+  },
+  {
+    "id": 410,
+    "year": 2019,
+    "title": "2019 Rally Germany",
+    "bio": "Tänak won his third tarmac event in a row, proving unstoppable with his Toyota on all surfaces.",
+    "image": "/images/history/events/2019-germany.webp"
+  },
+  {
+    "id": 411,
+    "year": 2019,
+    "title": "2019 Rally Spain",
+    "bio": "Neuville won in Spain, but Tänak finished second — enough to clinch his first WRC title with one round to spare.",
+    "image": "/images/history/events/2019-spain.webp"
+  },
+  {
+    "id": 412,
+    "year": 2019,
+    "title": "2019 Rally Australia (Cancelled)",
+    "bio": "Rally Australia was cancelled due to bushfires in New South Wales. The championship concluded early with Tänak crowned champion.",
+    "image": "/images/history/events/2019-australia.webp"
+  }
+]

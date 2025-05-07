@@ -1,0 +1,56 @@
+[
+  {
+    "id": 24,
+    "name": "Subaru Impreza 555",
+    "details_html": "Launched in 1993, the turbocharged all-wheel-drive Impreza 555 became an instant icon, carrying Colin McRae to his 1995 World Title and Subaru’s first manufacturers’ championship.",
+    "image": "/images/history/cars/subaru-impreza-555.webp"
+  },
+  {
+    "id": 25,
+    "name": "Mitsubishi Lancer Evolution III-VI",
+    "details_html": "The Evolution series dominated the mid-to-late 1990s, with Tommi Mäkinen winning four straight WRC titles driving successive versions of the fearsome Lancer Evolution.",
+    "image": "/images/history/cars/mitsubishi-lancer-evo.webp"
+  },
+  {
+    "id": 26,
+    "name": "Toyota Celica GT-Four ST185",
+    "details_html": "Toyota’s turbocharged all-wheel-drive Celica GT-Four (ST185) helped Carlos Sainz and Didier Auriol dominate the early 90s, famous for its durability on gravel and tarmac.",
+    "image": "/images/history/cars/toyota-celica-gtfour-st185.webp"
+  },
+  {
+    "id": 27,
+    "name": "Toyota Corolla WRC",
+    "details_html": "Launched in the late 90s, the Corolla WRC combined reliability and speed, allowing Carlos Sainz to fight for the 1998 championship to the final stage.",
+    "image": "/images/history/cars/toyota-corolla-wrc.webp"
+  },
+  {
+    "id": 28,
+    "name": "Ford Escort RS Cosworth",
+    "details_html": "Developed in the early 1990s, the Escort RS Cosworth became a cult hero for its aggressive styling, turbocharged punch, and iconic rear wing.",
+    "image": "/images/history/cars/ford-escort-rs-cosworth.webp"
+  },
+  {
+    "id": 29,
+    "name": "Subaru Legacy RS",
+    "details_html": "Before the Impreza, the Legacy RS carried Subaru into the big leagues, helping drivers like Ari Vatanen and Colin McRae announce Subaru’s rally ambitions to the world.",
+    "image": "/images/history/cars/subaru-legacy-rs.webp"
+  },
+  {
+    "id": 30,
+    "name": "Peugeot 306 Maxi",
+    "details_html": "Though never a full WRC contender, the F2-class 306 Maxi stunned crowds with its insane speed on tarmac, driven by Gilles Panizzi and Francois Delecour.",
+    "image": "/images/history/cars/peugeot-306-maxi.webp"
+  },
+  {
+    "id": 31,
+    "name": "Peugeot 206 WRC",
+    "details_html": "The 206 WRC debuted in 1999, quickly becoming a dominant force with its compact design and turbocharged engine, setting the stage for Peugeot’s success in the early 2000s.",
+    "image": "/images/history/cars/peugeot-206-wrc.webp"
+  },
+  {
+    "id": 32,
+    "name": "Ford Focus WRC",
+    "details_html": "Launched in 1999, the Focus WRC was a game-changer for Ford, combining speed and reliability to help Colin McRae win the championship in 1995.",
+    "image": "/images/history/cars/ford-focus-wrc.webp"
+  }
+]

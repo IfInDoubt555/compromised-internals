@@ -1,0 +1,74 @@
+[
+  {
+    "id": 39,
+    "name": "Sébastien Loeb",
+    "bio": "The most dominant rally driver in WRC history, Loeb won nine consecutive world titles starting in 2004. Known for his unmatched precision, he became synonymous with Citroën and tarmac perfection.",
+    "image": "/images/history/drivers/sebastien-loeb.webp"
+  },
+  {
+    "id": 40,
+    "name": "Petter Solberg",
+    "bio": "The charismatic Norwegian won the 2003 WRC title for Subaru and was known for his flat-out driving style, consistent pace, and strong performances across gravel and tarmac.",
+    "image": "/images/history/drivers/petter-solberg.webp"
+  },
+  {
+    "id": 41,
+    "name": "Marcus Grönholm",
+    "bio": "A two-time world champion (2000, 2002), Grönholm was the dominant force for Peugeot and later Ford. He was especially feared on fast gravel stages like Finland.",
+    "image": "/images/history/drivers/marcus-gronholm.webp"
+  },
+  {
+    "id": 42,
+    "name": "Mikko Hirvonen",
+    "bio": "Hirvonen came closest to dethroning Loeb, finishing runner-up multiple times. A consistent, smooth driver and Ford’s lead man during the late 2000s.",
+    "image": "/images/history/drivers/mikko-hirvonen.webp"
+  },
+  {
+    "id": 43,
+    "name": "Jari-Matti Latvala",
+    "bio": "The youngest WRC winner at the time, Latvala burst onto the scene in 2008. Known for his speed and raw talent, he became a long-term Ford and later Toyota star.",
+    "image": "/images/history/drivers/jari-matti-latvala.webp"
+  },
+  {
+    "id": 44,
+    "name": "Markko Märtin",
+    "bio": "Estonia’s greatest rally driver of the era, Märtin delivered fast, technical performances for Ford and Peugeot, including landmark wins in Finland and Corsica.",
+    "image": "/images/history/drivers/markko-martin.webp"
+  },
+  {
+    "id": 45,
+    "name": "François Duval",
+    "bio": "A Belgian talent with flashes of brilliance, Duval was known for his speed on tarmac and for challenging the top tier during his time with Ford and Citroën.",
+    "image": "/images/history/drivers/francois-duval.webp"
+  },
+  {
+    "id": 46,
+    "name": "Henning Solberg",
+    "bio": "Petter Solberg’s brother, Henning was a consistent performer for Ford and Subaru, known for his tenacity and ability to score points in tough conditions.",
+    "image": "/images/history/drivers/henning-solberg.webp"
+  },
+  {
+    "id": 47,
+    "name": "Daniel Sordo",
+    "bio": "A Spanish driver who became a key part of Citroën’s lineup, Sordo was known for his smooth driving style and strong performances on tarmac.",
+    "image": "/images/history/drivers/daniel-sordo.webp"
+  },
+  {
+    "id": 48,
+    "name": "Gigi Galli",
+    "bio": "An Italian driver known for his flamboyant style and speed, Galli made a name for himself with memorable performances in the late 2000s.",
+    "image": "/images/history/drivers/gigi-galli.webp"
+  },
+  {
+    "id": 49,
+    "name": "Chris Atkinson",
+    "bio": "An Australian driver who made a name for himself with Subaru, Atkinson was known for his speed on tarmac and ability to score points in tough conditions.",
+    "image": "/images/history/drivers/chris-atkinson.webp"
+  },
+  {
+    "id": 50,
+    "name": "Matthew Wilson",
+    "bio": "A British driver who competed for Ford, Wilson was known for his consistency and ability to score points in the WRC.",
+    "image": "/images/history/drivers/matthew-wilson.webp"
+  }
+]

@@ -36,9 +36,6 @@
     </noscript>
   </div>
 
-  {{-- ─────────────────────────────────────────── --}}
-  {{-- Scroll controls: Top / Middle / Bottom buttons --}}
-  {{-- Must live _inside_ the @section block, so your JS can find them! --}}
   <a href="#top"
      id="back-to-top"
      class="hidden fixed bottom-28 right-4 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none"
@@ -77,12 +74,10 @@
     </svg>
   </a>
 
-  {{-- Tooltip that fades in/out via your scrollControls.js --}}
   <div id="back-to-top-tooltip"
        class="pointer-events-none fixed bottom-32 right-4 bg-gray-800 text-white text-sm px-3 py-1 rounded opacity-0 transition-opacity duration-300">
     Click me to return to the top of the page.
   </div>
-  {{-- ─────────────────────────────────────────── --}}
 @endsection
 
 @push('scripts')

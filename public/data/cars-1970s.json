@@ -1,0 +1,51 @@
+[
+  {
+    "id": 10,
+    "name": "Lancia Stratos HF",
+    "details_html": "The first car designed purely for rally racing, the mid-engined Stratos dominated the mid-to-late 1970s with its aggressive handling and unmistakable wedge shape.",
+    "image": "/images/history/cars/lancia-stratos-hf.webp"
+  },
+  {
+    "id": 11,
+    "name": "Ford Escort RS1600",
+    "details_html": "A rally icon, the rear-wheel-drive Escort RS1600 was light, powerful, and exceptionally successful on gravel rallies across Europe and Africa.",
+    "image": "/images/history/cars/ford-escort-rs1600.webp"
+  },
+  {
+    "id": 14,
+    "name": "Mitsubishi Lancer 1600 GSR",
+    "bio": "The Mitsubishi Lancer 1600 GSR was Mitsubishi’s first factory-built rally car, combining a lightweight body with robust engineering to dominate international rallying in the early 1970s.",
+    "details_html": "\n<h2 class=\"text-center text-xl font-bold mb-4\">🏁 Overview</h2>\n<p class=\"text-center\">The Mitsubishi Lancer 1600 GSR, introduced in 1973, was the first rally car to carry Mitsubishi’s “GSR” designation. Derived from the production Lancer, it featured reinforced chassis components, a tuned 1.6 L SOHC engine, and lightweight fiberglass panels. Its blend of reliability and agility made it a formidable competitor in endurance and long-distance rallies.</p>\n<hr class=\"mb-4 mt-4\">\n<h2 class=\"text-center text-xl font-bold mb-4 mt-4\">⚙️ Technical Specs & Innovations</h2>\n<ul>\n  <li><strong>Engine:</strong> 1,597 cc SOHC inline-4</li>\n  <li><strong>Power Output:</strong> ~110 hp @ 6,000 rpm</li>\n  <li><strong>Drivetrain:</strong> Rear-wheel drive</li>\n  <li><strong>Weight:</strong> ~860 kg (1,897 lbs)</li>\n  <li><strong>Layout:</strong> Front-engine, RWD with reinforced suspension and front disc brakes</li>\n</ul>\n<p class=\"mt-4 text-center\">Key innovations included lightweight body panels, a close-ratio gearbox, and high-capacity cooling systems optimized for long stages.</p>\n<hr class=\"mb-4 mt-4\">\n<h2 class=\"text-center text-xl font-bold mb-4 mt-4\">🏆 Competitive Highlights</h2>\n<ul>\n  <li><strong>1973 Cape Town–London Rally Overall Win</strong> — Marked the Lancer’s arrival with victory over 10,000 mi of varied terrain.</li>\n  <li><strong>1974 Southern Cross Rally Class Victory</strong> — Demonstrated durability and pace across Australia’s harsh stages.</li>\n  <li class=\"mt-4 text-center\">Also campaigned in the East African Safari Rally, finishing reliably against specialist 4×4 competition.</li>\n</ul>\n<p class=\"mt-4 text-center\">The Lancer 1600 GSR’s early rally success laid the groundwork for Mitsubishi’s future legend, the Evolution series.</p>\n<hr class=\"mb-4 mt-4\">\n<h2 class=\"text-center text-xl font-bold mb-4 mt-4\">🧠 Driving Characteristics</h2>\n<p class=\"text-center\">Its balanced chassis and torque-rich engine rewarded smooth throttle control and precise steering. Upgraded suspension and brakes instilled confidence on both high-speed and technical stages.</p>\n<hr class=\"mb-4 mt-4\">\n<h2 class=\"text-center text-xl font-bold mb-4 mt-4\">🔧 Legacy & Cultural Impact</h2>\n<p class=\"text-center\">As Mitsubishi’s first dedicated rally effort, the Lancer 1600 GSR established the GSR lineage and paved the way for the legendary Lancer Evolution series, cementing the brand’s motorsport heritage.</p>",
+    "image": "/images/history/cars/mitsubishi-lancer-1600-gsr.webp"
+  },
+  {
+    "id": 12,
+    "name": "Fiat 131 Abarth Rally",
+    "details_html": "Built from a humble family sedan, the Fiat 131 Abarth became a rally legend in the late 1970s with its balance of durability and speed.",
+    "image": "/images/history/cars/fiat-131-abarth.webp"
+  },
+  {
+    "id": 13,
+    "name": "Alpine A110 1600",
+    "details_html": "An evolution of the 1960s Alpine, the 1600 model dominated tarmac rallies early in the WRC and helped Alpine secure the inaugural 1973 constructors' championship.",
+    "image": "/images/history/cars/alpine-a110-1600.webp"
+  },
+  {
+    "id": 14,
+    "name": "Porsche 911 Carrera RS",
+    "details_html": "Though less common in rallying, the 911 Carrera RS proved highly effective in events like Monte Carlo, excelling on snowy, technical courses.",
+    "image": "/images/history/cars/porsche-911-carrera-rs.webp"
+  },
+  {
+    "id": 15,
+    "name": "Toyota Celica",
+    "details_html": "The Celica made its rally debut in the late 1970s, quickly becoming a competitive force in the WRC with its agile handling and reliability.",
+    "image": "/images/history/cars/toyota-celica.webp"
+  },
+  {
+    "id": 16,
+    "name": "Lancia Beta Montecarlo",
+    "details_html": "A mid-engine coupe that made its rally debut in the late 1970s, the Beta Montecarlo was known for its speed and handling on tarmac stages.",
+    "image": "/images/history/cars/lancia-beta-montecarlo.webp"
+  }
+]

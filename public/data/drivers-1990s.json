@@ -1,0 +1,62 @@
+[
+  {
+    "id": 29,
+    "name": "Tommi Mäkinen",
+    "bio": "The quiet assassin from Finland, Mäkinen won four consecutive WRC titles (1996–1999) with Mitsubishi, combining icy calm with relentless speed.",
+    "image": "/images/history/drivers/tommi-makinen.webp"
+  },
+  {
+    "id": 30,
+    "name": "Colin McRae",
+    "bio": "The fearless Scottish legend who became the youngest World Champion in 1995. His flat-out driving and rivalry with Sainz defined the 1990s.",
+    "image": "/images/history/drivers/colin-mcrae.webp"
+  },
+  {
+    "id": 31,
+    "name": "Carlos Sainz",
+    "bio": "‘El Matador’ remained one of the most consistent and tactical drivers of the 90s, fighting at the top with Subaru, Toyota, and Ford.",
+    "image": "/images/history/drivers/carlos-sainz-1990s.webp"
+  },
+  {
+    "id": 32,
+    "name": "Richard Burns",
+    "bio": "Burns matured throughout the 1990s with Subaru and Mitsubishi, known for smooth driving and technical brilliance — setting up his 2001 title run.",
+    "image": "/images/history/drivers/richard-burns.webp"
+  },
+  {
+    "id": 33,
+    "name": "Didier Auriol",
+    "bio": "The first Frenchman to win the WRC title (1994), Auriol was a tarmac master with a clinical approach that brought Toyota massive success.",
+    "image": "/images/history/drivers/didier-auriol.webp"
+  },
+  {
+    "id": 34,
+    "name": "Juha Kankkunen",
+    "bio": "Though he peaked in the late 80s and early 90s, Kankkunen remained a force in the 1990s — a four-time world champion with unmatched adaptability.",
+    "image": "/images/history/drivers/juha-kankkunen-1990s.webp"
+  },
+  {
+    "id": 35,
+    "name": "Francois Delecour",
+    "bio": "A fiery and fearless tarmac specialist, Delecour helped keep Ford competitive through the 90s, especially with the Escort RS Cosworth.",
+    "image": "/images/history/drivers/francois-delecour.webp"
+  },
+  {
+    "id": 36,
+    "name": "Kenneth Eriksson",
+    "bio": "A key player for Subaru and Mitsubishi, Eriksson was often overshadowed but scored major wins and played a vital team role.",
+    "image": "/images/history/drivers/kenneth-eriksson.webp"
+  },
+  {
+    "id": 37,
+    "name": "Gilles Panizzi",
+    "bio": "The Frenchman was a tarmac specialist who shone in the late 90s, winning multiple events with Peugeot and showcasing his unique driving style.",
+    "image": "/images/history/drivers/gilles-panizzi.webp"
+  },
+  {
+    "id": 38,
+    "name": "Piero Liatti",
+    "bio": "Liatti was a consistent performer for Subaru, known for his smooth driving style and ability to score points in tough conditions.",
+    "image": "/images/history/drivers/piero-liatti.webp"
+  }
+]
