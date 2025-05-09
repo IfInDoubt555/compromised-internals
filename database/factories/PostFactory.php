@@ -27,7 +27,7 @@ class PostFactory extends Factory
             'slug' => Str::slug($title),
             'summary' => $this->faker->sentence(12),
             'body' => $this->faker->paragraphs(3, true),
-            'image_path' => 'images/' . $this->faker->word() . '.webp',
+            'image_path' => 'images/skull-logo.png',
             'status' => $this->faker->randomElement(['pending', 'approved']),
         ];
     }

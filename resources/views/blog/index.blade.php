@@ -31,6 +31,7 @@
                 @else
                     <img src="{{ asset('images/default-post.png') }}"
                          alt="Default Post Image"
+                         title="{{ $post->title ?? 'Default Blog Post Image' }}"
                          class="max-h-full max-w-full object-contain" />
                 @endif
             </div>

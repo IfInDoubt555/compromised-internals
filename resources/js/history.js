@@ -122,12 +122,33 @@ function loadHistoryContent(tab, decade) {
           "overflow-hidden", "flex", "flex-col", "items-center", "p-4"
         );
 
-        card.innerHTML = `
-          <img src="${imgSrc}" alt="${title}" class="w-full ${imgClass}">
-          <h2 class="text-xl font-bold mb-2 text-center">${title}</h2>
-          <p class="text-gray-600 mb-4 text-center">${description}</p>
-          <a href="${link}" class="mt-auto text-blue-600 hover:underline">Read More</a>
-        `;
+        // Safe DOM-based construction to preserve img.onerror
+        const img = new Image();
+        img.src = imgSrc;
+        img.alt = title;
+        img.loading = "lazy";
+        img.className = `w-full ${imgClass}`;
+        img.onerror = function () {
+          this.onerror = null;
+          this.src = "/images/skull-logo.png";
+        };
+        card.appendChild(img);
+
+        const h2 = document.createElement("h2");
+        h2.className = "text-xl font-bold mb-2 text-center";
+        h2.textContent = title;
+        card.appendChild(h2);
+
+        const p = document.createElement("p");
+        p.className = "text-gray-600 mb-4 text-center";
+        p.textContent = description;
+        card.appendChild(p);
+
+        const a = document.createElement("a");
+        a.href = link;
+        a.className = "mt-auto text-blue-600 hover:underline";
+        a.textContent = "Read More";
+        card.appendChild(a);
 
         grid.appendChild(card);
       });
