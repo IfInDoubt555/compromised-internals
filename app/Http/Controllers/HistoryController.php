@@ -11,34 +11,34 @@ class HistoryController extends Controller
 {
     public function show($tab, $decade, $id)
     {
-        $jsonPath = public_path('data/rally-history.json');
+        $filePath = public_path("data/{$tab}-{$decade}s.json");
 
-        if (!File::exists($jsonPath)) {
-            abort(500, 'History data file not found.');
+        if (!File::exists($filePath)) {
+            abort(404, "Data file not found for {$tab}-{$decade}s.");
         }
 
-        $data = json_decode(file_get_contents($jsonPath), true);
+        $data = json_decode(file_get_contents($filePath), true);
 
-        if (!isset($data[$decade][$tab])) {
-            abort(404, 'Invalid decade or category.');
+        if (!is_array($data)) {
+            abort(500, "Failed to decode data file.");
         }
 
-        $collection = collect($data[$decade][$tab]);
+        $collection = collect($data);
         $item = $collection->firstWhere('id', (int) $id);
 
         if (!$item) {
-            abort(404);
+            abort(404, "Item not found.");
         }
 
-        // Add next/previous item logic
+        // Add next/previous navigation
         $items = array_values($collection->all());
         $currentIndex = collect($items)->search(fn ($e) => $e['id'] == (int) $id);
         $previousItem = $items[$currentIndex - 1] ?? null;
         $nextItem = $items[$currentIndex + 1] ?? null;
 
-        // Parse markdown only if details_html is not already set
+        // Parse markdown only if details_html is missing
         if (empty($item['details_html']) && !empty($item['details'])) {
-            $parsedown = new Parsedown();
+            $parsedown = new \Parsedown();
             $item['details_html'] = $parsedown->text($item['details']);
         }
 

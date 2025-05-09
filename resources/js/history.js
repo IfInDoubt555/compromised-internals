@@ -109,9 +109,9 @@ function loadHistoryContent(tab, decade) {
 
       items.forEach(item => {
         const title = item.title || item.name || "Untitled";
-        const description = item.bio || item.description || "No summary available.";
+        const description = item.bio || "No summary available.";
         const imgSrc = item.image || "/images/placeholder.png";
-        const link = `/history/${tab}/${decade}/${item.id}`;
+        const link = `/history/${tab}/${item.year}/${item.id}`;
         const imgClass = item.image
           ? "h-90 object-cover mb-4 rounded"
           : "h-64 object-cover mb-4 rounded opacity-50";
