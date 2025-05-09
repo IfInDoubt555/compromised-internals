@@ -13,7 +13,7 @@ try {
     const cleanDecade = `${decade}s`;
 
     if (Array.isArray(group.events)) {
-      const eventsPath = `./public/data/history-${cleanDecade}.json`;
+      const eventsPath = `./public/data/events-${cleanDecade}.json`;
       fs.writeFileSync(eventsPath, JSON.stringify(group.events, null, 2));
       console.log(`✅ Written: ${eventsPath}`);
     }
