@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
             'description' => 'Soft cotton shirt with rally-style branding.',
             'price' => 24.99,
             'type' => 'apparel',
-            'image_path' => 'products/compint-flatout.png',
+            'image_path' => 'products/skull-design-black.png',
             'slug' => Str::slug('Compromised Internals T-Shirt'),
             'has_variants' => true,  /** false removes size and color, true shows size and color */
         ]);
