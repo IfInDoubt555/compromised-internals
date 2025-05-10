@@ -21,7 +21,7 @@
         @stack('head')
     </head>
 
-    <body class="antialiased bg-slate-100">
+    <body class="antialiased bg-slate-200">
         @include('layouts.navigation')
 
         <div id="theme-wrapper" class="min-h-screen {{ request()->is('history*') ? '' : 'bg-slate-200' }}">

@@ -5,9 +5,15 @@
     <h1 class="text-3xl font-bold mb-4 text-center">{{ $post->title }}</h1>
 
     @if ($post->image_path)
-        <img src="{{ Storage::url($post->image_path) }}" alt="{{ $post->title }}" class="rounded-lg shadow mb-6 mx-auto">
+        <img
+            src="{{ Storage::url($post->image_path) }}"
+            alt="{{ $post->title }}"
+            class="rounded-lg shadow mb-6 mx-auto">
     @else
-        <img src="{{ asset('images/default-post.png') }}" alt="Default Image" class="rounded-lg shadow mb-6 mx-auto">
+        <img
+            src="{{ asset('images/default-post.png') }}" 
+            alt="Default Image" 
+            class="rounded-lg shadow mb-6 mx-auto">
     @endif
 
     <div class="flex items-center justify-center gap-3 mb-6 text-sm text-gray-500">
