@@ -92,7 +92,7 @@ function loadHistoryContent(tab, decade) {
   if (!historyContent) return;
   historyContent.innerHTML = `<p class="text-center text-gray-500">Loading ${tab} for the ${decade}s...</p>`;
 
-  const path = `/data/${tab}-${decade}s.json`;
+  const path = `/data/${tab}-${decade}s.json?version=${new Date().getTime()}`;
 
   fetch(path)
     .then(res => res.json())
@@ -111,7 +111,7 @@ function loadHistoryContent(tab, decade) {
         const title = item.title || item.name || "Untitled";
         const description = item.bio || "No summary available.";
         const imgSrc = item.image || "/images/placeholder.png";
-        const link = `/history/${tab}/${item.year}/${item.id}`;
+        const link = `/history/${tab}/${decade}/${item.id}`;
         const imgClass = item.image
           ? "h-90 object-cover mb-4 rounded"
           : "h-64 object-cover mb-4 rounded opacity-50";
