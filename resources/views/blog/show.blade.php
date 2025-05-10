@@ -12,7 +12,7 @@
 
     <div class="flex items-center justify-center gap-3 mb-6 text-sm text-gray-500">
         <a href="{{ route('profile.public', $post->user_id) }}" class="flex items-center gap-2">
-            <x-user-avatar :user="$post->user" size="w-8 h-8" />
+            <x-user-avatar :user="$post->user" size="w-20 h-20" />
             <span>{{ $post->user->name }}</span>
         </a>
         <span>&bull;</span>

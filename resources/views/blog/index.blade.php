@@ -37,7 +37,7 @@
             </div>
 
             <!-- Post Info -->
-            <div class="p-4 flex flex-col flex-grow space-y-3 bg-gray-300">
+            <div class="p-4 flex flex-col flex-grow space-y-3 bg-gray-400">
                 <!-- Author Row -->
                 <div class="flex justify-between items-center">
                         <div class="flex items-center space-x-3">
