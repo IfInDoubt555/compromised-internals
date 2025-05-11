@@ -21,7 +21,7 @@ $decade = request()->route('decade');
         $imagePath = public_path($item['image'] ?? '');
         $imageUrl = (!empty($item['image']) && File::exists($imagePath))
         ? asset($item['image'])
-        : asset('images/skull-logo.png');
+        : asset('images/default-post.png');
         @endphp
 
         <div class="flex justify-center">

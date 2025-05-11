@@ -12,7 +12,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 class="text-3xl font-bold">{{ $post->title }}</h1>
         <div class="flex items-center gap-3">
-            <x-user-avatar :user="$post->user" size="w-10 h-10" />
+            <x-user-avatar :user="$post->user" size="w-16 h-16" />
             <div>
                 <p class="font-semibold text-sm">{{ $post->user->name }}</p>
                 <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
@@ -22,9 +22,9 @@
 
     {{-- Image --}}
     @if ($post->image_path)
-        <img src="{{ Storage::url($post->image_path) }}" alt="{{ $post->title }}" class="rounded-lg shadow-md mb-6">
+    <img src="{{ Storage::url($post->image_path) }}" alt="{{ $post->title }}" class="rounded-lg shadow-md mb-6">
     @else
-        <img src="{{ asset('images/default-post.png') }}" alt="Default Image" class="rounded-lg shadow-md mb-6">
+    <img src="{{ asset('images/default-post.png') }}" alt="Default Image" class="rounded-lg shadow-md mb-6">
     @endif
 
     {{-- Body --}}
@@ -49,10 +49,36 @@
     </div>
     @endcan
 
-    {{-- Back to Blog (Bottom) --}}
-    <a href="{{ route('blog.index') }}" class="text-blue-600 mt-2 inline-block hover:underline">
-        ← Back to Blog
-    </a>
+    @if ($previous || $next)
+    <div class="mt-6 mb-6 flex justify-between items-center text-sm font-semibold text-center">
+
+        {{-- Left: Next Post --}}
+        <div class="w-1/3 text-left">
+            @if ($next)
+            <a href="{{ route('blog.show', $next->slug) }}" class="text-green-800 hover:text-green-950 hover:underline">
+                ← Next Post
+            </a>
+            @endif
+        </div>
+
+        {{-- Center: Back to Blog --}}
+        <div class="w-1/3">
+            <a href="{{ route('blog.index') }}" class="text-blue-600 hover:underline">
+                Back to Blog
+            </a>
+        </div>
+
+        {{-- Right: Previous Post --}}
+        <div class="w-1/3 text-right">
+            @if ($previous)
+            <a href="{{ route('blog.show', $previous->slug) }}" class="text-red-800 hover:text-red-950 hover:underline">
+                Previous Post →
+            </a>
+            @endif
+        </div>
+
+    </div>
+    @endif
 
 </div>
 @endsection
