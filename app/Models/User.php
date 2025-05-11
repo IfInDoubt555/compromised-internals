@@ -28,7 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'is_admin' => 'integer', // ✅ This will now actually work
+        'is_admin' => 'integer', 
     ];
     
     public function isAdmin(): bool
@@ -47,5 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function profile()
     {
         return $this->hasOne(UserProfile::class);
+    }
+    public function isBanned(): bool
+    {
+        return !is_null($this->banned_at);
     }
 }

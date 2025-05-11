@@ -4,6 +4,15 @@
 <div class="max-w-6xl mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold mb-4">Manage Users</h1>
 
+    <form method="GET" action="{{ route('admin.users.index') }}" class="mb-4">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Search by name or email"
+            class="px-4 py-2 border rounded shadow-sm w-full max-w-sm">
+    </form>
+
     <table class="w-full table-auto border-collapse">
         <thead>
             <tr class="bg-gray-100 text-left">
@@ -24,7 +33,18 @@
                 <td class="p-3 text-sm space-x-2">
                     <a href="#" class="text-blue-600 hover:underline">View</a>
                     <a href="#" class="text-yellow-600 hover:underline">Edit</a>
-                    <a href="#" class="text-red-600 hover:underline">Delete</a>
+
+                    @if (!$user->isBanned())
+                    <form action="{{ route('admin.users.ban', $user) }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="text-red-600 hover:underline">Ban</button>
+                    </form>
+                    @else
+                    <form action="{{ route('admin.users.unban', $user) }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="text-green-600 hover:underline">Unban</button>
+                    </form>
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -32,7 +52,7 @@
     </table>
 
     <div class="mt-6">
-        {{ $users->links() }}
+        {{ $users->withQueryString()->links() }}
     </div>
 </div>
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PostModerationController;
 use App\Http\Controllers\Admin\AdminRallyEventController;
 use App\Http\Controllers\AttributionController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 // Route group is already prefixed + named in RouteServiceProvider
 Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -32,3 +33,6 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserManagementController::class, 'index'])->name('index');
     // Future: Route::get('{user}/edit', ...) etc.
 });
+
+Route::post('/users/{user}/ban', [AdminUserController::class, 'ban'])->name('users.ban');
+Route::post('/users/{user}/unban', [AdminUserController::class, 'unban'])->name('users.unban');
