@@ -19,8 +19,8 @@ class RallyEventController extends Controller
         // Only return necessary fields via a resource array
         $events = RallyEvent::all()->map(fn($event) => [
             'title' => $event->name,
-            'start' => $event->start_date,
-            'end' => $event->end_date,
+            'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
+            'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
             'url' => route('calendar.show', $event->slug),
         ]);
 

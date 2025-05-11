@@ -13,3 +13,23 @@ window.FullCalendar = {
     dayGridPlugin,
     interactionPlugin
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+
+    if (calendarEl) {
+        const calendar = new Calendar(calendarEl, {
+            plugins: [dayGridPlugin, interactionPlugin],
+            initialView: 'dayGridMonth',
+            events: '/api/events',
+            eventDataTransform: function (eventData) {
+                return {
+                    ...eventData,
+                    allDay: true // ⬅️ Ensure full-day rendering
+                };
+            }
+        });
+
+        calendar.render();
+    }
+});

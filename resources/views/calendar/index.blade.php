@@ -1,24 +1,31 @@
 @extends('layouts.app')
 
 @push('head')
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
 @endpush
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const calendarEl = document.getElementById('calendar');
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendar');
 
-            const calendar = new window.FullCalendar.Calendar(calendarEl, {
-                plugins: [window.FullCalendar.dayGridPlugin, window.FullCalendar.interactionPlugin],
-                initialView: 'dayGridMonth',
-                events: '/calendar/events',
-            });
-
-            calendar.render();
+        const calendar = new window.FullCalendar.Calendar(calendarEl, {
+            plugins: [window.FullCalendar.dayGridPlugin, window.FullCalendar.interactionPlugin],
+            initialView: 'dayGridMonth',
+            timeZone: 'UTC',
+            events: '/calendar/events',
+            eventDataTransform: function(eventData) {
+                return {
+                    ...eventData,
+                    allDay: true
+                };
+            }
         });
-    </script>
+
+        calendar.render();
+    });
+</script>
 @endpush
 
 @section('content')
