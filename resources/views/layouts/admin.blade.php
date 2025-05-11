@@ -22,7 +22,7 @@
                     📸 Image Attributions
                 </a>
 
-                <a href="#"
+                <a href="{{ route('admin.users.index') }}"
                     class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-gray-800' : '' }}">
                     👥 Manage Users
                 </a>

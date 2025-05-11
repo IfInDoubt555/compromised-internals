@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\PostModerationController;
 use App\Http\Controllers\Admin\AdminRallyEventController;
 use App\Http\Controllers\AttributionController;
+use App\Http\Controllers\Admin\UserManagementController;
 
 // Route group is already prefixed + named in RouteServiceProvider
 Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -25,4 +26,9 @@ Route::prefix('events')->name('events.')->group(function () {
     Route::get('/{event}/edit', [AdminRallyEventController::class, 'edit'])->name('edit');
     Route::put('/{event}', [AdminRallyEventController::class, 'update'])->name('update');
     Route::delete('/{event}', [AdminRallyEventController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('users')->name('users.')->group(function () {
+    Route::get('/', [UserManagementController::class, 'index'])->name('index');
+    // Future: Route::get('{user}/edit', ...) etc.
 });
