@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttributionController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\PostModerationController;
+use App\Http\Controllers\Admin\AdminRallyEventController;
+
 
 // Admin Dashboard
 Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -23,4 +25,10 @@ Route::prefix('posts')->name('posts.')->group(function () {
     Route::post('/{post}/reject', [PostModerationController::class, 'reject'])
         ->name('reject')
         ->whereNumber('post');
+});
+
+Route::prefix('events')->name('events.')->group(function () {
+    Route::get('/', [AdminRallyEventController::class, 'index'])->name('index');
+    Route::get('/create', [AdminRallyEventController::class, 'create'])->name('create');
+    Route::post('/', [AdminRallyEventController::class, 'store'])->name('store');
 });

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="bg-gray-50 text-gray-900 font-sans">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
@@ -15,30 +17,30 @@
             </a>
             <nav class="p-4 space-y-2 text-sm">
                 @can('access-admin')
-                    <a href="{{ route('admin.attributions.index') }}"
-                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.attributions.*') ? 'bg-gray-800' : '' }}">
-                        📸 Image Attributions
-                    </a>
+                <a href="{{ route('admin.attributions.index') }}"
+                    class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.attributions.*') ? 'bg-gray-800' : '' }}">
+                    📸 Image Attributions
+                </a>
 
-                    <a href="#"
-                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-gray-800' : '' }}">
-                        👥 Manage Users
-                    </a>
+                <a href="#"
+                    class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-gray-800' : '' }}">
+                    👥 Manage Users
+                </a>
 
-                    <a href="{{ route('admin.posts.moderation') }}"
-                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.posts.*') ? 'bg-gray-800' : '' }}">
-                       📝 Blog Moderation
-                    </a>
+                <a href="{{ route('admin.posts.moderation') }}"
+                    class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.posts.*') ? 'bg-gray-800' : '' }}">
+                    📝 Blog Moderation
+                </a>
 
-                    <a href="#"
-                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.events.*') ? 'bg-gray-800' : '' }}">
-                        🏁 Rally Events
-                    </a>
+                <a href="{{ route('admin.events.index') }}"
+                    class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.events.*') ? 'bg-gray-800' : '' }}">
+                    🏁 Rally Events
+                </a>
 
-                    <a href="#"
-                       class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.analytics.*') ? 'bg-gray-800' : '' }}">
-                        📊 Analytics (Coming Soon)
-                    </a>
+                <a href="#"
+                    class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.analytics.*') ? 'bg-gray-800' : '' }}">
+                    📊 Analytics (Coming Soon)
+                </a>
                 @endcan
             </nav>
         </aside>
@@ -53,4 +55,5 @@
         </main>
     </div>
 </body>
+
 </html>

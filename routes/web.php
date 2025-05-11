@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
+Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
+Route::get('/calendar/{slug}', [RallyEventController::class, 'show'])->name('calendar.show');
 
 Route::prefix('shop/cart')->name('shop.cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
