@@ -23,7 +23,7 @@
 }
 
 #theme-wrapper.decade-1990 {
-  background: radial-gradient(circle, #002b6b, #264b8b, #7eb3e1); /* Subaru blue fade */
+  background: radial-gradient(circle, #947902, #264b8b, #7eb3e1); /* Subaru blue fade */
   background-size: 180% 180%;
   animation: shiftBg 25s ease-in-out infinite;
   color: #2d2d2d;
