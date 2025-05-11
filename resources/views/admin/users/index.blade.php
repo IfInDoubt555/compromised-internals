@@ -31,8 +31,7 @@
                 <td class="p-3">{{ $user->is_admin ? 'Admin' : 'User' }}</td>
                 <td class="p-3">{{ $user->created_at->format('M d, Y') }}</td>
                 <td class="p-3 text-sm space-x-2 whitespace-nowrap">
-                    <a href="#" class="text-blue-600 hover:underline">View</a>
-                    <a href="#" class="text-yellow-600 hover:underline">Edit</a>
+                    <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 hover:underline">View</a>
 
                     @if (!$user->isBanned())
                     <form method="POST" action="{{ route('admin.users.ban', $user) }}" onsubmit="return confirm('Are you sure?')" class="inline">

@@ -30,9 +30,9 @@ Route::prefix('events')->name('events.')->group(function () {
 });
 
 Route::prefix('users')->name('users.')->group(function () {
-    Route::get('/', [UserManagementController::class, 'index'])->name('index');
+    Route::get('/', [AdminUserController::class, 'index'])->name('index');
+    Route::get('/{user}', [AdminUserController::class, 'show'])->name('show');
 
-    // ✅ These two need to be nested here
     Route::post('/{user}/ban', [AdminUserController::class, 'ban'])->name('ban');
     Route::post('/{user}/unban', [AdminUserController::class, 'unban'])->name('unban');
 });
