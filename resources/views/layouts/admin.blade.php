@@ -10,7 +10,7 @@
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <aside class="w-64 bg-gray-900 text-white hidden md:block">
-            <a href="{{ route('dashboard') }}" class="block p-6 text-xl font-bold border-b border-gray-700 hover:text-blue-400 transition">
+            <a href="{{ route('admin.dashboard') }}" class="block p-6 text-xl font-bold border-b border-gray-700 hover:text-blue-400 transition">
                 Admin Panel
             </a>
             <nav class="p-4 space-y-2 text-sm">
