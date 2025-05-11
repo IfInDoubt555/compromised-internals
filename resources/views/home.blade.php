@@ -10,7 +10,7 @@
     </div>
 
     <!-- History Highlights -->
-    <section class="max-w-6xl mx-auto px-6 mb-12">
+    <section class="max-w-6xl mx-auto px-6 mb-8">
         <h2 class="text-2xl font-bold mb-2 text-black text-center">📚 History Highlights</h2>
         <p class="text-center text-black mb-6">Explore the comprehensive history for rally dating back to 1960. I will be working on expanding further as time goes on.</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -59,9 +59,9 @@
     </section>
 
     <!-- Blog Highlights Title -->
-    <section class="max-w-6xl mx-auto px-6 mt-16 mb-8 text-center">
+    <section class="max-w-6xl mx-auto px-6 mt-16 mb-4 text-center">
         <h2 class="text-2xl text-black font-bold mb-2">📰 Latest Blog Posts</h2>
-        <p class="text-black text-sm">Catch up on the latest rally insights, news, and behind-the-scenes stories from our team.</p>
+        <h1 class="text-black ">Catch up on the latest rally insights, news, and behind-the-scenes stories from our team.</h1>
     </section>
 
     <!-- Blog Cards Section -->
@@ -87,7 +87,7 @@
                             <x-user-avatar :user="$post->user" size="w-10 h-10" />
                         </a>
                         <div>
-                            <p class="font-semibold text-sm">{{ $post->user?->name ?? 'Unknown Author' }}</p>
+                            <p class="font-semibold text-black text-sm">{{ $post->user?->name ?? 'Unknown Author' }}</p>
                             <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
                         </div>
                     </div>
