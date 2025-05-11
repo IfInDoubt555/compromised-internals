@@ -3,10 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttributionController;
 use App\Http\Controllers\Admin\PostModerationController;
+use App\Models\User;
 
 Route::get('/', function () {
-    return view('admin.dashboard');
+    $userCount = User::count();
+    return view('admin.dashboard', compact('userCount'));
 })->name('dashboard');
+
 
 // Image attributions
 Route::get('/attributions', [AttributionController::class, 'index'])->name('attributions.index');
