@@ -36,4 +36,31 @@ class AdminRallyEventController extends Controller
 
         return redirect()->route('admin.events.index')->with('success', 'Event created successfully.');
     }
+
+    public function edit(RallyEvent $event)
+    {
+        return view('admin.events.edit', compact('event'));
+    }
+
+    public function update(Request $request, RallyEvent $event)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'description' => 'nullable|string',
+        ]);
+
+        $event->update($validated);
+
+        return redirect()->route('admin.events.index')->with('success', 'Event updated successfully.');
+    }
+
+    public function destroy(RallyEvent $event)
+    {
+        $event->delete();
+
+        return redirect()->route('admin.events.index')->with('success', 'Event deleted.');
+    }
 }
