@@ -31,8 +31,8 @@ Route::prefix('events')->name('events.')->group(function () {
 
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', [UserManagementController::class, 'index'])->name('index');
-    // Future: Route::get('{user}/edit', ...) etc.
-});
 
-Route::post('/users/{user}/ban', [AdminUserController::class, 'ban'])->name('users.ban');
-Route::post('/users/{user}/unban', [AdminUserController::class, 'unban'])->name('users.unban');
+    // ✅ These two need to be nested here
+    Route::post('/{user}/ban', [AdminUserController::class, 'ban'])->name('ban');
+    Route::post('/{user}/unban', [AdminUserController::class, 'unban'])->name('unban');
+});

@@ -18,6 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'title',
+        'banned_at'
     ];
 
     protected $hidden = [
@@ -28,7 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'is_admin' => 'integer', 
+        'is_admin' => 'integer',
+        'banned_at' => 'datetime', 
     ];
     
     public function isAdmin(): bool

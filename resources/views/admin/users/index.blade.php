@@ -30,17 +30,17 @@
                 <td class="p-3">{{ $user->email }}</td>
                 <td class="p-3">{{ $user->is_admin ? 'Admin' : 'User' }}</td>
                 <td class="p-3">{{ $user->created_at->format('M d, Y') }}</td>
-                <td class="p-3 text-sm space-x-2">
+                <td class="p-3 text-sm space-x-2 whitespace-nowrap">
                     <a href="#" class="text-blue-600 hover:underline">View</a>
                     <a href="#" class="text-yellow-600 hover:underline">Edit</a>
 
                     @if (!$user->isBanned())
-                    <form action="{{ route('admin.users.ban', $user) }}" method="POST" class="inline">
+                    <form method="POST" action="{{ route('admin.users.ban', $user) }}" onsubmit="return confirm('Are you sure?')" class="inline">
                         @csrf
                         <button type="submit" class="text-red-600 hover:underline">Ban</button>
                     </form>
                     @else
-                    <form action="{{ route('admin.users.unban', $user) }}" method="POST" class="inline">
+                    <form method="POST" action="{{ route('admin.users.unban', $user) }}" class="inline">
                         @csrf
                         <button type="submit" class="text-green-600 hover:underline">Unban</button>
                     </form>

@@ -20,5 +20,6 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withCommands([
         PruneSessions::class,
-    ])
+        \App\Console\Commands\ScanImageAttributions::class,
+])
     ->create();
