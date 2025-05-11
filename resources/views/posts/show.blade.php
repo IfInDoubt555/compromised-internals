@@ -13,43 +13,50 @@
         @endif
     </div>
 
-    {{-- Right: Title, Author, and Body --}}
+    {{-- Right: Title, Author, Actions, and Body --}}
     <div class="flex-1 max-w-2xl">
         <h1 class="text-3xl font-bold mb-4">{{ $post->title }}</h1>
 
-        <div class="flex items-center gap-3 mb-4">
-            <a href="{{ route('profile.public', $post->user->id) }}">
-                <x-user-avatar :user="$post->user" size="w-14 h-14" />
-            </a>
-            <div>
-                <p class="font-semibold text-sm">{{ $post->user->name }}</p>
-                <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
+        {{-- Author and Actions --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+
+            {{-- Author Info --}}
+            <div class="flex items-center gap-3">
+                <a href="{{ route('profile.public', $post->user->id) }}">
+                    <x-user-avatar :user="$post->user" size="w-14 h-14" />
+                </a>
+                <div>
+                    <p class="font-semibold text-sm">{{ $post->user->name }}</p>
+                    <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
+                </div>
             </div>
+
+            {{-- Author Actions --}}
+            @can('update', $post)
+            <div class="flex gap-3">
+                <a href="{{ route('posts.edit', $post) }}" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                    ✏️ Edit
+                </a>
+
+                <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                        🗑️ Delete
+                    </button>
+                </form>
+            </div>
+            @endcan
         </div>
 
+        {{-- Body --}}
         <div class="prose max-w-none">
             {!! nl2br(e($post->body)) !!}
         </div>
     </div>
 </div>
 
-{{-- Author Actions --}}
-@can('update', $post)
-<div class="flex flex-wrap gap-4 items-center mb-4">
-    <a href="{{ route('posts.edit', $post) }}" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-        ✏️ Edit
-    </a>
-
-    <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');" class="inline">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
-            🗑️ Delete
-        </button>
-    </form>
-</div>
-@endcan
-
+{{-- Navigation Links --}}
 @if ($previous || $next)
 <div class="max-w-6xl mx-auto px-4 mt-6 mb-6 flex justify-between items-center text-sm font-semibold">
 
@@ -79,6 +86,4 @@
     </div>
 </div>
 @endif
-
-</div>
 @endsection
