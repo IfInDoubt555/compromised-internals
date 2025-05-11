@@ -19,6 +19,20 @@
     </a>
     @endauth
 
+    <form method="GET" action="{{ route('blog.index') }}" class="mb-6 text-center">
+        <input
+            type="text"
+            name="tag"
+            placeholder="Search posts by tag (e.g. subaru)"
+            value="{{ request('tag') }}"
+            class="px-4 py-2 w-80 border border-gray-300 rounded-l-md shadow focus:outline-none focus:ring">
+        <button
+            type="submit"
+            class="px-4 py-2 bg-red-600 text-white rounded-r-md hover:bg-red-700 font-semibold">
+            Search
+        </button>
+    </form>
+
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($posts as $post)
         <article class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
@@ -68,7 +82,7 @@
                 <!-- Admin Options -->
                 @can('update', $post)
                 <div class="mt-2 flex gap-4 text-sm">
-                    <a href="{{ route('posts.edit', $post) }}" class="text-yellow-500 hover:underline">✏️ Edit</a>
+                    <a href="{{ route('posts.edit', $post) }}" class="text-green-800 hover:underline">✏️ Edit</a>
 
                     <form action="{{ route('posts.destroy', $post) }}" method="POST"
                         onsubmit="return confirm('Are you sure you want to delete this post?');">

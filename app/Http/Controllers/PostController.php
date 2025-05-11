@@ -8,14 +8,22 @@ use App\Services\ImageService;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PostController extends Controller
 {
     use AuthorizesRequests;
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('user')->latest()->paginate(6);
+        $query = Post::with('user')->latest();
+
+        if ($request->filled('tag')) {
+            $query->where('slug', 'like', '%' . $request->tag . '%');
+        }
+
+        $posts = $query->paginate(10)->appends(['tag' => $request->tag]);
+
         return view('blog.index', compact('posts'));
     }
 
