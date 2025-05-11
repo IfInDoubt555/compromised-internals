@@ -42,7 +42,7 @@
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-3">
                         <a href="{{ route('profile.public', $post->user->id) }}">
-                            <x-user-avatar :user="$post->user" size="w-10 h-10" />
+                            <x-user-avatar :user="$post->user" size="w-14 h-14" />
                         </a>
                         <div>
                             <p class="font-semibold text-sm">{{ $post->user->name }}</p>
