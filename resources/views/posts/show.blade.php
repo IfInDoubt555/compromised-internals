@@ -3,11 +3,6 @@
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8">
 
-    {{-- Back to Blog (Top) --}}
-    <a href="{{ route('blog.index') }}" class="text-blue-600 mb-3 inline-block hover:underline">
-        ← Back to Blog
-    </a>
-
     {{-- Title + Author --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 class="text-3xl font-bold">{{ $post->title }}</h1>
