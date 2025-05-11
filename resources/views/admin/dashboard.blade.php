@@ -19,7 +19,7 @@
         </div>
         <div class="bg-white shadow rounded-lg p-4">
             <div class="text-sm text-gray-500">Blog Posts</div>
-            <div class="text-2xl font-semibold">64</div>
+            <div class="text-2xl font-semibold">{{ $postCount }}</div>
         </div>
         <div class="bg-white shadow rounded-lg p-4">
             <div class="text-sm text-gray-500">Rally Events</div>
@@ -27,7 +27,7 @@
         </div>
         <div class="bg-white shadow rounded-lg p-4">
             <div class="text-sm text-gray-500">Images Uploaded</div>
-            <div class="text-2xl font-semibold">89</div>
+            <div class="text-2xl font-semibold">{{$imageCount}}</div>
         </div>
     </div>
 
