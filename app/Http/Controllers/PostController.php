@@ -16,13 +16,15 @@ class PostController extends Controller
     use AuthorizesRequests;
     public function index(Request $request)
     {
-        $query = Post::with('user')->latest();
+        $query = Post::with('user')
+            ->where('status', 'approved')
+            ->latest();
 
         if ($request->filled('tag')) {
             $query->where('slug', 'like', '%' . $request->tag . '%');
         }
 
-        $posts = $query->paginate(10)->appends(['tag' => $request->tag]);
+        $posts = $query->paginate(9)->appends(['tag' => $request->tag]);
 
         return view('blog.index', compact('posts'));
     }

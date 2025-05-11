@@ -7,7 +7,9 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 class="text-3xl font-bold">{{ $post->title }}</h1>
         <div class="flex items-center gap-3">
-            <x-user-avatar :user="$post->user" size="w-16 h-16" />
+            <a href="{{ route('profile.public', $post->user->id) }}">
+                <x-user-avatar :user="$post->user" size="w-14 h-14" />
+            </a>
             <div>
                 <p class="font-semibold text-sm">{{ $post->user->name }}</p>
                 <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>

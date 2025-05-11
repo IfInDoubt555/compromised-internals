@@ -14,15 +14,19 @@ class PostModerationController extends Controller
         return view('admin.posts.moderation', compact('pendingPosts'));
     }
 
-    public function approve(Post $post)
+    public function approve($post)
     {
+        $post = Post::findOrFail($post);
         $post->update(['status' => 'approved']);
+
         return redirect()->back()->with('success', 'Post approved.');
     }
 
-    public function reject(Post $post)
+    public function reject($post)
     {
+        $post = Post::findOrFail($post);
         $post->update(['status' => 'rejected']);
+
         return redirect()->back()->with('success', 'Post rejected.');
     }
 }
