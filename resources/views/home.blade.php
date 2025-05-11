@@ -26,7 +26,7 @@
     <!-- Blog Cards Section -->
     <section class="p-6 grid grid-cols-1 bg-gray-200 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         @foreach($posts as $post)
-        <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
+        <div class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
             <div class="h-64 w-full flex items-center justify-center overflow-hidden rounded-t-lg bg-black/5 hover:bg-black/10  transition-colors    duration-300">
                 @if ($post->image_path && Storage::exists($post->image_path))
                 <img src="{{ Storage::url($post->image_path) }}"
@@ -40,7 +40,7 @@
                 @endif
             </div>
 
-            <div class="p-4 flex flex-col bg-gray-300 flex-grow space-y-2">
+            <div class="p-4 flex flex-col bg-gray-400 flex-grow space-y-2">
                 <!-- Author & Button Row -->
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-3">
@@ -59,8 +59,8 @@
                 </div>
 
                 <!-- Post Title & Summary -->
-                <h2 class="text-lg font-bold text-gray-900">{{ $post->title }}</h2>
-                <p class="text-gray-600 flex-grow">{{ $post->excerpt }}</p>
+                <h2 class="text-lg font-bold text-gray-900 font-orbitron">{{ $post->title }}</h2>
+                <p class="text-gray-600 flex-grow font-orbitron">{{ $post->excerpt }}</p>
             </div>
         </div>
         @endforeach
