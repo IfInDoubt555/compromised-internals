@@ -1,6 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- Navigation Links --}}
+@if ($previous || $next)
+<div class="max-w-6xl mx-auto px-4 mt-6 mb-6 flex justify-between items-center text-sm font-semibold">
+
+    {{-- Left: Next Post --}}
+    <div>
+        @if ($next)
+        <a href="{{ route('blog.show', $next->slug) }}" class="text-green-800 hover:text-green-950 hover:underline">
+            ← Next Post
+        </a>
+        @endif
+    </div>
+
+    {{-- Center: Back to Blog --}}
+    <div>
+        <a href="{{ route('blog.index') }}" class="text-blue-600 hover:underline">
+            Back to Blog
+        </a>
+    </div>
+
+    {{-- Right: Previous Post --}}
+    <div>
+        @if ($previous)
+        <a href="{{ route('blog.show', $previous->slug) }}" class="text-red-800 hover:text-red-950 hover:underline">
+            Previous Post →
+        </a>
+        @endif
+    </div>
+</div>
+@endif
 {{-- Main Post Layout --}}
 <div class="flex flex-col md:flex-row gap-8 mb-8 mt-6 max-w-6xl mx-auto px-4">
 
@@ -55,35 +85,4 @@
         </div>
     </div>
 </div>
-
-{{-- Navigation Links --}}
-@if ($previous || $next)
-<div class="max-w-6xl mx-auto px-4 mt-6 mb-6 flex justify-between items-center text-sm font-semibold">
-
-    {{-- Left: Next Post --}}
-    <div>
-        @if ($next)
-        <a href="{{ route('blog.show', $next->slug) }}" class="text-green-800 hover:text-green-950 hover:underline">
-            ← Next Post
-        </a>
-        @endif
-    </div>
-
-    {{-- Center: Back to Blog --}}
-    <div>
-        <a href="{{ route('blog.index') }}" class="text-blue-600 hover:underline">
-            Back to Blog
-        </a>
-    </div>
-
-    {{-- Right: Previous Post --}}
-    <div>
-        @if ($previous)
-        <a href="{{ route('blog.show', $previous->slug) }}" class="text-red-800 hover:text-red-950 hover:underline">
-            Previous Post →
-        </a>
-        @endif
-    </div>
-</div>
-@endif
 @endsection
