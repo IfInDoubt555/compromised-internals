@@ -49,6 +49,15 @@
                     <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
                 </div>
             </div>
+            {{-- Like Button --}}
+            @php $user = auth()->user(); @endphp
+            <form method="POST" action="{{ route('posts.like', $post) }}">
+                @csrf
+                <button type="submit" class="text-pink-600 hover:text-pink-800 text-sm" {{ !$user ? 'disabled' : '' }}>
+                    ❤️ {{ $post->likes()->count() }}
+                    {{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}
+                </button>
+            </form>
 
             {{-- Actions --}}
             @can('update', $post)
@@ -72,21 +81,11 @@
         <div class="prose max-w-none text-gray-800">
             {!! nl2br(e($post->body)) !!}
         </div>
-
-        {{-- Like Button --}}
-        @php $user = auth()->user(); @endphp
-        <form method="POST" action="{{ route('posts.like', $post) }}">
-            @csrf
-            <button type="submit" class="text-pink-600 hover:text-pink-800 text-sm" {{ !$user ? 'disabled' : '' }}>
-                ❤️ {{ $post->likes()->count() }}
-                {{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}
-            </button>
-        </form>
     </div>
 </div>
 
 {{-- Comment Section --}}
-<div class="max-w-4xl mx-auto px-4">
+<div class="max-w-4xl mb-6 mx-auto px-4">
 
     {{-- Form --}}
     @auth
@@ -149,7 +148,7 @@
         @endforeach
     </div>
     @else
-    <p class="mt-10 text-gray-500 italic">No comments yet. Be the first to chime in!</p>
+    <p class="mt-6 mb-6 text-gray-500 italic">No comments yet. Be the first to chime in!</p>
     @endif
 
 </div>

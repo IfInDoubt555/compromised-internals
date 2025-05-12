@@ -17,6 +17,8 @@ use App\Http\Controllers\AttributionController;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
+
 
 
 
@@ -102,6 +104,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments/{comment}/edit', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
+
+// Footer Routes
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+Route::view('/terms', 'footer.terms')->name('terms');
+Route::view('/privacy', 'footer.privacy')->name('privacy');
+
 
 // Route::get('/check-admin-gate', function () {
 //     return Gate::allows('access-admin') ? '✅ Gate allows access' : '❌ Gate denies access';
