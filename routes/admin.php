@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminRallyEventController;
 use App\Http\Controllers\AttributionController;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\EmailController;
 
 // Route group is already prefixed + named in RouteServiceProvider
 Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -35,4 +36,11 @@ Route::prefix('users')->name('users.')->group(function () {
 
     Route::post('/{user}/ban', [AdminUserController::class, 'ban'])->name('ban');
     Route::post('/{user}/unban', [AdminUserController::class, 'unban'])->name('unban');
+});
+
+Route::prefix('emails')->name('emails.')->middleware(['auth', 'can:access-admin'])->group(function () {
+    Route::get('/', [EmailController::class, 'index'])->name('index');
+    Route::get('/{id}', [EmailController::class, 'show'])->name('show');
+    Route::patch('/{id}/resolve', [EmailController::class, 'toggleResolved'])->name('toggleResolved');
+    Route::patch('/{id}/category', [EmailController::class, 'updateCategory'])->name('updateCategory');
 });

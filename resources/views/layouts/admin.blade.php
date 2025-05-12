@@ -37,9 +37,9 @@
                     🏁 Rally Events
                 </a>
 
-                <a href="#"
-                    class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.analytics.*') ? 'bg-gray-800' : '' }}">
-                    📊 Analytics (Coming Soon)
+                <a href="{{ route('admin.emails.index') }}"
+                    class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.emails.*') ? 'bg-gray-800' : '' }}">
+                    ✉️ Email Inbox
                 </a>
                 @endcan
             </nav>
