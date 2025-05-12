@@ -91,7 +91,7 @@
     @auth
     <form action="{{ route('comments.store', $post) }}" method="POST" class="mb-6">
         @csrf
-        <textarea name="body" rows="3" class="w-full p-3 rounded border border-gray-300 shadow-sm" placeholder="Leave a comment..."></textarea>
+        <textarea name="body" rows="3" class="w-full p-3 rounded bg-gray-300 border border-gray-300 shadow-sm" placeholder="Leave a comment..."></textarea>
         <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
             Comment
         </button>
@@ -104,7 +104,7 @@
         <h2 class="text-xl font-bold">Comments</h2>
 
         @foreach ($post->comments as $comment)
-        <div class="bg-white rounded-lg shadow p-4 border border-gray-200" x-data="{ editing: false, body: '{{ addslashes($comment->body) }}' }">
+        <div class="bg-gray-300 rounded-lg shadow p-4 border border-gray-200" x-data="{ editing: false, body: '{{ addslashes($comment->body) }}' }">
             <div class="flex items-center justify-between mb-2">
                 <div class="text-sm font-semibold text-gray-800">
                     {{ $comment->user->name }}

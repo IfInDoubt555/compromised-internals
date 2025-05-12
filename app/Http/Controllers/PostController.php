@@ -10,10 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+
+
 
 class PostController extends Controller
 {
     use AuthorizesRequests;
+
     public function index(Request $request)
     {
         $query = Post::with('user')
@@ -125,8 +130,20 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('blog.index')->with('success', 'Post deleted successfully!');
+        // Grab full URL the user came from
+        $previousUrl = url()->previous();
+
+        // Get what the blog show URL would have looked like
+        $postShowUrl = route('blog.show', $post->slug);
+
+        // If user came from that post page, redirect to blog index
+        if (Str::contains($previousUrl, $postShowUrl)) {
+            return redirect()->route('blog.index')->with('success', 'Post deleted successfully!');
+        }
+
+        return redirect()->back()->with('success', 'Post deleted successfully!');
     }
+
     public function toggleLike(Post $post)
     {
         $user = auth()->user();

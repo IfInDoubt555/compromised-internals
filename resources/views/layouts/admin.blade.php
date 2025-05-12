@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="bg-gray-400 text-gray-900 font-sans">
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <aside class="w-64 bg-gray-900 text-white hidden md:block">

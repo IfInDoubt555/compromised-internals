@@ -26,7 +26,7 @@
                 </thead>
                 <tbody>
                     @foreach($entries as $index => $entry)
-                        <tr class="border-t bg-white hover:bg-gray-50 transition">
+                        <tr class="border-t bg-white hover:bg-gray-400 transition">
                             <td class="px-3 py-2">
                                 <img src="{{ asset($entry['Path']) }}" class="w-24 rounded shadow">
                             </td>

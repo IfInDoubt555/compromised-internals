@@ -15,7 +15,7 @@
 
     <table class="w-full table-auto border-collapse">
         <thead>
-            <tr class="bg-gray-100 text-left">
+            <tr class="bg-gray-300 text-left">
                 <th class="p-3">Name</th>
                 <th class="p-3">Email</th>
                 <th class="p-3">Role</th>
@@ -25,7 +25,7 @@
         </thead>
         <tbody>
             @foreach ($users as $user)
-            <tr class="border-b">
+            <tr class="border-b bg-gray-300 ">
                 <td class="p-3">{{ $user->name }}</td>
                 <td class="p-3">{{ $user->email }}</td>
                 <td class="p-3">{{ $user->is_admin ? 'Admin' : 'User' }}</td>
