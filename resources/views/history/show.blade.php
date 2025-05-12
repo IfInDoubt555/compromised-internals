@@ -71,11 +71,12 @@ $decade = request()->route('decade');
               max-w-4xl mx-auto
             ">
                 {{-- Previous --}}
-                @if ($previousItem)
-                <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']]) }}"
+                @if ($nextItem)
+                <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']]) }}"
                     class="text-red-800 hover:text-red-950 transition font-medium">
                     ← Previous {{ $label }}
                 </a>
+
                 @else
                 <div></div>
                 @endif
@@ -83,12 +84,12 @@ $decade = request()->route('decade');
                 {{-- Back --}}
                 <a href="{{ route('history.index') }}?decade={{ $decade }}&tab={{ $tab }}"
                     class="text-blue-600 hover:text-blue-800 underline transition font-medium">
-                    ← Back to {{ ucfirst($label) }} Timeline
+                    Back to {{ ucfirst($label) }} Timeline
                 </a>
 
                 {{-- Next --}}
-                @if ($nextItem)
-                <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']]) }}"
+                @if ($previousItem)
+                <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']]) }}"
                     class="text-green-800 hover:text-green-950 transition font-medium">
                     Next {{ $label }} →
                 </a>
