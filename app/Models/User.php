@@ -54,4 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return !is_null($this->banned_at);
     }
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'post_user_likes')->withTimestamps();
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

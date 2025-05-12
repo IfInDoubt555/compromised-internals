@@ -16,6 +16,8 @@ use App\Models\User;
 use App\Http\Controllers\AttributionController;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CommentController;
+
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -90,6 +92,16 @@ Route::get('/profile/{user}', function (User $user) {
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
+
+Route::middleware('auth')->group(function () {
+    // Like a post
+    Route::post('/posts/{post}/like', [PostController::class, 'toggleLike'])->name('posts.like');
+
+    // Comment actions
+    Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/{comment}/edit', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+});
 
 // Route::get('/check-admin-gate', function () {
 //     return Gate::allows('access-admin') ? '✅ Gate allows access' : '❌ Gate denies access';

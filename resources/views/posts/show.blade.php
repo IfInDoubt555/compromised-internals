@@ -1,11 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- Navigation Links --}}
-@if ($previous || $next)
+{{-- Navigation --}}
 <div class="max-w-6xl mx-auto px-4 mt-6 mb-6 flex justify-between items-center text-sm font-semibold">
-
-    {{-- Left: Next Post --}}
     <div>
         @if ($next)
         <a href="{{ route('blog.show', $next->slug) }}" class="text-green-800 hover:text-green-950 hover:underline">
@@ -13,15 +10,11 @@
         </a>
         @endif
     </div>
-
-    {{-- Center: Back to Blog --}}
     <div>
         <a href="{{ route('blog.index') }}" class="text-blue-600 hover:underline">
             Back to Blog
         </a>
     </div>
-
-    {{-- Right: Previous Post --}}
     <div>
         @if ($previous)
         <a href="{{ route('blog.show', $previous->slug) }}" class="text-red-800 hover:text-red-950 hover:underline">
@@ -30,26 +23,22 @@
         @endif
     </div>
 </div>
-@endif
-{{-- Main Post Layout --}}
-<div class="flex flex-col md:flex-row gap-8 mb-8 mt-6 max-w-6xl mx-auto px-4">
 
-    {{-- Left: Image --}}
+{{-- Main Content --}}
+<div class="flex flex-col md:flex-row gap-8 mb-12 max-w-6xl mx-auto px-4">
+
+    {{-- Left: Post Image --}}
     <div class="md:w-[40%] max-w-md">
-        @if ($post->image_path)
-        <img src="{{ Storage::url($post->image_path) }}" alt="{{ $post->title }}" class="rounded-lg shadow-md w-full object-cover">
-        @else
-        <img src="{{ asset('images/default-post.png') }}" alt="Default Image" class="rounded-lg shadow-md w-full object-cover">
-        @endif
+        <img src="{{ $post->image_path ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
+            alt="{{ $post->title }}"
+            class="rounded-lg shadow-md w-full object-cover">
     </div>
 
-    {{-- Right: Title, Author, Actions, and Body --}}
+    {{-- Right: Title, Author, Actions, Body --}}
     <div class="flex-1 max-w-2xl">
         <h1 class="text-3xl font-bold mb-4">{{ $post->title }}</h1>
 
-        {{-- Author and Actions --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-
             {{-- Author Info --}}
             <div class="flex items-center gap-3">
                 <a href="{{ route('profile.public', $post->user->id) }}">
@@ -61,14 +50,14 @@
                 </div>
             </div>
 
-            {{-- Author Actions --}}
+            {{-- Actions --}}
             @can('update', $post)
             <div class="flex gap-3">
                 <a href="{{ route('posts.edit', $post) }}" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
                     ✏️ Edit
                 </a>
-
-                <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');" class="inline">
+                <form action="{{ route('posts.destroy', $post) }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this post?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
@@ -80,9 +69,88 @@
         </div>
 
         {{-- Body --}}
-        <div class="prose max-w-none">
+        <div class="prose max-w-none text-gray-800">
             {!! nl2br(e($post->body)) !!}
         </div>
+
+        {{-- Like Button --}}
+        @php $user = auth()->user(); @endphp
+        <form method="POST" action="{{ route('posts.like', $post) }}">
+            @csrf
+            <button type="submit" class="text-pink-600 hover:text-pink-800 text-sm" {{ !$user ? 'disabled' : '' }}>
+                ❤️ {{ $post->likes()->count() }}
+                {{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}
+            </button>
+        </form>
     </div>
+</div>
+
+{{-- Comment Section --}}
+<div class="max-w-4xl mx-auto px-4">
+
+    {{-- Form --}}
+    @auth
+    <form action="{{ route('comments.store', $post) }}" method="POST" class="mb-6">
+        @csrf
+        <textarea name="body" rows="3" class="w-full p-3 rounded border border-gray-300 shadow-sm" placeholder="Leave a comment..."></textarea>
+        <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            Comment
+        </button>
+    </form>
+    @endauth
+
+    {{-- 💬 Comment List --}}
+    @if ($post->comments->count())
+    <div class="space-y-4 mb-6 mt-10">
+        <h2 class="text-xl font-bold">Comments</h2>
+
+        @foreach ($post->comments as $comment)
+        <div class="bg-white rounded-lg shadow p-4 border border-gray-200" x-data="{ editing: false, body: '{{ addslashes($comment->body) }}' }">
+            <div class="flex items-center justify-between mb-2">
+                <div class="text-sm font-semibold text-gray-800">
+                    {{ $comment->user->name }}
+                </div>
+                <div class="text-xs text-gray-500">
+                    {{ $comment->created_at->diffForHumans() }}
+                </div>
+            </div>
+
+            {{-- Body / Edit Field --}}
+            <div class="mb-3">
+                <p x-show="!editing" x-text="body" class="text-gray-900"></p>
+
+                @can('update', $comment)
+                <form x-show="editing" method="POST" action="{{ route('comments.update', $comment) }}" class="mt-2 flex flex-col gap-2">
+                    @csrf
+                    <input type="text" name="body" x-model="body" class="border rounded px-2 py-1 text-sm w-full">
+                    <div class="flex gap-2">
+                        <button type="submit" class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600">✔️ Update</button>
+                        <button type="button" @click="editing = false" class="text-sm text-gray-500 hover:underline">Cancel</button>
+                    </div>
+                </form>
+                @endcan
+            </div>
+
+            {{-- Edit & Delete Controls --}}
+            <div class="flex gap-3">
+                @can('update', $comment)
+                <button @click="editing = !editing" class="text-sm text-yellow-600 hover:underline">✏️ Edit</button>
+                @endcan
+
+                @can('delete', $comment)
+                <form action="{{ route('comments.destroy', $comment) }}" method="POST" onsubmit="return confirm('Delete this comment?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-sm text-red-600 hover:underline">🗑️ Delete</button>
+                </form>
+                @endcan
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @else
+    <p class="mt-10 text-gray-500 italic">No comments yet. Be the first to chime in!</p>
+    @endif
+
 </div>
 @endsection

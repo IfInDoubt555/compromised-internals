@@ -127,4 +127,17 @@ class PostController extends Controller
 
         return redirect()->route('blog.index')->with('success', 'Post deleted successfully!');
     }
+    public function toggleLike(Post $post)
+    {
+        $user = auth()->user();
+
+        // Toggle logic
+        if ($post->likes()->where('user_id', $user->id)->exists()) {
+            $post->likes()->detach($user->id);
+        } else {
+            $post->likes()->attach($user->id);
+        }
+
+        return back()->with('success', 'Toggled like.');
+    }
 }

@@ -25,6 +25,22 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
+    }
+
+    public function isLikedBy(?User $user)
+    {
+        if (!$user) return false;
+
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(\App\Models\Comment::class)->latest();
+    }
 
     // Use slug instead of ID in route model binding
     public function getRouteKeyName()
