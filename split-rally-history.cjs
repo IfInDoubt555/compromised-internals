@@ -35,3 +35,5 @@ try {
   console.error("🚨 Error processing rally-history.json:");
   console.error(err);
 }
+// This is what to run in the terminal
+// node split - rally - history.cjs
