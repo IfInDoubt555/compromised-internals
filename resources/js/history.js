@@ -94,9 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // Reset tab styles
       document.querySelectorAll(".tab-btn").forEach(b => {
         b.classList.remove("bg-blue-600", "text-white");
-        b.classList.add("bg-gray-200");
+        b.classList.add("bg-gray-300", "text-black");
       });
-      btn.classList.remove("bg-gray-200");
+      btn.classList.remove("bg-gray-300", "text-black");
       btn.classList.add("bg-blue-600", "text-white");
 
       // Set active tab
