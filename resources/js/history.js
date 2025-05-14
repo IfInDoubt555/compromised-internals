@@ -78,6 +78,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Fix: Show year dropdown immediately if "events" is active
+  if (yearFilterInput) {
+    if (activeTab === "events") {
+      yearFilterInput.classList.remove("hidden");
+      populateYearDropdown(currentDecade);
+    } else {
+      yearFilterInput.classList.add("hidden");
+    }
+  }
+
   slider.noUiSlider.on("update", (values, handle) => {
     const decadeKey = Math.floor(values[handle] / 10) * 10;
     selectedTitle.textContent = `Selected: ${decadeKey}`;

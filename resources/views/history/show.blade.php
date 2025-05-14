@@ -10,9 +10,11 @@ $decade = request()->route('decade');
     <div class="max-w-4xl mx-auto px-4 py-10">
 
         {{-- Title --}}
-        <h1 class="text-3xl backdrop-blur-md bg-white/30 dark:bg-white/40 rounded-xl px-6 py-4 shadow-xl font-extrabold text-center mb-8">
-            {{ $item['title'] ?? $item['name'] ?? 'Untitled' }}
-        </h1>
+        <div class="max-w-fit mx-auto">
+            <h1 class="text-3xl backdrop-blur-md bg-white/30 dark:bg-white/40 rounded-xl px-6 py-4 shadow-xl font-extrabold text-center mb-8">
+                {{ $item['title'] ?? $item['name'] ?? 'Untitled' }}
+            </h1>
+        </div>
 
         {{-- Details --}}
         <div class="prose max-w-none text-gray-800 mt-10 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6">

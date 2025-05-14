@@ -13,13 +13,17 @@
   </div>
 
   <div id="slider" class="w-full sm:w-2/3 max-w-xl mx-auto my-6"></div>
-  <div id="selected-decade-title" class="text-xl font-semibold text-center mb-4"></div>
+  <div class="max-w-fit mx-auto">
+    <div id="selected-decade-title" class="text-xl backdrop-blur-md bg-white/30 dark:bg-white/40 rounded-xl px-6 py-4 shadow-xl font-semibold text-center mb-4">
+    </div>
+  </div>
+
 
   <div class="flex justify-center mt-4 mb-4">
     <select
       id="year-filter"
       class="border px-2 py-1 rounded text-center w-40 hidden">
-      <option value="">All Years</option>
+      <option value="">Full Decade</option>
     </select>
   </div>
 
