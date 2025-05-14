@@ -10,7 +10,7 @@ $decade = request()->route('decade');
     <div class="max-w-4xl mx-auto px-4 py-10">
 
         {{-- Title --}}
-        <h1 class="text-3xl font-extrabold text-center mb-8">
+        <h1 class="text-3xl backdrop-blur-md bg-white/30 dark:bg-white/40 rounded-xl px-6 py-4 shadow-xl font-extrabold text-center mb-8">
             {{ $item['title'] ?? $item['name'] ?? 'Untitled' }}
         </h1>
 
@@ -48,7 +48,7 @@ $decade = request()->route('decade');
 
         <div class="mt-10 relative z-10">
             <div class="
-              backdrop-blur-md bg-white/40 dark:bg-black/20 rounded-xl px-6 py-4 shadow-xl 
+              backdrop-blur-md bg-white/30 dark:bg-white/40 rounded-xl px-6 py-4 shadow-xl 
               flex flex-col space-y-4 items-center 
               md:flex-row md:space-y-0 md:space-x-6 md:justify-between
               max-w-4xl mx-auto
