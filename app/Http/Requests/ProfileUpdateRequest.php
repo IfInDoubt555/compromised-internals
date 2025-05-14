@@ -25,7 +25,11 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
-                'profile_picture' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'rally_role' => [
+                'nullable',
+                Rule::in(['Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Coordinator', 'Volunteer']),
+            ],            
+            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
 
         ];
     }

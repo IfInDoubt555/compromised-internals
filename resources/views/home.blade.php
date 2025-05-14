@@ -17,10 +17,6 @@
             {{-- Event --}}
             @if($event)
             <div class="card bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
-                <img src="{{ asset($event['image'] ?? 'images/dont-cut.jpg') }}"
-                    alt="{{ $event['title'] ?? 'Event Image' }}"
-                    class="w-full h-90 object-cover mb-4 rounded"
-                    onerror="this.onerror=null;this.src='/images/dont-cut.jpg';" />
                 <h2 class="text-xl text-black font-bold mb-2 text-center">{{ $event['title'] ?? 'Untitled' }}</h2>
                 <p class="text-gray-600 mb-4 text-center">{{ $event['bio'] ?? 'No description available.' }}</p>
                 <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $event['decade'], 'id' => $event['id']]) }}"
@@ -31,10 +27,6 @@
             {{-- Car --}}
             @if($car)
             <div class="card bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
-                <img src="{{ asset($car['image'] ?? 'images/dont-cut.jpg.png') }}"
-                    alt="{{ $car['name'] ?? 'Car Image' }}"
-                    class="w-full h-90 object-cover mb-4 rounded"
-                    onerror="this.onerror=null;this.src='/images/dont-cut.jpg';" />
                 <h2 class="text-xl text-black font-bold mb-2 text-center">{{ $car['name'] ?? 'Unnamed Car' }}</h2>
                 <p class="text-gray-600 mb-4 text-center">{{ $car['bio'] ?? 'No description available.' }}</p>
                 <a href="{{ route('history.show', ['tab' => 'cars', 'decade' => $car['decade'], 'id' => $car['id']]) }}"
@@ -45,10 +37,6 @@
             {{-- Driver --}}
             @if($driver)
             <div class="card bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
-                <img src="{{ asset($driver['image'] ?? 'images/dont-cut.jpg') }}"
-                    alt="{{ $driver['name'] ?? 'Driver Image' }}"
-                    class="w-full h-90 object-cover mb-4 rounded"
-                    onerror="this.onerror=null;this.src='/images/dont-cut.jpg';" />
                 <h2 class="text-xl text-black font-bold mb-2 text-center">{{ $driver['name'] ?? 'Unnamed Driver' }}</h2>
                 <p class="text-gray-600 mb-4 text-center">{{ $driver['bio'] ?? 'No description available.' }}</p>
                 <a href="{{ route('history.show', ['tab' => 'drivers', 'decade' => $driver['decade'], 'id' => $driver['id']]) }}"

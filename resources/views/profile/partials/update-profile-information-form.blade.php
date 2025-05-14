@@ -23,21 +23,21 @@
         <x-input name="email" label="Email" type="email" value="{{ old('email', $user->email) }}" required autocomplete="username" />
 
         @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-            <div>
-                <p class="text-sm mt-2 text-gray-800">
-                    Your email address is unverified.
+        <div>
+            <p class="text-sm mt-2 text-gray-800">
+                Your email address is unverified.
 
-                    <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Click here to re-send the verification email.
-                    </button>
-                </p>
+                <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Click here to re-send the verification email.
+                </button>
+            </p>
 
-                @if (session('status') === 'verification-link-sent')
-                    <p class="mt-2 font-medium text-sm text-green-600">
-                        A new verification link has been sent to your email address.
-                    </p>
-                @endif
-            </div>
+            @if (session('status') === 'verification-link-sent')
+            <p class="mt-2 font-medium text-sm text-green-600">
+                A new verification link has been sent to your email address.
+            </p>
+            @endif
+        </div>
         @endif
 
         <!-- Profile Picture -->
@@ -45,41 +45,39 @@
             <label for="profile_picture" class="block text-sm font-medium text-gray-700 mb-1">Profile Picture</label>
 
             <div class="flex items-center gap-4">
-                <input 
+                <input
                     id="profile_picture"
                     name="profile_picture"
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
                     onchange="previewAvatar(event)"
-                    class="file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition text-sm border        border-gray-300 rounded-xl w-full max-w-sm"
-                />
+                    class="file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition text-sm border        border-gray-300 rounded-xl w-full max-w-sm" />
                 <script>
-                function previewAvatar(event) {
-                    const input = event.target;
-                    const preview = document.getElementById('avatar-preview');
-                
-                    if (input.files && input.files[0]) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            preview.src = e.target.result;
-                        };
-                        reader.readAsDataURL(input.files[0]);
+                    function previewAvatar(event) {
+                        const input = event.target;
+                        const preview = document.getElementById('avatar-preview');
+
+                        if (input.files && input.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                preview.src = e.target.result;
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }
                     }
-                }
                 </script>
 
                 <!-- Avatar Preview -->
-                <img id="avatar-preview" 
-                     src="{{ $user->profile_picture_url ?? '/images/default-avatar.png' }}" 
-                     alt="Avatar Preview" 
-                     class="w-29 h-29 rounded-full shadow border object-cover" 
-                />
+                <img id="avatar-preview"
+                    src="{{ $user->profile_picture_url ?? '/images/default-avatar.png' }}"
+                    alt="Avatar Preview"
+                    class="w-29 h-29 rounded-full shadow border object-cover" />
             </div>
 
             <p class="text-xs text-gray-500 mt-1">Max file size: 2MB. Formats: JPG, PNG, WebP</p>
 
             @error('profile_picture')
-                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
         </div>
 
@@ -94,21 +92,41 @@
             <x-input name="favorite_driver" label="Favorite Driver" value="{{ old('favorite_driver', $user->profile->favorite_driver ?? '') }}" />
             <x-input name="favorite_car" label="Favorite Car" value="{{ old('favorite_car', $user->profile->favorite_car ?? '') }}" />
         </div>
+        @php
+        $roles = ['Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Coordinator', 'Volunteer'];
+        $selectedRole = old('rally_role', $user->profile->rally_role ?? '');
+        @endphp
 
-        <x-textarea name="bio" label="About Me" value="{{ old('bio', $user->profile->bio ?? '') }}" class="mt-4" />
+        <div>
+            <label for="rally_role" class="block text-sm font-medium text-gray-700">Rally Role</label>
+            <select name="rally_role" id="rally_role"
+                class="w-auto max-w-xs rounded-xl border-gray-300 shadow-sm px-4 py-2 text-sm">
+                <option value="">Select a role...</option>
+                @foreach ($roles as $role)
+                <option value="{{ $role }}" @selected($selectedRole===$role)>{{ $role }}</option>
+                @endforeach
+            </select>
+
+            @error('rally_role')
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <x-textarea name="bio" label="About Me" class="mt-4">
+            {!! old('bio', $user->profile->bio ?? '') !!}
+        </x-textarea>
 
         <div class="flex items-center gap-4 mt-6">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition">
-            💾 Save
-        </button>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition">
+                💾 Save
+            </button>
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >Saved.</p>
+            <p
+                x-data="{ show: true }"
+                x-show="show"
+                x-transition
+                x-init="setTimeout(() => show = false, 2000)"
+                class="text-sm text-gray-600">Saved.</p>
             @endif
         </div>
     </form>

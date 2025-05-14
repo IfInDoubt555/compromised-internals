@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Services\ImageService;
 
-
 class UserService
 {
     public static function updateProfile($user, Request $request): void
@@ -32,8 +31,8 @@ class UserService
             $user->profile_picture = $processedPath;
         }
 
-        // Update base user info
-        $user->fill($request->validated());
+        // Update base user info safely (only intended user fields)
+        $user->fill($request->safe()->only(['name', 'email']));
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
@@ -41,15 +40,36 @@ class UserService
 
         $user->save();
 
-        // Update or create extended profile details
-        $user->profile()->updateOrCreate(
-            ['user_id' => $user->id],
-            $request->only([
-                'display_name', 'location', 'rally_fan_since', 'birthday', 'bio',
-                'favorite_driver', 'favorite_car', 'favorite_event', 'favorite_game', 'car_setup_notes',
-                'website', 'instagram', 'youtube', 'twitter', 'twitch',
-                'profile_color', 'banner_image', 'layout_style',
-            ])
-        );
+        // Save extended profile fields
+        $profileData = $request->only([
+            'display_name',
+            'location',
+            'rally_role',
+            'rally_fan_since',
+            'birthday',
+            'bio',
+            'favorite_driver',
+            'favorite_car',
+            'favorite_event',
+            'favorite_game',
+            'car_setup_notes',
+            'website',
+            'instagram',
+            'youtube',
+            'twitter',
+            'twitch',
+            'profile_color',
+            'banner_image',
+            'layout_style',
+        ]);
+
+        if ($user->profile) {
+            $user->profile->update($profileData);
+        } else {
+            $user->profile()->create($profileData + ['user_id' => $user->id]);
+        }
+
+        // Reload profile relationship to reflect latest data
+        $user->load('profile');
     }
 }

@@ -13,6 +13,7 @@ class UserProfile extends Model
         'user_id',
         'display_name',
         'location',
+        'rally_role',
         'rally_fan_since',
         'birthday',
         'bio',
