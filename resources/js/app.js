@@ -21,8 +21,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const calendar = new Calendar(calendarEl, {
             plugins: [dayGridPlugin, interactionPlugin],
             initialView: 'dayGridMonth',
-            events: '/api/events',
-            eventDataTransform: function (eventData) {
+            events: function (info, successCallback, failureCallback) {
+                fetch('/api/events?start=' + info.startStr + '&end=' + info.endStr)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Events loaded from API:', data); // ✅ DEBUG HERE
+                        successCallback(data);
+                    })
+                    .catch(error => {
+                        console.error('Error loading events:', error);
+                        failureCallback(error);
+                    });
+            },
+                        eventDataTransform: function (eventData) {
                 return {
                     ...eventData,
                     allDay: true // ⬅️ Ensure full-day rendering

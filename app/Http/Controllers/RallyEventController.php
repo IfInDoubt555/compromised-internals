@@ -14,15 +14,22 @@ class RallyEventController extends Controller
         return view('calendar.index', compact('events'));
     }
 
-    public function api()
+    public function api(Request $request)
     {
-        // Only return necessary fields via a resource array
-        $events = RallyEvent::all()->map(fn($event) => [
-            'title' => $event->name,
-            'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
-            'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
-            'url' => route('calendar.show', $event->slug),
-        ]);
+        $events = RallyEvent::query()
+            ->when($request->start, function ($q) use ($request) {
+                $q->whereDate('end_date', '>=', $request->start);
+            })
+            ->when($request->end, function ($q) use ($request) {
+                $q->whereDate('start_date', '<=', $request->end);
+            })
+            ->get()
+            ->map(fn($event) => [
+                'title' => $event->name,
+                'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
+                'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
+                'url' => route('calendar.show', $event->slug),
+            ]);
 
         return response()->json($events);
     }
