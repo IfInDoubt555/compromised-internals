@@ -85,3 +85,40 @@
   50% { background-position: 100% 100%; }
   100% { background-position: 0% 0%; }
 }
+/* Year filter dropdown - default visibility fix */
+#year-filter {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  font-weight: 500;
+}
+
+/* 1970s theme fix (dark gradient) */
+#theme-wrapper.decade-1970 #year-filter {
+  background-color: #f9f9f9;
+  color: #111;
+  border-color: #888;
+}
+
+/* 1980s theme fix (dark Group B tones) */
+#theme-wrapper.decade-1980 #year-filter {
+  background-color: #eeeeee;
+  color: #111;
+  border-color: #777;
+}
+
+/* 1990s and beyond (blues, reds, darks) */
+#theme-wrapper.decade-1990 #year-filter,
+#theme-wrapper.decade-2000 #year-filter,
+#theme-wrapper.decade-2010 #year-filter,
+#theme-wrapper.decade-2020 #year-filter {
+  background-color: #e6e6e6;
+  color: #111;
+  border-color: #666;
+}
+#year-filter:hover,
+#year-filter:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #007bff;
+}
