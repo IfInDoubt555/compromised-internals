@@ -1,6 +1,6 @@
 [
   {
-    "id": 502,
+    "id": 500,
     "year": 1990,
     "title": "1990 Paris–Dakar Rally (France–Libya–Niger–Chad–Mali–Mauritania–Senegal)",
     "bio": "Ari Vatanen secured a third consecutive Paris–Dakar victory, dominating the 1990 edition in his Peugeot 405 Turbo 16 despite political diversions and over 8,500 km of competitive stage distance.",
@@ -8,7 +8,7 @@
     "image": "/images/history/events/1990-paris-dakar.webp"
   },
   {
-    "id": 503,
+    "id": 501,
     "year": 1990,
     "title": "1990 Rallye Monte-Carlo (Monaco)",
     "bio": "Didier Auriol opened the 1990 season with a commanding drive through the Alps, expertly handling the changing tarmac and snow conditions to give Lancia and the new Integrale 16V a flawless debut win.",
@@ -16,7 +16,7 @@
     "image": "/images/history/events/1990-monte-carlo.webp"
   },
   {
-    "id": 504,
+    "id": 502,
     "year": 1990,
     "title": "1990 Rallye de Portugal (Portugal)",
     "bio": "Miki Biasion tamed Portugal’s chaotic gravel and tarmac transitions, mastering dusty mountain roads and thick crowds to take a crucial win for Lancia and the Delta Integrale 16V.",
@@ -24,7 +24,7 @@
     "image": "/images/history/events/1990-portugal.webp"
   },
   {
-    "id": 505,
+    "id": 503,
     "year": 1990,
     "title": "1990 Marlboro Safari Rally (Kenya)",
     "bio": "Björn Waldegård rolled back the years with a vintage performance, conquering Africa’s toughest endurance rally in the Toyota Celica GT-Four ST165 to claim his final WRC victory at age 46.",
@@ -32,7 +32,7 @@
     "image": "/images/history/events/1990-safari.webp"
   },
   {
-    "id": 506,
+    "id": 504,
     "year": 1990,
     "title": "1990 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Didier Auriol extended his tarmac dominance with a third career win on Corsica’s treacherous mountain roads, flawlessly navigating the 'Rally of 10,000 Corners' in the Lancia Delta Integrale 16V.",
@@ -40,7 +40,7 @@
     "image": "/images/history/events/1990-tour-de-corse.webp"
   },
   {
-    "id": 507,
+    "id": 505,
     "year": 1990,
     "title": "1990 Acropolis Rally (Greece)",
     "bio": "Carlos Sainz secured his first victory of the season by conquering Greece’s brutal rocky terrain, guiding the Toyota Celica GT-Four ST165 to a historic win through relentless heat and punishment.",
@@ -48,7 +48,7 @@
     "image": "/images/history/events/1990-acropolis.webp"
   },
   {
-    "id": 508,
+    "id": 506,
     "year": 1990,
     "title": "1990 Rally of New Zealand (New Zealand)",
     "bio": "In a landmark moment for the future of rallying, young Scotsman Colin McRae took his first WRC win on the flowing gravel roads of New Zealand, delivering a bold and fearless drive in the Ford Sierra Sapphire RS Cosworth.",
@@ -56,7 +56,7 @@
     "image": "/images/history/events/1990-new-zealand.webp"
   },
   {
-    "id": 509,
+    "id": 507,
     "year": 1990,
     "title": "1990 Rally Argentina (Argentina)",
     "bio": "Carlos Sainz delivered a commanding drive through the rough Patagonian terrain to earn a decisive victory in Argentina, tightening his grip on the championship with the Toyota Celica GT-Four ST165.",
@@ -64,7 +64,7 @@
     "image": "/images/history/events/1990-argentina.webp"
   },
   {
-    "id": 510,
+    "id": 508,
     "year": 1990,
     "title": "1990 1000 Lakes Rally (Finland)",
     "bio": "Juha Kankkunen thrilled the home crowd with a flat-out victory on Finland’s legendary gravel stages, flying to first place in the Lancia Delta Integrale 16V and keeping his title hopes alive.",
@@ -72,7 +72,7 @@
     "image": "/images/history/events/1990-1000-lakes.webp"
   },
   {
-    "id": 511,
+    "id": 509,
     "year": 1990,
     "title": "1990 Rally Australia (Australia)",
     "bio": "Juha Kankkunen mastered the fast, technical gravel of Western Australia to give Toyota a crucial late-season victory in the Celica GT-Four ST165, reigniting his title fight with Sainz.",
@@ -80,7 +80,7 @@
     "image": "/images/history/events/1990-australia.webp"
   },
   {
-    "id": 512,
+    "id": 510,
     "year": 1990,
     "title": "1990 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Didier Auriol dominated the mixed-surface Sanremo Rally with pinpoint precision, guiding the Lancia Delta Integrale 16V to victory on both gravel and tarmac in front of the home crowd.",
@@ -88,7 +88,7 @@
     "image": "/images/history/events/1990-sanremo.webp"
   },
   {
-    "id": 513,
+    "id": 511,
     "year": 1990,
     "title": "1990 Rallye Côte d’Ivoire – Bandama (Ivory Coast)",
     "bio": "Patrick Tauziac overcame brutal African terrain to claim his only WRC victory, mastering the endurance format of the Bandama Rally in his Mitsubishi Galant VR-4.",
@@ -96,7 +96,7 @@
     "image": "/images/history/events/1990-cote-divoire.webp"
   },
   {
-    "id": 514,
+    "id": 512,
     "year": 1990,
     "title": "1990 Lombard RAC Rally (Great Britain)",
     "bio": "Carlos Sainz sealed his first World Rally Championship title with a flawless drive through the British forests, winning the RAC Rally in the Toyota Celica GT-Four ST165 under heavy pressure.",
@@ -104,7 +104,7 @@
     "image": "/images/history/events/1990-rac.webp"
   },
   {
-    "id": 515,
+    "id": 513,
     "year": 1991,
     "title": "1991 Paris–Tripoli–Dakar Rally (France–Libya–Niger–Mali–Mauritania–Senegal)",
     "bio": "Ari Vatanen returned to the top of the desert hierarchy with a commanding win in the rebranded Paris–Tripoli–Dakar Rally, piloting the new Citroën ZX Rallye Raid through a brutal 9,000+ km African trek.",
@@ -112,7 +112,7 @@
     "image": "/images/history/events/1991-paris-dakar.webp"
   },
   {
-    "id": 516,
+    "id": 514,
     "year": 1991,
     "title": "1991 Rallye Monte-Carlo (Monaco)",
     "bio": "Carlos Sainz began his title defense in style, mastering the icy roads and tire gambles of Monte Carlo to take a confident victory in the Toyota Celica GT-Four ST165.",
@@ -120,7 +120,7 @@
     "image": "/images/history/events/1991-monte-carlo.webp"
   },
   {
-    "id": 517,
+    "id": 515,
     "year": 1991,
     "title": "1991 International Swedish Rally (Sweden)",
     "bio": "Kenneth Eriksson delivered a spectacular home win on Sweden’s frozen roads, guiding the Mitsubishi Galant VR-4 to its first WRC victory on snow and ice.",
@@ -128,7 +128,7 @@
     "image": "/images/history/events/1991-swedish.webp"
   },
   {
-    "id": 518,
+    "id": 516,
     "year": 1991,
     "title": "1991 Rallye de Portugal – Vinho do Porto (Portugal)",
     "bio": "Miki Biasion returned to form with a commanding win in Portugal, expertly handling both gravel and tarmac in the Lancia Delta Integrale 16V to remind the field of his title-winning pedigree.",
@@ -136,7 +136,7 @@
     "image": "/images/history/events/1991-portugal.webp"
   },
   {
-    "id": 519,
+    "id": 517,
     "year": 1991,
     "title": "1991 Safari Rally (Kenya)",
     "bio": "Kenjiro Shinozuka made history in Kenya by becoming the first Japanese driver to win a WRC event, taming Africa’s harshest rally in Mitsubishi’s rugged Galant VR-4.",
@@ -144,7 +144,7 @@
     "image": "/images/history/events/1991-safari.webp"
   },
   {
-    "id": 520,
+    "id": 518,
     "year": 1991,
     "title": "1991 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Didier Auriol delivered a flawless tarmac masterclass on home soil, storming to victory through Corsica’s relentless corners in the Lancia Delta Integrale 16V.",
@@ -152,7 +152,7 @@
     "image": "/images/history/events/1991-tour-de-corse.webp"
   },
   {
-    "id": 521,
+    "id": 519,
     "year": 1991,
     "title": "1991 Acropolis Rally (Greece)",
     "bio": "Juha Kankkunen powered through Greece’s searing heat and brutal gravel roads to win the Acropolis Rally in the Lancia Delta Integrale 16V, adding another chapter to his reputation as a master of endurance rallies.",
@@ -160,7 +160,7 @@
     "image": "/images/history/events/1991-acropolis.webp"
   },
   {
-    "id": 522,
+    "id": 520,
     "year": 1991,
     "title": "1991 Rally New Zealand (New Zealand)",
     "bio": "Armin Schwarz claimed his first WRC victory on New Zealand’s flowing gravel stages, guiding the Toyota Celica GT-Four ST165 to a composed and confident win alongside veteran co-driver Arne Hertz.",
@@ -168,7 +168,7 @@
     "image": "/images/history/events/1991-new-zealand.webp"
   },
   {
-    "id": 523,
+    "id": 521,
     "year": 1991,
     "title": "1991 Rally Argentina (Argentina)",
     "bio": "Jorge Recalde made history once again by winning his home rally for the second time, mastering the rugged terrain of Córdoba in his Lancia Delta Integrale 16V.",
@@ -176,7 +176,7 @@
     "image": "/images/history/events/1991-argentina.webp"
   },
   {
-    "id": 524,
+    "id": 522,
     "year": 1991,
     "title": "1991 1000 Lakes Rally (Finland)",
     "bio": "Juha Kankkunen thrilled the home crowd with a dominant win in Finland, flying through the forest stages with perfect rhythm and control in the Lancia Delta Integrale 16V.",
@@ -184,7 +184,7 @@
     "image": "/images/history/events/1991-1000-lakes.webp"
   },
   {
-    "id": 525,
+    "id": 523,
     "year": 1991,
     "title": "1991 Rally Australia (Australia)",
     "bio": "Juha Kankkunen continued his late-season surge with a calculated win in Australia, navigating the technical gravel roads of Western Australia in the Lancia Delta Integrale 16V.",
@@ -192,7 +192,7 @@
     "image": "/images/history/events/1991-australia.webp"
   },
   {
-    "id": 526,
+    "id": 524,
     "year": 1991,
     "title": "1991 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Didier Auriol delivered another sublime performance on Italy’s mixed-surface classic, expertly navigating the asphalt and gravel transitions to claim victory for Lancia on home soil.",
@@ -200,7 +200,7 @@
     "image": "/images/history/events/1991-sanremo.webp"
   },
   {
-    "id": 527,
+    "id": 525,
     "year": 1991,
     "title": "1991 Rallye Côte d’Ivoire – Bandama (Ivory Coast)",
     "bio": "Kenjiro Shinozuka conquered the heat, dust, and vast distances of the Ivorian landscape to win the grueling open-road endurance rally in his Mitsubishi Galant VR-4 for the second time.",
@@ -208,7 +208,7 @@
     "image": "/images/history/events/1991-ivory-coast.webp"
   },
   {
-    "id": 528,
+    "id": 526,
     "year": 1991,
     "title": "1991 Lombard RAC Rally (Great Britain)",
     "bio": "Armin Schwarz stormed to victory in the forests of Britain, overcoming mud, fog, and fierce competition to give Toyota a second win of the season in the Celica GT-Four ST165.",
@@ -216,7 +216,7 @@
     "image": "/images/history/events/1991-rac.webp"
   },
   {
-    "id": 529,
+    "id": 527,
     "year": 1991,
     "title": "1991–92 Paris–Sirte–Cape Town Rally (Africa)",
     "bio": "Hubert Auriol led Citroën to a historic trans-African victory, conquering a near 13,000 km odyssey through deserts, jungles, and savannah from Paris to the southern tip of the continent.",
@@ -224,7 +224,7 @@
     "image": "/images/history/events/1991-paris-cape-town.webp"
   },
   {
-    "id": 530,
+    "id": 528,
     "year": 1992,
     "title": "1992 Rallye Monte-Carlo (Monaco)",
     "bio": "Didier Auriol opened the 1992 season with a calculated win in the Alps, using sharp tire strategy and experience to outpace rivals in mixed asphalt and snow conditions.",
@@ -232,7 +232,7 @@
     "image": "/images/history/events/1992-monte-carlo.webp"
   },
   {
-    "id": 531,
+    "id": 529,
     "year": 1992,
     "title": "1992 International Swedish Rally (Sweden)",
     "bio": "Local hero Mats Jonsson stunned the WRC field with a flawless drive through the snowy forests of Sweden, claiming a popular victory in his Toyota Celica GT-Four ST165.",
@@ -240,7 +240,7 @@
     "image": "/images/history/events/1992-swedish.webp"
   },
   {
-    "id": 532,
+    "id": 530,
     "year": 1992,
     "title": "1992 Rallye de Portugal – Vinho do Porto (Portugal)",
     "bio": "François Delecour charged to his first WRC victory in Portugal, taming the foggy gravel and tarmac roads in his Ford Sierra RS Cosworth with a display of raw speed and growing maturity.",
@@ -248,7 +248,7 @@
     "image": "/images/history/events/1992-portugal.webp"
   },
   {
-    "id": 533,
+    "id": 531,
     "year": 1992,
     "title": "1992 Safari Rally (Kenya)",
     "bio": "Kenjiro Shinozuka mastered Africa’s ultimate endurance rally for a second time, guiding his Mitsubishi Galant VR-4 through the heat, dust, and chaos of Kenya’s unforgiving terrain.",
@@ -256,7 +256,7 @@
     "image": "/images/history/events/1992-safari.webp"
   },
   {
-    "id": 534,
+    "id": 532,
     "year": 1992,
     "title": "1992 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Didier Auriol claimed his fourth consecutive Corsican victory, flawlessly threading his Lancia Delta HF Integrale through the endless corners of the island’s brutal asphalt rally.",
@@ -264,7 +264,7 @@
     "image": "/images/history/events/1992-corse.webp"
   },
   {
-    "id": 535,
+    "id": 533,
     "year": 1992,
     "title": "1992 Acropolis Rally (Greece)",
     "bio": "Carlos Sainz tamed the brutal Greek gravel stages in a calculated drive that rewarded resilience and discipline, earning his first win of the 1992 season with the Toyota Celica GT-Four ST185.",
@@ -272,7 +272,7 @@
     "image": "/images/history/events/1992-acropolis.webp"
   },
   {
-    "id": 536,
+    "id": 534,
     "year": 1992,
     "title": "1992 Rally New Zealand (New Zealand)",
     "bio": "Carlos Sainz carved through New Zealand’s flowing gravel roads with precision and pace, securing a commanding win in the Celica GT-Four ST185 and strengthening his championship push.",
@@ -280,7 +280,7 @@
     "image": "/images/history/events/1992-new-zealand.webp"
   },
   {
-    "id": 537,
+    "id": 535,
     "year": 1992,
     "title": "1992 Rally Argentina (Argentina)",
     "bio": "Gustavo Trelles delivered a career-defining performance on the punishing gravel roads of Argentina, guiding his Lancia Delta HF Integrale to a historic home-continent victory.",
@@ -288,7 +288,7 @@
     "image": "/images/history/events/1992-argentina.webp"
   },
   {
-    "id": 538,
+    "id": 536,
     "year": 1992,
     "title": "1992 1000 Lakes Rally (Finland)",
     "bio": "Markku Alén thrilled the home crowd with a legendary drive through Finland’s fast gravel stages, earning Subaru its first-ever WRC victory behind the wheel of the Legacy RS.",
@@ -296,7 +296,7 @@
     "image": "/images/history/events/1992-1000-lakes.webp"
   },
   {
-    "id": 539,
+    "id": 537,
     "year": 1992,
     "title": "1992 Rally Australia (Australia)",
     "bio": "Carlos Sainz mastered the Western Australian forests with a clean and commanding performance, extending his championship momentum in the Toyota Celica GT-Four ST185.",
@@ -304,7 +304,7 @@
     "image": "/images/history/events/1992-australia.webp"
   },
   {
-    "id": 540,
+    "id": 538,
     "year": 1992,
     "title": "1992 Paris–Moscow–Beijing Rally (Europe–Asia)",
     "bio": "Pierre Lartigue and Michel Périn conquered one of rallying’s longest-ever events, guiding their Citroën ZX Rallye Raid across 16,000 km of Eurasian terrain from the heart of Europe to the edge of the Pacific.",
@@ -312,7 +312,7 @@
     "image": "/images/history/events/1992-paris-moscow-beijing.webp"
   },
   {
-    "id": 541,
+    "id": 539,
     "year": 1992,
     "title": "1992 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Andrea Aghini claimed an emotional first WRC win for Lancia on home soil in a Sanremo rally shortened by political tension and team withdrawals.",
@@ -320,7 +320,7 @@
     "image": "/images/history/events/1992-sanremo.webp"
   },
   {
-    "id": 542,
+    "id": 540,
     "year": 1992,
     "title": "1992 Rallye Côte d’Ivoire – Bandama (Ivory Coast)",
     "bio": "Kenjiro Shinozuka delivered another masterful performance on African soil, conquering the brutal endurance challenge of Côte d’Ivoire in the Mitsubishi Galant VR-4.",
@@ -328,7 +328,7 @@
     "image": "/images/history/events/1992-cote-divoire.webp"
   },
   {
-    "id": 543,
+    "id": 541,
     "year": 1992,
     "title": "1992 Rallye de España – Catalunya (Spain)",
     "bio": "Didier Auriol delivered a dominant performance on the winding tarmac of Catalunya, securing another asphalt victory for Lancia in the twilight of the Delta HF Integrale’s WRC dominance.",
@@ -336,7 +336,7 @@
     "image": "/images/history/events/1992-catalunya.webp"
   },
   {
-    "id": 544,
+    "id": 542,
     "year": 1992,
     "title": "1992 Lombard RAC Rally (Great Britain)",
     "bio": "Colin McRae etched his name into rallying history with a fearless performance through the British forests, securing his first WRC win and Subaru’s rise to prominence.",
@@ -344,7 +344,7 @@
     "image": "/images/history/events/1992-rac.webp"
   },
   {
-    "id": 545,
+    "id": 543,
     "year": 1993,
     "title": "1993 Paris–Dakar Rally (Paris–Tanger–Dakar)",
     "bio": "Bruno Saby and Dominique Serieys navigated the shifting sands of North and West Africa with grit and precision, piloting their Mitsubishi Pajero to a landmark victory in the legendary desert marathon.",
@@ -352,7 +352,7 @@
     "image": "/images/history/events/1993-paris-dakar.webp"
   },
   {
-    "id": 546,
+    "id": 544,
     "year": 1993,
     "title": "1993 Rallye Monte-Carlo (Monaco)",
     "bio": "François Delecour claimed a breakthrough win in Monte Carlo, taming the treacherous mix of snow and asphalt in his Ford Escort RS Cosworth with a calculated and confident drive.",
@@ -360,7 +360,7 @@
     "image": "/images/history/events/1993-monte-carlo.webp"
   },
   {
-    "id": 547,
+    "id": 545,
     "year": 1993,
     "title": "1993 International Swedish Rally (Sweden)",
     "bio": "Mats Jonsson dominated the icy forests of Sweden once again, using his local knowledge and precise car control to claim back-to-back wins in the Ford Escort RS Cosworth.",
@@ -368,7 +368,7 @@
     "image": "/images/history/events/1993-swedish.webp"
   },
   {
-    "id": 548,
+    "id": 546,
     "year": 1993,
     "title": "1993 Rallye de Portugal – Vinho do Porto (Portugal)",
     "bio": "François Delecour followed up his Monte Carlo success with a commanding victory in Portugal, proving the Ford Escort RS Cosworth’s pace across both gravel and tarmac.",
@@ -376,7 +376,7 @@
     "image": "/images/history/events/1993-portugal.webp"
   },
   {
-    "id": 549,
+    "id": 547,
     "year": 1993,
     "title": "1993 Safari Rally (Kenya)",
     "bio": "Ian Duncan made history by becoming the first Kenyan to win a WRC round outright, conquering the grueling Safari Rally in a faultless drive across the punishing terrain of East Africa.",
@@ -384,7 +384,7 @@
     "image": "/images/history/events/1993-safari.webp"
   },
   {
-    "id": 550,
+    "id": 548,
     "year": 1993,
     "title": "1993 Lombard London–Sydney Marathon (UK to Australia)",
     "bio": "Francis Tuthill and Anthony Showell triumphed in the epic 1993 London–Sydney Marathon, completing an incredible 16,000 km journey across continents in a vintage Porsche 911.",
@@ -392,7 +392,7 @@
     "image": "/images/history/events/1993-london-sydney.webp"
   },
   {
-    "id": 551,
+    "id": 549,
     "year": 1993,
     "title": "1993 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Didier Auriol reaffirmed his asphalt dominance with a masterful win in Corsica, guiding the Toyota Celica Turbo 4WD through relentless corners and technical tarmac with unshakable precision.",
@@ -400,7 +400,7 @@
     "image": "/images/history/events/1993-corse.webp"
   },
   {
-    "id": 552,
+    "id": 550,
     "year": 1993,
     "title": "1993 Acropolis Rally (Greece)",
     "bio": "Juha Kankkunen and Nicky Grist delivered a commanding win through the brutal Greek terrain, proving both their endurance and the rugged power of the Toyota Celica Turbo 4WD.",
@@ -408,7 +408,7 @@
     "image": "/images/history/events/1993-acropolis.webp"
   },
   {
-    "id": 553,
+    "id": 551,
     "year": 1993,
     "title": "1993 Rally Argentina (Argentina)",
     "bio": "Uruguayan driver Gustavo Trelles claimed a landmark WRC win in the punishing gravel stages of Argentina, mastering the terrain in his dependable Lancia Delta HF Integrale.",
@@ -416,7 +416,7 @@
     "image": "/images/history/events/1993-argentina.webp"
   },
   {
-    "id": 554,
+    "id": 552,
     "year": 1993,
     "title": "1993 Rally New Zealand (New Zealand)",
     "bio": "Colin McRae earned his second WRC victory in New Zealand with a fearless drive through the smooth, fast gravel stages, showcasing both his raw speed and Subaru’s rising form.",
@@ -424,7 +424,7 @@
     "image": "/images/history/events/1993-new-zealand.webp"
   },
   {
-    "id": 555,
+    "id": 553,
     "year": 1993,
     "title": "1993 1000 Lakes Rally (Finland)",
     "bio": "Juha Kankkunen thrilled his home crowd with a high-speed masterclass through the iconic Finnish forests, claiming a dominant win in the Toyota Celica Turbo 4WD.",
@@ -432,7 +432,7 @@
     "image": "/images/history/events/1993-1000-lakes.webp"
   },
   {
-    "id": 556,
+    "id": 554,
     "year": 1993,
     "title": "1993 Rally Australia (Australia)",
     "bio": "Juha Kankkunen continued his dominant form in 1993 by conquering the smooth, technical gravel roads of Western Australia with a calm and calculated victory in his Toyota Celica Turbo 4WD.",
@@ -440,7 +440,7 @@
     "image": "/images/history/events/1993-australia.webp"
   },
   {
-    "id": 557,
+    "id": 555,
     "year": 1993,
     "title": "1993 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Paolo Andreucci stunned the field on the smooth tarmac roads of Sanremo, capturing a career-defining win in the Ford Escort RS Cosworth amid a reshuffled WRC entry list.",
@@ -448,7 +448,7 @@
     "image": "/images/history/events/1993-sanremo.webp"
   },
   {
-    "id": 558,
+    "id": 556,
     "year": 1993,
     "title": "1993 555 Hong Kong–Beijing Rally (China)",
     "bio": "Ari Vatanen led Subaru to a landmark international victory in China, mastering the mixed terrain from Hong Kong to Beijing in the rugged and capable Subaru Legacy RS.",
@@ -456,7 +456,7 @@
     "image": "/images/history/events/1993-hong-kong-beijing.webp"
   },
   {
-    "id": 559,
+    "id": 557,
     "year": 1993,
     "title": "1993 Rallye de España – Catalunya (Spain)",
     "bio": "François Delecour returned to the top with a commanding performance on the smooth Spanish tarmac, expertly guiding his Ford Escort RS Cosworth to victory over the flowing asphalt roads of Catalunya.",
@@ -464,7 +464,7 @@
     "image": "/images/history/events/1993-catalunya.webp"
   },
   {
-    "id": 560,
+    "id": 558,
     "year": 1993,
     "title": "1993 Network Q RAC Rally (Great Britain)",
     "bio": "Juha Kankkunen sealed his fourth world title with a flawless drive through the foggy and slippery forests of Britain, mastering the RAC Rally’s legendary unpredictability in his Toyota Celica Turbo 4WD.",
@@ -472,7 +472,7 @@
     "image": "/images/history/events/1993-rac.webp"
   },
   {
-    "id": 561,
+    "id": 559,
     "year": 1994,
     "title": "1993–1994 Paris–Dakar–Paris Rally",
     "bio": "Pierre Lartigue and Michel Périn dominated the grueling Paris–Dakar–Paris Rally, piloting their Citroën ZX Rallye Raid across deserts, dunes, and back again in a 13,000+ km marathon of endurance and precision.",
@@ -480,7 +480,7 @@
     "image": "/images/history/events/1994-paris-dakar-paris.webp"
   },
   {
-    "id": 562,
+    "id": 560,
     "year": 1994,
     "title": "1994 Rallye Monte-Carlo (Monaco)",
     "bio": "François Delecour showcased ice-cold precision and tarmac mastery to win the treacherous 1994 Monte Carlo Rally in his Ford Escort RS Cosworth, handling the unpredictable alpine mix of snow and asphalt with poise.",
@@ -488,7 +488,7 @@
     "image": "/images/history/events/1994-monte-carlo.webp"
   },
   {
-    "id": 563,
+    "id": 561,
     "year": 1994,
     "title": "1994 International Swedish Rally (Sweden)",
     "bio": "Tommi Mäkinen claimed his first WRC victory on the snow-laced forests of Sweden, steering the Ford Escort RS Cosworth to a flawless win in one of the fastest and slipperiest rallies of the year.",
@@ -496,7 +496,7 @@
     "image": "/images/history/events/1994-swedish.webp"
   },
   {
-    "id": 564,
+    "id": 562,
     "year": 1994,
     "title": "1994 Rallye de Portugal – Vinho do Porto (Portugal)",
     "bio": "François Delecour powered through the changing surfaces of Portugal’s iconic rally to score a dominant win, expertly balancing aggression and tire strategy in the Ford Escort RS Cosworth.",
@@ -504,7 +504,7 @@
     "image": "/images/history/events/1994-portugal.webp"
   },
   {
-    "id": 565,
+    "id": 563,
     "year": 1994,
     "title": "1994 Safari Rally (Kenya)",
     "bio": "Local hero Ian Duncan made history on home soil, winning the grueling 1994 Safari Rally in his Toyota Celica Turbo 4WD—becoming the first Kenyan driver to win a WRC event since the 1970s.",
@@ -512,7 +512,7 @@
     "image": "/images/history/events/1994-safari.webp"
   },
   {
-    "id": 566,
+    "id": 564,
     "year": 1994,
     "title": "1994 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Didier Auriol mastered the endless asphalt corners of Corsica to secure a commanding victory in the Toyota Celica Turbo 4WD, reaffirming his reputation as the tarmac king of the WRC.",
@@ -520,7 +520,7 @@
     "image": "/images/history/events/1994-tour-de-corse.webp"
   },
   {
-    "id": 567,
+    "id": 565,
     "year": 1994,
     "title": "1994 Acropolis Rally (Greece)",
     "bio": "Carlos Sainz brought Subaru its first gravel win with a masterful performance across the punishing roads of Greece, guiding the Impreza 555 to a landmark victory that solidified the car's championship potential.",
@@ -528,7 +528,7 @@
     "image": "/images/history/events/1994-acropolis.webp"
   },
   {
-    "id": 568,
+    "id": 566,
     "year": 1994,
     "title": "1994 Rally New Zealand (New Zealand)",
     "bio": "Didier Auriol triumphed in the scenic and challenging gravel roads of New Zealand, fending off strong competition to secure a decisive win in the Toyota Celica Turbo 4WD.",
@@ -536,7 +536,7 @@
     "image": "/images/history/events/1994-new-zealand.webp"
   },
   {
-    "id": 569,
+    "id": 567,
     "year": 1994,
     "title": "1994 Rally Argentina (Argentina)",
     "bio": "Didier Auriol triumphed in Argentina’s brutal gravel stages, securing his third win of the 1994 season and further cementing his title chase with a flawless drive in the Toyota Celica Turbo 4WD.",
@@ -544,7 +544,7 @@
     "image": "/images/history/events/1994-argentina.webp"
   },
   {
-    "id": 570,
+    "id": 568,
     "year": 1994,
     "title": "1994 1000 Lakes Rally (Finland)",
     "bio": "Didier Auriol conquered the technical Finnish gravel stages, securing another dominant win in his Toyota Celica Turbo 4WD and further cementing his position as a key contender for the 1994 WRC title.",
@@ -552,7 +552,7 @@
     "image": "/images/history/events/1994-1000-lakes.webp"
   },
   {
-    "id": 571,
+    "id": 569,
     "year": 1994,
     "title": "1994 Rally Australia (Australia)",
     "bio": "Didier Auriol dominated the challenging Australian gravel stages, taking his Toyota Celica Turbo 4WD to a well-earned victory, further cementing his position as one of the season's top contenders.",
@@ -560,7 +560,7 @@
     "image": "/images/history/events/1994-australia.webp"
   },
   {
-    "id": 572,
+    "id": 570,
     "year": 1994,
     "title": "1994 555 Hong Kong–Beijing Rally (China)",
     "bio": "Possum Bourne clinched victory in the 1994 555 Hong Kong–Beijing Rally, navigating the long and grueling stages with precision in his Subaru Impreza 555, outpacing the competition across varied and challenging terrain.",
@@ -568,7 +568,7 @@
     "image": "/images/history/events/1994-hong-kong-beijing.webp"
   },
   {
-    "id": 573,
+    "id": 571,
     "year": 1994,
     "title": "1994 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Massimo Biasion clinched victory in the iconic Rallye Sanremo with a composed performance, mastering the mixed asphalt and gravel roads in the Ford Escort RS Cosworth, delivering a critical win in his bid for the 1994 WRC title.",
@@ -576,7 +576,7 @@
     "image": "/images/history/events/1994-sanremo.webp"
   },
   {
-    "id": 574,
+    "id": 572,
     "year": 1994,
     "title": "1994 Rallye de España – Catalunya (Spain)",
     "bio": "Carlos Sainz drove the Subaru Impreza 555 to victory in the 1994 Rallye de España, taking on Catalunya's winding asphalt roads with unrelenting pace and strategy, clinching a well-deserved win.",
@@ -584,7 +584,7 @@
     "image": "/images/history/events/1994-spain.webp"
   },
   {
-    "id": 575,
+    "id": 573,
     "year": 1994,
     "title": "1994 Network Q RAC Rally (Great Britain)",
     "bio": "Colin McRae made history in the 1994 Network Q RAC Rally by securing his first-ever WRC victory, outpacing the competition in his Subaru Impreza 555 across the wet and slippery gravel stages of Great Britain.",
@@ -592,7 +592,7 @@
     "image": "/images/history/events/1994-rac.webp"
   },
   {
-    "id": 576,
+    "id": 574,
     "year": 1995,
     "title": "1995 Granada–Dakar Rally (Spain–Morocco–Mauritania–Guinea–Senegal)",
     "bio": "Pierre Lartigue clinched his first victory in the 1995 Granada–Dakar Rally, expertly navigating the brutal desert stages in his Citroën ZX Rallye Raid, and becoming the first Frenchman to win the iconic race in a Citroën.",
@@ -600,7 +600,7 @@
     "image": "/images/history/events/1995-granada-dakar.webp"
   },
   {
-    "id": 577,
+    "id": 575,
     "year": 1995,
     "title": "1995 Rallye Monte-Carlo (Monaco)",
     "bio": "Carlos Sainz delivered an exceptional performance in the 1995 Rallye Monte-Carlo, mastering the tricky snow-covered asphalt stages in his Subaru Impreza 555 to claim a well-earned victory.",
@@ -608,7 +608,7 @@
     "image": "/images/history/events/1995-monte-carlo.webp"
   },
   {
-    "id": 578,
+    "id": 576,
     "year": 1995,
     "title": "1995 International Swedish Rally (Sweden)",
     "bio": "Kenneth Eriksson triumphed in the 1995 International Swedish Rally, showing superior control over the snow and ice in his Mitsubishi Lancer Evo II to secure a hard-fought victory in the season's second event.",
@@ -616,7 +616,7 @@
     "image": "/images/history/events/1995-swedish-rally.webp"
   },
   {
-    "id": 579,
+    "id": 577,
     "year": 1995,
     "title": "1995 Rallye de Portugal – Vinho do Porto (Portugal)",
     "bio": "Juha Kankkunen took a dominant victory in the 1995 Rallye de Portugal, mastering the mix of gravel and tarmac roads in his Toyota Celica GT-Four ST205 to secure a well-deserved win in the second round of the season.",
@@ -624,7 +624,7 @@
     "image": "/images/history/events/1995-portugal.webp"
   },
   {
-    "id": 580,
+    "id": 578,
     "year": 1995,
     "title": "1995 Safari Rally (Kenya)",
     "bio": "Yoshio Fujimoto clinched a dramatic win in the 1995 Safari Rally, expertly navigating the treacherous Kenyan gravel stages with co-driver Arne Hertz in their Toyota Celica GT-Four ST205, overcoming fierce competition and brutal conditions.",
@@ -632,7 +632,7 @@
     "image": "/images/history/events/1995-safari.webp"
   },
   {
-    "id": 581,
+    "id": 579,
     "year": 1995,
     "title": "1995 London–Mexico Rally (UK to Mexico)",
     "bio": "Hannu Mikkola and Gunnar Palm took the 1995 London–Mexico Rally win, conquering a grueling 16,000 km route across diverse and harsh terrains, in their iconic Ford Escort RS1600 MkI.",
@@ -640,7 +640,7 @@
     "image": "/images/history/events/1995-london-mexico.webp"
   },
   {
-    "id": 582,
+    "id": 580,
     "year": 1995,
     "title": "1995 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Bernardini and Occelli claimed a stunning victory in the 1995 Tour de Corse, expertly navigating the winding asphalt roads of Corsica in their Ford Escort RS Cosworth, and proving their dominance in the iconic rally.",
@@ -648,7 +648,7 @@
     "image": "/images/history/events/1995-tour-de-corse.webp"
   },
   {
-    "id": 583,
+    "id": 581,
     "year": 1995,
     "title": "1995 Acropolis Rally (Greece)",
     "bio": "Colin McRae took a commanding win in the 1995 Acropolis Rally, handling the challenging gravel roads of Greece in his Subaru Impreza 555 and dominating the competition with exceptional speed and control.",
@@ -656,7 +656,7 @@
     "image": "/images/history/events/1995-acropolis-rally.webp"
   },
   {
-    "id": 584,
+    "id": 582,
     "year": 1995,
     "title": "1995 Rally New Zealand (New Zealand)",
     "bio": "Possum Bourne claimed a stunning victory in the 1995 Rally New Zealand, navigating the fast gravel roads of New Zealand in his Subaru Impreza 555, ahead of strong competition and unpredictable conditions.",
@@ -664,7 +664,7 @@
     "image": "/images/history/events/1995-new-zealand.webp"
   },
   {
-    "id": 585,
+    "id": 583,
     "year": 1995,
     "title": "1995 Rally Argentina (Argentina)",
     "bio": "Didier Auriol and Bernard Occelli dominated the 1995 Rally Argentina, powering their Toyota Celica GT-Four ST205 to victory across the challenging gravel stages of Argentina's mountainous terrain.",
@@ -672,7 +672,7 @@
     "image": "/images/history/events/1995-argentina.webp"
   },
   {
-    "id": 586,
+    "id": 584,
     "year": 1995,
     "title": "1995 1000 Lakes Rally (Finland)",
     "bio": "Tommi Mäkinen delivered a superb performance in the 1995 1000 Lakes Rally, steering his Mitsubishi Lancer Evo III to victory across Finland's iconic gravel roads, and claiming a well-deserved win in front of home fans.",
@@ -680,7 +680,7 @@
     "image": "/images/history/events/1995-1000-lakes.webp"
   },
   {
-    "id": 587,
+    "id": 585,
     "year": 1995,
     "title": "1995 Rally Australia (Australia)",
     "bio": "Kenneth Eriksson claimed victory in the 1995 Rally Australia, dominating the gravel stages in his Mitsubishi Lancer Evo III and overcoming tough competition to secure a well-deserved win.",
@@ -688,7 +688,7 @@
     "image": "/images/history/events/1995-rally-australia.webp"
   },
   {
-    "id": 588,
+    "id": 586,
     "year": 1995,
     "title": "1995 555 Hong Kong–Beijing Rally (China)",
     "bio": "Kenneth Eriksson and Staffan Parmander claimed victory in the 1995 Hong Kong–Beijing Rally, navigating the demanding gravel roads of China in their Mitsubishi Lancer Evo III to win the multi-stage endurance event.",
@@ -696,7 +696,7 @@
     "image": "/images/history/events/1995-hong-kong-beijing.webp"
   },
   {
-    "id": 589,
+    "id": 587,
     "year": 1995,
     "title": "1995 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Piero Liatti and co-driver Fabrizia Pons clinched victory in the 1995 Rallye Sanremo, outpacing the competition in their Subaru Impreza 555 across the challenging asphalt roads of Italy's iconic rally.",
@@ -704,7 +704,7 @@
     "image": "/images/history/events/1995-sanremo.webp"
   },
   {
-    "id": 590,
+    "id": 588,
     "year": 1995,
     "title": "1995 Rallye de España – Catalunya (Spain)",
     "bio": "Jesús Puras and Antonio Boto delivered a masterclass performance to win the 1995 Rallye de España in their Ford Escort RS Cosworth, dominating the asphalt stages in the scenic but challenging Catalunya region.",
@@ -712,7 +712,7 @@
     "image": "/images/history/events/1995-rallye-espana.webp"
   },
   {
-    "id": 591,
+    "id": 589,
     "year": 1995,
     "title": "1995 Network Q RAC Rally (Great Britain)",
     "bio": "Colin McRae and Derek Ringer triumphed in the 1995 Network Q RAC Rally, securing a dominant victory on the gravel stages of Great Britain in their Subaru Impreza 555, despite challenging conditions and fierce competition.",
@@ -720,7 +720,7 @@
     "image": "/images/history/events/1995-network-q-rac-rally.webp"
   },
   {
-    "id": 592,
+    "id": 590,
     "year": 1995,
     "title": "1995 Granada–Dakar Rally (Spain–Morocco–Mauritania–Guinea–Senegal)",
     "bio": "Pierre Lartigue and Michel Périn triumphed in the 1995 Granada–Dakar Rally, guiding their Citroën ZX Rallye Raid across the grueling 7,579 km route to claim victory in one of the most demanding rally events in history.",
@@ -728,7 +728,7 @@
     "image": "/images/history/events/1995-granada-dakar.webp"
   },
   {
-    "id": 593,
+    "id": 591,
     "year": 1996,
     "title": "1996 Rallye Monte-Carlo (Monaco)",
     "bio": "Patrick Bernardini and Bernard Occelli took the 1996 Rallye Monte-Carlo win in their Ford Escort RS Cosworth, mastering the mix of snow-covered and dry asphalt roads, outpacing the competition through perfect tire management and strategic driving.",
@@ -736,7 +736,7 @@
     "image": "/images/history/events/1996-monte-carlo.webp"
   },
   {
-    "id": 594,
+    "id": 592,
     "year": 1996,
     "title": "1996 International Swedish Rally (Sweden)",
     "bio": "Kenneth Eriksson and Staffan Parmander triumphed in the 1996 International Swedish Rally, expertly navigating the snow and ice-covered stages in their Subaru Impreza 555 to secure victory in one of the toughest rallies of the season.",
@@ -744,7 +744,7 @@
     "image": "/images/history/events/1996-swedish-rally.webp"
   },
   {
-    "id": 595,
+    "id": 593,
     "year": 1996,
     "title": "1996 Rallye de Portugal (Portugal)",
     "bio": "Tommi Mäkinen and Seppo Harjanne secured victory in the 1996 Rallye de Portugal, mastering the mixed gravel and tarmac stages in their Mitsubishi Lancer Evo III, showcasing both speed and precision across the demanding Portuguese rally roads.",
@@ -752,7 +752,7 @@
     "image": "/images/history/events/1996-rallye-portugal.webp"
   },
   {
-    "id": 596,
+    "id": 594,
     "year": 1996,
     "title": "1996 Safari Rally (Kenya)",
     "bio": "Yoshio Fujimoto and Arne Hertz conquered the 1996 Safari Rally in their Toyota Celica GT-Four ST205, triumphing over the grueling African terrain with a steady pace and impeccable navigation throughout the event’s challenging stages.",
@@ -760,7 +760,7 @@
     "image": "/images/history/events/1996-safari-rally.webp"
   },
   {
-    "id": 597,
+    "id": 595,
     "year": 1996,
     "title": "1996 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Philippe Bugalski and Laurent Viala clinched victory in the 1996 Tour de Corse in their Renault Maxi Mégane, dominating the iconic asphalt roads of Corsica with skill and precision to win one of the most challenging rallies of the season.",
@@ -768,7 +768,7 @@
     "image": "/images/history/events/1996-tour-de-corse.webp"
   },
   {
-    "id": 598,
+    "id": 596,
     "year": 1996,
     "title": "1996 Acropolis Rally (Greece)",
     "bio": "Colin McRae and Derek Ringer triumphed in the 1996 Acropolis Rally, showcasing exceptional car control and consistency in their Subaru Impreza 555 to win one of the most demanding rallies of the season.",
@@ -776,7 +776,7 @@
     "image": "/images/history/events/1996-acropolis-rally.webp"
   },
   {
-    "id": 599,
+    "id": 597,
     "year": 1996,
     "title": "1996 Rally New Zealand (New Zealand)",
     "bio": "Colin McRae and Derek Ringer clinched victory in the 1996 Rally New Zealand, dominating the gravel stages with their Subaru Impreza 555 and extending their lead in the World Rally Championship.",
@@ -784,7 +784,7 @@
     "image": "/images/history/events/1996-rally-new-zealand.webp"
   },
   {
-    "id": 600,
+    "id": 598,
     "year": 1996,
     "title": "1996 Rally Australia (Australia)",
     "bio": "Kenneth Eriksson and Staffan Parmander claimed victory in the 1996 Rally Australia in their Subaru Impreza 555, mastering the tough Australian gravel stages to secure the win in a highly competitive field.",
@@ -792,7 +792,7 @@
     "image": "/images/history/events/1996-rally-australia.webp"
   },
   {
-    "id": 601,
+    "id": 599,
     "year": 1996,
     "title": "1996 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Pierro Liatti delivered an exceptional tarmac performance in his Subaru Impreza 555, securing a home victory alongside Fabrizia Pons.",
@@ -800,7 +800,7 @@
     "image": "/images/history/events/1996-sanremo.webp"
   },
   {
-    "id": 602,
+    "id": 600,
     "year": 1996,
     "title": "1996 Rallye de España – Catalunya (Spain)",
     "bio": "Jesús Puras and co-driver Marc Martí showcased brilliant tarmac speed to claim a home win in the Ford Escort RS Cosworth.",
@@ -808,7 +808,7 @@
     "image": "/images/history/events/1996-espana.webp"
   },
   {
-    "id": 603,
+    "id": 601,
     "year": 1996,
     "title": "1996 Network Q RAC Rally (Great Britain)",
     "bio": "Colin McRae thrilled home fans with a dominant performance across the gravel forests of Wales and northern England, securing victory in his Subaru Impreza 555.",
@@ -816,7 +816,7 @@
     "image": "/images/history/events/1996-rac.webp"
   },
   {
-    "id": 604,
+    "id": 602,
     "year": 1997,
     "title": "1997 Dakar–Dakar Rally (Senegal–Mali–Niger–Mali–Mauritania–Guinea–Senegal)",
     "bio": "Kenjiro Shinozuka became the first Japanese driver to win the Dakar Rally, conquering the vast and unforgiving African terrain in a Mitsubishi Pajero Evolution.",
@@ -824,7 +824,7 @@
     "image": "/images/history/events/1997-dakar.webp"
   },
   {
-    "id": 605,
+    "id": 603,
     "year": 1997,
     "title": "1997 Rallye Monte-Carlo (Monaco)",
     "bio": "Piero Liatti delivered a controlled and masterful drive on the treacherous alpine roads, claiming victory for Subaru in the debut of their new Impreza WRC97.",
@@ -832,7 +832,7 @@
     "image": "/images/history/events/1997-monte-carlo.webp"
   },
   {
-    "id": 606,
+    "id": 604,
     "year": 1997,
     "title": "1997 International Swedish Rally (Sweden)",
     "bio": "Kenneth Eriksson showcased his snow-driving expertise to take a commanding victory in the Subaru Impreza WRC97 across the frozen stages of Sweden.",
@@ -840,7 +840,7 @@
     "image": "/images/history/events/1997-swedish.webp"
   },
   {
-    "id": 607,
+    "id": 605,
     "year": 1997,
     "title": "1997 Rallye de Portugal (Portugal)",
     "bio": "Tommi Mäkinen bounced back with a strong win in Portugal, piloting the new Mitsubishi Lancer Evo IV to victory across the event’s mix of gravel and tarmac stages.",
@@ -848,7 +848,7 @@
     "image": "/images/history/events/1997-portugal.webp"
   },
   {
-    "id": 608,
+    "id": 606,
     "year": 1997,
     "title": "1997 Safari Rally (Kenya)",
     "bio": "Colin McRae triumphed over brutal African terrain to take his first Safari Rally victory in the Subaru Impreza WRC97, showcasing endurance and toughness.",
@@ -856,7 +856,7 @@
     "image": "/images/history/events/1997-safari.webp"
   },
   {
-    "id": 609,
+    "id": 607,
     "year": 1997,
     "title": "1997 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Colin McRae delivered one of his most refined tarmac performances, claiming victory on the twisty Corsican mountain roads in his Subaru Impreza WRC97.",
@@ -864,7 +864,7 @@
     "image": "/images/history/events/1997-corse.webp"
   },
   {
-    "id": 610,
+    "id": 608,
     "year": 1997,
     "title": "1997 Acropolis Rally (Greece)",
     "bio": "Colin McRae secured a commanding win on the punishing gravel stages of Greece, proving the durability of the Subaru Impreza WRC97 in one of the toughest events on the WRC calendar.",
@@ -872,7 +872,7 @@
     "image": "/images/history/events/1997-acropolis.webp"
   },
   {
-    "id": 611,
+    "id": 609,
     "year": 1997,
     "title": "1997 Rally New Zealand (New Zealand)",
     "bio": "Carlos Sainz delivered a masterclass in smooth gravel driving across New Zealand’s flowing countryside, claiming a well-earned victory in the Ford Escort WRC.",
@@ -880,7 +880,7 @@
     "image": "/images/history/events/1997-new-zealand.webp"
   },
   {
-    "id": 612,
+    "id": 610,
     "year": 1997,
     "title": "1997 Rally Finland – 1000 Lakes (Finland)",
     "bio": "Tommi Mäkinen flew to victory over the high-speed gravel jumps of Finland, mastering the fastest rally of the season in his Mitsubishi Lancer Evo IV.",
@@ -888,7 +888,7 @@
     "image": "/images/history/events/1997-finland.webp"
   },
   {
-    "id": 613,
+    "id": 611,
     "year": 1997,
     "title": "1997 Rally Indonesia (Indonesia)",
     "bio": "Carlos Sainz mastered the humid, unpredictable jungle stages of Indonesia to secure a vital win for Ford in the tightly contested 1997 WRC season.",
@@ -896,7 +896,7 @@
     "image": "/images/history/events/1997-indonesia.webp"
   },
   {
-    "id": 614,
+    "id": 612,
     "year": 1997,
     "title": "1997 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Didier Auriol returned to winning form on the twisting tarmac roads of Italy, guiding the Toyota Celica WRC to a decisive victory on the smooth asphalt stages of Sanremo.",
@@ -904,7 +904,7 @@
     "image": "/images/history/events/1997-sanremo.webp"
   },
   {
-    "id": 615,
+    "id": 613,
     "year": 1997,
     "title": "1997 Rallye de España – Catalunya (Spain)",
     "bio": "Philippe Bugalski stunned the WRC field by taking overall victory in a front-wheel-drive Citroën Xsara Kit Car, dominating the smooth tarmac stages of Catalunya with unmatched pace.",
@@ -912,7 +912,7 @@
     "image": "/images/history/events/1997-espana.webp"
   },
   {
-    "id": 616,
+    "id": 614,
     "year": 1997,
     "title": "1997 Rally of Malaysia (Malaysia)",
     "bio": "The Malaysian round of the Asia-Pacific Rally Championship saw the local Proton PERT team take a popular victory on home soil in the heat and humidity of Southeast Asia.",
@@ -920,7 +920,7 @@
     "image": "/images/history/events/1997-malaysia.webp"
   },
   {
-    "id": 617,
+    "id": 615,
     "year": 1997,
     "title": "1997 Network Q RAC Rally (Great Britain)",
     "bio": "Colin McRae thrilled home crowds with a hard-fought win in the British forests, sealing his final victory with the Subaru Impreza WRC97 in one of the WRC’s most iconic events.",
@@ -928,7 +928,7 @@
     "image": "/images/history/events/1997-rac.webp"
   },
   {
-    "id": 618,
+    "id": 616,
     "year": 1998,
     "title": "1998 Paris–Granada–Dakar Rally (France–Spain–Morocco–Mauritania–Mali–Mauritania–Senegal)",
     "bio": "The 1998 Dakar Rally spanned over 10,000 kilometers across Europe and Africa, testing endurance, resilience, and navigation in one of the most punishing rally raids in history.",
@@ -936,7 +936,7 @@
     "image": "/images/history/events/1998-dakar.webp"
   },
   {
-    "id": 619,
+    "id": 617,
     "year": 1998,
     "title": "1998 Rallye Monte-Carlo (Monaco)",
     "bio": "Carlos Sainz conquered the mixed asphalt and snow conditions of the Monte Carlo stages in the debuting Toyota Corolla WRC, securing a landmark win to open the 1998 season.",
@@ -944,7 +944,7 @@
     "image": "/images/history/events/1998-monte-carlo.webp"
   },
   {
-    "id": 620,
+    "id": 618,
     "year": 1998,
     "title": "1998 International Swedish Rally (Sweden)",
     "bio": "Tommi Mäkinen dominated the icy forests of Värmland in his Mitsubishi Lancer Evo IV, taking a textbook victory in the WRC’s only true snow rally.",
@@ -952,7 +952,7 @@
     "image": "/images/history/events/1998-swedish.webp"
   },
   {
-    "id": 621,
+    "id": 619,
     "year": 1998,
     "title": "1998 Safari Rally (Kenya)",
     "bio": "Richard Burns claimed his first WRC victory in dominant fashion across the brutal African terrain of the 1998 Safari Rally, proving both his endurance and pace in one of the world’s toughest motorsport events.",
@@ -960,7 +960,7 @@
     "image": "/images/history/events/1998-safari.webp"
   },
   {
-    "id": 622,
+    "id": 620,
     "year": 1998,
     "title": "1998 Rallye de Portugal (Portugal)",
     "bio": "Colin McRae mastered Portugal’s tricky blend of gravel and tarmac stages, taking a dominant victory in the new Subaru Impreza WRC98 after a series of high-risk, high-reward performances.",
@@ -968,7 +968,7 @@
     "image": "/images/history/events/1998-portugal.webp"
   },
   {
-    "id": 623,
+    "id": 621,
     "year": 1998,
     "title": "1998 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Colin McRae delivered one of the most complete asphalt performances of his career, guiding the Subaru Impreza WRC98 to victory on Corsica’s endlessly twisting roads.",
@@ -976,7 +976,7 @@
     "image": "/images/history/events/1998-corse.webp"
   },
   {
-    "id": 624,
+    "id": 622,
     "year": 1998,
     "title": "1998 Rallye de España – Catalunya (Spain)",
     "bio": "Didier Auriol delivered a flawless performance on Catalunya’s polished tarmac roads, using his asphalt prowess to bring Toyota their first win of the 1998 season.",
@@ -984,7 +984,7 @@
     "image": "/images/history/events/1998-espana.webp"
   },
   {
-    "id": 625,
+    "id": 623,
     "year": 1998,
     "title": "1998 Rally Argentina (Argentina)",
     "bio": "Tommi Mäkinen demonstrated masterful control over Argentina’s rugged terrain, steering the Mitsubishi Lancer Evo V to victory in a rally marked by river crossings, rocky tracks, and unpredictable weather.",
@@ -992,7 +992,7 @@
     "image": "/images/history/events/1998-argentina.webp"
   },
   {
-    "id": 626,
+    "id": 624,
     "year": 1998,
     "title": "1998 Rally New Zealand (New Zealand)",
     "bio": "Carlos Sainz demonstrated exceptional skill on New Zealand’s flowing gravel roads, steering the Toyota Corolla WRC to a precise and steady victory amid variable weather and challenging terrain.",
@@ -1000,7 +1000,7 @@
     "image": "/images/history/events/1998-new-zealand.webp"
   },
   {
-    "id": 627,
+    "id": 625,
     "year": 1998,
     "title": "1998 Rally Finland – 1000 Lakes (Finland)",
     "bio": "Tommi Mäkinen thrilled the home crowd with a dominant victory at Rally Finland, mastering the high-speed gravel jumps and sweeping forest roads in the Mitsubishi Lancer Evo V.",
@@ -1008,7 +1008,7 @@
     "image": "/images/history/events/1998-finland.webp"
   },
   {
-    "id": 628,
+    "id": 626,
     "year": 1998,
     "title": "1998 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Didier Auriol delivered a flawless drive on Sanremo’s fast and technical tarmac roads, taking a commanding win for Toyota and showcasing the Corolla WRC’s precision on asphalt.",
@@ -1016,7 +1016,7 @@
     "image": "/images/history/events/1998-sanremo.webp"
   },
   {
-    "id": 629,
+    "id": 627,
     "year": 1998,
     "title": "1998 China Rally (Huairou, China)",
     "bio": "Colin McRae powered through treacherous gravel and heavy fog to win the 1998 China Rally, marking a triumphant return to the Asia-Pacific landscape for the Subaru team.",
@@ -1024,7 +1024,7 @@
     "image": "/images/history/events/1998-china.webp"
   },
   {
-    "id": 630,
+    "id": 628,
     "year": 1998,
     "title": "1998 Rally Australia (Australia)",
     "bio": "Richard Burns delivered a calculated and dominant drive through the fast forests of Western Australia, capturing victory for Mitsubishi in one of the season’s most demanding gravel rallies.",
@@ -1032,7 +1032,7 @@
     "image": "/images/history/events/1998-australia.webp"
   },
   {
-    "id": 631,
+    "id": 629,
     "year": 1998,
     "title": "1998 Network Q Rally of Great Britain (UK)",
     "bio": "Richard Burns sealed a triumphant home victory in the treacherous Welsh forests, showcasing his mastery of mud, fog, and gravel in the final round of the 1998 WRC season.",
@@ -1040,7 +1040,7 @@
     "image": "/images/history/events/1998-rac.webp"
   },
   {
-    "id": 632,
+    "id": 630,
     "year": 1999,
     "title": "1999 Granada–Dakar Rally (Spain–Morocco–Mauritania–Burkina Faso–Ivory Coast–Senegal)",
     "bio": "Jean-Louis Schlesser took a commanding win in the 1999 Granada–Dakar Rally, navigating extreme Saharan terrain and thousands of kilometers of punishing competition in his rear-wheel-drive Schlesser Buggy.",
@@ -1048,7 +1048,7 @@
     "image": "/images/history/events/1999-dakar.webp"
   },
   {
-    "id": 633,
+    "id": 631,
     "year": 1999,
     "title": "1999 Rallye Monte-Carlo (Monaco)",
     "bio": "Didier Auriol opened the 1999 WRC season with a masterful performance in Monte Carlo, conquering ever-changing asphalt and snow conditions in the Toyota Corolla WRC.",
@@ -1056,7 +1056,7 @@
     "image": "/images/history/events/1999-monte-carlo.webp"
   },
   {
-    "id": 634,
+    "id": 632,
     "year": 1999,
     "title": "1999 International Swedish Rally (Sweden)",
     "bio": "Tommi Mäkinen claimed victory in the snow-covered forests of Sweden, mastering the icy roads with his Mitsubishi Lancer Evo VI and extending his winter rally dominance.",
@@ -1064,7 +1064,7 @@
     "image": "/images/history/events/1999-swedish.webp"
   },
   {
-    "id": 635,
+    "id": 633,
     "year": 1999,
     "title": "1999 Safari Rally (Kenya)",
     "bio": "Colin McRae gave the brand-new Ford Focus WRC a dramatic maiden victory in Africa’s toughest rally, overcoming brutal terrain, wildlife hazards, and mechanical attrition.",
@@ -1072,7 +1072,7 @@
     "image": "/images/history/events/1999-safari.webp"
   },
   {
-    "id": 636,
+    "id": 634,
     "year": 1999,
     "title": "1999 Rallye de Portugal (Portugal)",
     "bio": "Didier Auriol mastered the slippery gravel roads of Portugal to deliver a well-executed win in the Toyota Corolla WRC, navigating shifting surfaces and tough competition with trademark consistency.",
@@ -1080,7 +1080,7 @@
     "image": "/images/history/events/1999-portugal.webp"
   },
   {
-    "id": 637,
+    "id": 635,
     "year": 1999,
     "title": "1999 Tour de Corse – Rallye de France (Corsica)",
     "bio": "Philippe Bugalski stunned the WRC field by winning the 1999 Tour de Corse in a front-wheel-drive Citroën Xsara Kit Car, using precision and confidence on tarmac to outpace the top 4WD factory entries.",
@@ -1088,7 +1088,7 @@
     "image": "/images/history/events/1999-corse.webp"
   },
   {
-    "id": 638,
+    "id": 636,
     "year": 1999,
     "title": "1999 Rallye Catalunya – Rallye de España (Spain)",
     "bio": "Philippe Bugalski stunned the WRC field again with a second consecutive win in the front-wheel-drive Citroën Xsara Kit Car, dominating the smooth tarmac stages of Catalunya with clinical precision.",
@@ -1096,7 +1096,7 @@
     "image": "/images/history/events/1999-catalunya.webp"
   },
   {
-    "id": 639,
+    "id": 637,
     "year": 1999,
     "title": "1999 Rally Argentina (Argentina)",
     "bio": "Didier Auriol powered to victory through the rough, high-altitude stages of Rally Argentina, securing a vital gravel win for Toyota and proving his versatility beyond asphalt.",
@@ -1104,7 +1104,7 @@
     "image": "/images/history/events/1999-argentina.webp"
   },
   {
-    "id": 640,
+    "id": 638,
     "year": 1999,
     "title": "1999 Rally New Zealand (New Zealand)",
     "bio": "Tommi Mäkinen claimed a textbook win on New Zealand’s smooth and flowing gravel roads, using his Mitsubishi Lancer Evo VI’s balance and speed to dominate one of the WRC’s most technical events.",
@@ -1112,7 +1112,7 @@
     "image": "/images/history/events/1999-new-zealand.webp"
   },
   {
-    "id": 641,
+    "id": 639,
     "year": 1999,
     "title": "1999 Rally Finland – 1000 Lakes (Finland)",
     "bio": "Tommi Mäkinen thrilled his home crowd with another dominant performance through the high-speed jumps and crests of Finland, securing a critical victory in his push for a fourth WRC title.",
@@ -1120,7 +1120,7 @@
     "image": "/images/history/events/1999-finland.webp"
   },
   {
-    "id": 642,
+    "id": 640,
     "year": 1999,
     "title": "1999 Rally China (China)",
     "bio": "Didier Auriol conquered treacherous conditions and heavy fog to win the 1999 Rally China, guiding his Toyota Corolla WRC to a measured and dominant victory in one of the most demanding gravel rallies of the season.",
@@ -1128,7 +1128,7 @@
     "image": "/images/history/events/1999-china.webp"
   },
   {
-    "id": 643,
+    "id": 641,
     "year": 1999,
     "title": "1999 Rallye Sanremo – Rallye d’Italia (Italy)",
     "bio": "Gilles Panizzi claimed his first WRC victory in commanding style at the 1999 Rallye Sanremo, mastering the tight Italian asphalt in the agile Peugeot 206 WRC and announcing himself as a future tarmac specialist.",
@@ -1136,7 +1136,7 @@
     "image": "/images/history/events/1999-sanremo.webp"
   },
   {
-    "id": 644,
+    "id": 642,
     "year": 1999,
     "title": "1999 Rally Australia (Australia)",
     "bio": "Richard Burns delivered a flawless performance in the forests around Perth to win the 1999 Rally Australia, showcasing the Subaru Impreza WRC99’s precision and grip on the region’s slippery gravel roads.",
@@ -1144,7 +1144,7 @@
     "image": "/images/history/events/1999-australia.webp"
   },
   {
-    "id": 645,
+    "id": 643,
     "year": 1999,
     "title": "1999 Network Q Rally of Great Britain (UK)",
     "bio": "Juha Kankkunen rolled back the years with a sensational victory at the 1999 Rally GB, mastering the muddy Welsh stages in his Subaru Impreza WRC99 and reminding the world why he was a four-time world champion.",
