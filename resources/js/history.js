@@ -20,7 +20,7 @@ function populateYearDropdown(decadeStart) {
   const yearFilterInput = document.getElementById("year-filter");
   if (!yearFilterInput) return;
 
-  yearFilterInput.innerHTML = `<option value="">All Years</option>`;
+  yearFilterInput.innerHTML = `<option value="">Full Decade</option>`;
   const end = decadeStart + 9;
   for (let y = decadeStart; y <= end; y++) {
     const option = document.createElement("option");
