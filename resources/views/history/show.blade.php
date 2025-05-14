@@ -14,23 +14,6 @@ $decade = request()->route('decade');
             {{ $item['title'] ?? $item['name'] ?? 'Untitled' }}
         </h1>
 
-        {{-- Image --}}
-        @php
-        use Illuminate\Support\Facades\File;
-
-        $imagePath = public_path($item['image'] ?? '');
-        $imageUrl = (!empty($item['image']) && File::exists($imagePath))
-        ? asset($item['image'])
-        : asset('images/default-post.png');
-        @endphp
-
-        <div class="flex justify-center">
-            <img
-                src="{{ $imageUrl }}"
-                alt="{{ $item['title'] ?? $item['name'] ?? 'Image' }}"
-                class="rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out max-h-[600px] object-cover">
-        </div>
-
         {{-- Details --}}
         <div class="prose max-w-none text-gray-800 mt-10 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6">
             @if (!empty($item['details_html']))

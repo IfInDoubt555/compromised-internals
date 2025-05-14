@@ -113,8 +113,8 @@ function loadHistoryContent(tab, decade) {
         const imgSrc = item.image || "/images/placeholder.png";
         const link = `/history/${tab}/${decade}/${item.id}`;
         const imgClass = item.image
-          ? "h-90 object-cover mb-4 rounded"
-          : "h-64 object-cover mb-4 rounded opacity-50";
+          ? "h-275 object-cover mb-4 rounded"
+          : "h-100 object-cover mb-4 rounded opacity-50";
 
         const card = document.createElement("div");
         card.classList.add(
