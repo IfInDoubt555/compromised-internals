@@ -4,7 +4,7 @@
 <div id="top"></div>
 
 <div id="theme-wrapper" class="min-h-screen py-12 px-4">
-  <div class="max-w-4xl mx-auto text-center mb-8">
+  <div class="max-w-4xl backdrop-blur-md bg-white/30 dark:bg-white/40 rounded-xl px-6 py-4 shadow-xl mx-auto text-center mb-8">
     <h1 class="text-4xl font-bold mb-2">🏁 Rally History Archive</h1>
     <p class="text-lg text-gray-700">
       Explore rally legends, iconic cars, and pivotal events from the 1960s to today.
