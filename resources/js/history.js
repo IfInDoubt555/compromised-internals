@@ -105,16 +105,12 @@ function loadHistoryContent(tab, decade) {
       historyContent.innerHTML = "";
 
       const grid = document.createElement("div");
-      grid.classList.add("grid", "grid-cols-1", "md:grid-cols-2", "lg:grid-cols-4", "gap-4");
+      grid.classList.add("grid", "grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3", "xl:grid-cols-4", "gap-4");
 
       items.forEach(item => {
         const title = item.title || item.name || "Untitled";
         const description = item.bio || "No summary available.";
-        const imgSrc = item.image || "/images/placeholder.png";
         const link = `/history/${tab}/${decade}/${item.id}`;
-        const imgClass = item.image
-          ? "h-275 object-cover mb-4 rounded"
-          : "h-100 object-cover mb-4 rounded opacity-50";
 
         const card = document.createElement("div");
         card.classList.add(
@@ -123,16 +119,6 @@ function loadHistoryContent(tab, decade) {
         );
 
         // Safe DOM-based construction to preserve img.onerror
-        const img = new Image();
-        img.src = imgSrc;
-        img.alt = title;
-        img.loading = "lazy";
-        img.className = `w-full ${imgClass}`;
-        img.onerror = function () {
-          this.onerror = null;
-          this.src = "/images/skull-logo.png";
-        };
-        card.appendChild(img);
 
         const h2 = document.createElement("h2");
         h2.className = "text-xl font-bold mb-2 text-center";
