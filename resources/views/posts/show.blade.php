@@ -36,7 +36,7 @@
 
     {{-- Right: Title, Author, Actions, Body --}}
     <div class="flex-1 max-w-2xl">
-        <h1 class="text-3xl font-bold mb-4">{{ $post->title }}</h1>
+        <h1 class="prose max-w-none text-gray-800 mt-10 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6">{{ $post->title }}</h1>
 
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             {{-- Author Info --}}
