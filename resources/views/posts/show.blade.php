@@ -31,7 +31,7 @@
     <div class="w-full max-w-3xl mx-auto aspect-video overflow-hidden rounded-xl shadow-lg">
         <img src="{{ Storage::url($post->image_path) }}"
             alt="{{ $post->title }}"
-            class="w-full h-full object-contain" />
+            class="w-full h-full object-cover" />
     </div>
 
     {{-- Right: Title, Author, Actions, Body --}}
