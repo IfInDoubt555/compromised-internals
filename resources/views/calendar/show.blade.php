@@ -4,6 +4,12 @@
 <div class="max-w-3xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-4">{{ $event->name }}</h1>
 
+    @if ($event->championship)
+    <p class="text-indigo-600 font-semibold mb-2">
+        🏆 Part of the {{ strtoupper($event->championship) }} Championship
+    </p>
+    @endif
+
     <p class="text-gray-700 italic mb-2">
         📍 {{ $event->location ?? 'Location TBD' }}
     </p>
@@ -11,7 +17,7 @@
     <p class="text-gray-600 mb-4">
         📅 {{ $event->start_date->format('F j, Y') }}
         @if ($event->end_date)
-            - {{ $event->end_date->format('F j, Y') }}
+        - {{ $event->end_date->format('F j, Y') }}
         @endif
     </p>
 
