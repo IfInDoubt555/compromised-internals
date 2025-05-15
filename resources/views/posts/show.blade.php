@@ -87,16 +87,21 @@
 {{-- Comment Section --}}
 <div class="max-w-4xl mb-6 mx-auto px-4">
     @if ($errors->has('body'))
-    <p class="text-red-600 mt-2 text-sm">
-        {{ $errors->first('body') }}
-    </p>
+    <div class="mt-2 flex items-start gap-2 animate-fade-in rounded-md border border-red-500 bg-red-100 dark:bg-red-900 px-4 py-3 text-sm font-medium text-red-800 dark:text-red-200 shadow-md">
+        <span class="text-lg">⚠️</span>
+        <span>{{ $errors->first('body') }}</span>
+    </div>
     @endif
 
     {{-- Form --}}
     @auth
     <form action="{{ route('comments.store', $post) }}" method="POST" class="mb-6">
         @csrf
-        <textarea name="body" rows="3" class="w-full p-3 rounded bg-gray-300 border border-gray-300 shadow-sm" placeholder="Leave a comment..."></textarea>
+        <textarea name="body" rows="3"
+            class="w-full p-3 rounded border shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2     focus:ring-blue-500
+                bg-gray-300 border-gray-300
+                @error('body') border-red-500 ring-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100 @enderror"
+            placeholder="Leave a comment...">{{ old('body') }}</textarea>
         <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
             Comment
         </button>
