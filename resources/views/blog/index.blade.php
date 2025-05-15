@@ -38,15 +38,14 @@
         <article class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
             <!-- Image -->
             <div class="h-64 w-full flex items-center justify-center overflow-hidden bg-black/5 hover:bg-black/10 transition-colors duration-300">
-                @if ($post->image_path && Storage::exists($post->image_path))
+                @if ($post->image_path && Storage::disk('public')->exists($post->image_path))
                 <img src="{{ Storage::url($post->image_path) }}"
                     alt="{{ $post->title }}"
-                    class="max-h-full max-w-full object-contain" />
+                    class="w-full max-h-full object-contain" />
                 @else
                 <img src="{{ asset('images/default-post.png') }}"
-                    alt="Default Post Image"
-                    title="{{ $post->title ?? 'Default Blog Post Image' }}"
-                    class="max-h-full max-w-full object-contain" />
+                    alt="Default Blog Post Image"
+                    class="w-full max-h-full object-contain" />
                 @endif
             </div>
 
