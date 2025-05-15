@@ -93,7 +93,7 @@
             <x-input name="favorite_car" label="Favorite Car" value="{{ old('favorite_car', $user->profile->favorite_car ?? '') }}" />
         </div>
         @php
-        $roles = ['Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Coordinator', 'Volunteer'];
+        $roles = ['Team Manager', 'Team Owner', 'Fan', 'Marshal', 'Scrutineer', 'Announcer', 'Sim Racer', 'Logistics', 'Sponsor', 'Medical Staff', 'Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Club Organizer', 'Mechanic', 'Engineer', 'Coordinator', 'Volunteer'];
         $selectedRole = old('rally_role', $user->profile->rally_role ?? '');
         @endphp
 
