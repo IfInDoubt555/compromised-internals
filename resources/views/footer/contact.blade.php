@@ -15,14 +15,22 @@
             <label for="name" class="block font-semibold mb-1">Name</label>
             <input type="text" id="name" name="name" value="{{ old('name') }}"
                 class="w-full border border-gray-300 dark:border-gray-700 rounded px-4 py-2 dark:bg-gray-300" required>
-            @error('name') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+            @error('name')
+            <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
+                ⚠️ {{ $message }}
+            </div>
+            @enderror
         </div>
 
         <div>
             <label for="email" class="block font-semibold mb-1">Email</label>
             <input type="email" id="email" name="email" value="{{ old('email') }}"
                 class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300" required>
-            @error('email') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+            @error('email')
+            <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
+                ⚠️ {{ $message }}
+            </div>
+            @enderror
         </div>
 
         <div>
@@ -30,7 +38,11 @@
             <textarea id="message" name="message" rows="6"
                 class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300"
                 required>{{ old('message') }}</textarea>
-            @error('message') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+            @error('message')
+            <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
+                ⚠️ {{ $message }}
+            </div>
+            @enderror
         </div>
 
         <div class="text-center">
