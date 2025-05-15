@@ -12,7 +12,7 @@
                     'white' => 'products/skull-design-white.png',
                     'red' => 'products/skull-design-red.png'
                 ]"
-             />
+            />
         </div>
 
         <!-- Product Info -->

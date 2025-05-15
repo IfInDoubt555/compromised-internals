@@ -18,16 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        $user = User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => Hash::make('password123'),
-                ]
-        );
-
         $this->call([
             PostSeeder::class,
             RallyEventSeeder::class,
