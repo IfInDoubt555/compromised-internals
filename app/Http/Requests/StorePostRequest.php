@@ -29,7 +29,7 @@ class StorePostRequest extends FormRequest
             'body' => ['required', new NoBannedWords],
             'excerpt' => ['nullable', 'max:120', new NoBannedWords],
             'image_path' => 'nullable|image|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:5120',
-            'slug_mode' => ['required', 'in:auto,manual'],
+            'slug_mode' => 'required|in:auto,manual',
             'slug' => ['nullable', 'string', 'unique:posts,slug,' . optional($this->post)->id, new NoBannedWords],
         ];
     }
