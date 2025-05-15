@@ -8,7 +8,7 @@
             @forelse($products as $product)
                 <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow">
                     @if ($product->image_path)
-                        <img src="{{ asset('storage/' . $product->image_path) }}"
+                        <img src="{{ asset('images/products/' . $product->image_path) }}"
                             alt="{{ $product->name }}"
                             class="w-full h-48 object-cover">
                     @else

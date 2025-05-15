@@ -8,11 +8,10 @@
             <x-product-image
                 :image="$product->image_path"
                 :colors="[
-                    'black' => 'products/skull-design-black.png',
-                    'white' => 'products/skull-design-white.png',
-                    'red' => 'products/skull-design-red.png'
-                ]"
-             />
+                    'black' => 'images/products/skull-design-black.png',
+                    'white' => 'images/products/skull-design-white.png',
+                    'red' => 'images/products/skull-design-red.png'
+                ]" />
         </div>
 
         <!-- Product Info -->

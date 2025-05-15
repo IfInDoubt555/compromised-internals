@@ -1,11 +1,11 @@
 <div class="flex justify-center">
     <img
         id="productImage"
-        src="{{ asset('storage/' . $image) }}"
+        src="{{ asset($image) }}"
         alt="Product Image"
         class="rounded-lg w-full max-w-md h-auto"
         @foreach($colors as $color=> $path)
-    data-{{ $color }}="{{ asset('storage/' . $path) }}"
+    data-{{ $color }}="{{ asset($path) }}"
     @endforeach
     />
 </div>
