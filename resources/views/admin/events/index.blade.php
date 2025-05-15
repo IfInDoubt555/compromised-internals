@@ -15,6 +15,7 @@
             <tr>
                 <th class="px-4 py-2 border-b">Event Name</th>
                 <th class="px-4 py-2 border-b">Location</th>
+                <th class="px-4 py-2 border-b">Championship</th>
                 <th class="px-4 py-2 border-b">Start Date</th>
                 <th class="px-4 py-2 border-b">End Date</th>
                 <th class="px-4 py-2 border-b text-right">Actions</th>
@@ -25,6 +26,7 @@
             <tr class="hover:bg-gray-50">
                 <td class="px-4 py-2 border-b">{{ $event->name }}</td>
                 <td class="px-4 py-2 border-b">{{ $event->location }}</td>
+                <td class="px-4 py-2 border-b">{{ $event->championship ?? '-' }}</td>
                 <td class="px-4 py-2 border-b">{{ $event->start_date->format('M j, Y') }}</td>
                 <td class="px-4 py-2 border-b">{{ $event->end_date->format('M j, Y') }}</td>
                 <td class="px-4 py-2 border-b text-right space-x-2">
