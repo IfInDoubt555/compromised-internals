@@ -86,6 +86,11 @@
 
 {{-- Comment Section --}}
 <div class="max-w-4xl mb-6 mx-auto px-4">
+    @if ($errors->has('body'))
+    <p class="text-red-600 mt-2 text-sm">
+        {{ $errors->first('body') }}
+    </p>
+    @endif
 
     {{-- Form --}}
     @auth
