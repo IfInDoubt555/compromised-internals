@@ -23,7 +23,7 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'rally_role' => [
                 'nullable',
-                Rule::in(['Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Coordinator', 'Volunteer']),
+                Rule::in(['Team Manager', 'Team Owner', 'Fan', 'Marshal', 'Scrutineer', 'Announcer', 'Sim Racer', 'Logistics', 'Sponsor', 'Medical Staff'. 'Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Club Organizer', 'Mechanic', 'Engineer', 'Coordinator', 'Volunteer']),
             ],
             'profile_picture' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
 
