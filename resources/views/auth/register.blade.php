@@ -1,16 +1,22 @@
 <x-guest-layout>
     <div class="min-h-screen flex items-center justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-6">
-        
+
         <!-- Left Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
             <img src="{{ asset('images/reg-left-image.png') }}"
-                 alt="Sno-Drift Attack"
-                 class="h-full w-full object-cover mask-fade-left" />
+                alt="Sno-Drift Attack"
+                class="h-full w-full object-cover mask-fade-left" />
         </div>
 
         <!-- Register Box -->
         <div class="flex-none w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 space-y-6 border border-gray-100 z-10 transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]">
             <div class="text-center">
+                <div class="mt-4 p-4 rounded-lg border border-yellow-400 bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100 shadow-md text-sm animate-fade-in">
+                    ⚠️ <strong>Testing Notice:</strong><br>
+                    You may use any email address to register, including fake ones, thanks to Mailcatcher on this dev environment. However, using a <span class="font-semibold">real email</span> will let you verify your account instantly and unlock full access to features.
+                    <br class="hidden sm:block mt-1" />
+                    🧹 <strong>Note:</strong> All test accounts and data are automatically <span class="font-semibold">purged every 24 hours</span>. Reach out if you'd like extended access for development or demo purposes.
+                </div>
                 <h2 class="text-3xl font-bold text-gray-800">Join Compromised Internals</h2>
                 <p class="text-sm text-gray-500 mt-2">Be part of the rally revolution 🚗💨</p>
             </div>
@@ -59,8 +65,8 @@
         <!-- Right Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
             <img src="{{ asset('images/reg-right-image.png') }}"
-                 alt="Forest Push"
-                 class="h-full w-full object-cover mask-fade-right" />
+                alt="Forest Push"
+                class="h-full w-full object-cover mask-fade-right" />
         </div>
     </div>
 </x-guest-layout>
