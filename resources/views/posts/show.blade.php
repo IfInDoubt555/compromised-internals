@@ -78,7 +78,7 @@
         </div>
 
         {{-- Body --}}
-        <div class="prose max-w-none text-gray-800 mt-2 leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6">
+        <div class="prose max-w-none text-gray-800 mt-2 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-4">
             {!! nl2br(e($post->body)) !!}
         </div>
     </div>
