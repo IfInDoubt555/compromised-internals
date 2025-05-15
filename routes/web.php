@@ -20,6 +20,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/gate', function () {
@@ -125,7 +126,6 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 
 Route::view('/terms', 'footer.terms')->name('terms');
 Route::view('/privacy', 'footer.privacy')->name('privacy');
-
 
 // Route::get('/check-admin-gate', function () {
 //     return Gate::allows('access-admin') ? '✅ Gate allows access' : '❌ Gate denies access';

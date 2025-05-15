@@ -2,9 +2,13 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold text-center mb-6">📬 Contact Us</h1>
+    <h1 class="text-3xl font-bold text-center mb-6">📬 Contact</h1>
 
-    <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6 bg-white dark:bg-gray-400 p-6 rounded-xl shadow">
+    <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6 bg-white dark:bg-gray-500 p-6 rounded-xl shadow">
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-4 mb-6 rounded shadow-md text-sm">
+            <strong>Heads up!</strong> This site is in early testing. If you spot any bugs or have suggestions, please use this form to let me know!
+        </div>
+
         @csrf
 
         <div>

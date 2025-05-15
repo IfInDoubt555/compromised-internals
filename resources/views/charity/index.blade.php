@@ -3,7 +3,7 @@
 @section('title', 'Charity Work')
 
 @section('content')
-<div class="max-w-4xl mx-auto py-12 px-4 text-center">
+<div class="max-w-4xl mx-auto bg-gray-300 rounded-xl py-12 px-4 mt-4 text-center">
     <h1 class="text-4xl font-bold mb-4">❤️ Rally for Mental Health</h1>
 
     <p class="text-lg text-gray-700 mb-6">
@@ -11,7 +11,7 @@
         This mission is close to our hearts — because pushing limits isn’t just for cars, it’s about people too.
     </p>
 
-    <div class="bg-gray-100 rounded-lg shadow p-6 mb-8">
+    <div class="mb-8">
         <h2 class="text-xl font-semibold mb-2">💰 Community Impact</h2>
         <p class="text-gray-600">
             As we grow, we’ll share running totals of donations made and the organizations we support.

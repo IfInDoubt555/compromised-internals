@@ -13,9 +13,9 @@
         <div>
             <h3 class="font-semibold mb-2">Support</h3>
             <ul class="space-y-1 text-sm text-gray-300">
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="{{ route('contact') }}">Contact</a></li>
+                <li><a href="{{ route('terms') }}">Terms of Service</a></li>
+                <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
             </ul>
         </div>
 

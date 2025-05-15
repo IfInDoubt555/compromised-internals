@@ -7,6 +7,13 @@
     <div class="bg-gray-700 py-10 text-center shadow mb-4">
         <h1 class="text-3xl font-bold">Welcome to Compromised Internals</h1>
         <p class="mt-2 text-white">Your one-stop hub for everything rally – news, history, events, and more.</p>
+        <div class="text-center mt-2">
+            <a href="{{ route('contact') }}"
+                class="inline-block text-sm text-blue-600 hover:underline bg-yellow-100 border border-yellow-400 px-3 py-1 rounded shadow-md">
+                🛠️ Click here to leave feedback during testing
+            </a>
+        </div>
+
     </div>
 
     <!-- History Highlights -->
