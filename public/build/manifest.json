@@ -1,0 +1,18 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-COdZ6zX2.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/fade.css": {
+    "file": "assets/fade-Dh-xhxBV.css",
+    "src": "resources/css/fade.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DAL0TzKT.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
