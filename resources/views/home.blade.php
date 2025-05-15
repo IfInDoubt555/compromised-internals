@@ -64,14 +64,14 @@
         @foreach($posts as $post)
         <div class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
             <div class="h-64 w-full flex items-center justify-center overflow-hidden rounded-t-lg bg-black/5 hover:bg-black/10 transition-colors duration-300">
-                @if ($post->image_path && Storage::exists($post->image_path))
+                @if ($post->image_path && Storage::disk('public')->exists($post->image_path))
                 <img src="{{ Storage::url($post->image_path) }}"
                     alt="{{ $post->title }}"
-                    class="max-h-full max-w-full object-contain" />
+                    class="w-full h-full object-cover" />
                 @else
                 <img src="{{ asset('images/default-post.png') }}"
-                    alt="Default Post Image"
-                    class="max-h-full max-w-full object-contain" />
+                    alt="Default Blog Post Image"
+                    class="w-full h-full object-cover" />
                 @endif
             </div>
 
