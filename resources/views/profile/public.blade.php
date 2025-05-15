@@ -44,10 +44,6 @@
                 <div><span class="font-semibold">Rally Fan Since:</span> {{ $user->profile->rally_fan_since }}</div>
                 @endif
 
-                @if ($user->profile->birthday)
-                <div><span class="font-semibold">Birthday:</span> {{ \Carbon\Carbon::parse($user->profile->birthday)->format('F j, Y') }}</div>
-                @endif
-
                 @if ($user->profile->favorite_driver)
                 <div><span class="font-semibold">Favorite Driver:</span> {{ $user->profile->favorite_driver }}</div>
                 @endif
