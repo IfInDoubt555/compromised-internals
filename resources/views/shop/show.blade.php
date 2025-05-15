@@ -16,17 +16,6 @@
             />
         </div>
 
-        <script>
-            function changeShirtColor(color) {
-                const img = document.getElementById('productImage');
-                if (!img) return;
-                const newSrc = img.dataset[color];
-                if (newSrc) {
-                    img.src = newSrc;
-                }
-            }
-        </script>
-
         <!-- Product Info -->
         <div>
             <h1 class="text-3xl font-bold mb-4">{{ $product->name }}</h1>
