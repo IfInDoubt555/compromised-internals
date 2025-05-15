@@ -13,7 +13,8 @@ class RallyEvent extends Model
         'start_date',
         'end_date',
         'slug',
-        'user_id', // if applicable
+        'user_id',
+        'championship',
     ];
     protected function casts(): array
     {

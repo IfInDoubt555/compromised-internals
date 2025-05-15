@@ -7,6 +7,16 @@
     <form method="POST" action="{{ route('admin.events.store') }}">
         @csrf
 
+        <div class="mt-4">
+            <label for="championship" class="block font-medium">Championship</label>
+            <select id="championship" name="championship" class="w-full border rounded px-3 py-2">
+                <option value="">Select...</option>
+                <option value="WRC">WRC</option>
+                <option value="ARA">ARA</option>
+                <option value="ERC">ERC</option>
+            </select>
+        </div>
+
         <div class="mb-4">
             <label class="block font-semibold mb-1">Event Name</label>
             <input type="text" name="name" class="w-full border rounded p-2" required value="{{ old('name') }}">

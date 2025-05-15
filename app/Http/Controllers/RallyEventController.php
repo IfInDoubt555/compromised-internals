@@ -24,12 +24,22 @@ class RallyEventController extends Controller
                 $q->whereDate('start_date', '<=', $request->end);
             })
             ->get()
-            ->map(fn($event) => [
-                'title' => $event->name,
-                'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
-                'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
-                'url' => route('calendar.show', $event->slug),
-            ]);
+            ->map(function ($event) {
+                $color = match ($event->championship) {
+                    'WRC' => '#1E40AF',   // Blue
+                    'ARA' => '#15803D',   // Green
+                    'ERC' => '#9333EA',   // Purple
+                    default => '#6B7280', // Gray fallback
+                };
+
+                return [
+                    'title' => $event->name,
+                    'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
+                    'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
+                    'url' => route('calendar.show', $event->slug),
+                    'color' => $color,
+                ];
+            });
 
         return response()->json($events);
     }
