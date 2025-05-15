@@ -28,10 +28,10 @@
 <div class="flex flex-col md:flex-row gap-8 mb-12 max-w-6xl mx-auto px-4">
 
     {{-- Left: Post Image --}}
-    <div class="w-full max-w-3xl mx-auto aspect-video overflow-hidden rounded-xl shadow-lg">
-        <img src="{{ Storage::url($post->image_path) }}"
+    <div class="md:w-[40%] max-w-md">
+        <img src="{{ $post->image_path ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
             alt="{{ $post->title }}"
-            class="w-full h-full object-cover" />
+            class="rounded-lg shadow-md w-full object-cover">
     </div>
 
     {{-- Right: Title, Author, Actions, Body --}}
