@@ -43,6 +43,9 @@
         </tbody>
     </table>
 </div>
+<div class="mt-4">
+    {{ $events->links() }}
+</div>
 @else
 <p class="text-gray-500 mt-6">No rally events found.</p>
 @endif
