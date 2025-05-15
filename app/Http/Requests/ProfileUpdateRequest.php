@@ -5,18 +5,14 @@ namespace App\Http\Requests;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Rules\NoBannedWords;
 
 class ProfileUpdateRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', new NoBannedWords],
             'email' => [
                 'required',
                 'string',
@@ -28,9 +24,15 @@ class ProfileUpdateRequest extends FormRequest
             'rally_role' => [
                 'nullable',
                 Rule::in(['Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Coordinator', 'Volunteer']),
-            ],            
+            ],
             'profile_picture' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
 
+            // Add profanity filtering here:
+            'bio'             => ['nullable', 'string', new NoBannedWords],
+            'display_name'    => ['required', 'string', new NoBannedWords],
+            'location'        => ['nullable', 'string', new NoBannedWords],
+            'favorite_driver' => ['nullable', 'string', new NoBannedWords],
+            'favorite_car'    => ['nullable', 'string', new NoBannedWords],
         ];
     }
 }

@@ -67,7 +67,7 @@ class PostController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-        Post::create($validated);
+        Post::create($request->validated());
 
         return redirect()->route('blog.index')->with('success', 'Post created successfully!');
     }
