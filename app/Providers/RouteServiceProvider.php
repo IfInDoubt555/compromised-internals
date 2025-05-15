@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    public const HOME = '/dashboard';
+
+
     public function register(): void
     {
         //
@@ -15,8 +18,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Load public web routes
-        Route::middleware('web')
-            ->group(base_path('routes/web.php'));
+        // Route::middleware('web')
+        //     ->group(base_path('routes/web.php'));
 
         // Load admin routes (auth + admin-only)
         Route::middleware(['web', 'auth', 'can:access-admin'])

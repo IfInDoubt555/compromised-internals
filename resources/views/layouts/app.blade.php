@@ -23,7 +23,9 @@
 </head>
 
 <body class="antialiased bg-gray-400">
+    @if(session('site_unlocked'))
     @include('layouts.navigation')
+    @endif
 
     <div id="theme-wrapper" class="min-h-screen {{ request()->is('history*') ? '' : 'bg-gray-400' }}">
 
@@ -37,7 +39,7 @@
 
         <main>
             @if (session('success'))
-             <div
+            <div
                 x-data="{ show: true }"
                 x-init="setTimeout(() => show = false, 3000)"
                 x-show="show"
@@ -75,8 +77,10 @@
         </a>
     </div>
     @endif
-    @stack('scripts')
-    @include('partials.footer')
+        @stack('scripts')
+            @if(session('site_unlocked'))
+                @include('partials.footer')
+            @endif
 </body>
 
 </html>
