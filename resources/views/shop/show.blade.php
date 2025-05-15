@@ -4,15 +4,18 @@
 <div class="max-w-6xl mx-auto px-4 py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         <!-- Image -->
-        <div class="flex justify-center">
-            <x-product-image
-                :image="$product->image_path"
-                :colors="[
-                    'black' => 'images/products/skull-design-black.png',
-                    'white' => 'images/products/skull-design-white.png',
-                    'red' => 'images/products/skull-design-red.png'
-                ]" />
-        </div>
+            <div class="flex justify-center">
+                <img
+                    id="productImage"
+                    src="{{ asset($colors['white']) }}" {{-- Default image (white) --}}
+                    alt="Product Image"
+                    class="rounded-lg w-full max-w-md h-auto"
+                    @foreach($colors as $color=> $path)
+                data-{{ $color }}="{{ asset($path) }}"
+                @endforeach
+                />
+            </div>
+
 
         <!-- Product Info -->
         <div>
