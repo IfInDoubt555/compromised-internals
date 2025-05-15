@@ -27,7 +27,7 @@
                 <!-- Size -->
                 <div class="mb-4 w-32">
                     <label for="size" class="block font-medium mb-1">Size</label>
-                    <select name="size" id="size" class="w-full border rounded px-4 py-2">
+                    <select name="size" id="size" class="w-full border bg-gray-300 rounded px-4 py-2">
                         <option value="S">Small</option>
                         <option value="M">Medium</option>
                         <option value="L">Large</option>
