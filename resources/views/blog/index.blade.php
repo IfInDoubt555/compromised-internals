@@ -41,11 +41,11 @@
                 @if ($post->image_path && Storage::disk('public')->exists($post->image_path))
                 <img src="{{ Storage::url($post->image_path) }}"
                     alt="{{ $post->title }}"
-                    class="w-full max-h-full object-contain" />
+                    class="w-full h-full object-cover" />
                 @else
                 <img src="{{ asset('images/default-post.png') }}"
                     alt="Default Blog Post Image"
-                    class="w-full max-h-full object-contain" />
+                    class="w-full h-full object-cover" />
                 @endif
             </div>
 
