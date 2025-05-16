@@ -12,11 +12,13 @@
                 class="inline-block text-sm text-blue-600 hover:underline bg-yellow-100 border border-yellow-400 px-3 py-1 rounded shadow-md">
                 🛠️ Click here to leave feedback during testing
             </a>
-            <p class="text-sm text-gray-600 text-center mt-4">
-                Have a security concern? <a href="{{ route('security.policy') }}" class="text-blue-600 underline">Report it responsibly</a>.
-            </p>
+            <div class="text-center mt-4">
+                <a href="{{ route('security.policy') }}"
+                    class="inline-block text-sm px-4 py-2 rounded-md bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition">
+                    🛡️ Report a Security Issue
+                </a>
+            </div>
         </div>
-
     </div>
 
     <!-- History Highlights -->
