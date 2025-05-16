@@ -11,7 +11,7 @@
     <h2 class="text-xl font-semibold mt-6 mb-2">Reporting a Vulnerability</h2>
     <p class="mb-4">
         Please send an email to <a href="mailto:no-reply@compromisedinternals.com" class="text-blue-600 underline">
-            no-reply@compromisedinternals.com
+            compint.chris@proton.me
         </a>
         with detailed information including:
     </p>
