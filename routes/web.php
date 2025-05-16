@@ -109,9 +109,6 @@ Route::get('/profile/{user}', function (User $user) {
     return view('profile.public', compact('user'));
 })->name('profile.public');
 
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware(['auth', 'no-cache'])->name('verification.notice');
 
 // Footer Routes
 Route::get('/contact', [ContactController::class, 'show'])
