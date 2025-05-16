@@ -13,11 +13,11 @@
             <div class="text-center">
                 <div class="mt-4 p-4 rounded-lg border border-yellow-400 bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100 shadow-md text-sm animate-fade-in">
                     ⚠️ <strong>Testing Notice:</strong><br>
-                    You may use any email address to register, including fake ones, thanks to MailCatcher on this dev environment.
+                    You may now register with a real email address — confirmation and verification emails are delivered via Mailgun.
                     <br class="hidden sm:block mt-1" />
-                    🧹 <strong>Note:</strong> All test accounts and data are automatically <span class="font-semibold">purged every 24 hours</span>.
+                    🧹 <strong>Note:</strong> Test accounts and data are still <span class="font-semibold">purged every 24 hours</span>.
                     <br class="hidden sm:block mt-1" />
-                    🔐 <strong>Verification:</strong> During testing, accounts must be manually verified. Please <a href="{{ route('contact') }}" class="underline font-medium text-blue-700 dark:text-blue-300">reach out here</a> if you don’t receive access shortly after signing up.
+                    🔐 <strong>Access Issues?</strong> If you don’t receive your verification link, <a href="{{ route('contact') }}" class="underline font-medium text-blue-700 dark:text-blue-300">reach out here</a> and we’ll verify your account manually.
                 </div>
                 <h2 class="text-3xl font-bold text-gray-800">Join Compromised Internals</h2>
                 <p class="text-sm text-gray-500 mt-2">Be part of the rally revolution 🚗💨</p>
