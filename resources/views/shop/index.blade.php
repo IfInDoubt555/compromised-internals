@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <h1 class="text-3xl font-bold mb-8">Shop</h1>
-        <div class="mx-auto w-fit bg-amber-900 text-white px-6 py-4 rounded-lg shadow-md border     border-yellow-500 mt-6 text-sm">
+        <div class="mx-auto w-fit bg-amber-900 text-white px-6 py-4 rounded-lg shadow-md border     border-yellow-500 mb-6 text-sm">
             <p class="font-bold text-yellow-300 mb-2">⚠️ Notice:</p>
             <p class="mb-2">This shop is currently in <span class="font-semibold">development mode</span>.  Purchases will not be processed.</p>
             <p>You can use the following Stripe test card:</p>
