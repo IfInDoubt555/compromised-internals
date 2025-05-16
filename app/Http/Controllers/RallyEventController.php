@@ -27,6 +27,13 @@ class RallyEventController extends Controller
                 })
                 ->get()
                 ->map(function ($event) {
+                    // Handle potential nulls safely
+                    $start = $event->start_date ? \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String() : null;
+                    $end = $event->end_date ? \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String() : null;
+
+                    // Defensive route fallback if slug is missing
+                    $url = $event->slug ? route('calendar.show', $event->slug) : '#';
+
                     $color = match ($event->championship) {
                         'WRC' => '#1E40AF',
                         'ARA' => '#15803D',
@@ -35,13 +42,15 @@ class RallyEventController extends Controller
                     };
 
                     return [
-                        'title' => $event->name,
-                        'start' => \Carbon\Carbon::parse($event->start_date)->toIso8601String(),
-                        'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->toIso8601String(),
-                        'url' => route('calendar.show', $event->slug),
+                        'title' => $event->name ?? 'Untitled Event',
+                        'start' => $start,
+                        'end' => $end,
+                        'url' => $url,
                         'color' => $color,
                     ];
-                });
+                })
+                ->filter(fn($event) => $event['start'] && $event['end']) // filter out broken entries
+                ->values();
 
             return response()->json($events);
         } catch (\Throwable $e) {
