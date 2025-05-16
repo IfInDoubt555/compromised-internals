@@ -43,4 +43,5 @@ Route::prefix('emails')->name('emails.')->middleware(['auth', 'can:access-admin'
     Route::get('/{id}', [EmailController::class, 'show'])->name('show');
     Route::patch('/{id}/resolve', [EmailController::class, 'toggleResolved'])->name('toggleResolved');
     Route::patch('/{id}/category', [EmailController::class, 'updateCategory'])->name('updateCategory');
+    Route::patch('/{message}/archive', [EmailController::class, 'archive'])->name('archive');
 });

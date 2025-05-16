@@ -30,6 +30,8 @@
             <td class="p-4">{{ $msg->created_at->format('M d, Y') }}</td>
             <td class="p-4">
                 <a href="{{ route('admin.emails.show', $msg->id) }}" class="text-blue-500 hover:underline">View</a>
+                <a href="{{ route('admin.emails.index', ['archived' => false]) }}" class="mr-4">Inbox</a>
+                <a href="{{ route('admin.emails.index', ['archived' => true]) }}">Archive</a>
             </td>
         </tr>
         @endforeach

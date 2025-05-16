@@ -10,8 +10,13 @@ class EmailController extends Controller
 {
     public function index(Request $request)
     {
-        $messages = ContactMessage::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.emails.index', compact('messages'));
+        $archived = $request->boolean('archived', false);
+
+        $messages = ContactMessage::where('archived', $archived)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.emails.index', compact('messages', 'archived'));
     }
 
     public function show($id)
@@ -40,5 +45,12 @@ class EmailController extends Controller
         $message->save();
 
         return redirect()->back()->with('success', 'Category updated.');
+    }
+    public function archive(ContactMessage $message)
+    {
+        $message->archived = !$message->archived;
+        $message->save();
+
+        return back()->with('status', 'Message ' . ($message->archived ? 'archived' : 'restored') . '.');
     }
 }
