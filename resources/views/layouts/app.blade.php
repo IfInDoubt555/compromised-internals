@@ -85,9 +85,9 @@
     </div>
     @endif
     @stack('scripts')
-    @if(session('site_unlocked'))
+   
     @include('partials.footer')
-    @endif
+
 </body>
 
 </html>
