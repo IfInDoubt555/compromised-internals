@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -102,5 +104,25 @@ Route::post('/contact', [ContactController::class, 'submit'])
 
 Route::view('/terms', 'footer.terms')->name('terms');
 Route::view('/privacy', 'footer.privacy')->name('privacy');
+
+Route::get('/sitemap.xml', function () {
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/'))
+        ->add(Url::create('/blog'))
+        ->add(Url::create('/shop'))
+        ->add(Url::create('/history'))
+        ->add(Url::create('/events'));
+
+    // Optionally: loop through posts/events/products
+    foreach (\App\Models\Post::all() as $post) {
+        $sitemap->add(Url::create(route('blog.show', $post->slug)));
+    }
+
+    foreach (\App\Models\RallyEvent::all() as $event) {
+        $sitemap->add(Url::create(route('events.show', $event->slug)));
+    }
+
+    return $sitemap->toResponse(request());
+});
 
 require __DIR__ . '/auth.php';
