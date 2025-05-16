@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-3xl mx-auto px-4 py-8">
+<div class="prose max-w-3xl text-gray-800 mt-10 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6">
     <h1 class="text-3xl font-bold mb-4">{{ $event->name }}</h1>
 
     @if ($event->championship)
