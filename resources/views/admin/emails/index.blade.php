@@ -28,34 +28,39 @@ $query = request()->except('archived', 'page');
 </div>
 
 <form method="GET" class="mb-6 flex flex-wrap items-center gap-4">
-    <select name="category" class="border border-gray-300 rounded px-3 py-2 bg-blue-600 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+    <select name="category"
+        class="px-4 py-2 rounded bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
         <option value="">All Categories</option>
-        @foreach (ContactCategory::cases() as $category)
+        @foreach (\App\Enums\ContactCategory::cases() as $category)
         <option value="{{ $category->value }}" @selected(request('category')==$category->value)>
             {{ $category->value }}
         </option>
         @endforeach
     </select>
 
-    <select name="status" class="border border-gray-300 rounded px-3 py-2 bg-blue-600 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+    <select name="status"
+        class="px-4 py-2 rounded bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
         <option value="">All Statuses</option>
         <option value="open" @selected(request('status')=='open' )>Open</option>
         <option value="resolved" @selected(request('status')=='resolved' )>Resolved</option>
     </select>
 
-    <select name="sort" class="border border-gray-300 rounded px-3 py-2 bg-blue-600 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+    <select name="sort"
+        class="px-4 py-2 rounded bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
         <option value="">Sort by</option>
         <option value="name" @selected(request('sort')=='name' )>Name</option>
         <option value="email" @selected(request('sort')=='email' )>Email</option>
         <option value="created_at" @selected(request('sort')=='created_at' )>Date</option>
     </select>
 
-    <select name="direction" class="border border-gray-300 rounded px-3 py-2 bg-blue-600 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+    <select name="direction"
+        class="px-4 py-2 rounded bg-white border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
         <option value="asc" @selected(request('direction')=='asc' )>Asc</option>
         <option value="desc" @selected(request('direction')=='desc' )>Desc</option>
     </select>
 
-    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded shadow transition">
+    <button type="submit"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded shadow transition text-sm">
         Filter
     </button>
 
