@@ -32,9 +32,7 @@
     @endif
     @endauth
 
-    @if(session('site_unlocked'))
     @include('layouts.navigation')
-    @endif
 
     <div id="theme-wrapper" class="min-h-screen {{ request()->is('history*') ? '' : 'bg-gray-400' }}">
 
