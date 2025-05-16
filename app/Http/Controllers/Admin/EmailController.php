@@ -11,30 +11,27 @@ class EmailController extends Controller
     public function index(Request $request)
     {
         $archived = $request->boolean('archived', false);
-
         $query = ContactMessage::where('archived', $archived);
 
-        // Optional: Filter by category
-        if ($request->filled('category')) {
-            $query->where('category', $request->input('category'));
+        if ($category = $request->input('category')) {
+            $query->where('category', $category);
         }
 
-        // Optional: Filter by status
-        if ($request->filled('status')) {
-            if ($request->status === 'resolved') {
-                $query->where('resolved', true);
-            } elseif ($request->status === 'open') {
-                $query->where('resolved', false);
-            }
+        if ($status = $request->input('status')) {
+            $query->where('resolved', $status === 'resolved');
         }
 
-        // Optional: Sorting
-        $sortField = $request->input('sort', 'created_at');
-        $sortDirection = $request->input('direction', 'desc');
+        $sort = $request->input('sort');
+        $direction = $request->input('direction', 'desc');
 
-        $query->orderBy($sortField, $sortDirection);
+        // Validate sort field
+        if (in_array($sort, ['name', 'email', 'created_at'])) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->orderBy('created_at', $direction);
+        }
 
-        $messages = $query->paginate(10)->withQueryString();
+        $messages = $query->paginate(10)->appends($request->except('page'));
 
         return view('admin.emails.index', compact('messages', 'archived'));
     }

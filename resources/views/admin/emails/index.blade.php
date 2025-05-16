@@ -14,14 +14,11 @@ $colorMap = [
 'Legal' => 'bg-black text-white',
 'Feature Request' => 'bg-orange-100 text-orange-700',
 ];
+$query = request()->except('archived', 'page');
 @endphp
 
 @section('content')
 <h1 class="text-2xl font-bold mb-6">📬 Contact Messages</h1>
-
-@php
-$query = request()->except('archived', 'page');
-@endphp
 
 <div class="mb-4">
     <a href="{{ route('admin.emails.index', array_merge($query, ['archived' => 0])) }}"
@@ -30,39 +27,43 @@ $query = request()->except('archived', 'page');
         class="{{ request('archived') ? 'font-bold' : 'text-gray-500' }}">🗃️ Archive</a>
 </div>
 
-
-<form method="GET" class="mb-6 flex flex-wrap gap-4">
-    <select name="category" class="border px-2 py-1 rounded">
+<form method="GET" class="mb-6 flex flex-wrap items-center gap-4">
+    <select name="category" class="border border-gray-300 rounded px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
         <option value="">All Categories</option>
-        @foreach (\App\Enums\ContactCategory::cases() as $category)
+        @foreach (ContactCategory::cases() as $category)
         <option value="{{ $category->value }}" @selected(request('category')==$category->value)>
             {{ $category->value }}
         </option>
         @endforeach
     </select>
 
-    <select name="status" class="border px-2 py-1 rounded">
+    <select name="status" class="border border-gray-300 rounded px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
         <option value="">All Statuses</option>
         <option value="open" @selected(request('status')=='open' )>Open</option>
         <option value="resolved" @selected(request('status')=='resolved' )>Resolved</option>
     </select>
 
-    <select name="sort" class="border px-2 py-1 rounded">
+    <select name="sort" class="border border-gray-300 rounded px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
         <option value="">Sort by</option>
         <option value="name" @selected(request('sort')=='name' )>Name</option>
         <option value="email" @selected(request('sort')=='email' )>Email</option>
         <option value="created_at" @selected(request('sort')=='created_at' )>Date</option>
     </select>
 
-    <select name="direction" class="border px-2 py-1 rounded">
+    <select name="direction" class="border border-gray-300 rounded px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring focus:border-blue-300">
         <option value="asc" @selected(request('direction')=='asc' )>Asc</option>
         <option value="desc" @selected(request('direction')=='desc' )>Desc</option>
     </select>
 
-    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">Filter</button>
-    <a href="{{ route('admin.emails.index') }}" class="underline text-sm text-gray-600">Reset</a>
-</form>
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded shadow transition">
+        Filter
+    </button>
 
+    <a href="{{ route('admin.emails.index') }}"
+        class="text-sm text-gray-600 underline hover:text-gray-800">
+        Reset
+    </a>
+</form>
 
 <table class="w-full table-auto bg-white shadow rounded-lg overflow-hidden">
     <thead class="bg-gray-100 text-left text-sm uppercase text-gray-700">
@@ -76,7 +77,7 @@ $query = request()->except('archived', 'page');
         </tr>
     </thead>
     <tbody>
-        @foreach ($messages as $msg)
+        @forelse ($messages as $msg)
         <tr class="border-t text-sm">
             <td class="p-4 font-medium">{{ $msg->name }}</td>
             <td class="p-4 text-blue-600">{{ $msg->email }}</td>
@@ -101,7 +102,11 @@ $query = request()->except('archived', 'page');
                 <a href="{{ route('admin.emails.show', $msg->id) }}" class="text-blue-500 hover:underline">View</a>
             </td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="6" class="p-4 text-center text-gray-500">No messages found.</td>
+        </tr>
+        @endforelse
     </tbody>
 </table>
 
