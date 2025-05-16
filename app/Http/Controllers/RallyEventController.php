@@ -36,8 +36,8 @@ class RallyEventController extends Controller
 
                     return [
                         'title' => $event->name,
-                        'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
-                        'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
+                        'start' => \Carbon\Carbon::parse($event->start_date)->toIso8601String(),
+                        'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->toIso8601String(),
                         'url' => route('calendar.show', $event->slug),
                         'color' => $color,
                     ];
@@ -45,13 +45,13 @@ class RallyEventController extends Controller
 
             return response()->json($events);
         } catch (\Throwable $e) {
-            Log::error('Error loading calendar events: ' . $e->getMessage(), [
+            \Illuminate\Support\Facades\Log::error('Error loading calendar events: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
                 'start' => $request->start,
                 'end' => $request->end,
             ]);
 
-            return response()->json(['error' => 'Failed to load events.'], 500);
+            return response()->json(['error' => 'Failed to load events'], 500);
         }
     }
 
