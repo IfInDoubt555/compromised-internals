@@ -126,5 +126,6 @@ Route::get('/sitemap.xml', function () {
 });
 
 Route::view('/security/policy', 'security.policy')->name('security.policy');
+Route::view('/security/hall-of-fame', 'security.hall-of-fame')->name('security.hof');
 
 require __DIR__ . '/auth.php';

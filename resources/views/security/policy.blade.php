@@ -34,7 +34,8 @@
     </p>
 
     <p class="mt-6 text-sm text-gray-500">
-        Last updated: {{ now()->format('F j, Y') }}
+        Last updated: {{ now()->format('F j, Y') }}<br>
+        See our <a href="{{ route('security.hof') }}" class="text-blue-600 hover:underline">Security Hall of Fame</a>.
     </p>
 </div>
 @endsection
