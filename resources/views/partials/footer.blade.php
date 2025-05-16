@@ -13,9 +13,19 @@
         <div>
             <h3 class="font-semibold mb-2">Support</h3>
             <ul class="space-y-1 text-sm text-gray-300">
-                <li><a href="{{ route('contact') }}">Contact</a></li>
-                <li><a href="{{ route('terms') }}">Terms of Service</a></li>
-                <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                <li>
+                    <a href="{{ route('contact') }}" class="hover:underline">Contact</a>
+                </li>
+                <li>
+                    <a href="{{ route('terms') }}" class="hover:underline">Terms of Service</a>
+                </li>
+                <li>
+                    <a href="{{ route('privacy') }}" class="hover:underline">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href=" {{ route('security.policy') }}" class="hover:underline">Security Disclosure</a>
+                </li>
+
             </ul>
         </div>
 
