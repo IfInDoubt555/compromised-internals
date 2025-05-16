@@ -17,6 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function ($exceptions) {
         //
     })
+    ->withMiddleware(function (Middleware $middleware) {
+        // Register global middleware, middleware groups, and aliases
+        // Laravel 12 automatically uses your App\Http\Kernel::class
+    })
     ->withCommands([
         \App\Console\Commands\PruneSessions::class,
         \App\Console\Commands\ScanImageAttributions::class,
