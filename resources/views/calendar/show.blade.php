@@ -25,7 +25,7 @@
         {{ $event->description ?? 'No additional information available.' }}
     </section>
 </div>
-<div class="text-center mt-10 mb-20">
+<div class="text-center mt-10 mb-10">
     <a href="{{ route('calendar') }}"
         class="inline-block text-blue-600 hover:text-blue-800 transition font-semibold">
         ← Back to Calendar
