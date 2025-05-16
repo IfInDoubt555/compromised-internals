@@ -20,24 +20,23 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/gate', function () {
-    return view('gate');
-})->name('gatekeeper.form');
+Route::middleware(['web', 'no-session'])->group(function () {
+    Route::get('/gate', fn() => view('gate'))->name('gatekeeper.form');
 
-Route::post('/gate', function (Request $request) {
-    $password = $request->input('password');
-    $valid = env('SITE_ACCESS_PASSWORD', 'letmein555!');
+    Route::post('/gate', function (Request $request) {
+        $password = $request->input('password');
+        $valid = env('SITE_ACCESS_PASSWORD', 'letmein555!');
 
-    if ($password === $valid) {
-        $request->session()->put('site_unlocked', true);
-        return redirect('/');
-    }
+        if ($password === $valid) {
+            $request->session()->put('site_unlocked', true);
+            return redirect('/');
+        }
 
-    return back()->withErrors(['password' => 'Incorrect password.']);
-})->name('gatekeeper.submit');
+        return back()->withErrors(['password' => 'Incorrect password.']);
+    })->name('gatekeeper.submit');
+});
 
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
@@ -59,25 +58,22 @@ Route::get('/cart/count', function () {
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');
 
-
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-Route::view('/checkout/unavailable', 'errors.checkout-unavailable')
-    ->name('errors.checkout-unavailable');
-
+Route::view('/checkout/unavailable', 'errors.checkout-unavailable')->name('errors.checkout-unavailable');
 
 Route::get('/charity', [CharityController::class, 'index'])->name('charity.index');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'no-cache'])
     ->name('dashboard');
 
 Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('/{post}', [PostController::class, 'show'])->name('show');
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'no-cache'])->group(function () {
         Route::get('/create', [PostController::class, 'create'])->name('create');
         Route::post('/', [PostController::class, 'store'])->name('store');
     });
@@ -88,41 +84,43 @@ Route::prefix('history')->name('history.')->group(function () {
     Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
 
-
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'no-cache'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/orders', [DashboardController::class, 'orders'])->name('profile.orders');
+
     Route::get('posts', [PostController::class, 'index'])->name('posts.index');
     Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit'); 
+    Route::get('posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::patch('posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+    Route::post('/posts/{post}/like', [PostController::class, 'toggleLike'])->name('posts.like');
+    Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/{comment}/edit', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
+
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
 Route::get('/profile/{user}', function (User $user) {
     return view('profile.public', compact('user'));
 })->name('profile.public');
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
-
-Route::middleware('auth')->group(function () {
-    // Like a post
-    Route::post('/posts/{post}/like', [PostController::class, 'toggleLike'])->name('posts.like');
-
-    // Comment actions
-    Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::post('/comments/{comment}/edit', [CommentController::class, 'update'])->name('comments.update');
-    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
-});
+})->middleware(['auth', 'no-cache'])->name('verification.notice');
 
 // Footer Routes
-Route::get('/contact', [ContactController::class, 'show'])->name('contact');
-Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+Route::get('/contact', [ContactController::class, 'show'])
+    ->middleware('no-cache')
+    ->name('contact');
+
+Route::post('/contact', [ContactController::class, 'submit'])
+    ->middleware('no-cache')
+    ->name('contact.submit');
 
 Route::view('/terms', 'footer.terms')->name('terms');
 Route::view('/privacy', 'footer.privacy')->name('privacy');
@@ -131,4 +129,4 @@ Route::view('/privacy', 'footer.privacy')->name('privacy');
 //     return Gate::allows('access-admin') ? '✅ Gate allows access' : '❌ Gate denies access';
 // })->middleware('auth');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
