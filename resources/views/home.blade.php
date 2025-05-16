@@ -12,12 +12,13 @@
                 class="inline-block text-sm text-blue-600 hover:underline bg-yellow-100 border border-yellow-400 px-3 py-1 rounded shadow-md">
                 🛠️ Click here to leave feedback during testing
             </a>
-            <div class="text-center mt-4">
-                <a href="{{ route('security.policy') }}"
-                    class="inline-block text-sm px-4 py-2 rounded-md bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition">
-                    🛡️ Report a Security Issue
-                </a>
-            </div>
+        </div>
+
+        <div class="text-center mt-2">
+            <a href="{{ route('security.policy') }}"
+                class="inline-block text-sm px-4 py-2 rounded-md bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition">
+                🛡️ Report a Security Issue
+            </a>
         </div>
     </div>
 
