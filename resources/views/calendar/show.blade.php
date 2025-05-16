@@ -26,7 +26,7 @@
     </section>
 </div>
 <div class="text-center mt-10 mb-20">
-    <a href="{{ route('calendar.index') }}"
+    <a href="{{ route('calendar') }}"
         class="inline-block text-blue-600 hover:text-blue-800 transition font-semibold">
         ← Back to Calendar
     </a>
