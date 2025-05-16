@@ -17,6 +17,12 @@
             <option value="General" @selected($message->category == 'General')>General</option>
             <option value="Support" @selected($message->category == 'Support')>Support</option>
             <option value="Feedback" @selected($message->category == 'Feedback')>Feedback</option>
+            <option value="Security" @selected($message->category == 'Security')>Security</option>
+            <option value="Media/Press" @selected($message->category == 'Media/Press')>Media/Press</option>
+            <option value="Business Inquiry" @selected($message->category == 'Business Inquiry')>Business Inquiry</option>
+            <option value="Shop & Orders" @selected($message->category == 'Shop & Orders')>Shop & Orders</option>
+            <option value="Legal" @selected($message->category == 'Legal')>Legal</option>
+            <option value="Feature Request" @selected($message->category == 'Feature Request')>Feature Request</option>
         </select>
     </form>
     </p>
