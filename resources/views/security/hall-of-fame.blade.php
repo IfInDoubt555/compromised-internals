@@ -6,9 +6,8 @@
 
     <p class="mb-4">We thank the following individuals for reporting valid security issues and helping improve Compromised Internals.</p>
 
-    <ul class="list-disc list-inside text-lg space-y-2">
-        <li><strong>@ShadowSpecter</strong> – Reported XSS in blog search (April 2025)</li>
-        <li><strong>RedLeaf</strong> – Found misconfigured CORS headers (May 2025)</li>
+    <ul class="list-disc list-inside text-lg space-y-2 text-gray-700">
+        <li>No entries yet. Be the first to help us improve our security!</li>
     </ul>
 </div>
 @endsection
