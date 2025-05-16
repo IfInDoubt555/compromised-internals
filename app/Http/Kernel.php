@@ -37,7 +37,7 @@ class Kernel extends HttpKernel
         ],
     ];
 
-    protected $middlewareAliases = [
+    protected array $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
