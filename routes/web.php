@@ -22,22 +22,6 @@ use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['web'])->group(function () {
-    Route::get('/gate', fn() => view('gate'))->name('gatekeeper.form');
-
-    Route::post('/gate', function (Request $request) {
-        $password = $request->input('password');
-        $valid = env('SITE_ACCESS_PASSWORD', 'letmein555!');
-
-        if ($password === $valid) {
-            $request->session()->put('site_unlocked', true);
-            return redirect('/');
-        }
-
-        return back()->withErrors(['password' => 'Incorrect password.']);
-    })->name('gatekeeper.submit');
-});
-
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
 Route::get('/calendar/{slug}', [RallyEventController::class, 'show'])->name('calendar.show');
@@ -118,9 +102,5 @@ Route::post('/contact', [ContactController::class, 'submit'])
 
 Route::view('/terms', 'footer.terms')->name('terms');
 Route::view('/privacy', 'footer.privacy')->name('privacy');
-
-// Route::get('/check-admin-gate', function () {
-//     return Gate::allows('access-admin') ? '✅ Gate allows access' : '❌ Gate denies access';
-// })->middleware('auth');
 
 require __DIR__ . '/auth.php';

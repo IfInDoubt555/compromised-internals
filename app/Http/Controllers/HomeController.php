@@ -9,11 +9,6 @@ use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('gatekeeper');
-    }
-
     public function index()
     {
         $posts = Post::latest()->take(3)->get();
