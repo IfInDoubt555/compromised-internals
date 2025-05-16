@@ -1,4 +1,6 @@
-Contact: mailto:compint.chris@proton.me
-Expires: 2026-01-01T00:00:00.000Z
-Preferred-Languages: en
+Contact: mailto:no-reply@compromisedinternals.com
+Encryption: https://compromisedinternals.com/pgp/publickey.asc
+Expires: 2026-05-16T15:22:14Z
 Canonical: https://compromisedinternals.com/.well-known/security.txt
+Policy: https://compromisedinternals.com/security/policy
+Preferred-Languages: en

@@ -125,4 +125,6 @@ Route::get('/sitemap.xml', function () {
     return $sitemap->toResponse(request());
 });
 
+Route::view('/security/policy', 'security.policy')->name('security.policy');
+
 require __DIR__ . '/auth.php';
