@@ -13,9 +13,11 @@
             <div class="text-center">
                 <div class="mt-4 p-4 rounded-lg border border-yellow-400 bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100 shadow-md text-sm animate-fade-in">
                     ⚠️ <strong>Testing Notice:</strong><br>
-                    You may use any email address to register, including fake ones, thanks to Mailcatcher on this dev environment. However, using a <span class="font-semibold">real email</span> will let you verify your account instantly and unlock full access to features.
+                    You may use any email address to register, including fake ones, thanks to MailCatcher on this dev environment.
                     <br class="hidden sm:block mt-1" />
-                    🧹 <strong>Note:</strong> All test accounts and data are automatically <span class="font-semibold">purged every 24 hours</span>. Reach out if you'd like extended access for development or demo purposes.
+                    🧹 <strong>Note:</strong> All test accounts and data are automatically <span class="font-semibold">purged every 24 hours</span>.
+                    <br class="hidden sm:block mt-1" />
+                    🔐 <strong>Verification:</strong> During testing, accounts must be manually verified. Please <a href="{{ route('contact') }}" class="underline font-medium text-blue-700 dark:text-blue-300">reach out here</a> if you don’t receive access shortly after signing up.
                 </div>
                 <h2 class="text-3xl font-bold text-gray-800">Join Compromised Internals</h2>
                 <p class="text-sm text-gray-500 mt-2">Be part of the rally revolution 🚗💨</p>
