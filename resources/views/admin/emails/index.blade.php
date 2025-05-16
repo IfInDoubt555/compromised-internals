@@ -19,12 +19,50 @@ $colorMap = [
 @section('content')
 <h1 class="text-2xl font-bold mb-6">📬 Contact Messages</h1>
 
+@php
+$query = request()->except('archived', 'page');
+@endphp
+
 <div class="mb-4">
-    <a href="{{ route('admin.emails.index', ['archived' => 0]) }}"
+    <a href="{{ route('admin.emails.index', array_merge($query, ['archived' => 0])) }}"
         class="mr-4 {{ request('archived') ? 'text-gray-500' : 'font-bold' }}">📥 Inbox</a>
-    <a href="{{ route('admin.emails.index', ['archived' => 1]) }}"
+    <a href="{{ route('admin.emails.index', array_merge($query, ['archived' => 1])) }}"
         class="{{ request('archived') ? 'font-bold' : 'text-gray-500' }}">🗃️ Archive</a>
 </div>
+
+
+<form method="GET" class="mb-6 flex flex-wrap gap-4">
+    <select name="category" class="border px-2 py-1 rounded">
+        <option value="">All Categories</option>
+        @foreach (\App\Enums\ContactCategory::cases() as $category)
+        <option value="{{ $category->value }}" @selected(request('category')==$category->value)>
+            {{ $category->value }}
+        </option>
+        @endforeach
+    </select>
+
+    <select name="status" class="border px-2 py-1 rounded">
+        <option value="">All Statuses</option>
+        <option value="open" @selected(request('status')=='open' )>Open</option>
+        <option value="resolved" @selected(request('status')=='resolved' )>Resolved</option>
+    </select>
+
+    <select name="sort" class="border px-2 py-1 rounded">
+        <option value="">Sort by</option>
+        <option value="name" @selected(request('sort')=='name' )>Name</option>
+        <option value="email" @selected(request('sort')=='email' )>Email</option>
+        <option value="created_at" @selected(request('sort')=='created_at' )>Date</option>
+    </select>
+
+    <select name="direction" class="border px-2 py-1 rounded">
+        <option value="asc" @selected(request('direction')=='asc' )>Asc</option>
+        <option value="desc" @selected(request('direction')=='desc' )>Desc</option>
+    </select>
+
+    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">Filter</button>
+    <a href="{{ route('admin.emails.index') }}" class="underline text-sm text-gray-600">Reset</a>
+</form>
+
 
 <table class="w-full table-auto bg-white shadow rounded-lg overflow-hidden">
     <thead class="bg-gray-100 text-left text-sm uppercase text-gray-700">
