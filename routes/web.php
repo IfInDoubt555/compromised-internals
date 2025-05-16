@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['web', 'no-cache'])->group(function () {
+Route::middleware('web')->group(function () {
     Route::get('/gate', fn() => view('gate'))->name('gatekeeper.form');
 
     Route::post('/gate', function (Request $request) {
