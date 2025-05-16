@@ -22,8 +22,9 @@
     </p>
 
     <section class="text-lg leading-relaxed text-gray-800">
-        {{ $event->description ?? 'No additional information available.' }}
+        {!! nl2br(e($event->description ?? 'No additional information available.')) !!}
     </section>
+
 </div>
 <div class="text-center mt-10 mb-10">
     <a href="{{ route('calendar') }}"
