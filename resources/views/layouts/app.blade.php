@@ -15,6 +15,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 
     <!-- Vite Build -->
     @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
@@ -24,11 +25,11 @@
 
 <body class="antialiased bg-gray-400">
     @auth
-        @if (Auth::user()->profile->isBirthday())
-            <div class="fixed top-4 right-4 bg-yellow-200 text-yellow-800 px-4 py-2 rounded shadow z-50">
-                🎂 Happy Birthday, {{ Auth::user()->profile->display_name }}!
-            </div>
-        @endif
+    @if (Auth::user()->profile->isBirthday())
+    <div class="fixed top-4 right-4 bg-yellow-200 text-yellow-800 px-4 py-2 rounded shadow z-50">
+        🎂 Happy Birthday, {{ Auth::user()->profile->display_name }}!
+    </div>
+    @endif
     @endauth
 
     @if(session('site_unlocked'))
