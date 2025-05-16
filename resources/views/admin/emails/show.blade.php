@@ -26,17 +26,22 @@
     <p><strong>Message:</strong></p>
     <div class="bg-gray-100 p-4 rounded whitespace-pre-line">{{ $message->message }}</div>
 
+    {{-- Separate standalone form for status --}}
     <form action="{{ route('admin.emails.toggleResolved', $message->id) }}" method="POST" class="mt-6">
-        @csrf @method('PATCH')
+        @csrf
+        @method('PATCH')
         <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             {{ $message->resolved ? 'Mark as Unresolved' : 'Mark as Resolved' }}
         </button>
-        <form action="{{ route('admin.emails.archive', $message->id) }}" method="POST" class="mt-2">
-            @csrf @method('PATCH')
-            <button class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
-                {{ $message->archived ? 'Unarchive' : 'Archive' }}
-            </button>
-        </form>
+    </form>
+
+    {{-- Separate standalone form for archiving --}}
+    <form action="{{ route('admin.emails.archive', $message->id) }}" method="POST" class="mt-2">
+        @csrf
+        @method('PATCH')
+        <button class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+            {{ $message->archived ? 'Unarchive' : 'Archive' }}
+        </button>
     </form>
 </div>
 @endsection

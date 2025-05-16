@@ -24,14 +24,13 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->ip());
         });
 
+        // Bind 'message' route parameter to ContactMessage model
+        Route::model('message', \App\Models\ContactMessage::class);
+
         // Load admin routes with auth and admin gate
         Route::middleware(['web', 'auth', 'can:access-admin'])
             ->prefix('admin')
             ->as('admin.')
             ->group(base_path('routes/admin.php'));
-
-        // Load web routes (optional here if defined in app.php via Application::configure)
-        // Route::middleware('web')
-        //     ->group(base_path('routes/web.php'));
     }
 }
