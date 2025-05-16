@@ -19,20 +19,13 @@ class RallyEventController extends Controller
     {
         try {
             $events = RallyEvent::query()
-                ->when($request->start, function ($q) use ($request) {
-                    $q->whereDate('end_date', '>=', $request->start);
-                })
-                ->when($request->end, function ($q) use ($request) {
-                    $q->whereDate('start_date', '<=', $request->end);
-                })
+                ->when($request->start, fn($q) => $q->whereDate('end_date', '>=', $request->start))
+                ->when($request->end, fn($q) => $q->whereDate('start_date', '<=', $request->end))
                 ->get()
                 ->map(function ($event) {
-                    // Handle potential nulls safely
-                    $start = $event->start_date ? \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String() : null;
-                    $end = $event->end_date ? \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String() : null;
-
-                    // Defensive route fallback if slug is missing
-                    $url = $event->slug ? route('calendar.show', $event->slug) : '#';
+                    if (!$event->start_date || !$event->end_date) {
+                        return null; // skip invalid events
+                    }
 
                     $color = match ($event->championship) {
                         'WRC' => '#1E40AF',
@@ -43,21 +36,21 @@ class RallyEventController extends Controller
 
                     return [
                         'title' => $event->name ?? 'Untitled Event',
-                        'start' => $start,
-                        'end' => $end,
-                        'url' => $url,
+                        'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
+                        'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
+                        'url' => $event->slug ? route('calendar.show', $event->slug) : '#',
                         'color' => $color,
                     ];
                 })
-                ->filter(fn($event) => $event['start'] && $event['end']) // filter out broken entries
+                ->filter() // removes any nulls
                 ->values();
 
             return response()->json($events);
         } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::error('Error loading calendar events: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString(),
+            \Illuminate\Support\Facades\Log::error('Calendar API failed: ' . $e->getMessage(), [
                 'start' => $request->start,
                 'end' => $request->end,
+                'trace' => $e->getTraceAsString(),
             ]);
 
             return response()->json(['error' => 'Failed to load events'], 500);
