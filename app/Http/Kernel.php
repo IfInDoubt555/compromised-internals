@@ -42,6 +42,5 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'gatekeeper' => \App\Http\Middleware\GatekeeperMiddleware::class,
-        'no-cache' => \App\Http\Middleware\NoCache::class,
     ];
 }

@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::middleware('web')->group(function () {
+Route::middleware(['web'])->group(function () {
     Route::get('/gate', fn() => view('gate'))->name('gatekeeper.form');
 
     Route::post('/gate', function (Request $request) {
@@ -66,14 +66,14 @@ Route::view('/checkout/unavailable', 'errors.checkout-unavailable')->name('error
 Route::get('/charity', [CharityController::class, 'index'])->name('charity.index');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'no-cache'])
+    ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('/{post}', [PostController::class, 'show'])->name('show');
 
-    Route::middleware(['auth', 'no-cache'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/create', [PostController::class, 'create'])->name('create');
         Route::post('/', [PostController::class, 'store'])->name('store');
     });
@@ -84,7 +84,7 @@ Route::prefix('history')->name('history.')->group(function () {
     Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
 
-Route::middleware(['auth', 'no-cache'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -110,13 +110,10 @@ Route::get('/profile/{user}', function (User $user) {
 })->name('profile.public');
 
 
-// Footer Routes
 Route::get('/contact', [ContactController::class, 'show'])
-    ->middleware('no-cache')
     ->name('contact');
 
 Route::post('/contact', [ContactController::class, 'submit'])
-    ->middleware('no-cache')
     ->name('contact.submit');
 
 Route::view('/terms', 'footer.terms')->name('terms');
