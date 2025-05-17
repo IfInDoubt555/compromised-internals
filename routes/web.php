@@ -111,14 +111,18 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/blog'))
         ->add(Url::create('/shop'))
         ->add(Url::create('/history'))
-        ->add(Url::create('/events'));
+        ->add(Url::create('/calendar'));
 
     foreach (\App\Models\Post::all() as $post) {
-        $sitemap->add(Url::create(route('blog.show', $post->slug)));
+        if ($post->slug) {
+            $sitemap->add(Url::create(route('blog.show', $post->slug)));
+        }
     }
 
     foreach (\App\Models\RallyEvent::all() as $event) {
-        $sitemap->add(Url::create(route('events.show', $event->slug)));
+        if ($event->slug) {
+            $sitemap->add(Url::create(route('calendar.show', $event->slug)));
+        }
     }
 
     return response(
