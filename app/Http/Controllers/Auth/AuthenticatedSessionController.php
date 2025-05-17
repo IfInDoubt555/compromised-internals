@@ -14,17 +14,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Show login form
-     */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Process login form
-     */
     public function store(LoginRequest $request): RedirectResponse
     {
         $recaptchaToken = $request->input('recaptcha_token');
@@ -40,20 +34,10 @@ class AuthenticatedSessionController extends Controller
 
         try {
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret'   => config('services.recaptcha.secret_key'),
+                'secret'   => config('services.recaptcha.secret_key'), // ✅ correct use of secret_key
                 'response' => $recaptchaToken,
                 'remoteip' => $request->ip(),
             ]);
-
-            if ($response->failed()) {
-                Log::error('reCAPTCHA HTTP request failed', [
-                    'status' => $response->status(),
-                    'body'   => $response->body(),
-                ]);
-                return back()->withErrors([
-                    'recaptcha' => 'reCAPTCHA verification server error. Please try again later.',
-                ])->withInput();
-            }
 
             $result = $response->json();
             Log::info('reCAPTCHA API result', $result);
@@ -65,7 +49,6 @@ class AuthenticatedSessionController extends Controller
             }
 
             if (($result['score'] ?? 0) < 0.5) {
-                Log::warning('reCAPTCHA suspicious score', ['score' => $result['score']]);
                 return back()->withErrors([
                     'recaptcha' => 'Suspicious activity detected. Please try again.',
                 ])->withInput();
@@ -77,7 +60,6 @@ class AuthenticatedSessionController extends Controller
             ])->withInput();
         }
 
-        // ✅ Attempt login
         try {
             $request->authenticate();
             Log::info('Login success for ' . $request->input('email'));
@@ -86,7 +68,6 @@ class AuthenticatedSessionController extends Controller
             throw $e;
         }
 
-        // ⛔ Check for banned account
         if (Auth::user()?->banned_at) {
             Log::warning('Banned user attempted login: ' . Auth::user()->email);
             Auth::guard('web')->logout();
@@ -96,15 +77,11 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // 🔄 Regenerate session
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard'));
     }
 
-    /**
-     * Logout
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
