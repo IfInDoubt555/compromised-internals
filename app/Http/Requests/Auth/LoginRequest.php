@@ -22,25 +22,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
-            'recaptcha_token' => ['required', 'string', function ($attribute, $value, $fail) {
-                if (!config('services.recaptcha.enabled')) {
-                    return; // ✅ Skip validation if disabled in .env
-                }
-
-                $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                    'secret'   => config('services.recaptcha.secret_key'),
-                    'response' => $value,
-                    'remoteip' => $this->ip(),
-                ]);
-
-                $data = $response->json();
-
-                if (!($data['success'] ?? false)) {
-                    $fail('reCAPTCHA failed: ' . ($data['error-codes'][0] ?? 'unknown error'));
-                } elseif (($data['score'] ?? 1) < 0.5) {
-                    $fail('reCAPTCHA score too low. Please try again.');
-                }
-            }],
+            'recaptcha_token' => ['required', 'string'], // ✅ Only check that it's present
         ];
     }
 
