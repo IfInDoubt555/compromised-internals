@@ -27,7 +27,7 @@
 
 <body class="antialiased bg-gray-400">
     @auth
-    @if (Auth::user()->profile->isBirthday())
+    @if (Auth::user()->profile && Auth::user()->profile->isBirthday())
     <div class="fixed top-4 right-4 bg-yellow-200 text-yellow-800 px-4 py-2 rounded shadow z-50">
         🎂 Happy Birthday, {{ Auth::user()->profile->display_name }}!
     </div>
