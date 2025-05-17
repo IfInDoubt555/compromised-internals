@@ -103,13 +103,16 @@
 
                 grecaptcha.ready(function() {
                     grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                        action: 'register'
+                        action: 'login'
                     }).then(function(token) {
                         const tokenField = document.getElementById('recaptcha_token');
-
                         if (tokenField) {
                             tokenField.value = token;
-                            setTimeout(() => form.submit(), 50);
+
+                            // ✅ Wait just a bit before submitting to ensure the token is fully set
+                            setTimeout(() => {
+                                form.submit();
+                            }, 100); // 100ms delay is enough
                         } else {
                             console.error('reCAPTCHA token field missing');
                         }
