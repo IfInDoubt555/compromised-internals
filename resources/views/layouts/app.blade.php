@@ -7,6 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdwLj4rAAAAAFou-D0COILAlHDLZp5rVc5U6nOI"></script>
 
     <!-- AlpineJS -->
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -21,8 +23,7 @@
     @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
 
     @stack('head')
-    <!-- reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdwLj4rAAAAAFou-D0COILAlHDLZp5rVc5U6nOI"></script>
+
 </head>
 
 <body class="antialiased bg-gray-400">
