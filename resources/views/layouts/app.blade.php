@@ -23,8 +23,6 @@
     @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
 
     @stack('head')
-    @include('partials.header')
-
 </head>
 
 <body class="antialiased bg-gray-400">
