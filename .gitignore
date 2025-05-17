@@ -1,25 +1,14 @@
 /.phpunit.cache
 /node_modules
-
-# Ignore compiled asset output but keep essential files for production
-/public/build/*
-!/public/build/manifest.json
-!/public/build/assets/
+#/public/build           <--- do NOT uncomment this unless building on the server
 /public/hot
 /public/storage
-
-# Sensitive keys and runtime storage
 /storage/*.key
 /storage/pail
-
 /vendor
-
-# Environment files
 .env
 .env.backup
 .env.production
-
-# IDE and tooling
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -33,8 +22,13 @@ yarn-error.log
 /.vscode
 /.zed
 
-# Storage exclusions but allow .gitignore for subdirs
+# Logs and framework cache
 /storage/logs/*
 !/storage/logs/.gitignore
 /storage/framework/*
 !/storage/framework/.gitignore
+
+# ✅ Keep only needed Vite build outputs
+/public/build/*
+!/public/build/manifest.json
+!/public/build/assets/
