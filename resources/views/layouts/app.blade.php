@@ -21,6 +21,8 @@
     @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
 
     @stack('head')
+    <!-- Google reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
 </head>
 
 <body class="antialiased bg-gray-400">
@@ -85,7 +87,7 @@
     </div>
     @endif
     @stack('scripts')
-   
+
     @include('partials.footer')
 
 </body>
