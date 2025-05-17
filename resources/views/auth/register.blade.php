@@ -86,10 +86,9 @@
     @push('scripts')
     <script>
         grecaptcha.ready(function() {
-            grecaptcha.execute('{{ config('
-                services.recaptcha.site_key ') }}', {
-                    action: 'register'
-                }).then(function(token) {
+            grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
+                action: 'login'
+            }).then(function(token) {
                 document.getElementById('recaptcha_token').value = token;
             });
         });
