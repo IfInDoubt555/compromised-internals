@@ -16,6 +16,12 @@
                 <p class="text-sm text-gray-500 mt-2">Glad to have you back on the rally stage 🏁</p>
             </div>
 
+            @if ($errors->has('recaptcha'))
+            <div class="text-red-600 text-sm mb-2">
+                {{ $errors->first('recaptcha') }}
+            </div>
+            @endif
+
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
