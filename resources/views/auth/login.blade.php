@@ -75,31 +75,39 @@
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector("form[action='{{ route('login') }}']");
 
-            if (form) {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
+            if (!form) {
+                console.error('Login form not found.');
+                return;
+            }
 
-                    grecaptcha.ready(function() {
-                        grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                            action: 'login'
-                        }).then(function(token) {
-                            const tokenField = document.getElementById('recaptcha_token');
-                            if (tokenField) {
-                                tokenField.value = token;
-                                form.submit();
-                            } else {
-                                console.error('reCAPTCHA hidden input not found');
-                            }
-                        }).catch(function(err) {
-                            console.error('reCAPTCHA execution failed', err);
-                        });
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                if (typeof grecaptcha === 'undefined') {
+                    console.error('grecaptcha not defined!');
+                    return;
+                }
+
+                grecaptcha.ready(function() {
+                    grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
+                        action: 'login'
+                    }).then(function(token) {
+                        const tokenField = document.getElementById('recaptcha_token');
+                        if (tokenField) {
+                            tokenField.value = token;
+                            console.log('Token set, submitting form');
+                            form.submit();
+                        } else {
+                            console.error('reCAPTCHA token field missing');
+                        }
+                    }).catch(function(err) {
+                        console.error('reCAPTCHA execution failed', err);
                     });
                 });
-            } else {
-                console.error('Login form not found.');
-            }
+            });
         });
     </script>
     @endpush
+
 
 </x-guest-layout>
