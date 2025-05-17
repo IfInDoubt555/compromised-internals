@@ -1,11 +1,15 @@
 <x-guest-layout>
+    @push('head')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+    @endpush
+
     <div class="min-h-screen flex items-center justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-6">
-        
+
         <!-- Left Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
             <img src="{{ asset('images/login-left.png') }}"
-                 alt="Night Stage Fire"
-                 class="h-full w-full object-cover mask-fade-left" />
+                alt="Night Stage Fire"
+                class="h-full w-full object-cover mask-fade-left" />
         </div>
 
         <!-- Login Box -->
@@ -15,11 +19,20 @@
                 <p class="text-sm text-gray-500 mt-2">Glad to have you back on the rally stage 🏁</p>
             </div>
 
+            <!-- reCAPTCHA error -->
+            @if ($errors->has('recaptcha'))
+            <div class="text-red-600 text-sm mb-2">
+                {{ $errors->first('recaptcha') }}
+            </div>
+            @endif
+
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
+
+                <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
                 <!-- Email -->
                 <div>
@@ -43,7 +56,7 @@
                     </label>
 
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-red-600 hover:underline">Forgot password?</a>
+                    <a href="{{ route('password.request') }}" class="text-red-600 hover:underline">Forgot password?</a>
                     @endif
                 </div>
 
@@ -60,8 +73,21 @@
         <!-- Right Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
             <img src="{{ asset('images/login-right.png') }}"
-                 alt="Rally Forest Charge"
-                 class="h-full w-full object-cover mask-fade-right" />
+                alt="Rally Forest Charge"
+                class="h-full w-full object-cover mask-fade-right" />
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('
+                services.recaptcha.site_key ') }}', {
+                    action: 'login'
+                }).then(function(token) {
+                document.getElementById('recaptcha_token').value = token;
+            });
+        });
+    </script>
+    @endpush
 </x-guest-layout>

@@ -1,4 +1,8 @@
 <x-guest-layout>
+    @push('head')
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+    @endpush
+
     <div class="min-h-screen flex items-center justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-6">
 
         <!-- Left Image -->
@@ -7,6 +11,11 @@
                 alt="Sno-Drift Attack"
                 class="h-full w-full object-cover mask-fade-left" />
         </div>
+        @if ($errors->has('recaptcha'))
+        <div class="text-red-600 text-sm mb-2">
+            {{ $errors->first('recaptcha') }}
+        </div>
+        @endif
 
         <!-- Register Box -->
         <div class="flex-none w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 space-y-6 border border-gray-100 z-10 transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]">
@@ -25,6 +34,8 @@
 
             <form method="POST" action="{{ route('register') }}" class="space-y-4">
                 @csrf
+
+                <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
                 <div>
                     <x-input-label for="name" value="Name" />
@@ -71,4 +82,17 @@
                 class="h-full w-full object-cover mask-fade-right" />
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('
+                services.recaptcha.site_key ') }}', {
+                    action: 'register'
+                }).then(function(token) {
+                document.getElementById('recaptcha_token').value = token;
+            });
+        });
+    </script>
+    @endpush
 </x-guest-layout>
