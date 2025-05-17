@@ -85,7 +85,6 @@
                 }
 
                 grecaptcha.ready(function() {
-                    grecaptcha.reset();
                     grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
                         action: 'login'
                     }).then(function(token) {
