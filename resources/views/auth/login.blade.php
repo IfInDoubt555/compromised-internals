@@ -26,7 +26,6 @@
 
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
-
                 <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
                 <!-- Email -->
@@ -73,7 +72,7 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector("form[action='{{ route('login') }}']");
+            const form = document.querySelector("form[action$='/login']");
 
             if (!form) {
                 console.error('Login form not found.');
@@ -95,19 +94,17 @@
                         const tokenField = document.getElementById('recaptcha_token');
                         if (tokenField) {
                             tokenField.value = token;
-                            console.log('Token set, submitting form');
+                            console.log('reCAPTCHA token set. Submitting form...');
                             form.submit();
                         } else {
-                            console.error('reCAPTCHA token field missing');
+                            console.error('reCAPTCHA token input missing.');
                         }
                     }).catch(function(err) {
-                        console.error('reCAPTCHA execution failed', err);
+                        console.error('reCAPTCHA error:', err);
                     });
                 });
             });
         });
     </script>
     @endpush
-
-
 </x-guest-layout>
