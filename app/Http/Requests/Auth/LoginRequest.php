@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Services\RecaptchaService;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -30,7 +30,21 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
-            'recaptcha_token' => ['required', 'string'],
+            'recaptcha_token' => ['required', 'string', function ($attribute, $value, $fail) {
+                $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                    'secret' => config('services.recaptcha.secret'),
+                    'response' => $value,
+                    'remoteip' => $this->ip(),
+                ]);
+
+                $result = $response->object();
+
+                if (!data_get($result, 'success')) {
+                    $fail('reCAPTCHA failed: ' . data_get($result, 'error-codes.0', 'unknown error'));
+                } elseif (isset($result->score) && $result->score < 0.5) {
+                    $fail('reCAPTCHA score too low. Please try again.');
+                }
+            }],
         ];
     }
 
@@ -43,13 +57,7 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (!RecaptchaService::verify($this->input('recaptcha_token'))) {
-            throw ValidationException::withMessages([
-                'recaptcha' => 'reCAPTCHA failed: timeout-or-duplicate',
-            ]);
-        }
-
-        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -67,7 +75,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
