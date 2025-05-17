@@ -4,7 +4,6 @@
     @endpush
 
     <div class="min-h-screen flex items-center justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-6">
-
         <!-- Left Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
             <img src="{{ asset('images/login-left.png') }}"
@@ -29,7 +28,7 @@
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-4">
+            <form method="POST" action="{{ route('login') }}" class="space-y-4" id="login-form">
                 @csrf
 
                 <input type="hidden" name="recaptcha_token" id="recaptcha_token">
@@ -60,7 +59,7 @@
                     @endif
                 </div>
 
-                <x-primary-button class="w-full text-center justify-center">
+                <x-primary-button class="w-full text-center justify-center" id="login-button">
                     {{ __('Log in') }}
                 </x-primary-button>
             </form>
@@ -80,14 +79,18 @@
 
     @push('scripts')
     <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute('{{ config('
+        document.getElementById('login-button').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute('{{ config('
                     services.recaptcha.site_key ') }}', {
                         action: 'login'
-                    })
-                .then(function(token) {
+                    }).then(function(token) {
                     document.getElementById('recaptcha_token').value = token;
+                    document.getElementById('login-form').submit();
                 });
+            });
         });
     </script>
     @endpush
