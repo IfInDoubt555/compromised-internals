@@ -67,20 +67,18 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form[action="{{ route('
-                login ') }}"]');
+            const form = document.querySelector('form[action=' + CSS.escape("{{ route('login') }}") + ']');
 
             if (form) {
                 form.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Stop form from submitting
+                    event.preventDefault();
 
                     grecaptcha.ready(function() {
-                        grecaptcha.execute('{{ config('
-                            services.recaptcha.site_key ') }}', {
-                                action: 'login'
-                            }).then(function(token) {
+                        grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
+                            action: 'login'
+                        }).then(function(token) {
                             document.getElementById('recaptcha_token').value = token;
-                            form.submit(); // Resume form submission
+                            form.submit();
                         });
                     });
                 });
