@@ -1,9 +1,0 @@
-# Allow all search engines full access
-User-agent: *
-Disallow:
-
-# Let bots know about security.txt
-Security: https://compromisedinternals.com/.well-known/security.txt
-
-# Optional: Add sitemap later
-Sitemap: https://compromisedinternals.com/sitemap.xml
