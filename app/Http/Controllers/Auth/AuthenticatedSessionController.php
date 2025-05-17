@@ -7,8 +7,9 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -26,19 +27,38 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         // 🔐 reCAPTCHA v3 validation
-        $recaptchaResponse = $request->input('recaptcha_token');
+        $recaptchaToken = $request->input('recaptcha_token');
 
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret'   => config('services.recaptcha.secret_key'),
-            'response' => $recaptchaResponse,
-            'remoteip' => $request->ip(),
-        ]);
-
-        $result = $response->json();
-
-        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+        if (!$recaptchaToken) {
             return back()->withErrors([
-                'recaptcha' => 'reCAPTCHA verification failed. Please try again.',
+                'recaptcha' => 'Missing reCAPTCHA token. Please try again.',
+            ])->withInput();
+        }
+
+        try {
+            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret'   => config('services.recaptcha.secret_key'),
+                'response' => $recaptchaToken,
+                'remoteip' => $request->ip(),
+            ]);
+
+            if ($response->failed()) {
+                return back()->withErrors([
+                    'recaptcha' => 'Unable to validate reCAPTCHA at this time. Please try again later.',
+                ])->withInput();
+            }
+
+            $result = $response->json();
+
+            if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+                return back()->withErrors([
+                    'recaptcha' => 'reCAPTCHA verification failed. Please try again.',
+                ])->withInput();
+            }
+        } catch (\Throwable $e) {
+            // Log the error if needed: Log::error('reCAPTCHA failed', ['error' => $e->getMessage()]);
+            return back()->withErrors([
+                'recaptcha' => 'Server error during reCAPTCHA validation. Please try again later.',
             ])->withInput();
         }
 
@@ -69,7 +89,6 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
