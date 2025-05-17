@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-4 sm:px-6">
+    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden w-full">
 
         <!-- Left Image (Hidden on Mobile) -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
@@ -7,7 +7,7 @@
         </div>
 
         <!-- Login Box -->
-        <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl p-6 sm:p-8 mx-auto my-10 border border-gray-100 z-10 transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]">
+        <div class="w-[90%] sm:w-full sm:max-w-md bg-white shadow-2xl rounded-2xl p-6 sm:p-8 mx-auto my-10 border border-gray-100 z-10 transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]">
             <div class="text-center">
                 <h2 class="text-3xl font-bold text-gray-800">Welcome Back</h2>
                 <p class="text-sm text-gray-500 mt-2">Glad to have you back on the rally stage 🏁</p>
