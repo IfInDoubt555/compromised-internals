@@ -72,12 +72,25 @@
 
     @push('scripts')
     <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                action: 'login'
-            }).then(function(token) {
-                document.getElementById('recaptcha_token').value = token;
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form[action="{{ route('
+                login ') }}"]');
+
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form from submitting immediately
+
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('{{ config('
+                            services.recaptcha.site_key ') }}', {
+                                action: 'login'
+                            }).then(function(token) {
+                            document.getElementById('recaptcha_token').value = token;
+                            form.submit(); // Submit form after token is set
+                        });
+                    });
+                });
+            }
         });
     </script>
     @endpush

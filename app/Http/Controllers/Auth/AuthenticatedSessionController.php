@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         $recaptchaResponse = $request->input('recaptcha_token');
 
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret_key'),
+            'secret'   => config('services.recaptcha.secret_key'),
             'response' => $recaptchaResponse,
             'remoteip' => $request->ip(),
         ]);
@@ -42,12 +42,13 @@ class AuthenticatedSessionController extends Controller
             ])->withInput();
         }
 
-        // ✅ Authenticate normally
+        // ✅ Authenticate user
         $request->authenticate();
 
-        // ⛔ Ban check before session regen
+        // ⛔ Ban check before session regeneration
         if (Auth::user()?->banned_at) {
             Auth::guard('web')->logout();
+
             return back()->withErrors([
                 'email' => 'Your account has been banned.',
             ]);
@@ -56,7 +57,8 @@ class AuthenticatedSessionController extends Controller
         // 🔄 Regenerate session safely
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // ✅ Redirect to intended page
+        return redirect()->intended(route('dashboard'));
     }
 
     /**
