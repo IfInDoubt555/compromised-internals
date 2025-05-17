@@ -72,12 +72,32 @@
 
     @push('scripts')
     <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                action: 'login'
-            }).then(function(token) {
-                document.getElementById('recaptcha_token').value = token;
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector("form[action='{{ route('login') }}']");
+
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
+                            action: 'login'
+                        }).then(function(token) {
+                            const tokenField = document.getElementById('recaptcha_token');
+                            if (tokenField) {
+                                tokenField.value = token;
+                                form.submit();
+                            } else {
+                                console.error('reCAPTCHA hidden input not found');
+                            }
+                        }).catch(function(err) {
+                            console.error('reCAPTCHA execution failed', err);
+                        });
+                    });
+                });
+            } else {
+                console.error('Login form not found.');
+            }
         });
     </script>
     @endpush

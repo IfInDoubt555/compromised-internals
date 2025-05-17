@@ -10,6 +10,8 @@
 
     <!-- AlpineJS -->
     <script src="//unpkg.com/alpinejs" defer></script>
+    <!-- Google reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -21,8 +23,7 @@
     @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
 
     @stack('head')
-    <!-- Google reCAPTCHA v3 -->
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+
 </head>
 
 <body class="antialiased bg-gray-400">
