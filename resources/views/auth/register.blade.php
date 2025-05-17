@@ -11,11 +11,6 @@
                 alt="Sno-Drift Attack"
                 class="h-full w-full object-cover mask-fade-left" />
         </div>
-        @if ($errors->has('recaptcha'))
-        <div class="text-red-600 text-sm mb-2">
-            {{ $errors->first('recaptcha') }}
-        </div>
-        @endif
 
         <!-- Register Box -->
         <div class="flex-none w-full max-w-md bg-white shadow-2xl rounded-2xl p-8 space-y-6 border border-gray-100 z-10 transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]">
