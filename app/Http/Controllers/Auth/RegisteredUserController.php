@@ -23,24 +23,8 @@ class RegisteredUserController extends Controller
 
     public function store(RegisterRequest $request): RedirectResponse
     {
-        // 🔐 reCAPTCHA Verification
-        $recaptchaResponse = $request->input('recaptcha_token');
+        // At this point, reCAPTCHA is already validated in RegisterRequest rules
 
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret_key'),
-            'response' => $recaptchaResponse,
-            'remoteip' => $request->ip(),
-        ]);
-
-        $result = $response->json();
-
-        if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
-            return back()->withErrors([
-                'recaptcha' => 'reCAPTCHA verification failed. Please try again or contact us.',
-            ])->withInput();
-        }
-
-        // ✅ Continue with registration
         $validated = $request->validated();
 
         $user = User::create([
