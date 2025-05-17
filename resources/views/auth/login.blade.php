@@ -6,9 +6,7 @@
     <div class="min-h-screen flex items-center justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-6">
         <!-- Left Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-            <img src="{{ asset('images/login-left.png') }}"
-                alt="Night Stage Fire"
-                class="h-full w-full object-cover mask-fade-left" />
+            <img src="{{ asset('images/login-left.png') }}" alt="Night Stage Fire" class="h-full w-full object-cover mask-fade-left" />
         </div>
 
         <!-- Login Box -->
@@ -18,17 +16,15 @@
                 <p class="text-sm text-gray-500 mt-2">Glad to have you back on the rally stage 🏁</p>
             </div>
 
-            <!-- reCAPTCHA error -->
             @if ($errors->has('recaptcha'))
             <div class="text-red-600 text-sm mb-2">
                 {{ $errors->first('recaptcha') }}
             </div>
             @endif
 
-            <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-4" id="login-form">
+            <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
 
                 <input type="hidden" name="recaptcha_token" id="recaptcha_token">
@@ -47,7 +43,6 @@
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
 
-                <!-- Remember Me -->
                 <div class="flex items-center justify-between text-sm text-gray-600">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500" name="remember">
@@ -59,7 +54,7 @@
                     @endif
                 </div>
 
-                <x-primary-button class="w-full text-center justify-center" id="login-button">
+                <x-primary-button class="w-full text-center justify-center">
                     {{ __('Log in') }}
                 </x-primary-button>
             </form>
@@ -71,26 +66,20 @@
 
         <!-- Right Image -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-            <img src="{{ asset('images/login-right.png') }}"
-                alt="Rally Forest Charge"
-                class="h-full w-full object-cover mask-fade-right" />
+            <img src="{{ asset('images/login-right.png') }}" alt="Rally Forest Charge" class="h-full w-full object-cover mask-fade-right" />
         </div>
     </div>
 
     @push('scripts')
     <script>
-        document.getElementById('login-button').addEventListener('click', function(e) {
-            e.preventDefault();
-
-            grecaptcha.ready(function() {
-                grecaptcha.execute('{{ config('
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ config('
                     services.recaptcha.site_key ') }}', {
                         action: 'login'
-                    }).then(function(token) {
+                    })
+                .then(function(token) {
                     document.getElementById('recaptcha_token').value = token;
-                    document.getElementById('login-form').submit();
                 });
-            });
         });
     </script>
     @endpush
