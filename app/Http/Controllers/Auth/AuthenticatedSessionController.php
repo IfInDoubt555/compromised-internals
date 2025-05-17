@@ -26,12 +26,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // 🔐 reCAPTCHA v3 validation
         $recaptchaToken = $request->input('recaptcha_token');
 
         if (!$recaptchaToken) {
             return back()->withErrors([
-                'recaptcha' => 'Missing reCAPTCHA token. Please try again.',
+                'recaptcha' => 'Missing reCAPTCHA token. Please refresh and try again.',
             ])->withInput();
         }
 
@@ -43,29 +42,42 @@ class AuthenticatedSessionController extends Controller
             ]);
 
             if ($response->failed()) {
+                Log::error('reCAPTCHA HTTP failure', [
+                    'status' => $response->status(),
+                    'body'   => $response->body(),
+                ]);
+
                 return back()->withErrors([
-                    'recaptcha' => 'Unable to validate reCAPTCHA at this time. Please try again later.',
+                    'recaptcha' => 'reCAPTCHA server error. Please try again later.',
                 ])->withInput();
             }
 
             $result = $response->json();
 
-            if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+            if (!($result['success'] ?? false)) {
+                Log::warning('reCAPTCHA failed', ['response' => $result]);
+
                 return back()->withErrors([
-                    'recaptcha' => 'reCAPTCHA verification failed. Please try again.',
+                    'recaptcha' => 'reCAPTCHA verification failed. Error: ' . implode(', ', $result['error-codes'] ?? ['unknown']),
+                ])->withInput();
+            }
+
+            if (($result['score'] ?? 0) < 0.5) {
+                return back()->withErrors([
+                    'recaptcha' => 'Suspicious activity detected. Please try again.',
                 ])->withInput();
             }
         } catch (\Throwable $e) {
-            // Log the error if needed: Log::error('reCAPTCHA failed', ['error' => $e->getMessage()]);
+            Log::error('reCAPTCHA exception', ['message' => $e->getMessage()]);
             return back()->withErrors([
-                'recaptcha' => 'Server error during reCAPTCHA validation. Please try again later.',
+                'recaptcha' => 'A server error occurred during login. Try again later.',
             ])->withInput();
         }
 
-        // ✅ Authenticate user
+        // ✅ User authentication
         $request->authenticate();
 
-        // ⛔ Ban check before session regeneration
+        // ⛔ Banned user check
         if (Auth::user()?->banned_at) {
             Auth::guard('web')->logout();
 
@@ -74,10 +86,9 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // 🔄 Regenerate session safely
+        // 🔄 Regenerate session
         $request->session()->regenerate();
 
-        // ✅ Redirect to intended page
         return redirect()->intended(route('dashboard'));
     }
 

@@ -78,7 +78,7 @@
 
             if (form) {
                 form.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent form from submitting immediately
+                    event.preventDefault(); // Prevent immediate submit
 
                     grecaptcha.ready(function() {
                         grecaptcha.execute('{{ config('
@@ -86,7 +86,7 @@
                                 action: 'login'
                             }).then(function(token) {
                             document.getElementById('recaptcha_token').value = token;
-                            form.submit(); // Submit form after token is set
+                            form.submit(); // Now submit the form
                         });
                     });
                 });
