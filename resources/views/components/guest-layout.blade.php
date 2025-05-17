@@ -7,7 +7,9 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- ✅ Add this to inject reCAPTCHA script --}}
+    {{-- 🔒 Directly inject reCAPTCHA script outside of Vite’s control --}}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+
     @stack('head')
 </head>
 
