@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden w-full">
+    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 w-full overflow-hidden">
 
         <!-- Left Image (Hidden on Mobile) -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
@@ -7,58 +7,76 @@
         </div>
 
         <!-- Login Box -->
-        <div class="w-full max-w-sm sm:max-w-md md:max-w-lg bg-white shadow-2xl rounded-2xl px-6 py-8 mx-4 sm:mx-auto my-10 border border-gray-100 z-10 transition-all duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)] text-base sm:text-sm">
+        <div class="w-full px-4 sm:px-6 md:px-0 max-w-2xl lg:max-w-lg bg-white shadow-2xl rounded-2xl p-8 sm:p-12 mx-auto my-10 border border-gray-100 z-10 transition-shadow duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]">
             <div class="text-center">
-                <h2 class="text-3xl font-bold text-gray-800">Welcome Back</h2>
-                <p class="text-sm text-gray-500 mt-2">Glad to have you back on the rally stage 🏁</p>
+                <h2 class="text-4xl sm:text-3xl font-bold text-gray-800">Welcome Back</h2>
+                <p class="text-base sm:text-sm text-gray-500 mt-2">Glad to have you back on the rally stage 🏁</p>
             </div>
 
             @if ($errors->has('recaptcha'))
-            <div class="text-red-600 text-sm mb-2">
+            <div class="text-red-600 text-sm mb-4">
                 {{ $errors->first('recaptcha') }}
             </div>
             @endif
 
-            <x-auth-session-status class="mb-4" :status="session('status')" />
+            <x-auth-session-status class="mb-6" :status="session('status')" />
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-4">
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
                 <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
                 <!-- Email -->
                 <div>
-                    <x-input-label for="email" value="Email" />
-                    <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    <x-input-label for="email" value="Email" class="text-base" />
+                    <x-text-input
+                        id="email"
+                        class="block w-full mt-1 text-lg leading-relaxed"
+                        type="email"
+                        name="email"
+                        :value="old('email')"
+                        required
+                        autofocus
+                        style="height: 3rem" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm" />
                 </div>
 
                 <!-- Password -->
                 <div>
-                    <x-input-label for="password" value="Password" />
-                    <x-text-input id="password" class="block w-full mt-1" type="password" name="password" required />
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    <x-input-label for="password" value="Password" class="text-base" />
+                    <x-text-input
+                        id="password"
+                        class="block w-full mt-1 text-lg leading-relaxed"
+                        type="password"
+                        name="password"
+                        required
+                        style="height: 3rem" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2 text-sm" />
                 </div>
 
-                <!-- Remember Me / Forgot -->
-                <div class="flex items-center justify-between text-sm text-gray-600">
-                    <label for="remember_me" class="inline-flex items-center">
-                        <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500" name="remember">
-                        <span class="ms-2">Remember me</span>
+                <!-- Remember / Forgot -->
+                <div class="flex items-center justify-between">
+                    <label for="remember_me" class="inline-flex items-center text-base text-gray-600">
+                        <input
+                            id="remember_me"
+                            type="checkbox"
+                            class="rounded border-gray-300 text-red-600 shadow-sm focus:ring-red-500"
+                            name="remember">
+                        <span class="ml-2">Remember me</span>
                     </label>
 
                     @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="text-red-600 hover:underline">Forgot password?</a>
+                    <a href="{{ route('password.request') }}" class="text-red-600 hover:underline text-base">Forgot password?</a>
                     @endif
                 </div>
 
                 <!-- Submit -->
-                <x-primary-button class="w-full text-center justify-center">
+                <x-primary-button class="w-full py-3 text-lg">
                     {{ __('Log in') }}
                 </x-primary-button>
             </form>
 
-            <div class="text-center mt-4">
-                <a href="{{ route('home') }}" class="text-blue-600 text-sm hover:underline">← Back to Home</a>
+            <div class="text-center mt-6">
+                <a href="{{ route('home') }}" class="text-blue-600 text-base hover:underline">← Back to Home</a>
             </div>
         </div>
 
@@ -90,17 +108,9 @@
                     grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
                         action: 'login'
                     }).then(function(token) {
-                        const tokenField = document.getElementById('recaptcha_token');
-
-                        if (tokenField) {
-                            tokenField.value = token;
-                            setTimeout(() => form.submit(), 50);
-                        } else {
-                            console.error('reCAPTCHA token field missing');
-                        }
-                    }).catch(function(err) {
-                        console.error('reCAPTCHA execution failed', err);
-                    });
+                        document.getElementById('recaptcha_token').value = token;
+                        setTimeout(() => form.submit(), 50);
+                    }).catch(err => console.error('reCAPTCHA failed', err));
                 });
             });
         });
