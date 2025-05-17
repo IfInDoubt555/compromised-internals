@@ -5,26 +5,18 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -32,27 +24,25 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
             'recaptcha_token' => ['required', 'string', function ($attribute, $value, $fail) {
                 $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                    'secret' => config('services.recaptcha.secret'),
+                    'secret' => config('services.recaptcha.secret'), // ✅ this must match your config/services.php
                     'response' => $value,
                     'remoteip' => $this->ip(),
                 ]);
 
-                $result = $response->object();
+                // OPTIONAL: Dump response to debug
+                // dd($response->json());
 
-                if (!data_get($result, 'success')) {
-                    $fail('reCAPTCHA failed: ' . data_get($result, 'error-codes.0', 'unknown error'));
-                } elseif (isset($result->score) && $result->score < 0.5) {
+                $data = $response->json();
+
+                if (!($data['success'] ?? false)) {
+                    $fail('reCAPTCHA failed: ' . ($data['error-codes'][0] ?? 'unknown error'));
+                } elseif (($data['score'] ?? 1) < 0.5) {
                     $fail('reCAPTCHA score too low. Please try again.');
                 }
             }],
         ];
     }
 
-    /**
-     * Attempt to authenticate the request's credentials.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
@@ -68,11 +58,6 @@ class LoginRequest extends FormRequest
         RateLimiter::clear($this->throttleKey());
     }
 
-    /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function ensureIsNotRateLimited(): void
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
@@ -91,9 +76,6 @@ class LoginRequest extends FormRequest
         ]);
     }
 
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
