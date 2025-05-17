@@ -113,7 +113,6 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/history'))
         ->add(Url::create('/events'));
 
-    // Optionally: loop through posts/events/products
     foreach (\App\Models\Post::all() as $post) {
         $sitemap->add(Url::create(route('blog.show', $post->slug)));
     }
@@ -122,7 +121,11 @@ Route::get('/sitemap.xml', function () {
         $sitemap->add(Url::create(route('events.show', $event->slug)));
     }
 
-    return $sitemap->toResponse(request());
+    return response(
+        $sitemap->render(),
+        200,
+        ['Content-Type' => 'application/xml']
+    );
 });
 
 Route::view('/security/policy', 'security.policy')->name('security.policy');
