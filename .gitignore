@@ -37,5 +37,5 @@ yarn-error.log
 
 # Dev Scripts and Vite Config
 /scripts/fix-manifest.js
-vite.config.js
-vite.config.cjs
+-vite.config.cjs
++vite.config.js
