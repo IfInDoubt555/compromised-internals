@@ -70,29 +70,14 @@
         </div>
     </div>
 
-    @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form[action="{{ route('
-                login ') }}"]');
-
-            if (form) {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent immediate submit
-
-                    grecaptcha.ready(function() {
-                        grecaptcha.execute('{{ config('
-                            services.recaptcha.site_key ') }}', {
-                                action: 'login'
-                            }).then(function(token) {
-                            document.getElementById('recaptcha_token').value = token;
-                            form.submit(); // Now submit the form
-                        });
-                    });
-                });
-            }
+        grecaptcha.ready(function() {
+            grecaptcha.execute(@json(config('services.recaptcha.site_key')), {
+                action: 'login'
+            }).then(function(token) {
+                document.getElementById('recaptcha_token').value = token;
+            });
         });
     </script>
-    @endpush
 
 </x-guest-layout>
