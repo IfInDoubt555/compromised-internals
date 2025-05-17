@@ -68,9 +68,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector("form[action='{{ route('login') }}']");
+
             if (form) {
                 form.addEventListener('submit', function(event) {
                     event.preventDefault();
+
                     grecaptcha.ready(function() {
                         grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
                             action: 'login'
@@ -84,6 +86,5 @@
         });
     </script>
     @endpush
-
 
 </x-guest-layout>
