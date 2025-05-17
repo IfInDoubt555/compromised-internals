@@ -148,6 +148,10 @@ class PostController extends Controller
     {
         $user = auth()->user();
 
+        if (!$user->hasVerifiedEmail()) {
+            return back()->withErrors(['You must verify your email address to like posts.']);
+        }
+
         // Toggle logic
         if ($post->likes()->where('user_id', $user->id)->exists()) {
             $post->likes()->detach($user->id);

@@ -14,8 +14,14 @@ class CommentController extends Controller
 
     public function store(StoreCommentRequest $request, Post $post)
     {
+        $user = auth()->user();
+
+        if (!$user->hasVerifiedEmail()) {
+            return back()->withErrors(['You must verify your email address to comment.']);
+        }
+
         $post->comments()->create([
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
             'body' => $request->body,
         ]);
 

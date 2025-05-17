@@ -70,7 +70,7 @@ Route::prefix('history')->name('history.')->group(function () {
     Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -93,8 +93,7 @@ Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/profile/{user}', function (User $user) {
     return view('profile.public', compact('user'));
-})->name('profile.public');
-
+})->middleware(['auth', 'verified'])->name('profile.public');
 
 Route::get('/contact', [ContactController::class, 'show'])
     ->name('contact');
