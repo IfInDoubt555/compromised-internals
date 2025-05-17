@@ -82,11 +82,12 @@
     <script>
         grecaptcha.ready(function() {
             grecaptcha.execute('{{ config('
-                services.recaptcha.site_key ') }}', {
-                    action: 'login'
-                }).then(function(token) {
-                document.getElementById('recaptcha_token').value = token;
-            });
+                    services.recaptcha.site_key ') }}', {
+                        action: 'login'
+                    })
+                .then(function(token) {
+                    document.getElementById('recaptcha_token').value = token;
+                });
         });
     </script>
     @endpush
