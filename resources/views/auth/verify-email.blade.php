@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col justify-center items-center px-4 py-10">
+    <div class="min-h-[100dvh] bg-gradient-to-b from-gray-100 to-gray-300 flex items-center justify-center px-4 py-24">
         <div class="bg-white rounded-xl shadow-xl p-8 max-w-md w-full text-center relative border-t-4 border-red-600">
 
             {{-- Skull Logo --}}
