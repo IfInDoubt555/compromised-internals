@@ -18,6 +18,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'max:255', new NoBannedWords],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users', new NoBannedWords],
             'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
+            'recaptcha_token' => ['required', 'string'],
         ];
     }
 }
