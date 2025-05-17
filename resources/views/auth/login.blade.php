@@ -1,7 +1,4 @@
 <x-guest-layout>
-    @push('head')
-    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
-    @endpush
 
     <div class="min-h-screen flex items-center justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-6">
         <!-- Left Image -->
