@@ -1,34 +1,41 @@
-/.phpunit.cache
+# Node
 /node_modules
-#/public/build           <--- do NOT uncomment this unless building on the server
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml
 npm-debug.log
 yarn-error.log
-/auth.json
-/.fleet
-/.idea
-/.nova
-/.vscode
-/.zed
 
-# Logs and framework cache
+# Laravel
+/vendor
+/storage/*.key
+/storage/pail
 /storage/logs/*
 !/storage/logs/.gitignore
 /storage/framework/*
 !/storage/framework/.gitignore
+/public/storage
 
-# ✅ Keep only needed Vite build outputs
-/public/build/*
-!/public/build/manifest.json
-!/public/build/assets/
+# Laravel build
+/public/hot
+/public/build
+!.gitkeep  # Keep a placeholder if needed
+
+# Environment
+.env
+.env.*
+.auth.json
+
+# PHPUnit
+/.phpunit.cache
+.phpunit.result.cache
+
+# IDEs / Tools
+/.vscode
+/.idea
+/.fleet
+/.nova
+/.zed
+.phpactor.json
+
+# Dev Scripts and Vite Config
+/scripts/fix-manifest.js
+vite.config.js
+vite.config.cjs

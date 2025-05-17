@@ -1,14 +1,14 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
+const { defineConfig } = require('vite');
+const laravel = require('laravel-vite-plugin');
 
-export default defineConfig({
+module.exports = defineConfig({
     plugins: [
         laravel({
             input: [
                 'resources/css/app.css',
                 'resources/css/fade.css',
                 'resources/js/app.js',
-                'resources/js/history.js'
+                'resources/js/history.js',
             ],
             refresh: true,
         }),
