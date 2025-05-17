@@ -67,11 +67,29 @@
 
 @push('scripts')
 <script>
-    grecaptcha.ready(function() {
-        grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-            action: 'login'
-        }).then(function(token) {
-            document.getElementById('recaptcha_token').value = token;
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector("form[action='{{ route('contact.submit') }}']");
+
+        if (!form) return;
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            if (typeof grecaptcha === 'undefined') {
+                console.error('grecaptcha not loaded');
+                return;
+            }
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
+                    action: 'contact'
+                }).then(function(token) {
+                    document.getElementById('recaptcha_token').value = token;
+                    form.submit();
+                }).catch(function(err) {
+                    console.error('reCAPTCHA error:', err);
+                });
+            });
         });
     });
 </script>

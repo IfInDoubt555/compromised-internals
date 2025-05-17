@@ -85,13 +85,41 @@
 
     @push('scripts')
     <script>
-        grecaptcha.ready(function() {
-            grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                action: 'login'
-            }).then(function(token) {
-                document.getElementById('recaptcha_token').value = token;
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector("form[action='{{ route('register') }}']");
+
+            if (!form) {
+                console.error('Register form not found.');
+                return;
+            }
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                if (typeof grecaptcha === 'undefined') {
+                    console.error('grecaptcha not defined!');
+                    return;
+                }
+
+                grecaptcha.ready(function() {
+                    grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
+                        action: 'register'
+                    }).then(function(token) {
+                        const tokenField = document.getElementById('recaptcha_token');
+
+                        if (tokenField) {
+                            tokenField.value = token;
+                            setTimeout(() => form.submit(), 50);
+                        } else {
+                            console.error('reCAPTCHA token field missing');
+                        }
+                    }).catch(function(err) {
+                        console.error('reCAPTCHA execution failed', err);
+                    });
+                });
             });
         });
     </script>
     @endpush
+
 </x-guest-layout>

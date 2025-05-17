@@ -72,7 +72,7 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector("form[action$='/login']");
+            const form = document.querySelector("form[action='{{ route('login') }}']");
 
             if (!form) {
                 console.error('Login form not found.');
@@ -92,19 +92,22 @@
                         action: 'login'
                     }).then(function(token) {
                         const tokenField = document.getElementById('recaptcha_token');
+
                         if (tokenField) {
                             tokenField.value = token;
-                            console.log('reCAPTCHA token set. Submitting form...');
-                            form.submit();
+
+                            // Wait a tick before submitting to ensure field value is set
+                            setTimeout(() => form.submit(), 50);
                         } else {
-                            console.error('reCAPTCHA token input missing.');
+                            console.error('reCAPTCHA token field missing');
                         }
                     }).catch(function(err) {
-                        console.error('reCAPTCHA error:', err);
+                        console.error('reCAPTCHA execution failed', err);
                     });
                 });
             });
         });
     </script>
     @endpush
+
 </x-guest-layout>
