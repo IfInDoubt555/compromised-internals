@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Show login form
      */
     public function create(): View
     {
@@ -22,17 +23,20 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Process login form
      */
     public function store(LoginRequest $request): RedirectResponse
     {
         $recaptchaToken = $request->input('recaptcha_token');
 
         if (!$recaptchaToken) {
+            Log::warning('Missing reCAPTCHA token.');
             return back()->withErrors([
-                'recaptcha' => 'Missing reCAPTCHA token. Please refresh and try again.',
+                'recaptcha' => 'Missing reCAPTCHA token. Please try again.',
             ])->withInput();
         }
+
+        Log::info('reCAPTCHA token received', ['token' => $recaptchaToken]);
 
         try {
             $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
@@ -42,27 +46,26 @@ class AuthenticatedSessionController extends Controller
             ]);
 
             if ($response->failed()) {
-                Log::error('reCAPTCHA HTTP failure', [
+                Log::error('reCAPTCHA HTTP request failed', [
                     'status' => $response->status(),
                     'body'   => $response->body(),
                 ]);
-
                 return back()->withErrors([
-                    'recaptcha' => 'reCAPTCHA server error. Please try again later.',
+                    'recaptcha' => 'reCAPTCHA verification server error. Please try again later.',
                 ])->withInput();
             }
 
             $result = $response->json();
+            Log::info('reCAPTCHA API result', $result);
 
             if (!($result['success'] ?? false)) {
-                Log::warning('reCAPTCHA failed', ['response' => $result]);
-
                 return back()->withErrors([
-                    'recaptcha' => 'reCAPTCHA verification failed. Error: ' . implode(', ', $result['error-codes'] ?? ['unknown']),
+                    'recaptcha' => 'reCAPTCHA failed: ' . implode(', ', $result['error-codes'] ?? ['unknown']),
                 ])->withInput();
             }
 
             if (($result['score'] ?? 0) < 0.5) {
+                Log::warning('reCAPTCHA suspicious score', ['score' => $result['score']]);
                 return back()->withErrors([
                     'recaptcha' => 'Suspicious activity detected. Please try again.',
                 ])->withInput();
@@ -70,15 +73,22 @@ class AuthenticatedSessionController extends Controller
         } catch (\Throwable $e) {
             Log::error('reCAPTCHA exception', ['message' => $e->getMessage()]);
             return back()->withErrors([
-                'recaptcha' => 'A server error occurred during login. Try again later.',
+                'recaptcha' => 'Server error validating reCAPTCHA. Try again later.',
             ])->withInput();
         }
 
-        // ✅ User authentication
-        $request->authenticate();
+        // ✅ Attempt login
+        try {
+            $request->authenticate();
+            Log::info('Login success for ' . $request->input('email'));
+        } catch (ValidationException $e) {
+            Log::warning('Login failed for ' . $request->input('email'));
+            throw $e;
+        }
 
-        // ⛔ Banned user check
+        // ⛔ Check for banned account
         if (Auth::user()?->banned_at) {
+            Log::warning('Banned user attempted login: ' . Auth::user()->email);
             Auth::guard('web')->logout();
 
             return back()->withErrors([
@@ -93,7 +103,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * Logout
      */
     public function destroy(Request $request): RedirectResponse
     {
