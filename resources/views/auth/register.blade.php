@@ -28,8 +28,29 @@
                 @csrf
                 <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
-                <!-- Name, Email, Password, Confirmation fields -->
-                <!-- ...same as before... -->
+                <div>
+                    <x-input-label for="name" value="Name" />
+                    <x-text-input id="name" class="block w-full mt-1" type="text" name="name" :value="old('name')" required autofocus />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="email" value="Email" />
+                    <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="password" value="Password" />
+                    <x-text-input id="password" class="block w-full mt-1" type="password" name="password" required />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="password_confirmation" value="Confirm Password" />
+                    <x-text-input id="password_confirmation" class="block w-full mt-1" type="password" name="password_confirmation" required />
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                </div>
 
                 <div class="flex items-center justify-between text-sm">
                     <a href="{{ route('login') }}" class="text-blue-600 hover:underline">
