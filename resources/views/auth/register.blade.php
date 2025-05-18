@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-4 sm:px-6 lg:px-8">
+    <div class=" w-full min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 overflow-hidden px-0 sm:px-6 lg:px-8">
 
         <!-- Left Image (Hidden on Mobile) -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
