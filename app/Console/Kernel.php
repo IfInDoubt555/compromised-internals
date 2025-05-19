@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,6 +22,13 @@ class Kernel extends ConsoleKernel
     {
         // Run daily at 8am
         $schedule->command('offers:send-birthday')->dailyAt('08:00');
+
+        $schedule->call(function () {
+            DB::table('sessions')
+                ->whereNull('user_agent')
+                ->orWhere('user_agent', '')
+                ->delete();
+        })->hourly();
     }
 
     /**
