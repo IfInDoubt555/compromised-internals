@@ -26,7 +26,6 @@ class RejectEmptyUserAgent
         if (str_starts_with($request->ip(), '196.251.')) {
             abort(Response::HTTP_FORBIDDEN, 'Your IP range is not welcome here.');
         }
-
         return $next($request);
     }
 }
