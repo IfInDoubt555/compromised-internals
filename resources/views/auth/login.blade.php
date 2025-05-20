@@ -52,7 +52,7 @@
                 </div>
 
                 <!-- Submit -->
-                <x-primary-button class="w-full text-center py-3 text-lg">
+                <x-primary-button class="w-full justify-center py-3 text-lg">
                     {{ __('Log in') }}
                 </x-primary-button>
             </form>
