@@ -58,7 +58,7 @@
                     </a>
                 </div>
 
-                <x-primary-button class="w-full py-3 text-lg">
+                <x-primary-button class="w-full justify-center py-3 text-lg">
                     {{ __('Register') }}
                 </x-primary-button>
             </form>
