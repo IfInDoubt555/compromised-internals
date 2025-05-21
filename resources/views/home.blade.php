@@ -5,7 +5,7 @@
         'title'       => 'Compromised Internals | Rally Racing News, History & Events',
         'description' => 'Your one-stop hub for rally racing: daily news, interactive history, upcoming event calendar, driver & car profiles, and community insights.',
         'url'         => url('/'),
-        'logo'        => asset('images/ci-logo.png'),
+        'logo'        => asset('images/skull-logo.png'),
     ];
 @endphp
 
