@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@push('head')
-<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
-@endpush
-
 @section('content')
 <div class="max-w-2xl mx-auto py-10 px-4">
     <h1 class="text-3xl font-bold text-center mb-6">📬 Contact</h1>
