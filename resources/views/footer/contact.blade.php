@@ -1,54 +1,79 @@
 @extends('layouts.app')
 
+@push('head')
+    <script
+        src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"
+        async
+        defer>
+    </script>
+@endpush
+
 @section('content')
 <div class="max-w-2xl mx-auto py-10 px-4">
     <h1 class="text-3xl font-bold text-center mb-6">📬 Contact</h1>
 
     @if ($errors->has('recaptcha'))
-    <div class="mt-4 mb-6 rounded bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-3 text-sm text-red-800 dark:text-red-100 font-semibold shadow animate-fade-in">
-        ⚠️ {{ $errors->first('recaptcha') }}
-    </div>
+        <div class="mt-4 mb-6 rounded bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-3 text-sm text-red-800 dark:text-red-100 font-semibold shadow animate-fade-in">
+            ⚠️ {{ $errors->first('recaptcha') }}
+        </div>
     @endif
 
-    <form action="{{ route('contact.submit') }}" method="POST" class="space-y-6 bg-white dark:bg-gray-500 p-6 rounded-xl shadow">
+    <form id="contact-form" action="{{ route('contact.submit') }}" method="POST"
+          class="space-y-6 bg-white dark:bg-gray-500 p-6 rounded-xl shadow">
         @csrf
         <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
         <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-4 mb-6 rounded shadow-md text-sm">
-            <strong>Heads up!</strong> This site is in early testing. If you spot any bugs or have suggestions, please use this form to let me know! You don't have to use real information for the NAME and EMAIL fields below. test@test.com for the email field is fine.
+            <strong>Heads up!</strong> This site is in early testing. If you spot any bugs or have suggestions, feel free to use this form—even test@test.com is fine for the email.
         </div>
 
         <div>
             <label for="name" class="block font-semibold mb-1">Name</label>
-            <input type="text" id="name" name="name" value="{{ old('name') }}"
-                class="w-full border border-gray-300 dark:border-gray-700 rounded px-4 py-2 dark:bg-gray-300" required>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ old('name') }}"
+                required
+                class="w-full border border-gray-300 dark:border-gray-700 rounded px-4 py-2 dark:bg-gray-300"
+            >
             @error('name')
-            <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
-                ⚠️ {{ $message }}
-            </div>
+                <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
+                    ⚠️ {{ $message }}
+                </div>
             @enderror
         </div>
 
         <div>
             <label for="email" class="block font-semibold mb-1">Email</label>
-            <input type="email" id="email" name="email" value="{{ old('email') }}"
-                class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300" required>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ old('email') }}"
+                required
+                class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300"
+            >
             @error('email')
-            <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
-                ⚠️ {{ $message }}
-            </div>
+                <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
+                    ⚠️ {{ $message }}
+                </div>
             @enderror
         </div>
 
         <div>
             <label for="message" class="block font-semibold mb-1">Message</label>
-            <textarea id="message" name="message" rows="6"
+            <textarea
+                id="message"
+                name="message"
+                rows="6"
+                required
                 class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300"
-                required>{{ old('message') }}</textarea>
+            >{{ old('message') }}</textarea>
             @error('message')
-            <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
-                ⚠️ {{ $message }}
-            </div>
+                <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
+                    ⚠️ {{ $message }}
+                </div>
             @enderror
         </div>
 
@@ -58,38 +83,42 @@
             </button>
         </div>
     </form>
+
+    <noscript class="mt-6 text-center text-red-600">
+        ⚠️ Please enable JavaScript to submit this form.
+    </noscript>
 </div>
 @endsection
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector("form[action$='/contact']");
-
-    if (!form) return;
+    console.log('🔥 Contact-page JS loaded');
+    const form = document.getElementById('contact-form');
+    if (!form) {
+        console.error('Contact form (#contact-form) not found');
+        return;
+    }
 
     form.addEventListener('submit', function (event) {
         event.preventDefault();
+        console.log('🚀 Submit intercepted, calling grecaptcha…');
 
-        // Check if grecaptcha is available
         if (typeof grecaptcha === 'undefined') {
             console.error('grecaptcha not loaded');
-            form.submit(); // fallback if needed
-            return;
+            return form.submit();
         }
 
-        // Run reCAPTCHA before submit
         grecaptcha.ready(function () {
             grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'contact' })
                 .then(function (token) {
-                    // Set token and resubmit form after reCAPTCHA
+                    console.log('✅ reCAPTCHA token:', token);
                     document.getElementById('recaptcha_token').value = token;
 
-                    // Submit form using requestSubmit (forces HTML5 validation)
+                    // Use requestSubmit for HTML5 validation support
                     if (typeof form.requestSubmit === 'function') {
                         form.requestSubmit();
                     } else {
-                        // Fallback if requestSubmit not supported
                         form.submit();
                     }
                 })
