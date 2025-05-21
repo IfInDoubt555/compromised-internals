@@ -18,7 +18,9 @@
         </div>
     @endif
 
-    <form id="contact-form" action="{{ route('contact.submit') }}" method="POST"
+    <form id="contact-form"
+          action="{{ route('contact.submit') }}"
+          method="POST"
           class="space-y-6 bg-white dark:bg-gray-500 p-6 rounded-xl shadow">
         @csrf
         <input type="hidden" name="recaptcha_token" id="recaptcha_token">
@@ -30,9 +32,9 @@
         <div>
             <label for="name" class="block font-semibold mb-1">Name</label>
             <input
-                type="text"
                 id="name"
                 name="name"
+                type="text"
                 value="{{ old('name') }}"
                 required
                 class="w-full border border-gray-300 dark:border-gray-700 rounded px-4 py-2 dark:bg-gray-300"
@@ -47,9 +49,9 @@
         <div>
             <label for="email" class="block font-semibold mb-1">Email</label>
             <input
-                type="email"
                 id="email"
                 name="email"
+                type="email"
                 value="{{ old('email') }}"
                 required
                 class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300"
@@ -93,37 +95,36 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('🔥 Contact-page JS loaded');
     const form = document.getElementById('contact-form');
+    const tokenInput = document.getElementById('recaptcha_token');
+
     if (!form) {
-        console.error('Contact form (#contact-form) not found');
+        console.error('⚠️ Contact form not found');
         return;
     }
 
     form.addEventListener('submit', function (event) {
+        // if we already have a token, let it submit normally
+        if (tokenInput.value) {
+            return;
+        }
+
+        // otherwise, block default and fetch a recaptcha token
         event.preventDefault();
-        console.log('🚀 Submit intercepted, calling grecaptcha…');
 
         if (typeof grecaptcha === 'undefined') {
-            console.error('grecaptcha not loaded');
+            console.error('⚠️ grecaptcha not loaded');
             return form.submit();
         }
 
-        grecaptcha.ready(function () {
+        grecaptcha.ready(() => {
             grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'contact' })
-                .then(function (token) {
-                    console.log('✅ reCAPTCHA token:', token);
-                    document.getElementById('recaptcha_token').value = token;
-
-                    // Use requestSubmit for HTML5 validation support
-                    if (typeof form.requestSubmit === 'function') {
-                        form.requestSubmit();
-                    } else {
-                        form.submit();
-                    }
+                .then(token => {
+                    tokenInput.value = token;
+                    form.submit();  // native .submit() bypasses this listener
                 })
-                .catch(function (err) {
-                    console.error('reCAPTCHA error:', err);
+                .catch(err => {
+                    console.error('❌ reCAPTCHA error:', err);
                 });
         });
     });
