@@ -9,13 +9,13 @@
     {{-- Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    {{-- Any page-specific head pushes --}}
+    @stack('head')
+
     {{-- Osano CMP (Cookie Consent Manager) --}}
     <script id="osano-cmp"
             src="https://cmp.osano.com/68c885bf-d384-489c-a092-2092f351097c/osano.js"
             async></script>
-
-    {{-- Any page-specific head pushes --}}
-    @stack('head')
 
     {{-- reCAPTCHA --}}
     <script
