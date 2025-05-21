@@ -68,7 +68,7 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector("form[action='{{ route('contact.submit') }}']");
+    const form = document.querySelector("form[action$='/contact']");
 
     if (!form) return;
 
