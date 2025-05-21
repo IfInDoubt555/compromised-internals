@@ -5,11 +5,15 @@
         'title'       => 'Compromised Internals | Rally Racing News, History & Events',
         'description' => 'Your one-stop hub for rally racing: daily news, interactive history, upcoming event calendar, driver & car profiles, and community insights.',
         'url'         => url('/'),
-        'logo'        => asset('images/skull-logo.png'),
+        'image'        => asset('images/ci-og.png'),
+        'favicon'     => asset('favicon.png'),
     ];
 @endphp
 
 @push('head')
+
+    <link rel="icon" href="{{ $seo['favicon'] }}" type="image/png" />
+
     <!-- Primary Meta Tags -->
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}" />
