@@ -14,48 +14,71 @@
             </div>
 
             @if ($errors->has('recaptcha'))
-            <div class="text-red-600 text-sm mb-4">
-                {{ $errors->first('recaptcha') }}
-            </div>
+                <div class="text-red-600 text-sm mb-4">
+                    {{ $errors->first('recaptcha') }}
+                </div>
             @endif
 
             <x-auth-session-status class="mb-6" :status="session('status')" />
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+            <form id="login-form" method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
                 <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
                 <!-- Email -->
                 <div>
                     <x-input-label for="email" value="Email" />
-                    <x-text-input id="email" class="block w-full mt-1 text-base" type="email" name="email" :value="old('email')" required autofocus style="height:3rem" />
+                    <x-text-input
+                        id="email"
+                        class="block w-full mt-1 text-base"
+                        type="email"
+                        name="email"
+                        :value="old('email')"
+                        required
+                        autofocus
+                        style="height:3rem"
+                    />
                     <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm" />
                 </div>
 
                 <!-- Password -->
                 <div>
                     <x-input-label for="password" value="Password" />
-                    <x-text-input id="password" class="block w-full mt-1 text-base" type="password" name="password" required style="height:3rem" />
+                    <x-text-input
+                        id="password"
+                        class="block w-full mt-1 text-base"
+                        type="password"
+                        name="password"
+                        required
+                        style="height:3rem"
+                    />
                     <x-input-error :messages="$errors->get('password')" class="mt-2 text-sm" />
                 </div>
 
                 <!-- Remember / Forgot -->
                 <div class="flex items-center justify-between text-sm">
                     <label for="remember_me" class="inline-flex items-center">
-                        <input id="remember_me" type="checkbox" name="remember" class="rounded border-gray-300 text-red-600 focus:ring-red-500" />
+                        <input id="remember_me" type="checkbox" name="remember"
+                               class="rounded border-gray-300 text-red-600 focus:ring-red-500" />
                         <span class="ml-2">Remember me</span>
                     </label>
 
                     @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="text-red-600 hover:underline">Forgot password?</a>
+                        <a href="{{ route('password.request') }}" class="text-red-600 hover:underline">Forgot password?</a>
                     @endif
                 </div>
 
                 <!-- Submit -->
-                <x-primary-button class="w-full justify-center py-3 text-lg">
-                    {{ __('Log in') }}
-                </x-primary-button>
+                <div class="text-center">
+                    <x-primary-button class="w-full justify-center py-3 text-lg">
+                        {{ __('Log in') }}
+                    </x-primary-button>
+                </div>
             </form>
+
+            <noscript class="mt-6 text-center text-red-600">
+                ⚠️ JavaScript is required to log in. Please enable it in your browser.
+            </noscript>
 
             <div class="mt-6 text-center">
                 <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-sm">← Back to Home</a>
@@ -70,23 +93,43 @@
 
     @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector("form[action='{{ route('login') }}']");
-            if (!form) return;
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                grecaptcha.ready(function() {
-                    grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                            action: 'login'
-                        })
-                        .then(function(token) {
-                            document.getElementById('recaptcha_token').value = token;
-                            setTimeout(() => form.submit(), 50);
-                        });
-                });
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('🔥 Login-page JS loaded');
+        const form = document.getElementById('login-form');
+        const tokenInput = document.getElementById('recaptcha_token');
+
+        if (!form) {
+            console.error('Login form (#login-form) not found');
+            return;
+        }
+
+        form.addEventListener('submit', function (event) {
+            // If token already exists, allow normal submit
+            if (tokenInput.value) {
+                return;
+            }
+
+            event.preventDefault();
+            console.log('🚀 Login submit intercepted, invoking reCAPTCHA…');
+
+            if (typeof grecaptcha === 'undefined') {
+                console.error('⚠️ grecaptcha not loaded');
+                return form.submit();
+            }
+
+            grecaptcha.ready(function () {
+                grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'login' })
+                    .then(function (token) {
+                        console.log('✅ reCAPTCHA token for login:', token);
+                        tokenInput.value = token;
+                        form.submit(); // native submit bypasses this listener
+                    })
+                    .catch(function (err) {
+                        console.error('❌ reCAPTCHA error:', err);
+                    });
             });
         });
+    });
     </script>
     @endpush
-
 </x-guest-layout>
