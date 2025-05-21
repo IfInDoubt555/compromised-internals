@@ -67,30 +67,41 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector("form[action='{{ route('contact.submit') }}']");
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector("form[action='{{ route('contact.submit') }}']");
 
-        if (!form) return;
+    if (!form) return;
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            if (typeof grecaptcha === 'undefined') {
-                console.error('grecaptcha not loaded');
-                return;
-            }
+        // Check if grecaptcha is available
+        if (typeof grecaptcha === 'undefined') {
+            console.error('grecaptcha not loaded');
+            form.submit(); // fallback if needed
+            return;
+        }
 
-            grecaptcha.ready(function() {
-                grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                    action: 'contact'
-                }).then(function(token) {
+        // Run reCAPTCHA before submit
+        grecaptcha.ready(function () {
+            grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'contact' })
+                .then(function (token) {
+                    // Set token and resubmit form after reCAPTCHA
                     document.getElementById('recaptcha_token').value = token;
-                    form.submit();
-                }).catch(function(err) {
+
+                    // Submit form using requestSubmit (forces HTML5 validation)
+                    if (typeof form.requestSubmit === 'function') {
+                        form.requestSubmit();
+                    } else {
+                        // Fallback if requestSubmit not supported
+                        form.submit();
+                    }
+                })
+                .catch(function (err) {
                     console.error('reCAPTCHA error:', err);
                 });
-            });
         });
     });
+});
 </script>
 @endpush
