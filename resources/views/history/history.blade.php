@@ -1,5 +1,34 @@
 @extends('layouts.app')
 
+@php
+    $seo = [
+        'title'       => 'Rally History Archive | Compromised Internals',
+        'description' => 'Explore rally legends, iconic cars, and pivotal events from the 1960s to today in our interactive history archive.',
+        'url'         => url()->current(),
+        'image'       => asset('images/history-og.png'),
+    ];
+@endphp
+
+@push('head')
+    <!-- Primary Meta Tags -->
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}" />
+
+    <!-- Open Graph / Link Preview Tags -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content="Compromised Internals" />
+    <meta property="og:url"         content="{{ $seo['url'] }}" />
+    <meta property="og:title"       content="{{ $seo['title'] }}" />
+    <meta property="og:description" content="{{ $seo['description'] }}" />
+    <meta property="og:image"       content="{{ $seo['image'] }}" />
+
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:url"         content="{{ $seo['url'] }}">
+    <meta name="twitter:title"       content="{{ $seo['title'] }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    <meta name="twitter:image"       content="{{ $seo['image'] }}">
+@endpush
+
 @section('content')
 <div id="top"></div>
 

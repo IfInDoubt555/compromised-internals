@@ -1,4 +1,12 @@
 <x-guest-layout>
+
+    @push('head')
+        <!-- Primary Meta Tags -->
+        <title>Register | Compromised Internals</title>
+        <meta name="description" content="Join Compromised Internals to share your rally stories, comment on posts, and connect with the motorsport community." />
+        <meta name="robots" content="noindex, nofollow" />
+    @endpush
+
     <div class="w-screen min-h-screen flex lg:flex-row flex-col items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 px-0 sm:px-6 lg:px-8 overflow-hidden">
         <!-- Left Image (hidden on mobile) -->
         <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">

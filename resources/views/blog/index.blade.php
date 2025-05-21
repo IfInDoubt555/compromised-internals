@@ -1,5 +1,31 @@
 @extends('layouts.app')
 
+@php
+    $seo = [
+        'title'       => 'Rally Blog – Latest Rally News & Articles | Compromised Internals',
+        'description' => 'Dive into the Compromised Internals Rally Blog for the latest news, in-depth articles, event coverage, and expert analysis on drivers, cars, and competitions.',
+        'url'         => url()->current(),
+        'image'       => asset('images/default-post.png'),
+    ];
+@endphp
+
+@push('head')
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}">
+
+    <meta property="og:type"        content="website">
+    <meta property="og:url"         content="{{ $seo['url'] }}">
+    <meta property="og:title"       content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image"       content="{{ $seo['image'] }}">
+
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:url"         content="{{ $seo['url'] }}">
+    <meta name="twitter:title"       content="{{ $seo['title'] }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    <meta name="twitter:image"       content="{{ $seo['image'] }}">
+@endpush
+
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
     <div class="flex justify-center items-center gap-2 mb-6">

@@ -1,4 +1,12 @@
 <x-guest-layout>
+
+    @push('head')
+    <!-- Primary Meta Tags -->
+        <title>Login | Compromised Internals</title>
+        <meta name="description" content="Log in to Compromised Internals to post, comment, and engage with the rally racing community." />
+        <meta name="robots" content="noindex, nofollow" />
+    @endpush
+
     <div class="min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-between bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 w-full overflow-hidden">
 
         <!-- Left Image (Hidden on Mobile) -->

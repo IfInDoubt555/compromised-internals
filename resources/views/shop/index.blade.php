@@ -1,5 +1,34 @@
 @extends('layouts.app')
 
+@php
+    $seo = [
+        'title'       => 'Shop | Compromised Internals Rally Gear & Merch',
+        'description' => 'Browse Compromised Internals’ rally racing shop for premium gear, apparel, and collectibles. (Currently in development mode—test purchases only.)',
+        'url'         => url()->current(),
+        'image'       => asset('images/shop-og.png'),
+    ];
+@endphp
+
+@push('head')
+    {{-- Primary Meta Tags --}}
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}">
+
+    {{-- Open Graph / Link Preview --}}
+    <meta property="og:type"        content="website">
+    <meta property="og:site_name"   content="Compromised Internals">
+    <meta property="og:url"         content="{{ $seo['url'] }}">
+    <meta property="og:title"       content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image"       content="{{ $seo['image'] }}">
+
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:url"         content="{{ $seo['url'] }}" />
+    <meta name="twitter:title"       content="{{ $seo['title'] }}" />
+    <meta name="twitter:description" content="{{ $seo['description'] }}" />
+    <meta name="twitter:image"       content="{{ $seo['image'] }}" />
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <h1 class="text-3xl font-bold mb-8">Shop</h1>

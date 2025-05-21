@@ -1,5 +1,49 @@
 @extends('layouts.app')
 
+@php
+    $seo = [
+        'title'       => 'Compromised Internals | Rally Racing News, History & Events',
+        'description' => 'Your one-stop hub for rally racing: daily news, interactive history, upcoming event calendar, driver & car profiles, and community insights.',
+        'url'         => url('/'),
+        'logo'        => asset('images/ci-logo.png'),
+    ];
+@endphp
+
+@push('head')
+    <!-- Primary Meta Tags -->
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}" />
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content="Compromised Internals" />
+    <meta property="og:url"         content="{{ $seo['url'] }}" />
+    <meta property="og:title"       content="{{ $seo['title'] }}" />
+    <meta property="og:description" content="{{ $seo['description'] }}" />
+    <meta property="og:image"       content="{{ $seo['logo'] }}" />
+
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:url"         content="{{ $seo['url'] }}" />
+    <meta name="twitter:title"       content="{{ $seo['title'] }}" />
+    <meta name="twitter:description" content="{{ $seo['description'] }}" />
+    <meta name="twitter:image"       content="{{ $seo['image'] }}" />
+
+    <!-- Schema.org: Site Search Box -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "url": "{{ $seo['url'] }}",
+      "name": "Compromised Internals",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ url('/blog') }}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+@endpush
+
 @section('content')
 <div class="min-h-screen bg-gray-400 text-white font-sans">
 
