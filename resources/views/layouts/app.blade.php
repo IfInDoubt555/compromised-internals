@@ -10,6 +10,7 @@
 
     <!-- AlpineJS -->
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://cmp.osano.com/QSYKFTgmsG/68c885bf-d384-489c-a092-2092f351097c/osano.js"></script>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
