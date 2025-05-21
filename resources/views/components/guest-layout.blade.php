@@ -8,6 +8,13 @@
 
     {{-- Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Osano CMP (Cookie Consent Manager) --}}
+    <script id="osano-cmp"
+            src="https://cmp.osano.com/68c885bf-d384-489c-a092-2092f351097c/osano.js"
+            async></script>
+
+    {{-- Any page-specific head pushes --}}
     @stack('head')
 
     {{-- reCAPTCHA --}}
@@ -23,6 +30,7 @@
         {{ $slot }}
     </div>
 
+    {{-- Any page-specific scripts (your inline grecaptcha handlers, etc.) --}}
     @stack('scripts')
 </body>
 
