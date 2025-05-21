@@ -17,11 +17,11 @@ use App\Http\Middleware\GatekeeperMiddleware;
 
 class Kernel extends HttpKernel
 {
-    protected array $middleware = [
+    protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
     ];
 
-    protected array $middlewareGroups = [
+    protected $middlewareGroups = [
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -38,7 +38,7 @@ class Kernel extends HttpKernel
         ],
     ];
 
-    protected array $middlewareAliases = [
+    protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
