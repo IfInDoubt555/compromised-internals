@@ -80,22 +80,20 @@
     </div>
 
     @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector("form[action='{{ route('register') }}']");
-            form.addEventListener('submit', e => {
-                e.preventDefault();
-                grecaptcha.ready(() => {
-                    grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", {
-                            action: 'register'
-                        })
-                        .then(token => {
-                            document.getElementById('recaptcha_token').value = token;
-                            setTimeout(() => form.submit(), 100);
-                        });
-                });
-            });
-        });
-    </script>
-    @endpush
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('your-form-id');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        grecaptcha.ready(() =>
+          grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: '…' })
+            .then(token => {
+              document.getElementById('recaptcha_token').value = token;
+              form.requestSubmit?.() ?? form.submit();
+            })
+        );
+      });
+    });
+  </script>
+  @endpush
 </x-guest-layout>
