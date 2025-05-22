@@ -92,7 +92,6 @@
     @if (
         request()->is('/') ||
         request()->is('history*') ||
-        request()->is('blog*') ||
         request()->is('calendar*')
     )
         <!-- Buy Me a Coffee Floating Widget (only on Home, History, Blog & Calendar) -->
