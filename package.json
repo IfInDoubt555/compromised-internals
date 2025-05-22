@@ -7,8 +7,9 @@
         "build:prod": "vite build --config vite.config.js && node scripts/fix-manifest.js"
     },
     "devDependencies": {
+        "@fullhuman/postcss-purgecss": "^7.0.2",
         "@tailwindcss/cli": "^4.1.4",
-        "@tailwindcss/postcss": "^4.1.4",
+        "@tailwindcss/postcss": "^4.1.7",
         "autoprefixer": "^10.4.21",
         "axios": "^1.8.2",
         "concurrently": "^9.0.1",
