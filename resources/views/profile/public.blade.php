@@ -13,9 +13,15 @@
 <div class="max-w-4xl mx-auto mt-6 p-8 bg-white shadow-xl rounded-2xl">
     <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
         <div class="w-40 h-40 rounded-full overflow-hidden bg-gray-100 border shadow">
-            <img src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('images/default-avatar.png') }}"
-                alt="{{ $user->name }}'s avatar"
-                class="object-cover w-full h-full">
+            @if ($user->profile_picture)
+                <img src="{{ asset('storage/' . $user->profile_picture) }}"
+                     alt="{{ $user->name }}'s avatar"
+                     class="object-cover w-full h-full" />
+            @else
+                <img src="{{ asset('images/default-avatar.png') }}"
+                     alt="Default avatar"
+                     class="object-cover w-full h-full" />
+            @endif
         </div>
 
         <div class="flex-1">
