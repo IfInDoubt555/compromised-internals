@@ -14,7 +14,7 @@ class UserService
 {
     public static function updateProfile($user, Request $request): void
     {
-        Log::info('UserService::updateProfile CALLED', ['user_id' => $user->id ?? null]);
+        Log::info('FILES BAG:', $request->allFiles());
 
         // 1) Validate all incoming fields (including files)
         $validator = Validator::make($request->all(), [
