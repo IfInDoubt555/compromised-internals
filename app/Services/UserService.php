@@ -17,7 +17,6 @@ class UserService
      */
     public static function updateProfile(User $user, Request $request): void
     {
-        Log::info('UserService::updateProfile called', ['user_id' => $user->id]);
 
         // 1) Validate incoming payload
         $validator = Validator::make($request->all(), [
