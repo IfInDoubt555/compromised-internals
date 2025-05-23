@@ -16,7 +16,7 @@ class UserService
     {
         Log::info('UserService::updateProfile CALLED', ['user_id' => $user->id ?? null]);
 
-        // 1) Validate all incoming fields
+        // 1) Validate all incoming fields (including files)
         $validator = Validator::make($request->all(), [
             // user table
             'profile_picture'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
@@ -27,7 +27,7 @@ class UserService
             'banner_image'      => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'display_name'      => ['nullable', 'string', 'max:100'],
             'location'          => ['nullable', 'string', 'max:100'],
-            'rally_role'        => ['nullable', 'integer'], // add exists: if you have a roles table
+            'rally_role'        => ['nullable', 'integer'],
             'rally_fan_since'   => ['nullable', 'integer', 'min:1900', 'max:' . now()->year],
             'birthday'          => ['nullable', 'date', 'before:today'],
             'bio'               => ['nullable', 'string', 'max:1000'],
@@ -51,11 +51,13 @@ class UserService
 
         $data = $validator->validated();
 
-        // 2) Handle profile picture
+        //
+        // 2) Handle profile picture upload
+        //
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
 
-            // delete old one
+            // delete previous avatar
             if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
@@ -68,17 +70,20 @@ class UserService
                 400
             );
 
-            if (!$path) {
+            if (! $path) {
                 throw new \InvalidArgumentException('Failed to process profile picture.');
             }
 
             $user->profile_picture = $path;
         }
 
-        // 3) Handle banner image (if you want to do the same, use $request->hasFile)
+        //
+        // 3) Handle banner image upload
+        //
         if ($request->hasFile('banner_image')) {
             $file = $request->file('banner_image');
 
+            // delete previous banner
             if ($user->profile?->banner_image && Storage::disk('public')->exists($user->profile->banner_image)) {
                 Storage::disk('public')->delete($user->profile->banner_image);
             }
@@ -91,28 +96,31 @@ class UserService
                 300
             );
 
-            if (!$path) {
+            if (! $path) {
                 throw new \InvalidArgumentException('Failed to process banner image.');
             }
 
-            // we'll merge this into profileData below
+            // merge into the profile payload
             $data['banner_image'] = $path;
         }
 
-        // 4) Update base user info
+        //
+        // 4) Update core user fields
+        //
         $user->fill([
             'name'  => strip_tags($data['name']),
             'email' => $data['email'],
         ]);
 
-        // reset verification if email changed
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
 
-        // 5) Prepare profile payload (sanitize text where needed)
+        //
+        // 5) Build profile data array
+        //
         $profileData = [
             'display_name'    => strip_tags($data['display_name'] ?? ''),
             'location'        => strip_tags($data['location'] ?? ''),
@@ -134,12 +142,14 @@ class UserService
             'layout_style'    => $data['layout_style'] ?? null,
         ];
 
-        // include banner_image if uploaded
+        // include banner_image key if we set it above
         if (isset($data['banner_image'])) {
             $profileData['banner_image'] = $data['banner_image'];
         }
 
-        // 6) Save or create profile
+        //
+        // 6) Persist profile
+        //
         if ($user->relationLoaded('profile') && $user->profile) {
             $user->profile->update($profileData);
         } else {
@@ -149,7 +159,9 @@ class UserService
             );
         }
 
-        // 7) Reload relationships
+        //
+        // 7) Refresh relations
+        //
         $user->load('profile');
     }
 }
