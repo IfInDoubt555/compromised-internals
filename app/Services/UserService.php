@@ -50,8 +50,8 @@ class UserService
         $data = $validator->validated();
 
         // 2) Handle profile picture
-        if (!empty($data['profile_picture'])) {
-            $file = $data['profile_picture'];
+        if ($request->hasFile('profile_picture')) {
+            $file = $request->file('profile_picture');
 
             // delete old one
             if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
@@ -66,16 +66,16 @@ class UserService
                 400
             );
 
-            if (! $path) {
+            if (!$path) {
                 throw new \InvalidArgumentException('Failed to process profile picture.');
             }
 
             $user->profile_picture = $path;
         }
 
-        // 3) Handle banner image
-        if (!empty($data['banner_image'])) {
-            $file = $data['banner_image'];
+        // 3) Handle banner image (if you want to do the same, use $request->hasFile)
+        if ($request->hasFile('banner_image')) {
+            $file = $request->file('banner_image');
 
             if ($user->profile?->banner_image && Storage::disk('public')->exists($user->profile->banner_image)) {
                 Storage::disk('public')->delete($user->profile->banner_image);
@@ -89,7 +89,7 @@ class UserService
                 300
             );
 
-            if (! $path) {
+            if (!$path) {
                 throw new \InvalidArgumentException('Failed to process banner image.');
             }
 
