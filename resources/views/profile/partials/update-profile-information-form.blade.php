@@ -78,7 +78,7 @@
             <p class="text-xs text-gray-500 mt-1">Max file size: 2MB. Formats: JPG, PNG, WebP</p>
 
             @error('profile_picture')
-            <p class="text-sm text-red-600 mt-1">{{ \$message }}</p>
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
         </div>
 
@@ -109,7 +109,7 @@
             </select>
 
             @error('rally_role')
-            <p class="text-sm text-red-600 mt-1">{{ \$message }}</p>
+            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
         </div>
 
