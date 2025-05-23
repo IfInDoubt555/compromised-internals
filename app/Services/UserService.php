@@ -14,20 +14,14 @@ class UserService
 {
     public static function updateProfile($user, Request $request): void
     {
-        // Log all uploaded files for debugging
-        Log::info('FILES BAG:', $request->allFiles());
+        // 1) Merge in files so Validator actually sees the upload
+        $payload = array_merge($request->all(), $request->allFiles());
 
-        // Merge input and file data for validation
-        $input = array_merge($request->all(), $request->allFiles());
-
-        // 1) Validate all incoming fields (including files)
-        $validator = Validator::make($input, [
-            // user table fields
+        // 2) Validate everything, including the image file
+        $validator = Validator::make($payload, [
             'profile_picture'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'name'              => ['required', 'string', 'max:255'],
             'email'             => ['required', 'email', 'max:255'],
-
-            // profile table fields
             'banner_image'      => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'display_name'      => ['nullable', 'string', 'max:100'],
             'location'          => ['nullable', 'string', 'max:100'],
@@ -40,11 +34,11 @@ class UserService
             'favorite_event'    => ['nullable', 'string', 'max:100'],
             'favorite_game'     => ['nullable', 'string', 'max:100'],
             'car_setup_notes'   => ['nullable', 'string', 'max:1000'],
-            'website'           => ['nullable', 'url', 'max:255'],
-            'instagram'         => ['nullable', 'url', 'max:255'],
-            'youtube'           => ['nullable', 'url', 'max:255'],
-            'twitter'           => ['nullable', 'url', 'max:255'],
-            'twitch'            => ['nullable', 'url', 'max:255'],
+            'website'           => ['nullable', 'url',    'max:255'],
+            'instagram'         => ['nullable', 'url',    'max:255'],
+            'youtube'           => ['nullable', 'url',    'max:255'],
+            'twitter'           => ['nullable', 'url',    'max:255'],
+            'twitch'            => ['nullable', 'url',    'max:255'],
             'profile_color'     => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'layout_style'      => ['nullable', Rule::in(['compact', 'classic', 'photo-heavy'])],
         ]);
@@ -55,15 +49,20 @@ class UserService
 
         $data = $validator->validated();
 
-        // 2) Handle profile picture upload
+        Log::info('FILES BAG:', $request->allFiles());
+
+        //
+        // 3) Profile picture
+        //
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
 
-            // delete previous avatar if exists
+            // delete old
             if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
 
+            // process & store
             $path = ImageService::processAndStore(
                 $file,
                 'profile_pics',
@@ -72,12 +71,11 @@ class UserService
                 400
             );
 
-            if (! $path) {
+            if (!$path) {
                 throw new \InvalidArgumentException('Failed to process profile picture.');
             }
 
-            // Debug storage state
-            Log::info('Avatar stored to disk:', [
+            Log::info('Avatar stored to disk at', [
                 'path'   => $path,
                 'exists' => Storage::disk('public')->exists($path),
                 'files'  => Storage::disk('public')->files('profile_pics'),
@@ -86,16 +84,17 @@ class UserService
             $user->profile_picture = $path;
         }
 
-        // 3) Handle banner image upload
+        //
+        // 4) Banner image
+        //
         if ($request->hasFile('banner_image')) {
             $file = $request->file('banner_image');
 
-            // delete previous banner if exists
             if ($user->profile?->banner_image && Storage::disk('public')->exists($user->profile->banner_image)) {
                 Storage::disk('public')->delete($user->profile->banner_image);
             }
 
-            $path = ImageService::processAndStore(
+            $bpath = ImageService::processAndStore(
                 $file,
                 'banner_images',
                 'banner_',
@@ -103,63 +102,67 @@ class UserService
                 300
             );
 
-            if (! $path) {
+            if (! $bpath) {
                 throw new \InvalidArgumentException('Failed to process banner image.');
             }
 
-            $data['banner_image'] = $path;
+            $data['banner_image'] = $bpath;
         }
 
-        // 4) Update core user fields
+        //
+        // 5) Update user core
+        //
         $user->fill([
             'name'  => strip_tags($data['name']),
             'email' => $data['email'],
         ]);
 
-        // reset verification if email has changed
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
 
-        // 5) Prepare profile payload
+        //
+        // 6) Update or create profile record
+        //
         $profileData = [
-            'display_name'    => strip_tags($data['display_name'] ?? ''),
-            'location'        => strip_tags($data['location'] ?? ''),
-            'rally_role'      => $data['rally_role'] ?? null,
-            'rally_fan_since' => $data['rally_fan_since'] ?? null,
-            'birthday'        => $data['birthday'] ?? null,
-            'bio'             => strip_tags($data['bio'] ?? ''),
+            'display_name'    => strip_tags($data['display_name']    ?? ''),
+            'location'        => strip_tags($data['location']        ?? ''),
+            'rally_role'      => $data['rally_role']                ?? null,
+            'rally_fan_since' => $data['rally_fan_since']           ?? null,
+            'birthday'        => $data['birthday']                  ?? null,
+            'bio'             => strip_tags($data['bio']             ?? ''),
             'favorite_driver' => strip_tags($data['favorite_driver'] ?? ''),
-            'favorite_car'    => strip_tags($data['favorite_car'] ?? ''),
-            'favorite_event'  => strip_tags($data['favorite_event'] ?? ''),
-            'favorite_game'   => strip_tags($data['favorite_game'] ?? ''),
+            'favorite_car'    => strip_tags($data['favorite_car']    ?? ''),
+            'favorite_event'  => strip_tags($data['favorite_event']  ?? ''),
+            'favorite_game'   => strip_tags($data['favorite_game']   ?? ''),
             'car_setup_notes' => strip_tags($data['car_setup_notes'] ?? ''),
-            'website'         => $data['website'] ?? null,
-            'instagram'       => $data['instagram'] ?? null,
-            'youtube'         => $data['youtube'] ?? null,
-            'twitter'         => $data['twitter'] ?? null,
-            'twitch'          => $data['twitch'] ?? null,
-            'profile_color'   => $data['profile_color'] ?? null,
-            'layout_style'    => $data['layout_style'] ?? null,
+            'website'         => $data['website']                   ?? null,
+            'instagram'       => $data['instagram']                 ?? null,
+            'youtube'         => $data['youtube']                   ?? null,
+            'twitter'         => $data['twitter']                   ?? null,
+            'twitch'          => $data['twitch']                    ?? null,
+            'profile_color'   => $data['profile_color']             ?? null,
+            'layout_style'    => $data['layout_style']              ?? null,
         ];
 
-        // include banner_image if uploaded
         if (isset($data['banner_image'])) {
             $profileData['banner_image'] = $data['banner_image'];
         }
 
-        // 6) Save or create profile record
         if ($user->relationLoaded('profile') && $user->profile) {
             $user->profile->update($profileData);
         } else {
-            $user->profile()->updateOrCreate([
-                'user_id' => $user->id,
-            ], $profileData);
+            $user->profile()->updateOrCreate(
+                ['user_id' => $user->id],
+                $profileData
+            );
         }
 
-        // 7) Refresh the loaded profile relationship
+        //
+        // 7) Final reload
+        //
         $user->load('profile');
     }
 }
