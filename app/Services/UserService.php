@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Log;
 
 class ImageService
@@ -13,11 +13,11 @@ class ImageService
      * Resize + store an uploaded image.
      *
      * @param  UploadedFile  $file
-     * @param  string        $folder       // e.g. "profile_pics"
-     * @param  string        $prefix       // e.g. "avatar_"
+     * @param  string        $folder   // e.g. "profile_pics"
+     * @param  string        $prefix   // e.g. "avatar_"
      * @param  int           $width
      * @param  int|null      $height
-     * @return string|null                 // path relative to disk root, e.g. "profile_pics/avatar_5f8d3e.jpg"
+     * @return string|null             // path under disk('public'), e.g. "profile_pics/avatar_5f8d3e.jpg"
      */
     public static function processAndStore(
         UploadedFile $file,
@@ -27,36 +27,38 @@ class ImageService
         ?int $height = null
     ): ?string {
         try {
-            // 1) Build the Intervention manager
-            $manager = new ImageManager(['driver' => 'gd']);
+            // 1) load & resize
+            $img = Image::make($file->getRealPath())
+                ->resize($width, $height, function ($c) {
+                    $c->aspectRatio();
+                    $c->upsize();
+                });
 
-            // 2) Load from real path
-            $image = $manager->make($file->getRealPath());
-
-            // 3) Resize (maintain aspect ratio + prevent upsize)
-            $image->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-
-            // 4) Determine extension + mime
-            $ext = strtolower($file->getClientOriginalExtension());
-            if (! in_array($ext, ['jpg', 'jpeg', 'png', 'webp'], true)) {
+            // 2) pick an extension
+            $ext      = strtolower($file->getClientOriginalExtension());
+            $allowed  = ['jpg', 'jpeg', 'png', 'webp'];
+            if (! in_array($ext, $allowed, true)) {
                 $ext = 'jpg';
             }
-            $mime = match ($ext) {
-                'png'   => 'image/png',
-                'webp'  => 'image/webp',
-                default => 'image/jpeg',
-            };
 
-            // 5) Build filename + path
+            // 3) build filename + path
             $filename = uniqid($prefix) . '.' . $ext;
             $path     = "{$folder}/{$filename}";
 
-            // 6) Encode + store in one go
-            $encoded = $image->encode($ext, 90)->getEncoded();
-            Storage::disk('public')->put($path, $encoded);
+            // 4) encode at the right format & quality
+            switch ($ext) {
+                case 'png':
+                    $encoded = $img->encode('png');
+                    break;
+                case 'webp':
+                    $encoded = $img->encode('webp', 90);
+                    break;
+                default:
+                    $encoded = $img->encode('jpg', 90);
+            }
+
+            // 5) persist to public disk
+            Storage::disk('public')->put($path, (string) $encoded);
 
             return $path;
         } catch (\Throwable $e) {
