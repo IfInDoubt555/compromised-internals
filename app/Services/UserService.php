@@ -74,6 +74,12 @@ class UserService
                 throw new \InvalidArgumentException('Failed to process profile picture.');
             }
 
+            Log::info('Avatar stored to disk at', [
+                'path'   => $path,
+                'exists' => Storage::disk('public')->exists($path),
+                'files'  => Storage::disk('public')->files('profile_pics'),
+            ]);
+
             $user->profile_picture = $path;
         }
 
