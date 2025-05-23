@@ -26,8 +26,29 @@ class ImageService
                 $constraint->upsize();
             });
 
-            $filename = uniqid($prefix) . '.jpg';
-            Storage::disk('public')->put("{$folder}/{$filename}", (string) $image->toJpeg(90));
+            // Use original extension (lowercase) if supported
+            $ext = strtolower($file->getClientOriginalExtension());
+            $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+            if (!in_array($ext, $allowed)) {
+                $ext = 'jpg'; // fallback to jpg if not allowed
+            }
+
+            $filename = uniqid($prefix) . '.' . $ext;
+
+            // Save image in the correct format based on extension
+            switch ($ext) {
+                case 'png':
+                    Storage::disk('public')->put("{$folder}/{$filename}", (string) $image->toPng());
+                    break;
+                case 'webp':
+                    Storage::disk('public')->put("{$folder}/{$filename}", (string) $image->toWebp(90));
+                    break;
+                case 'jpeg':
+                case 'jpg':
+                default:
+                    Storage::disk('public')->put("{$folder}/{$filename}", (string) $image->toJpeg(90));
+                    break;
+            }
 
             return "{$folder}/{$filename}";
         } catch (\Throwable $e) {
