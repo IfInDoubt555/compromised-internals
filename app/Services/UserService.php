@@ -14,16 +14,17 @@ class UserService
 {
     public static function updateProfile($user, Request $request): void
     {
+        // DEBUG: dump all uploaded files
         Log::info('FILES BAG:', $request->allFiles());
 
-        // 1) Validate all incoming fields (including files)
+        // 1) Validate all incoming fields (including file inputs)
         $validator = Validator::make($request->all(), [
-            // user table
+            // users table
             'profile_picture'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'name'              => ['required', 'string', 'max:255'],
             'email'             => ['required', 'email', 'max:255'],
 
-            // profile table
+            // user_profiles table
             'banner_image'      => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'display_name'      => ['nullable', 'string', 'max:100'],
             'location'          => ['nullable', 'string', 'max:100'],
@@ -62,6 +63,7 @@ class UserService
                 Storage::disk('public')->delete($user->profile_picture);
             }
 
+            // process & store
             $path = ImageService::processAndStore(
                 $file,
                 'profile_pics',
@@ -70,10 +72,11 @@ class UserService
                 400
             );
 
-            if (! $path) {
+            if (!$path) {
                 throw new \InvalidArgumentException('Failed to process profile picture.');
             }
 
+            // DEBUG: make sure it really landed
             Log::info('Avatar stored to disk at', [
                 'path'   => $path,
                 'exists' => Storage::disk('public')->exists($path),
@@ -94,7 +97,7 @@ class UserService
                 Storage::disk('public')->delete($user->profile->banner_image);
             }
 
-            $path = ImageService::processAndStore(
+            $bannerPath = ImageService::processAndStore(
                 $file,
                 'banner_images',
                 'banner_',
@@ -102,12 +105,11 @@ class UserService
                 300
             );
 
-            if (! $path) {
+            if (!$bannerPath) {
                 throw new \InvalidArgumentException('Failed to process banner image.');
             }
 
-            // merge into the profile payload
-            $data['banner_image'] = $path;
+            $data['banner_image'] = $bannerPath;
         }
 
         //
@@ -125,7 +127,7 @@ class UserService
         $user->save();
 
         //
-        // 5) Build profile data array
+        // 5) Build profile payload
         //
         $profileData = [
             'display_name'    => strip_tags($data['display_name'] ?? ''),
@@ -148,7 +150,6 @@ class UserService
             'layout_style'    => $data['layout_style'] ?? null,
         ];
 
-        // include banner_image key if we set it above
         if (isset($data['banner_image'])) {
             $profileData['banner_image'] = $data['banner_image'];
         }
@@ -166,7 +167,7 @@ class UserService
         }
 
         //
-        // 7) Refresh relations
+        // 7) Refresh relationships
         //
         $user->load('profile');
     }
