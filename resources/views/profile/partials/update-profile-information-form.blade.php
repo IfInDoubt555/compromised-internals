@@ -51,7 +51,7 @@
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
                     onchange="previewAvatar(event)"
-                    class="file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition text-sm border        border-gray-300 rounded-xl w-full max-w-sm" />
+                    class="file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition text-sm border border-gray-300 rounded-xl w-full max-w-sm" />
                 <script>
                     function previewAvatar(event) {
                         const input = event.target;
@@ -68,8 +68,9 @@
                 </script>
 
                 <!-- Avatar Preview -->
-                <img id="avatar-preview"
-                    src="{{ $user->profile_picture_url ?? '/images/default-avatar.png' }}"
+                <img
+                    id="avatar-preview"
+                    src="{{ $user->profile_picture_url }}"
                     alt="Avatar Preview"
                     class="w-29 h-29 rounded-full shadow border object-cover" />
             </div>
@@ -77,7 +78,7 @@
             <p class="text-xs text-gray-500 mt-1">Max file size: 2MB. Formats: JPG, PNG, WebP</p>
 
             @error('profile_picture')
-            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+            <p class="text-sm text-red-600 mt-1">{{ \$message }}</p>
             @enderror
         </div>
 
@@ -85,35 +86,35 @@
         <h2 class="text-lg font-semibold text-gray-700 mb-2">Profile Details</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <x-input name="display_name" label="Display Name" value="{{ old('display_name', $user->profile->display_name ?? '') }}" />
-            <x-input name="location" label="Location" value="{{ old('location', $user->profile->location ?? '') }}" />
-            <x-input name="rally_fan_since" label="Rally Fan Since" value="{{ old('rally_fan_since', $user->profile->rally_fan_since ?? '') }}" />
-            <x-input name="birthday" label="Birthday" type="date" value="{{ old('birthday', $user->profile->birthday ?? '') }}" />
-            <x-input name="favorite_driver" label="Favorite Driver" value="{{ old('favorite_driver', $user->profile->favorite_driver ?? '') }}" />
-            <x-input name="favorite_car" label="Favorite Car" value="{{ old('favorite_car', $user->profile->favorite_car ?? '') }}" />
+            <x-input name="display_name" label="Display Name" value="{{ old('display_name', \$user->profile->display_name ?? '') }}" />
+            <x-input name="location" label="Location" value="{{ old('location', \$user->profile->location ?? '') }}" />
+            <x-input name="rally_fan_since" label="Rally Fan Since" value="{{ old('rally_fan_since', \$user->profile->rally_fan_since ?? '') }}" />
+            <x-input name="birthday" label="Birthday" type="date" value="{{ old('birthday', \$user->profile->birthday ?? '') }}" />
+            <x-input name="favorite_driver" label="Favorite Driver" value="{{ old('favorite_driver', \$user->profile->favorite_driver ?? '') }}" />
+            <x-input name="favorite_car" label="Favorite Car" value="{{ old('favorite_car', \$user->profile->favorite_car ?? '') }}" />
         </div>
+
         @php
-        $roles = ['Team Manager', 'Team Owner', 'Fan', 'Marshal', 'Scrutineer', 'Announcer', 'Sim Racer', 'Logistics', 'Sponsor', 'Medical Staff', 'Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Club Organizer', 'Mechanic', 'Engineer', 'Coordinator', 'Volunteer'];
-        $selectedRole = old('rally_role', $user->profile->rally_role ?? '');
+        \$roles = ['Team Manager', 'Team Owner', 'Fan', 'Marshal', 'Scrutineer', 'Announcer', 'Sim Racer', 'Logistics', 'Sponsor', 'Medical Staff', 'Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Club Organizer', 'Mechanic', 'Engineer', 'Coordinator', 'Volunteer'];
+        \$selectedRole = old('rally_role', \$user->profile->rally_role ?? '');
         @endphp
 
         <div>
             <label for="rally_role" class="block text-sm font-medium text-gray-700">Rally Role</label>
-            <select name="rally_role" id="rally_role"
-                class="w-auto max-w-xs rounded-xl border-gray-300 shadow-sm px-4 py-2 text-sm">
+            <select name="rally_role" id="rally_role" class="w-auto max-w-xs rounded-xl border-gray-300 shadow-sm px-4 py-2 text-sm">
                 <option value="">Select a role...</option>
-                @foreach ($roles as $role)
-                <option value="{{ $role }}" @selected($selectedRole===$role)>{{ $role }}</option>
+                @foreach (\$roles as \$role)
+                <option value="{{ \$role }}" @selected(\$selectedRole === \$role)>{{ \$role }}</option>
                 @endforeach
             </select>
 
             @error('rally_role')
-            <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+            <p class="text-sm text-red-600 mt-1">{{ \$message }}</p>
             @enderror
         </div>
 
         <x-textarea name="bio" label="About Me" class="mt-4">
-            {!! old('bio', $user->profile->bio ?? '') !!}
+            {!! old('bio', \$user->profile->bio ?? '') !!}
         </x-textarea>
 
         <div class="flex items-center gap-4 mt-6">
