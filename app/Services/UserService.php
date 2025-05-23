@@ -14,6 +14,8 @@ class UserService
 {
     public static function updateProfile($user, Request $request): void
     {
+        Log::info('UserService::updateProfile CALLED', ['user_id' => $user->id ?? null]);
+
         // 1) Validate all incoming fields
         $validator = Validator::make($request->all(), [
             // user table
@@ -109,8 +111,6 @@ class UserService
         }
 
         $user->save();
-
-        Log::info('Profile updated', ['profile_picture' => $user->profile_picture]);
 
         // 5) Prepare profile payload (sanitize text where needed)
         $profileData = [
