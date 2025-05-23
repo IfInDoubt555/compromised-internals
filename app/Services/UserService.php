@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Services\ImageService;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class UserService
 {
@@ -108,6 +109,8 @@ class UserService
         }
 
         $user->save();
+
+        Log::info('Profile updated', ['profile_picture' => $user->profile_picture]);
 
         // 5) Prepare profile payload (sanitize text where needed)
         $profileData = [
