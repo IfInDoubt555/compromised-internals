@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
@@ -23,12 +23,16 @@ class Kernel extends ConsoleKernel
         // Run daily at 8am
         $schedule->command('offers:send-birthday')->dailyAt('08:00');
 
+        // Delete sessions missing user_agent hourly
         $schedule->call(function () {
             DB::table('sessions')
                 ->whereNull('user_agent')
                 ->orWhere('user_agent', '')
                 ->delete();
         })->hourly();
+
+        // Run your sessions:prune command every 30 minutes
+        $schedule->command('sessions:prune')->everyThirtyMinutes();
     }
 
     /**
@@ -36,5 +40,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\ScanImageAttributions::class,
+        \App\Console\Commands\PruneSessions::class, // add your prune command here
     ];
 }
