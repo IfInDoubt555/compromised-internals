@@ -4,7 +4,7 @@
 
             <!-- Left: Logo + Auth Controls -->
             <div class="flex items-center space-x-8 whitespace-nowrap">
-                <a href="{{ route('home') }}" class="text-xl font-bold text-red-600">
+                <a href="{{ route('home') }}" class="text-xl font-bold text-red-600 whitespace-nowrap">
                     Compromised Internals
                 </a>
 
@@ -39,12 +39,12 @@
             </div>
 
             <!-- Right: Main Nav Links -->
-            <div class="hidden lg:flex items-center space-x-3 text-sm lg:text-base whitespace-nowrap overflow-x-auto no-scrollbar">
-                <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-nav-link>
-                <x-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">History</x-nav-link>
+            <div class="hidden lg:flex items-center space-x-6 text-sm lg:text-base whitespace-nowrap overflow-x-auto no-scrollbar">
+                <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')" class="whitespace-nowrap">Home</x-nav-link>
+                <x-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')" class="whitespace-nowrap">History</x-nav-link>
 
-                <div class="flex items-center space-x-1">
-                    <x-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index', 'shop.show')">
+                <div class="flex items-center space-x-1 whitespace-nowrap">
+                    <x-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index', 'shop.show')" class="whitespace-nowrap">
                         {{ __('Shop') }}
                     </x-nav-link>
 
@@ -55,7 +55,7 @@
                                       d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.293 1.293a1 1 0 001.414 1.414L7 13zm10 0l1.293 1.293a1 1 0 01-1.414 1.414L17 13z" />
                             </svg>
                             @if (session('cart') && count(session('cart')) > 0)
-                                <span id="cart-badge" class="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold text-white  bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
+                                <span id="cart-badge" class="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold text-white bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
                                     {{ array_sum(array_column(session('cart'), 'quantity')) }}
                                 </span>
                             @endif
@@ -63,13 +63,13 @@
                     @endif
                 </div>
 
-                <x-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-nav-link>
-                <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-nav-link>
-                <x-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-nav-link>
-                <x-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-nav-link>
+                <x-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')" class="whitespace-nowrap">Blog</x-nav-link>
+                <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')" class="whitespace-nowrap">Calendar</x-nav-link>
+                <x-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')" class="whitespace-nowrap">Rally Resources</x-nav-link>
+                <x-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')" class="whitespace-nowrap">Charity Work</x-nav-link>
 
                 @can('access-admin')
-                    <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
+                    <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')" class="whitespace-nowrap">
                         Admin Panel
                     </x-nav-link>
                 @endcan
@@ -88,7 +88,7 @@
     </div>
 
     <!-- Mobile Dropdown Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden lg:hidden text-sm lg:text-base">
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden lg:hidden text-sm lg:text-base whitespace-nowrap">
         <div class="pt-2 pb-3 space-y-1">
             @auth
                 <div class="px-4 border-t border-gray-200 pt-4 pb-1">
@@ -123,7 +123,6 @@
                     Admin Panel
                 </x-responsive-nav-link>
             @endcan
-
         </div>
     </div>
 </nav>
