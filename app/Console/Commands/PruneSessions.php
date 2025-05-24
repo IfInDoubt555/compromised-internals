@@ -12,7 +12,7 @@ class PruneSessions extends Command
 
     public function handle()
     {
-        $lifetime = config('session.lifetime') * 30;
+        $lifetime = min(config('session.lifetime'), 30) * 60;
 
         DB::table('sessions')
             ->where('last_activity', '<', time() - $lifetime)
