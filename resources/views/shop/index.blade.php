@@ -31,12 +31,12 @@
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
     <h1 class="text-4xl font-bold mb-6">Rally Shop Coming Soon!</h1>
     <p class="text-lg text-gray-700 mb-8">
-        I’m busy sourcing high-quality rally gear, apparel, and collectibles for Compromised Internals.<br>
-        Sign up for updates or support development on Buy Me a Coffee to get early access and special perks.
+        This project is a labor of love, and I’m focused on growing it steadily.<br>
+        Join me on this journey by signing up for updates or supporting the site on Buy Me a Coffee.
     </p>
     <a href="https://buymeacoffee.com/CompromisedInternals" target="_blank" rel="noopener"
        class="inline-block px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
-        Support & Get Early Access
+        Any support is appreciated!
     </a>
 
     <div class="mt-12 text-gray-500">
