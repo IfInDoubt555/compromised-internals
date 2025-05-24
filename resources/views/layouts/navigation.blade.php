@@ -3,7 +3,7 @@
         <div class="flex justify-between h-16 items-center">
 
             <!-- Left: Logo + Auth Controls -->
-            <div class="flex items-center space-x-8">
+            <div class="flex items-center space-x-8 whitespace-nowrap">
                 <a href="{{ route('home') }}" class="text-xl font-bold text-red-600">
                     Compromised Internals
                 </a>
@@ -11,7 +11,7 @@
                 @auth
                     <x-dropdown align="left" width="48">
                         <x-slot name="trigger">
-                            <button class="hidden sm:inline-flex items-center px-3 py-2 text-sm lg:text-lg font-semibold text-gray-500 hover:text-gray-700 transition">
+                            <button class="hidden sm:inline-flex items-center px-3 py-2 text-sm lg:text-lg font-semibold text-gray-500 hover:text-gray-700 transition whitespace-nowrap">
                                 {{ Auth::user()->name }}
                                 <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.91l3.71-3.7a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
@@ -31,7 +31,7 @@
                         </x-slot>
                     </x-dropdown>
                 @else
-                    <div class="hidden sm:flex items-center space-x-2 text-sm lg:text-base">
+                    <div class="hidden sm:flex items-center space-x-2 text-sm lg:text-base whitespace-nowrap">
                         <x-nav-link href="{{ route('login') }}">Log in</x-nav-link>
                         <x-nav-link href="{{ route('register') }}">Register</x-nav-link>
                     </div>
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Right: Main Nav Links -->
-            <div class="hidden lg:flex items-center space-x-3 text-sm lg:text-base">
+            <div class="hidden lg:flex items-center space-x-3 text-sm lg:text-base whitespace-nowrap overflow-x-auto no-scrollbar">
                 <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-nav-link>
                 <x-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">History</x-nav-link>
 
@@ -47,7 +47,7 @@
                     <x-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index', 'shop.show')">
                         {{ __('Shop') }}
                     </x-nav-link>
-                
+
                     @if (request()->is('shop*') || request()->is('cart'))
                         <a href="{{ route('shop.cart.index') }}" class="relative text-gray-600 hover:text-gray-900 transition hover:scale-110 mt-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,13 +67,12 @@
                 <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-nav-link>
                 <x-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-nav-link>
                 <x-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-nav-link>
-                
+
                 @can('access-admin')
                     <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
                         Admin Panel
                     </x-nav-link>
                 @endcan
-
             </div>
 
             <!-- Hamburger Menu (Mobile) -->
@@ -93,34 +92,34 @@
         <div class="pt-2 pb-3 space-y-1">
             @auth
                 <div class="px-4 border-t border-gray-200 pt-4 pb-1">
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    <div class="font-medium text-base text-gray-800 whitespace-nowrap">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-gray-500 whitespace-nowrap">{{ Auth::user()->email }}</div>
                 </div>
 
-                <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('profile.public', Auth::id()) }}">Profile</x-responsive-nav-link>
-                <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('dashboard') }}">Dashboard</x-responsive-nav-link>
+                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('profile.public', Auth::id()) }}">Profile</x-responsive-nav-link>
+                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('dashboard') }}">Dashboard</x-responsive-nav-link>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                    <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                         Log Out
                     </x-responsive-nav-link>
                 </form>
             @else
-                <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('login') }}">Log in</x-responsive-nav-link>
-                <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('register') }}">Register</x-responsive-nav-link>
+                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('login') }}">Log in</x-responsive-nav-link>
+                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('register') }}">Register</x-responsive-nav-link>
             @endauth
 
-            <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">History</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index')">Shop</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
-            
+            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-responsive-nav-link>
+            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">History</x-responsive-nav-link>
+            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index')">Shop</x-responsive-nav-link>
+            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
+            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-responsive-nav-link>
+            <x-responsive-nav-link class="whitespace-nowrap" href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
+            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
+
             @can('access-admin')
-                <x-responsive-nav-link class="text-sm lg:text-base" href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
+                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
                     Admin Panel
                 </x-responsive-nav-link>
             @endcan

@@ -103,23 +103,30 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl font-bold mb-6 text-center">Rally Resources</h1>
-    <p class="text-center mb-12 text-gray-700">
+    <h1 class="text-3xl font-extrabold mb-6 text-center tracking-wide text-gray-900">Rally Resources</h1>
+    <p class="text-center mb-12 text-gray-600 max-w-3xl mx-auto leading-relaxed">
         Explore these curated websites, YouTube channels, and social communities dedicated to rally racing.
     </p>
 
     @foreach ($resources as $category => $links)
-    <div x-data="{ open: false }" class="mb-6 border rounded-lg shadow-sm">
+    <section
+        x-data="{ open: false }"
+        class="mb-6 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow duration-300"
+        role="region"
+        aria-labelledby="heading-{{ \Illuminate\Support\Str::slug($category) }}"
+    >
         <button
             @click="open = !open"
-            class="w-full flex justify-between items-center px-4 py-3 text-xl font-semibold bg-gray-100 hover:bg-gray-200 focus:outline-none"
-            aria-expanded="false"
             :aria-expanded="open.toString()"
+            aria-controls="content-{{ \Illuminate\Support\Str::slug($category) }}"
+            id="heading-{{ \Illuminate\Support\Str::slug($category) }}"
+            class="w-full flex justify-between items-center px-6 py-4 text-xl font-semibold bg-gray-50 rounded-t-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
             {{ $category }}
+
             <svg
                 :class="{ 'rotate-180': open }"
-                class="h-5 w-5 transition-transform"
+                class="h-6 w-6 text-red-600 transition-transform duration-300 ease-in-out"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -131,19 +138,25 @@
 
         <ul
             x-show="open"
-            x-transition
-            class="px-6 py-4 text-blue-600 list-disc list-inside space-y-2"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 max-h-0"
+            x-transition:enter-end="opacity-100 max-h-screen"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 max-h-screen"
+            x-transition:leave-end="opacity-0 max-h-0"
+            id="content-{{ \Illuminate\Support\Str::slug($category) }}"
+            class="px-8 py-6 text-blue-700 list-disc list-inside space-y-3 overflow-hidden"
             style="display: none;"
         >
             @foreach ($links as $link)
-            <li>
-                <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer" class="hover:underline">
+            <li class="hover:text-red-600 transition-colors duration-200">
+                <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer" class="underline">
                     {{ $link['name'] }}
                 </a>
             </li>
             @endforeach
         </ul>
-    </div>
+    </section>
     @endforeach
 </div>
 @endsection
