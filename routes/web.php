@@ -35,6 +35,8 @@ Route::prefix('shop/cart')->name('shop.cart.')->group(function () {
     Route::get('/remove/{id}', [CartController::class, 'remove'])->name('remove');
 });
 
+Route::view('/rally-resources', 'rally-resources.resources')->name('resources');
+
 Route::get('/cart/count', function () {
     return response()->json([
         'count' => session('cart') ? count(session('cart')) : 0
