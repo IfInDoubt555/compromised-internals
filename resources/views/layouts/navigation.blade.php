@@ -115,7 +115,7 @@
             <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index')">Shop</x-responsive-nav-link>
             <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
             <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-responsive-nav-link>
-            <x-responsive-nav-link class="whitespace-nowrap" href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
+            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
             <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
 
             @can('access-admin')
