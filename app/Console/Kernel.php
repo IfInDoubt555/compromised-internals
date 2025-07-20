@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         })->hourly();
 
         // Run your sessions:prune command every 30 minutes
-        $schedule->command('sessions:prune')->everyThirtyMinutes();
+        $schedule->command('session:prune')->everyThirtyMinutes();
     }
 
     /**
