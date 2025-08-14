@@ -1,3 +1,4 @@
+@import 'nouislider/dist/nouislider.css';
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap');
 
 @import './decadeThemes.css';
@@ -12,4 +13,11 @@
     font-family: 'Orbitron', sans-serif;
     font-size: 16px;
   }
+}
+@layer utilities {
+  .fade-in {
+    @apply animate-fade-in;
+  }
+
+  /* alias */
 }

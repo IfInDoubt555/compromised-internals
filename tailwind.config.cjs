@@ -1,6 +1,6 @@
 // tailwind.config.cjs
 /** @type {import('tailwindcss').Config} */
-const { fontFamily, animation, keyframes } = require('tailwindcss/defaultTheme')
+const { fontFamily } = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: [
@@ -9,19 +9,12 @@ module.exports = {
     './resources/**/*.vue',
   ],
 
+  // Only safelist real Tailwind utilities you build dynamically
   safelist: [
-    // your decade theme wrappers
-    { pattern: /^decade-\d{4}$/ },
-    // slider / tabs
-    'tab-btn',
-    'active',
-    'fade-in',
-    // year filter
     'hidden',
-    // noUiSlider classes
-    { pattern: /^noUi-/ },
-    // your theme‐wrapper base ID
-    'theme-wrapper',
+    'animate-fade-in',
+    // add other real utilities if you truly generate them dynamically
+    // e.g. 'md:grid', 'lg:block', 'bg-red-500'
   ],
 
   theme: {
@@ -42,12 +35,10 @@ module.exports = {
   },
 
   plugins: [
-    // your custom base plugin
     function ({ addBase, theme }) {
       addBase({
         html: { fontFamily: theme('fontFamily.orbitron') },
       })
     },
-    // any other Tailwind plugins…
   ],
 }
