@@ -33,6 +33,7 @@
         @endauth
     </div>
 
+    {{-- Threads list --}}
     <div class="divide-y rounded-xl border border-gray-200 bg-white/80 shadow">
         @forelse($threads as $t)
             <a href="{{ route('threads.show', $t->slug) }}" class="block px-5 py-4 hover:bg-gray-50">
@@ -53,6 +54,23 @@
         @endforelse
     </div>
 
+    {{-- Featured Blog Posts linked to this board --}}
+    @if($posts->isNotEmpty())
+        <div class="mt-6 rounded-xl border border-gray-200 bg-white/80 shadow p-4">
+            <h2 class="mb-3 text-lg font-bold">Featured Blog Posts</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach($posts as $p)
+                    <a href="{{ route('blog.show', $p->slug) }}"
+                       class="block rounded-lg border bg-white p-3 hover:bg-gray-50">
+                        <p class="font-semibold line-clamp-2">{{ $p->title }}</p>
+                        <p class="mt-1 text-xs text-gray-500">{{ $p->created_at->format('M j, Y') }}</p>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
+    {{-- Threads pagination --}}
     <div class="mt-6">
         {{ $threads->links() }}
     </div>
