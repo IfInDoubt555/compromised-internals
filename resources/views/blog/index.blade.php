@@ -27,7 +27,7 @@
 @endpush
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex justify-center items-center gap-2 mb-6">
         <h1 class="text-3xl font-bold">Rally Blog</h1>
         <span class="text-3xl inline-block animate-floatWave origin-bottom-left">🏁</span>
@@ -46,7 +46,7 @@
     @endauth
 
     {{-- Parent grid: sidebar left (first), main right --}}
-    <div class="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-[minmax(260px,320px)_1fr] gap-8">
         {{-- SIDEBAR (left on desktop, top on mobile) --}}
         <aside class="lg:sticky lg:top-24">
             @include('partials.blog-sidebar')
@@ -56,7 +56,7 @@
         <main>
             {{-- removed the duplicate search bar here; only the sidebar search remains --}}
 
-            <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
                 @foreach($posts as $post)
                 <article class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
                     <!-- Image -->
