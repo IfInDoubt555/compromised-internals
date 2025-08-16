@@ -23,6 +23,7 @@ use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\ReplyController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -38,6 +39,10 @@ Route::get('/threads/{thread:slug}', [ThreadController::class, 'show'])->name('t
 Route::middleware(['auth'])->group(function () {
     Route::get('/boards/{board:slug}/threads/create', [ThreadController::class, 'create'])->name('threads.create');
     Route::post('/boards/{board:slug}/threads',        [ThreadController::class, 'store'])->name('threads.store');
+    // Thread replies
+    Route::post('/threads/{thread:slug}/replies', [ReplyController::class, 'store'])->name  ('replies.store');
+    Route::patch('/replies/{reply}',            [ReplyController::class, 'update'])->name   ('replies.update');
+    Route::delete('/replies/{reply}',           [ReplyController::class, 'destroy'])->name  ('replies.destroy');
 });
 
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
