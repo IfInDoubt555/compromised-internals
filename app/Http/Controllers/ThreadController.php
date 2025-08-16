@@ -26,13 +26,16 @@ class ThreadController extends Controller
     {
         $data = $request->validate([
             'title' => ['required','string','max:140'],
+            'slug'  => ['nullable','string','max:180'],
             'body'  => ['required','string','max:20000'],
         ]);
 
-        $slug = Str::slug($data['title']);
-        // keep it unique without hitting collisions
+        // Manual slug (if provided) or from title
+        $slug = $data['slug'] ?: Str::slug($data['title']);
+
+        // Ensure uniqueness
         if (Thread::where('slug', $slug)->exists()) {
-            $slug .= '-'.Str::lower(Str::random(6));
+            $slug .= '-' . Str::lower(Str::random(6));
         }
 
         $thread = Thread::create([
@@ -44,7 +47,17 @@ class ThreadController extends Controller
             'last_activity_at' => now(),
         ]);
 
-        return redirect()->route('threads.show', $thread->slug)
+        // Optional: auto-tag with Tag model if your app has it
+        if (class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
+            $tag = \App\Models\Tag::firstOrCreate(
+                ['slug' => 'board-' . $board->slug],
+                ['name' => $board->name]
+            );
+            $thread->tags()->syncWithoutDetaching([$tag->id]);
+        }
+
+        return redirect()
+            ->route('threads.show', $thread->slug)
             ->with('success', 'Thread created!');
     }
 }

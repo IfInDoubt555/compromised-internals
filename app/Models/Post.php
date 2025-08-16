@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Board; // <-- add this
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -19,12 +20,19 @@ class Post extends Model
         'image_path',
         'user_id',
         'status',
+        'board_id', // <-- add this
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function board() // <-- add this
+    {
+        return $this->belongsTo(Board::class);
+    }
+
     public function likes()
     {
         return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
@@ -33,7 +41,6 @@ class Post extends Model
     public function isLikedBy(?User $user)
     {
         if (!$user) return false;
-
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 

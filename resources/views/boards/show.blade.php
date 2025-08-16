@@ -2,19 +2,38 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
-    <div class="mb-6 flex items-center justify-between">
+    @php
+        $palette = [
+            'slate'=>'bg-slate-500','red'=>'bg-red-500','amber'=>'bg-amber-500','green'=>'bg-green-500',
+            'indigo'=>'bg-indigo-500','orange'=>'bg-orange-500','cyan'=>'bg-cyan-500','purple'=>'bg-purple-500',
+            'emerald'=>'bg-emerald-500','blue'=>'bg-blue-500',
+        ];
+        $dot = $palette[$board->color ?? 'slate'] ?? 'bg-slate-500';
+    @endphp
+
+    <div class="mb-6 flex items-center justify-between gap-3">
         <div class="flex items-center gap-2">
-            <span class="h-2 w-2 rounded-full bg-{{ $board->color ?? 'slate' }}-500"></span>
+            <span class="h-2 w-2 rounded-full {{ $dot }}"></span>
             <h1 class="text-2xl font-bold">{{ $board->name }}</h1>
         </div>
+
         @auth
-            <a href="{{ route('threads.create', $board->slug) }}"class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+        <div class="flex items-center gap-2">
+            {{-- Thread (board-native) --}}
+            <a href="{{ route('threads.create', $board->slug) }}"
+               class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
                 New Thread
             </a>
+            {{-- Blog post, tagged to this board --}}
+            <a href="{{ route('posts.create', ['board' => $board->slug]) }}"
+               class="rounded-lg bg-gray-700 px-4 py-2 text-white hover:bg-gray-800">
+                New Blog Post
+            </a>
+        </div>
         @endauth
     </div>
 
-    <div class="rounded-xl border border-gray-200 bg-white/80 shadow divide-y">
+    <div class="divide-y rounded-xl border border-gray-200 bg-white/80 shadow">
         @forelse($threads as $t)
             <a href="{{ route('threads.show', $t->slug) }}" class="block px-5 py-4 hover:bg-gray-50">
                 <p class="font-semibold">{{ $t->title }}</p>
@@ -25,7 +44,12 @@
                 </p>
             </a>
         @empty
-            <p class="px-5 py-6 text-sm text-gray-600">No threads yet. Be the first!</p>
+            <p class="px-5 py-6 text-sm text-gray-600">
+                No threads yet. Be the first!
+                @auth
+                    <a href="{{ route('threads.create', $board->slug) }}" class="text-red-600 underline">Start one</a>.
+                @endauth
+            </p>
         @endforelse
     </div>
 

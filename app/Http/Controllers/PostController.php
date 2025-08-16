@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-
-
+use App\Models\Board;
 
 class PostController extends Controller
 {
@@ -25,19 +23,30 @@ class PostController extends Controller
             ->where('status', 'approved')
             ->latest();
 
+        // Optional: filter posts by board (?board=slug)
+        if ($request->filled('board')) {
+            if ($board = Board::where('slug', $request->string('board'))->first()) {
+                $query->where('board_id', $board->id);
+            }
+        }
+
+        // Your existing "tag" search (left as-is)
         if ($request->filled('tag')) {
             $query->where('slug', 'like', '%' . $request->tag . '%');
         }
 
-        $posts = $query->paginate(9)->appends(['tag' => $request->tag]);
+        $posts = $query->paginate(9)->appends($request->only(['tag','board']));
 
         return view('blog.index', compact('posts'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $this->authorize('create', Post::class);
-        return view('posts.create');
+        $board = null;
+        if ($request->filled('board')) {
+            $board = Board::where('slug', $request->string('board'))->first();
+        }
+        return view('posts.create', compact('board'));
     }
 
     public function store(StorePostRequest $request)
@@ -45,6 +54,12 @@ class PostController extends Controller
         $this->authorize('create', Post::class);
         $validated = $request->validated();
 
+        // Optional board association coming from hidden input or selector
+        if ($request->filled('board_id')) {
+            $validated['board_id'] = (int) $request->input('board_id');
+        }
+
+        // Image (unchanged)
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
             $processedPath = ImageService::processAndStore(
                 $request->file('image_path'),
@@ -57,17 +72,32 @@ class PostController extends Controller
             if (!$processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
-
             $validated['image_path'] = $processedPath;
         }
 
+        // Slug (unchanged logic)
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
             ? SlugService::generate($request->slug)
             : SlugService::generate($validated['title']);
 
         $validated['user_id'] = Auth::id();
 
-        Post::create($validated);
+        $post = Post::create($validated);
+
+        // Optional: auto-tag with Tag model if your app has it
+        if (!empty($validated['board_id'])
+            && class_exists(\App\Models\Tag::class)
+            && method_exists($post, 'tags')) {
+
+            $board = Board::find($validated['board_id']);
+            if ($board) {
+                $tag = \App\Models\Tag::firstOrCreate(
+                    ['slug' => 'board-' . $board->slug],
+                    ['name' => $board->name]
+                );
+                $post->tags()->syncWithoutDetaching([$tag->id]);
+            }
+        }
 
         return redirect()->route('blog.index')->with('success', 'Post created successfully!');
     }
@@ -92,6 +122,11 @@ class PostController extends Controller
     public function update(StorePostRequest $request, Post $post)
     {
         $validated = $request->validated();
+
+        // Allow updating board_id too (optional)
+        if ($request->filled('board_id')) {
+            $validated['board_id'] = (int) $request->input('board_id');
+        }
 
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
             if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
@@ -130,13 +165,9 @@ class PostController extends Controller
 
         $post->delete();
 
-        // Grab full URL the user came from
         $previousUrl = url()->previous();
-
-        // Get what the blog show URL would have looked like
         $postShowUrl = route('blog.show', $post->slug);
 
-        // If user came from that post page, redirect to blog index
         if (Str::contains($previousUrl, $postShowUrl)) {
             return redirect()->route('blog.index')->with('success', 'Post deleted successfully!');
         }
@@ -152,7 +183,6 @@ class PostController extends Controller
             return back()->withErrors(['You must verify your email address to like posts.']);
         }
 
-        // Toggle logic
         if ($post->likes()->where('user_id', $user->id)->exists()) {
             $post->likes()->detach($user->id);
         } else {
