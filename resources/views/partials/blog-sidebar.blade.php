@@ -11,10 +11,8 @@
         <button class="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700">Search</button>
     </form>
 
-    {{-- Discussion Boards (boxed + always a vertical list) --}}
+    {{-- Discussion Boards: collapsible on mobile, always open on desktop --}}
     <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow">
-        <h3 class="mb-3 text-lg font-bold">Discussion Boards</h3>
-
         @php
             $boards = \App\Models\Board::orderBy('position')->withCount('threads')->get();
             $palette = [
@@ -24,30 +22,67 @@
             ];
         @endphp
 
-        <ul class="divide-y divide-gray-200">
-            @forelse($boards as $b)
-                @php $dot = $palette[$b->color ?? 'slate'] ?? 'bg-slate-500'; @endphp
-                <li>
-                    <a href="{{ route('boards.show', $b->slug) }}"
-                       class="flex items-center justify-between py-3 hover:opacity-90">
-                        <span class="flex items-center gap-2">
-                            <span class="h-2 w-2 rounded-full {{ $dot }}"></span>
-                            <span>{{ $b->name }}</span>
-                        </span>
-                        <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold">
-                            {{ $b->threads_count }}
-                        </span>
-                    </a>
-                </li>
-            @empty
-                <li class="py-3 text-sm text-gray-500">
-                    No boards yet.
-                </li>
-            @endforelse
-        </ul>
+        {{-- Mobile: collapsible <details> --}}
+        <details class="lg:hidden">
+            <summary class="flex cursor-pointer select-none items-center justify-between list-none">
+                <span class="text-lg font-bold">Discussion Boards</span>
+                {{-- simple chevron --}}
+                <svg class="h-5 w-5 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+                </svg>
+            </summary>
 
-        <a href="{{ route('boards.index') }}"
-           class="mt-3 inline-block text-sm font-semibold text-gray-600 hover:text-gray-800">View all</a>
+            <ul class="mt-3 divide-y divide-gray-200">
+                @forelse($boards as $b)
+                    @php $dot = $palette[$b->color ?? 'slate'] ?? 'bg-slate-500'; @endphp
+                    <li>
+                        <a href="{{ route('boards.show', $b->slug) }}"
+                           class="flex items-center justify-between py-3 hover:opacity-90">
+                            <span class="flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full {{ $dot }}"></span>
+                                <span>{{ $b->name }}</span>
+                            </span>
+                            @if(($b->threads_count ?? 0) > 0)
+                                <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold">
+                                    {{ $b->threads_count }}
+                                </span>
+                            @endif
+                        </a>
+                    </li>
+                @empty
+                    <li class="py-3 text-sm text-gray-500">No boards yet.</li>
+                @endforelse
+            </ul>
+
+            <a href="{{ route('boards.index') }}"
+               class="mt-3 inline-block text-sm font-semibold text-gray-600 hover:text-gray-800">View all</a>
+        </details>
+
+        {{-- Desktop: always expanded --}}
+        <div class="hidden lg:block">
+            <h3 class="mb-3 text-lg font-bold">Discussion Boards</h3>
+            <ul class="divide-y divide-gray-200">
+                @foreach($boards as $b)
+                    @php $dot = $palette[$b->color ?? 'slate'] ?? 'bg-slate-500'; @endphp
+                    <li>
+                        <a href="{{ route('boards.show', $b->slug) }}"
+                           class="flex items-center justify-between py-3 hover:opacity-90">
+                            <span class="flex items-center gap-2">
+                                <span class="h-2 w-2 rounded-full {{ $dot }}"></span>
+                                <span>{{ $b->name }}</span>
+                            </span>
+                            @if(($b->threads_count ?? 0) > 0)
+                                <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold">
+                                    {{ $b->threads_count }}
+                                </span>
+                            @endif
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+            <a href="{{ route('boards.index') }}"
+               class="mt-3 inline-block text-sm font-semibold text-gray-600 hover:text-gray-800">View all</a>
+        </div>
     </div>
 
     {{-- Recent threads --}}
