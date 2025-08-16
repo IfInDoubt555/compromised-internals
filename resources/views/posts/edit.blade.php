@@ -20,13 +20,37 @@
         @csrf
         @method('PATCH')
 
+        {{-- Discussion Board (optional) --}}
+        @php
+            $boards = \App\Models\Board::orderBy('position')->get();
+            $selectedBoardId = old('board_id', $post->board_id);
+        @endphp
+        <div>
+            <label for="board_id" class="block text-sm font-medium text-gray-700 mb-1">
+                Discussion Board (optional)
+            </label>
+            <select
+                id="board_id"
+                name="board_id"
+                class="w-full px-4 py-2 rounded-xl border border-gray-300 bg-white focus:ring focus:ring-blue-200 focus:border-blue-400"
+            >
+                <option value="">— No board —</option>
+                @foreach($boards as $b)
+                    <option value="{{ $b->id }}" @selected($selectedBoardId == $b->id)>{{ $b->name }}</option>
+                @endforeach
+            </select>
+            @error('board_id')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
         {{-- Title --}}
         <div>
             <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-            <input 
-                type="text" 
-                name="title" 
-                id="title" 
+            <input
+                type="text"
+                name="title"
+                id="title"
                 value="{{ old('title', $post->title) }}"
                 required
                 class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
@@ -36,7 +60,7 @@
         {{-- Slug Field --}}
         <x-form.slug-field :slug="$post->slug" :defaultMode="'manual'" />
 
-        {{-- Excerptr Field --}}
+        {{-- Excerpt Field --}}
         <div>
             <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-1">Excerpt</label>
             <textarea
@@ -49,9 +73,9 @@
         {{-- Body --}}
         <div>
             <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
-            <textarea 
-                name="body" 
-                id="body" 
+            <textarea
+                name="body"
+                id="body"
                 rows="8"
                 required
                 class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
@@ -59,12 +83,11 @@
         </div>
 
         {{-- Image Upload --}}
-        
         <div>
             <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
-            <input 
-                type="file" 
-                name="image_path" 
+            <input
+                type="file"
+                name="image_path"
                 accept="image/*"
                 id="image_path"
                 class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
@@ -73,8 +96,8 @@
 
         {{-- Submit --}}
         <div class="text-center">
-            <button 
-                type="submit" 
+            <button
+                type="submit"
                 class="px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition"
             >
                 Update Post 🏁
