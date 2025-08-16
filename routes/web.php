@@ -27,10 +27,18 @@ use App\Http\Controllers\ThreadController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Boards (public)
 Route::get('/boards', [BoardController::class, 'index'])->name('boards.index');
 Route::get('/boards/{board:slug}', [BoardController::class, 'show'])->name('boards.show');
+
+// Threads (public show)
 Route::get('/threads/{thread:slug}', [ThreadController::class, 'show'])->name('threads.show');
 
+// Threads (create/store under a specific board — auth required)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/boards/{board:slug}/threads/create', [ThreadController::class, 'create'])->name('threads.create');
+    Route::post('/boards/{board:slug}/threads',        [ThreadController::class, 'store'])->name('threads.store');
+});
 
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
