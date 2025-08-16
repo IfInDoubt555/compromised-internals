@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Board;
 use App\Models\Product;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             RallyEventSeeder::class,
             ProductSeeder::class,
+            BoardSeeder::class,
         ]);
     }
 }

@@ -21,8 +21,16 @@ use App\Http\Controllers\ContactController;
 use Illuminate\Http\Request;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
+use App\Http\Controllers\BoardController;
+use App\Http\Controllers\ThreadController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/boards', [BoardController::class, 'index'])->name('boards.index');
+Route::get('/boards/{board:slug}', [BoardController::class, 'show'])->name('boards.show');
+Route::get('/threads/{thread:slug}', [ThreadController::class, 'show'])->name('threads.show');
+
 
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
