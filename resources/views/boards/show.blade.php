@@ -8,8 +8,9 @@
             <h1 class="text-2xl font-bold">{{ $board->name }}</h1>
         </div>
         @auth
-            {{-- Hook up to a create-thread route later --}}
-            <a class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">New Thread</a>
+            <a href="{{ route('threads.create', $board->slug) }}"class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+                New Thread
+            </a>
         @endauth
     </div>
 
