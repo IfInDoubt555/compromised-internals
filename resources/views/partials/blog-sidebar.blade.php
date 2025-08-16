@@ -11,51 +11,44 @@
         <button class="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700">Search</button>
     </form>
 
-    {{-- Discussion Boards (boxed on all breakpoints) --}}
-<div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow">
-    <h3 class="mb-3 text-lg font-bold">Discussion Boards</h3>
+    {{-- Discussion Boards (boxed + always a vertical list) --}}
+    <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow">
+        <h3 class="mb-3 text-lg font-bold">Discussion Boards</h3>
 
-    @php
-        $boards = \App\Models\Board::orderBy('position')->get();
-        $palette = [
-            'slate'=>'bg-slate-500','red'=>'bg-red-500','amber'=>'bg-amber-500','green'=>'bg-green-500',
-            'indigo'=>'bg-indigo-500','orange'=>'bg-orange-500','cyan'=>'bg-cyan-500','purple'=>'bg-purple-500',
-            'emerald'=>'bg-emerald-500','blue'=>'bg-blue-500',
-        ];
-    @endphp
+        @php
+            $boards = \App\Models\Board::orderBy('position')->withCount('threads')->get();
+            $palette = [
+                'slate'=>'bg-slate-500','red'=>'bg-red-500','amber'=>'bg-amber-500','green'=>'bg-green-500',
+                'indigo'=>'bg-indigo-500','orange'=>'bg-orange-500','cyan'=>'bg-cyan-500','purple'=>'bg-purple-500',
+                'emerald'=>'bg-emerald-500','blue'=>'bg-blue-500',
+            ];
+        @endphp
 
-    {{-- Mobile: compact chips inside the same card --}}
-    <div class="lg:hidden">
-        <div class="flex gap-2 overflow-x-auto whitespace-nowrap">
-            @foreach($boards as $b)
+        <ul class="divide-y divide-gray-200">
+            @forelse($boards as $b)
                 @php $dot = $palette[$b->color ?? 'slate'] ?? 'bg-slate-500'; @endphp
-                <a href="{{ route('boards.show', $b->slug) }}"
-                   class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/90 px-3 py-1.5 text-sm shadow hover:bg-white">
-                    <span class="h-2 w-2 rounded-full {{ $dot }}"></span>
-                    <span>{{ $b->name }}</span>
-                </a>
-            @endforeach
-        </div>
-        <a href="{{ route('boards.index') }}" class="mt-3 inline-block text-sm font-semibold text-gray-600 hover:text-gray-800">View all</a>
+                <li>
+                    <a href="{{ route('boards.show', $b->slug) }}"
+                       class="flex items-center justify-between py-3 hover:opacity-90">
+                        <span class="flex items-center gap-2">
+                            <span class="h-2 w-2 rounded-full {{ $dot }}"></span>
+                            <span>{{ $b->name }}</span>
+                        </span>
+                        <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold">
+                            {{ $b->threads_count }}
+                        </span>
+                    </a>
+                </li>
+            @empty
+                <li class="py-3 text-sm text-gray-500">
+                    No boards yet.
+                </li>
+            @endforelse
+        </ul>
+
+        <a href="{{ route('boards.index') }}"
+           class="mt-3 inline-block text-sm font-semibold text-gray-600 hover:text-gray-800">View all</a>
     </div>
-
-    {{-- Desktop: full list with counts (still inside this card) --}}
-    <ul class="hidden lg:block divide-y divide-gray-200">
-        @foreach(\App\Models\Board::orderBy('position')->withCount('threads')->get() as $b)
-            @php $dot = $palette[$b->color ?? 'slate'] ?? 'bg-slate-500'; @endphp
-            <li>
-                <a href="{{ route('boards.show', $b->slug) }}" class="flex items-center justify-between py-3 hover:opacity-90">
-                    <span class="flex items-center gap-2">
-                        <span class="h-2 w-2 rounded-full {{ $dot }}"></span>
-                        <span>{{ $b->name }}</span>
-                    </span>
-                    <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold">{{ $b->threads_count }}</span>
-                </a>
-            </li>
-        @endforeach
-    </ul>
-</div>
-
 
     {{-- Recent threads --}}
     <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow">
@@ -65,7 +58,9 @@
                 <li>
                     <a href="{{ route('threads.show', $t->slug) }}" class="block">
                         <p class="line-clamp-2 font-medium">{{ $t->title }}</p>
-                        <p class="text-xs text-gray-500">{{ $t->board->name }} • {{ $t->last_activity_at?->diffForHumans() }}</p>
+                        <p class="text-xs text-gray-500">
+                            {{ $t->board->name }} • {{ $t->last_activity_at?->diffForHumans() }}
+                        </p>
                     </a>
                 </li>
             @endforeach
