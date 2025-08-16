@@ -45,37 +45,26 @@
     </a>
     @endauth
 
-    {{-- Parent grid: main + sidebar --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {{-- MAIN --}}
-        <main class="lg:col-span-2">
-            <form method="GET" action="{{ route('blog.index') }}" class="mb-6 text-center">
-                <input
-                    type="text"
-                    name="tag"
-                    placeholder="Search posts by tag (e.g. subaru)"
-                    value="{{ request('tag') }}"
-                    class="px-4 py-2 w-80 border border-gray-300 rounded-l-md shadow focus:outline-none focus:ring">
-                <button
-                    type="submit"
-                    class="px-4 py-2 bg-red-600 text-white rounded-r-md hover:bg-red-700 font-semibold">
-                    Search
-                </button>
-            </form>
+    {{-- Parent grid: sidebar left (first), main right --}}
+    <div class="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8">
+        {{-- SIDEBAR (left on desktop, top on mobile) --}}
+        <aside class="lg:sticky lg:top-24">
+            @include('partials.blog-sidebar')
+        </aside>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        {{-- MAIN --}}
+        <main>
+            {{-- removed the duplicate search bar here; only the sidebar search remains --}}
+
+            <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 @foreach($posts as $post)
                 <article class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
                     <!-- Image -->
                     <div class="h-64 w-full flex items-center justify-center overflow-hidden bg-black/5 hover:bg-black/10 transition-colors duration-300">
                         @if ($post->image_path && Storage::disk('public')->exists($post->image_path))
-                        <img src="{{ Storage::url($post->image_path) }}"
-                             alt="{{ $post->title }}"
-                             class="w-full h-full object-cover" />
+                            <img src="{{ Storage::url($post->image_path) }}" alt="{{ $post->title }}" class="w-full h-full object-cover" />
                         @else
-                        <img src="{{ asset('images/default-post.png') }}"
-                             alt="Default Blog Post Image"
-                             class="w-full h-full object-cover" />
+                            <img src="{{ asset('images/default-post.png') }}" alt="Default Blog Post Image" class="w-full h-full object-cover" />
                         @endif
                     </div>
 
@@ -92,7 +81,6 @@
                                     <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
                                 </div>
                             </div>
-
                             <a href="{{ route('posts.show', $post->slug) }}" class="px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded hover:bg-red-700">
                                 Read More
                             </a>
@@ -108,15 +96,11 @@
                         <!-- Excerpt -->
                         <p class="text-gray-600 text-center flex-grow">{{ $post->excerpt }}</p>
 
-                        <!-- Admin Options -->
                         @can('update', $post)
                         <div class="mt-2 flex gap-4 text-sm">
                             <a href="{{ route('posts.edit', $post) }}" class="text-green-800 hover:underline">✏️ Edit</a>
-
-                            <form action="{{ route('posts.destroy', $post) }}" method="POST"
-                                  onsubmit="return confirm('Are you sure you want to delete this post?');">
-                                @csrf
-                                @method('DELETE')
+                            <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                                @csrf @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:underline">🗑️ Delete</button>
                             </form>
                         </div>
@@ -130,11 +114,6 @@
                 {{ $posts->links() }}
             </div>
         </main>
-
-        {{-- SIDEBAR --}}
-        <aside class="lg:col-span-1">
-            @include('partials.blog-sidebar')
-        </aside>
     </div>
 </div>
 @endsection
