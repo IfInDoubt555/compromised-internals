@@ -37,12 +37,19 @@ Route::get('/threads/{thread:slug}', [ThreadController::class, 'show'])->name('t
 
 // Threads (create/store under a specific board — auth required)
 Route::middleware(['auth'])->group(function () {
+    // existing:
     Route::get('/boards/{board:slug}/threads/create', [ThreadController::class, 'create'])->name('threads.create');
     Route::post('/boards/{board:slug}/threads',        [ThreadController::class, 'store'])->name('threads.store');
-    // Thread replies
-    Route::post('/threads/{thread:slug}/replies', [ReplyController::class, 'store'])->name  ('replies.store');
-    Route::patch('/replies/{reply}',            [ReplyController::class, 'update'])->name   ('replies.update');
-    Route::delete('/replies/{reply}',           [ReplyController::class, 'destroy'])->name  ('replies.destroy');
+
+    // NEW: edit/update/destroy by thread slug (flat routes keep binding simple)
+    Route::get   ('/threads/{thread:slug}/edit', [ThreadController::class, 'edit'])->name('threads.edit');
+    Route::patch ('/threads/{thread:slug}',      [ThreadController::class, 'update'])->name('threads.update');
+    Route::delete('/threads/{thread:slug}',      [ThreadController::class, 'destroy'])->name('threads.destroy');
+
+    // Replies (already present)
+    Route::post  ('/threads/{thread:slug}/replies', [ReplyController::class, 'store'])->name('replies.store');
+    Route::patch ('/replies/{reply}',               [ReplyController::class, 'update'])->name('replies.update');
+    Route::delete('/replies/{reply}',               [ReplyController::class, 'destroy'])->name('replies.destroy');
 });
 
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
