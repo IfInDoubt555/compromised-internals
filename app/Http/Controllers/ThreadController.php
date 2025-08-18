@@ -78,59 +78,56 @@ class ThreadController extends Controller
     }
 
     public function update(Request $request, Thread $thread): RedirectResponse
-    {
-        $this->authorize('update', $thread);
+{
+    $this->authorize('update', $thread);
 
-        $data = $request->validate([
-            // Allow moving to another board; if you don't want this, change to ['prohibited']
-            'board_id' => ['required','exists:boards,id'],
-            'title'    => ['required','string','max:160'],
-            'slug'     => ['nullable','string','max:180', Rule::unique('threads','slug')->ignore($thread->id)],
-            'body'     => ['required','string','max:20000'],
-        ]);
+    $data = $request->validate([
+        'board_id' => ['required','exists:boards,id'],
+        'title'    => ['required','string','max:160'],
+        // slug is optional; validate only if present
+        'slug'     => ['sometimes','nullable','string','max:180', Rule::unique('threads','slug')->ignore($thread->id)],
+        'body'     => ['required','string','max:20000'],
+    ]);
 
-        // Prepare new slug (manual or derived); ensure uniqueness when changed
-        $newSlug = $data['slug'] ?: Str::slug($data['title']);
+    // Only change the slug if the user submitted one; otherwise keep the current slug
+    if ($request->filled('slug')) {
+        $proposed = Str::slug($request->input('slug'));
+        $newSlug  = $proposed;
+
         if ($newSlug !== $thread->slug && Thread::where('slug', $newSlug)->exists()) {
             $newSlug .= '-' . Str::lower(Str::random(6));
         }
-
-        $boardChanged = ($data['board_id'] != $thread->board_id);
-
-        $thread->update([
-            'board_id'         => $data['board_id'],
-            'title'            => $data['title'],
-            'slug'             => $newSlug,
-            'body'             => $data['body'],
-            'last_activity_at' => now(),
-        ]);
-
-        // If the board changed, refresh the board tag (optional)
-        if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
-            $newBoard = Board::find($data['board_id']);
-            if ($newBoard) {
-                $newTag = \App\Models\Tag::firstOrCreate(
-                    ['slug' => 'board-' . $newBoard->slug],
-                    ['name' => $newBoard->name]
-                );
-
-                // Remove the old "board-*" tag(s) and attach the new one
-                $oldBoardTagIds = $thread->tags()
-                    ->where('slug', 'like', 'board-%')
-                    ->pluck('tags.id')
-                    ->all();
-
-                if (!empty($oldBoardTagIds)) {
-                    $thread->tags()->detach($oldBoardTagIds);
-                }
-                $thread->tags()->syncWithoutDetaching([$newTag->id]);
-            }
-        }
-
-        return redirect()
-            ->route('threads.show', $thread)
-            ->with('success', 'Thread updated.');
+    } else {
+        $newSlug = $thread->slug; // keep existing slug on quick edit / title change
     }
+
+    $boardChanged = ((int)$data['board_id'] !== (int)$thread->board_id);
+
+    $thread->update([
+        'board_id'         => $data['board_id'],
+        'title'            => $data['title'],
+        'slug'             => $newSlug,
+        'body'             => $data['body'],
+        'last_activity_at' => now(),
+    ]);
+
+    // (Optional) retag if board changed, same as before…
+    if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
+        $newBoard = \App\Models\Board::find($data['board_id']);
+        if ($newBoard) {
+            $newTag = \App\Models\Tag::firstOrCreate(
+                ['slug' => 'board-' . $newBoard->slug],
+                ['name' => $newBoard->name]
+            );
+            $oldBoardTagIds = $thread->tags()->where('slug','like','board-%')->pluck('tags.id')->all();
+            if ($oldBoardTagIds) $thread->tags()->detach($oldBoardTagIds);
+            $thread->tags()->syncWithoutDetaching([$newTag->id]);
+        }
+    }
+
+    return redirect()->route('threads.show', $thread)->with('success', 'Thread updated.');
+}
+
 
     public function destroy(Thread $thread): RedirectResponse
     {
