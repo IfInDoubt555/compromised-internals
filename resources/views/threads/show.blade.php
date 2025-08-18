@@ -1,23 +1,101 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-5xl mx-auto px-4 py-8">
+<div class="max-w-5xl mx-auto px-4 py-8"
+     x-data="{ editing:false, title:@js($thread->title), body:@js($thread->body) }">
+
     {{-- Thread header --}}
     <div class="mb-6">
-        <a href="{{ route('boards.show', $thread->board->slug) }}" class="text-sm text-red-600 hover:underline">
-            ← {{ $thread->board->name }}
-        </a>
-        <h1 class="mt-2 text-3xl font-bold">{{ $thread->title }}</h1>
-        <p class="mt-1 text-xs text-gray-500">
-            by {{ $thread->user->display_name ?? $thread->user->name ?? 'Unknown' }}
-            • {{ optional($thread->created_at)->format('M j, Y') }}
-            • last activity {{ optional($thread->last_activity_at)->diffForHumans() }}
-        </p>
+        <div class="flex items-start justify-between gap-4">
+            <div>
+                <a href="{{ route('boards.show', $thread->board->slug) }}" class="text-sm text-red-600 hover:underline">
+                    ← {{ $thread->board->name }}
+                </a>
+                <h1 class="mt-2 text-3xl font-bold" x-show="!editing" x-text="title"></h1>
+
+                {{-- Inline title input (edit mode) --}}
+                @can('update', $thread)
+                <input x-show="editing"
+                       type="text"
+                       x-model="title"
+                       class="mt-2 w-full rounded border border-gray-300 px-3 py-2 text-2xl font-bold"
+                       maxlength="160" />
+                @endcan
+
+                <p class="mt-1 text-xs text-gray-500">
+                    by {{ $thread->user->display_name ?? $thread->user->name ?? 'Unknown' }}
+                    • {{ optional($thread->created_at)->format('M j, Y') }}
+                    • last activity {{ optional($thread->last_activity_at)->diffForHumans() }}
+                </p>
+            </div>
+
+            {{-- ACTIONS (Edit / Delete) --}}
+            @can('update', $thread)
+            <div class="flex items-center gap-2 shrink-0">
+                <template x-if="!editing">
+                    <div class="flex items-center gap-2">
+                        <a href="{{ route('threads.edit', $thread) }}"
+                           class="px-3 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                           title="Open full editor (move board, edit slug)">
+                           ✏️ Full Edit
+                        </a>
+                        <button @click="editing=true"
+                                class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                            ✏️ Quick Edit
+                        </button>
+                        <form action="{{ route('threads.destroy', $thread) }}" method="POST"
+                              onsubmit="return confirm('Delete this thread? This cannot be undone.');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                                🗑️ Delete
+                            </button>
+                        </form>
+                    </div>
+                </template>
+
+                {{-- Quick Edit controls --}}
+                <template x-if="editing">
+                    <div class="flex items-center gap-2">
+                        <form method="POST" action="{{ route('threads.update', $thread) }}" class="flex items-center gap-2">
+                            @csrf
+                            @method('PATCH')
+                            {{-- Hidden inputs for Quick Edit submit --}}
+                            <input type="hidden" name="title" :value="title">
+                            <input type="hidden" name="body"  :value="body">
+                            {{-- Keep current board, prevent moving from quick edit --}}
+                            <input type="hidden" name="board_id" value="{{ $thread->board_id }}">
+                            {{-- If you allow slug change here, add: <input name="slug" ...> --}}
+                            <button class="px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                                ✔️ Save
+                            </button>
+                        </form>
+                        <button @click="editing=false"
+                                class="px-3 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+                            Cancel
+                        </button>
+                    </div>
+                </template>
+            </div>
+            @endcan
+        </div>
     </div>
 
     {{-- Thread body --}}
     <article class="prose max-w-none rounded-xl border border-gray-200 bg-white/80 p-6 shadow">
-        {!! nl2br(e($thread->body)) !!}
+        {{-- Read mode --}}
+        <div x-show="!editing" x-cloak>
+            <div class="text-gray-800 whitespace-pre-line" x-text="body"></div>
+        </div>
+
+        {{-- Edit mode: body textarea --}}
+        @can('update', $thread)
+        <div x-show="editing" x-cloak>
+            <textarea x-model="body" rows="10"
+                      class="w-full rounded border border-gray-300 bg-white p-3 focus:outline-none focus:ring"></textarea>
+            <p class="mt-2 text-xs text-gray-500">Tip: Use <code>Shift+Enter</code> for new lines.</p>
+        </div>
+        @endcan
     </article>
 
     {{-- Reply form --}}
@@ -45,7 +123,7 @@
         @endauth
     </div>
 
-    {{-- Replies --}}
+    {{-- Replies (unchanged) --}}
     <section class="mt-10">
         <h2 class="mb-4 text-xl font-semibold">Replies ({{ $thread->replies->count() }})</h2>
 
