@@ -12,7 +12,7 @@ use Illuminate\View\View;
 
 class ThreadController extends Controller
 {
-    // If you prefer, you can rely on route middleware instead of this:
+    // If you prefer, rely on route middleware in routes/web.php
     // public function __construct()
     // {
     //     $this->middleware('auth')->only(['create','store','edit','update','destroy']);
@@ -41,7 +41,7 @@ class ThreadController extends Controller
             'body'  => ['required','string','max:20000'],
         ]);
 
-        // Slug: use provided slug or derive from title
+        // Slug: use provided slug or derive from title, ensure uniqueness
         $slug = $data['slug'] ?: Str::slug($data['title']);
         if (Thread::where('slug', $slug)->exists()) {
             $slug .= '-' . Str::lower(Str::random(6));
@@ -56,7 +56,7 @@ class ThreadController extends Controller
             'last_activity_at' => now(),
         ]);
 
-        // Optional tagging by board
+        // Optional: auto-tag by board
         if (class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
             $tag = \App\Models\Tag::firstOrCreate(
                 ['slug' => 'board-' . $board->slug],
@@ -82,26 +82,50 @@ class ThreadController extends Controller
         $this->authorize('update', $thread);
 
         $data = $request->validate([
-            'title' => ['required','string','max:160'],
-            'slug'  => ['nullable','string','max:180',
-                // if slug is supplied, keep it unique except for this thread
-                Rule::unique('threads','slug')->ignore($thread->id),
-            ],
-            'body'  => ['required','string','max:20000'],
+            // Allow moving to another board; if you don't want this, change to ['prohibited']
+            'board_id' => ['required','exists:boards,id'],
+            'title'    => ['required','string','max:160'],
+            'slug'     => ['nullable','string','max:180', Rule::unique('threads','slug')->ignore($thread->id)],
+            'body'     => ['required','string','max:20000'],
         ]);
 
-        // If slug left blank, regenerate from title (and ensure uniqueness)
-        $slug = $data['slug'] ?: Str::slug($data['title']);
-        if ($slug !== $thread->slug && Thread::where('slug', $slug)->exists()) {
-            $slug .= '-' . Str::lower(Str::random(6));
+        // Prepare new slug (manual or derived); ensure uniqueness when changed
+        $newSlug = $data['slug'] ?: Str::slug($data['title']);
+        if ($newSlug !== $thread->slug && Thread::where('slug', $newSlug)->exists()) {
+            $newSlug .= '-' . Str::lower(Str::random(6));
         }
 
+        $boardChanged = ($data['board_id'] != $thread->board_id);
+
         $thread->update([
+            'board_id'         => $data['board_id'],
             'title'            => $data['title'],
-            'slug'             => $slug,
+            'slug'             => $newSlug,
             'body'             => $data['body'],
             'last_activity_at' => now(),
         ]);
+
+        // If the board changed, refresh the board tag (optional)
+        if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
+            $newBoard = Board::find($data['board_id']);
+            if ($newBoard) {
+                $newTag = \App\Models\Tag::firstOrCreate(
+                    ['slug' => 'board-' . $newBoard->slug],
+                    ['name' => $newBoard->name]
+                );
+
+                // Remove the old "board-*" tag(s) and attach the new one
+                $oldBoardTagIds = $thread->tags()
+                    ->where('slug', 'like', 'board-%')
+                    ->pluck('tags.id')
+                    ->all();
+
+                if (!empty($oldBoardTagIds)) {
+                    $thread->tags()->detach($oldBoardTagIds);
+                }
+                $thread->tags()->syncWithoutDetaching([$newTag->id]);
+            }
+        }
 
         return redirect()
             ->route('threads.show', $thread)
@@ -115,7 +139,7 @@ class ThreadController extends Controller
         $boardSlug = optional($thread->board)->slug;
         $thread->delete();
 
-        // After delete, send user back to the board (or dashboard fallback)
+        // After delete, return to the board page if we have it; otherwise dashboard
         return $boardSlug
             ? redirect()->route('boards.show', $boardSlug)->with('success', 'Thread deleted.')
             : redirect()->route('dashboard')->with('success', 'Thread deleted.');
