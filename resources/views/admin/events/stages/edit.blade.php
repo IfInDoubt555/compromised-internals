@@ -122,11 +122,30 @@
     </div>
 
     {{-- MAP IMAGE --}}
+    @php
+        $raw = old('map_image_url', $stage->map_image_url);
+        // If the saved value already has the /images/maps/ prefix, show just the filename for     convenience
+        $displayVal = $raw && str_starts_with($raw, '/images/maps/')
+            ? basename($raw)
+            : $raw;
+    @endphp
+    
     <div class="md:col-span-3">
-      <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Map image URL</label>
-      <input name="map_image_url" value="{{ old('map_image_url', $stage->map_image_url) }}"
-             class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
-             placeholder="/images/maps/ss1.jpg">
+      <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Map image</label>
+      <div class="flex rounded-md shadow-sm">
+        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 bg-gray-50     text-gray-500 text-sm">
+          /images/maps/
+        </span>
+        <input
+          name="map_image_url"
+          value="{{ $displayVal }}"
+          class="block w-full rounded-none rounded-r-md border border-gray-300 bg-white px-3 py-2      text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
+          placeholder="ss1.jpg (or paste full https:// URL)"
+        >
+      </div>
+      <p class="text-[11px] text-gray-500 mt-1">
+        Tip: enter just a filename stored in <code>public/images/maps</code>, or paste a full URL.
+      </p>
       @error('map_image_url') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
     </div>
 

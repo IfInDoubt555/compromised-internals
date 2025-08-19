@@ -70,9 +70,25 @@
                 <div class="min-w-0 flex-[0_0_94%] md:flex-[0_0_66%] px-4 py-5" id="ss-{{ $ss->id }}">
                     <article class="rounded-2xl bg-white shadow-lg p-4 ring-1 ring-black/5">
                         {{-- Image --}}
-                        @if($ss->map_image_url)
-                            <img src="{{ $ss->map_image_url }}" alt="{{ $stageTitle($ss) }} map"
-                                 class="w-full rounded-xl aspect-[16/9] object-cover ring-1 ring-black/5">
+                        @php
+                            $img = $ss->map_image_url;
+
+                            if ($img) {
+                                if (preg_match('~^https?://~', $img)) {
+                                    // full URL, keep as-is
+                                } elseif (str_starts_with($img, '/')) {
+                                    // relative path (e.g. /images/maps/ss1.jpg)
+                                    $img = asset(ltrim($img, '/'));
+                                } else {
+                                    // just a filename (e.g. ss1.jpg)
+                                    $img = asset('images/maps/' . ltrim($img, '/'));
+                                }
+                            }
+                        @endphp
+
+                        @if($img)
+                          <img src="{{ $img }}" alt="{{ $stageTitle($ss) }} map"
+                               class="w-full rounded-xl aspect-[16/9] object-cover ring-1 ring-black/5">
                         @endif
 
                         {{-- Title + day chip --}}
