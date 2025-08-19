@@ -5,13 +5,16 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void {
-        Schema::table('events', function (Blueprint $table) {
+    public function up(): void
+    {
+        Schema::table('rally_events', function (Blueprint $table) {
             $table->string('official_url')->nullable()->after('end_date');
         });
     }
-    public function down(): void {
-        Schema::table('events', function (Blueprint $table) {
+
+    public function down(): void
+    {
+        Schema::table('rally_events', function (Blueprint $table) {
             $table->dropColumn('official_url');
         });
     }
