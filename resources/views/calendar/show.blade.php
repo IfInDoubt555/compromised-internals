@@ -51,6 +51,19 @@
         @if ($event->end_date) – {{ $event->end_date->format('F j, Y') }} @endif
     </p>
 
+    {{-- Official site link under dates --}}
+    @if($event->official_url)
+      <p class="mt-2">
+        <a href="{{ $event->official_url }}" target="_blank" rel="noopener nofollow"
+           class="inline-flex items-center gap-2 text-blue-500 hover:underline">
+          {{-- small link icon --}}
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"     fill="currentColor"><path d="M10.59 13.41a1 1 0 0 0 1.41 1.41l4.24-4.24a3 3 0 1 0-4.24-4. 24l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06a1 1 0 1 1 1.41 1.41l-4.24 4.24ZM13.41 10.59a1 1 0 0 0-1.41-1.41L7.76 13.41a3 3 0 1 0 4.24 4.24l1.06-1.06a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l4.24-4.24Z"/></svg>
+          Official Website
+        </a>
+      </p>
+    @endif
+
+
     <section class="text-lg leading-relaxed text-slate-800">
         {!! nl2br(e($event->description ?? 'No additional information available.')) !!}
     </section>

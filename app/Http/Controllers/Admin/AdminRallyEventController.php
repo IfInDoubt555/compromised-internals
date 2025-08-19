@@ -22,6 +22,15 @@ class AdminRallyEventController extends Controller
 
     public function store(Request $request)
     {
+        // Normalize official_url (auto-prefix https:// if missing)
+        if ($request->filled('official_url')) {
+            $url = (string) $request->input('official_url');
+        
+            if (! (str_starts_with($url, 'http://') || str_starts_with($url,'https://'))) {
+                $request->merge(['official_url' => 'https://' . $url]);
+            }
+        }
+
         $validated = $request->validate([
             'name'         => 'required|string|max:255',
             'location'     => 'required|string|max:255',
@@ -30,6 +39,7 @@ class AdminRallyEventController extends Controller
             'description'  => 'nullable|string',
             'championship' => 'nullable|string|max:50',
             'map_embed_url'=> ['nullable','string','max:1000'],
+            'official_url' => ['nullable','url','max:255'],
         ]);
 
         $event = new RallyEvent($validated);
@@ -48,6 +58,16 @@ class AdminRallyEventController extends Controller
 
     public function update(Request $request, RallyEvent $event)
     {
+        // Normalize official_url (auto-prefix https:// if missing)
+        if ($request->filled('official_url')) {
+            $url = (string) $request->input('official_url');
+        
+            if (! (str_starts_with($url, 'http://') || str_starts_with($url, 'https://'))) {
+                $request->merge(['official_url' => 'https://' . $url]);
+            }
+        }
+
+
         $validated = $request->validate([
             'name'         => 'required|string|max:255',
             'location'     => 'required|string|max:255',
@@ -56,6 +76,7 @@ class AdminRallyEventController extends Controller
             'description'  => 'nullable|string',
             'championship' => 'nullable|string|max:50',
             'map_embed_url'=> ['nullable','string','max:1000'],
+            'official_url' => ['nullable','url','max:255'],
         ]);
 
         // Single atomic update; relies on fillable in RallyEvent (including map_embed_url & championship).

@@ -68,6 +68,15 @@
           </div>
         </div>
 
+        {{-- Official Website --}}
+        <div>
+          <label class="block text-sm font-medium mb-1">Official Website</label>
+          <input type="url" name="official_url"
+                 value="{{ old('official_url', $event->official_url) }}"
+                 class="form-input w-full" placeholder="https://example.com">
+          @error('official_url') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+        </div>
+
         {{-- EVENT MAP (Google My Maps embed URL) --}}
         <div class="md:col-span-2">
           <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Event map embed URL</label>

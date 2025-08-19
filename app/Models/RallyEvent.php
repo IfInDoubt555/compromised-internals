@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RallyEvent extends Model
 {
     protected $fillable = [
-        'name','location','description','start_date','end_date','slug','user_id','championship', 'map_embed_url',
+        'name','location','description','start_date','end_date','slug','user_id','championship', 'map_embed_url', 'official_url',
         // optionally add: 'surface','timezone','website_url','tickets_url','hero_image_path'
     ];
 
