@@ -1,3 +1,4 @@
+{{-- resources/views/admin/events/stages/edit.blade.php --}}
 @extends('layouts.admin')
 
 @section('content')

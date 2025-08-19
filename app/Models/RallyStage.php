@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class RallyStage extends Model
 {
@@ -32,6 +33,27 @@ class RallyStage extends Model
         ];
     }
 
-    public function event() { return $this->belongsTo(RallyEvent::class, 'rally_event_id'); }
-    public function day()   { return $this->belongsTo(RallyEventDay::class, 'rally_event_day_id'); }
+    public function event()
+    {
+        return $this->belongsTo(RallyEvent::class, 'rally_event_id');
+    }
+
+    public function day()
+    {
+        return $this->belongsTo(RallyEventDay::class, 'rally_event_day_id');
+    }
+
+    /**
+     * Convenience accessor if you want a guaranteed absolute URL in views:
+     * {{ $stage->map_image_src }}
+     */
+    public function getMapImageSrcAttribute(): ?string
+    {
+        $p = $this->map_image_url;
+        if (!$p) return null;
+        if (Str::startsWith($p, ['http://', 'https://', '//'])) {
+            return $p;
+        }
+        return asset(ltrim($p, '/'));
+    }
 }

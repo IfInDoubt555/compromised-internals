@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{RallyEvent, RallyStage, RallyEventDay};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class StageController extends Controller
@@ -22,7 +23,7 @@ class StageController extends Controller
         ]);
 
         // Next SS number should ignore SD stages
-        $max = $event->stages->where('stage_type', 'SS')->max('ss_number');
+        $max  = $event->stages->where('stage_type', 'SS')->max('ss_number');
         $next = ((int) ($max ?? 0)) + 1;
 
         return view('admin.events.stages.index', compact('event', 'next'));
@@ -36,7 +37,7 @@ class StageController extends Controller
 
         // For Shakedown, ensure ss_number fields are null
         if (($data['stage_type'] ?? 'SS') === 'SD') {
-            $data['ss_number'] = null;
+            $data['ss_number']        = null;
             $data['second_ss_number'] = null;
         }
 
@@ -48,6 +49,7 @@ class StageController extends Controller
     public function edit(RallyEvent $event, RallyStage $stage)
     {
         abort_if($stage->rally_event_id !== $event->id, 404);
+
         $days = $event->days()->orderBy('date')->get();
 
         return view('admin.events.stages.edit', compact('event', 'stage', 'days'));
@@ -61,20 +63,21 @@ class StageController extends Controller
         $data['is_super_special'] = $request->boolean('is_super_special');
 
         if (($data['stage_type'] ?? 'SS') === 'SD') {
-            $data['ss_number'] = null;
+            $data['ss_number']        = null;
             $data['second_ss_number'] = null;
         }
 
         $stage->update($data);
 
         return redirect()
-            ->route('admin.events.stages.index', $event)
+            ->route('admin.events.stages.index', ['event' => $event->id])
             ->with('status', 'Stage updated.');
     }
 
     public function destroy(RallyEvent $event, RallyStage $stage)
     {
         abort_if($stage->rally_event_id !== $event->id, 404);
+
         $stage->delete();
 
         return back()->with('status', 'Stage deleted.');
@@ -86,7 +89,7 @@ class StageController extends Controller
     private function validated(Request $r, int $eventId, ?int $stageId = null): array
     {
         $data = $r->validate([
-            // NEW: type (SS or SD / Shakedown)
+            // type (SS or SD / Shakedown)
             'stage_type' => ['required', Rule::in(['SS', 'SD'])],
 
             'rally_event_day_id' => [
@@ -94,7 +97,7 @@ class StageController extends Controller
                 Rule::exists('rally_event_days', 'id')->where('rally_event_id', $eventId),
             ],
 
-            // SS number is only required for "SS"
+            // SS number is only required/validated for SS
             'ss_number' => [
                 'nullable', 'integer', 'min:1', 'required_if:stage_type,SS',
                 Rule::unique('rally_stages', 'ss_number')
@@ -102,24 +105,46 @@ class StageController extends Controller
                     ->ignore($stageId),
             ],
 
-            'name'         => ['required', 'string', 'max:255'],
-            'distance_km'  => ['nullable', 'numeric', 'min:0', 'max:999.99'],
+            'name'        => ['required', 'string', 'max:255'],
+            'distance_km' => ['nullable', 'numeric', 'min:0', 'max:999.99'],
 
-            'start_time_local'        => ['nullable', 'date'],
-            'second_pass_time_local'  => ['nullable', 'date', 'after_or_equal:start_time_local'],
+            'start_time_local'       => ['nullable', 'date'],
+            'second_pass_time_local' => ['nullable', 'date', 'after_or_equal:start_time_local'],
 
-            // NEW: second run fields (optional)
+            // optional second run info
             'second_ss_number' => ['nullable', 'integer', 'min:1', 'different:ss_number'],
             'second_rally_event_day_id' => [
                 'nullable',
                 Rule::exists('rally_event_days', 'id')->where('rally_event_id', $eventId),
             ],
 
-            'map_image_url'  => ['nullable', 'string', 'max:500'],
-            'map_embed_url'  => ['nullable', 'string', 'max:1000'],
-            'gpx_path'       => ['nullable', 'string', 'max:500'],
-            'is_super_special' => ['sometimes', 'boolean'],
+            'map_image_url'   => ['nullable', 'string', 'max:500'],
+            'map_embed_url'   => ['nullable', 'string', 'max:1000'],
+            'gpx_path'        => ['nullable', 'string', 'max:500'],
+            'is_super_special'=> ['sometimes', 'boolean'],
         ]);
+
+        // --- Normalize map_image_url so it always loads from the web server ---
+        if (!empty($data['map_image_url'])) {
+            $p = trim(str_replace('\\', '/', $data['map_image_url']));
+
+            // Leave full URLs alone
+            if (!Str::startsWith($p, ['http://', 'https://', '//'])) {
+                // strip common local prefixes and leading slashes
+                $p = preg_replace('~^/?(?:public|storage)/~i', '', $p);
+                $p = ltrim($p, '/');
+
+                // If they only typed a filename, put it under images/maps
+                if (!Str::startsWith($p, 'images/')) {
+                    $p = 'images/maps/' . $p;
+                }
+
+                // Ensure a single leading slash for web path
+                $p = '/' . ltrim($p, '/');
+            }
+
+            $data['map_image_url'] = $p;
+        }
 
         // Infer primary day from start time if missing
         if (empty($data['rally_event_day_id']) && !empty($data['start_time_local'])) {

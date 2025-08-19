@@ -69,25 +69,12 @@
             @foreach($stages as $ss)
                 <div class="min-w-0 flex-[0_0_94%] md:flex-[0_0_66%] px-4 py-5" id="ss-{{ $ss->id }}">
                     <article class="rounded-2xl bg-white shadow-lg p-4 ring-1 ring-black/5">
-                        {{-- Image --}}
-                        @php
-                            $img = $ss->map_image_url;
-
-                            if ($img) {
-                                if (preg_match('~^https?://~', $img)) {
-                                    // full URL, keep as-is
-                                } elseif (str_starts_with($img, '/')) {
-                                    // relative path (e.g. /images/maps/ss1.jpg)
-                                    $img = asset(ltrim($img, '/'));
-                                } else {
-                                    // just a filename (e.g. ss1.jpg)
-                                    $img = asset('images/maps/' . ltrim($img, '/'));
-                                }
-                            }
-                        @endphp
-
-                        @if($img)
-                          <img src="{{ $img }}" alt="{{ $stageTitle($ss) }} map"
+                        {{-- Image (uses model accessor for normalized absolute URL) --}}
+                        @if($ss->map_image_src)
+                          <img
+                               src="{{ $ss->map_image_src }}"
+                               alt="{{ $stageTitle($ss) }} map"
+                               loading="lazy" decoding="async"
                                class="w-full rounded-xl aspect-[16/9] object-cover ring-1 ring-black/5">
                         @endif
 
@@ -175,7 +162,7 @@
       <div class="rounded-2xl bg-white shadow-lg ring-1 ring-slate-200">
         <div class="flex items-center justify-between px-4 pt-4">
           <span class="text-[11px] font-semibold uppercase tracking-wide {{ $pal['t'] }} {{ $pal['bg'] }} border {{ $pal['b'] }} rounded px-2 py-1">
-            {{ $day->label ?? $day->date->isoFormat('dddd D') }}
+            {{ $day->label ?? $day->date->format('l j') }}
           </span>
         </div>
 
