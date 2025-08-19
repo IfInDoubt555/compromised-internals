@@ -59,7 +59,15 @@ class RallyEventController extends Controller
 
     public function show($slug)
     {
-        $event = RallyEvent::where('slug', $slug)->firstOrFail();
-        return view('calendar.show', compact('event'));
+        $event = RallyEvent::where('slug', $slug)
+            ->with([
+                'days'   => fn($q) => $q->orderBy('date'),
+                'stages' => fn($q) => $q->orderBy('ss_number'),
+            ])->firstOrFail();
+
+        $stagesByDay = $event->stages->groupBy('rally_event_day_id');
+
+        // keep your existing view name
+        return view('calendar.show', compact('event','stagesByDay'));
     }
 }
