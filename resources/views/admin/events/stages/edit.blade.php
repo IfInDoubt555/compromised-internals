@@ -2,8 +2,12 @@
 
 @section('content')
 @php
-  // Prefer the sorted list the controller passed; fall back to the relation..
+  // Prefer the sorted list the controller passed; fall back to the relation.
   $daysList = isset($days) ? $days : $event->days()->orderBy('date')->get();
+
+  // For the map image input (show just the filename if it's in /images/maps)
+  $raw        = old('map_image_url', $stage->map_image_url);
+  $displayVal = $raw && str_starts_with($raw, '/images/maps/') ? basename($raw) : $raw;
 @endphp
 
 <div class="mb-4 text-sm">
@@ -14,10 +18,13 @@
 
 <h1 class="text-2xl font-bold mb-4">Edit Stage — {{ $event->name }}</h1>
 
-<form method="POST"
+{{-- UPDATE FORM (no nested forms) --}}
+<form id="stage-update"
+      method="POST"
       action="{{ route('admin.events.stages.update', [$event, $stage]) }}"
       class="max-w-6xl bg-white/95 rounded-xl shadow-lg ring-1 ring-black/5 p-6 space-y-4">
-  @csrf @method('PUT')
+  @csrf
+  @method('PUT')
 
   <div class="grid md:grid-cols-6 gap-4">
     {{-- TYPE --}}
@@ -121,25 +128,17 @@
       @error('second_rally_event_day_id') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
     </div>
 
-    {{-- MAP IMAGE --}}
-    @php
-        $raw = old('map_image_url', $stage->map_image_url);
-        // If the saved value already has the /images/maps/ prefix, show just the filename for     convenience
-        $displayVal = $raw && str_starts_with($raw, '/images/maps/')
-            ? basename($raw)
-            : $raw;
-    @endphp
-    
+    {{-- MAP IMAGE (prefix UI) --}}
     <div class="md:col-span-3">
       <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Map image</label>
       <div class="flex rounded-md shadow-sm">
-        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 bg-gray-50     text-gray-500 text-sm">
+        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 bg-gray-50 text-gray-500 text-sm">
           /images/maps/
         </span>
         <input
           name="map_image_url"
           value="{{ $displayVal }}"
-          class="block w-full rounded-none rounded-r-md border border-gray-300 bg-white px-3 py-2      text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
+          class="block w-full rounded-none rounded-r-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
           placeholder="ss1.jpg (or paste full https:// URL)"
         >
       </div>
@@ -158,30 +157,32 @@
       @error('map_embed_url') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
     </div>
   </div>
-
-  <div class="flex items-center justify-between pt-2">
-    <label class="inline-flex items-center space-x-2">
-      <input type="checkbox" name="is_super_special" value="1" @checked(old('is_super_special', $stage->is_super_special))>
-      <span>Super special</span>
-    </label>
-
-    <div class="space-x-2">
-      <a href="{{ route('admin.events.stages.index', $event) }}"
-         class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-50">Cancel</a>
-
-      <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Save</button>
-
-      <form method="POST" action="{{ route('admin.events.stages.destroy', [$event, $stage]) }}"
-            class="inline" onsubmit="return confirm('Delete this stage?');">
-        @csrf @method('DELETE')
-        <button type="submit"
-                class="px-4 py-2 rounded border border-red-300 text-red-700 hover:bg-red-50">
-          Delete
-        </button>
-      </form>
-    </div>
-  </div>
 </form>
+
+{{-- ACTION BAR: separate forms, no nesting --}}
+<div class="max-w-6xl mx-auto mt-3 flex items-center justify-between">
+  <a href="{{ route('admin.events.stages.index', $event) }}"
+     class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-50">Cancel</a>
+
+  <div class="flex items-center gap-2">
+    <button type="submit" form="stage-update"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+      Save
+    </button>
+
+    <form method="POST"
+          action="{{ route('admin.events.stages.destroy', [$event, $stage]) }}"
+          onsubmit="return confirm('Delete this stage?');"
+          class="inline-block">
+      @csrf
+      @method('DELETE')
+      <button type="submit"
+              class="px-4 py-2 rounded border border-red-300 text-red-700 hover:bg-red-50">
+        Delete
+      </button>
+    </form>
+  </div>
+</div>
 
 {{-- Tiny helpers (fallback if stages.js isn’t loaded) --}}
 <script>
