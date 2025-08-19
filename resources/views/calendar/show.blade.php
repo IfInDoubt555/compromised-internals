@@ -3,13 +3,35 @@
 
 @section('content')
 @php
-    // If the controller didn't pass it (first pass / backwards compat)
-    $stages   = isset($event->stages) ? $event->stages : collect();
-    $days     = isset($event->days)   ? $event->days   : collect();
-    $byDay    = isset($stagesByDay)   ? $stagesByDay   : $stages->groupBy('rally_event_day_id');
+    // Back-compat fallbacks
+    $stages = $event->stages ?? collect();
+    $days   = $event->days   ?? collect();
+    $byDay  = ($stagesByDay ?? null) ?: $stages->groupBy('rally_event_day_id');
+
+    // Small helpers
+    $dayPalette = function ($carbon) {
+        $key = optional($carbon)->format('D');
+        return match ($key) {
+            'Thu' => ['bg' => 'bg-sky-600',    'b' => 'border-sky-700',    't' => 'text-white'],
+            'Fri' => ['bg' => 'bg-emerald-600','b' => 'border-emerald-700','t' => 'text-white'],
+            'Sat' => ['bg' => 'bg-amber-500',  'b' => 'border-amber-600',  't' => 'text-white'],
+            'Sun' => ['bg' => 'bg-rose-600',   'b' => 'border-rose-700',   't' => 'text-white'],
+            default => ['bg' => 'bg-slate-700','b' => 'border-slate-800',  't' => 'text-white'],
+        };
+    };
+    $stageTitle = function ($ss) {
+        if (($ss->stage_type ?? 'SS') === 'SD') {
+            return trim(($ss->name ?: 'Shakedown') . ' (SD)');
+        }
+        $nums = 'SS ' . ($ss->ss_number ?? '?');
+        if (!empty($ss->second_ss_number)) $nums .= '/' . $ss->second_ss_number;
+        if (!empty($ss->is_super_special)) $nums .= ' /S';
+        return trim(($ss->name ?: 'Special Stage') . " ({$nums})");
+    };
 @endphp
 
-<div class="prose max-w-3xl text-gray-800 mt-10 mb-10 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6 mx-auto">
+{{-- Event header --}}
+<div class="prose max-w-3xl text-gray-800 mt-10 mb-10 text-lg leading-relaxed bg-white/60 backdrop-blur-md rounded-xl shadow-xl p-6 mx-auto">
     <h1 class="text-3xl font-bold mb-2">{{ $event->name }}</h1>
 
     @if ($event->championship)
@@ -18,13 +40,10 @@
         </p>
     @endif
 
-    <p class="text-gray-700 italic mb-1">
-        📍 {{ $event->location ?? 'Location TBD' }}
-    </p>
-
+    <p class="text-gray-700 italic mb-1">📍 {{ $event->location ?? 'Location TBD' }}</p>
     <p class="text-gray-600 mb-4">
         📅 {{ optional($event->start_date)->format('F j, Y') }}
-        @if ($event->end_date) - {{ $event->end_date->format('F j, Y') }} @endif
+        @if ($event->end_date) – {{ $event->end_date->format('F j, Y') }} @endif
     </p>
 
     <section class="text-lg leading-relaxed text-gray-800">
@@ -36,35 +55,76 @@
 @if($stages->count())
 <section class="relative mt-8 max-w-6xl mx-auto px-4" data-stage-carousel>
     <button type="button" data-embla-prev
-        class="absolute left-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white shadow p-2">←</button>
+        class="absolute left-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/90 hover:bg-white shadow p-2 ring-1 ring-black/5">
+        ←
+    </button>
 
-    <div class="overflow-hidden" data-embla-viewport>
+    <div class="overflow-hidden rounded-2xl ring-1 ring-black/5" data-embla-viewport>
         <div class="flex">
             @foreach($stages as $ss)
-                <div class="min-w-0 flex-[0_0_90%] md:flex-[0_0_60%] px-4" id="ss-{{ $ss->id }}">
-                    <article class="rounded-2xl bg-white/90 dark:bg-zinc-900 shadow p-4">
+                <div class="min-w-0 flex-[0_0_94%] md:flex-[0_0_66%] px-4 py-4" id="ss-{{ $ss->id }}">
+                    <article class="rounded-2xl bg-white/95 dark:bg-zinc-900 shadow-lg p-4 ring-1 ring-black/5">
+                        {{-- Image --}}
                         @if($ss->map_image_url)
-                            <img src="{{ $ss->map_image_url }}" alt="SS{{ $ss->ss_number }} map"
-                                 class="w-full rounded-xl aspect-[16/9] object-cover">
+                            <img src="{{ $ss->map_image_url }}" alt="{{ $stageTitle($ss) }} map"
+                                 class="w-full rounded-xl aspect-[16/9] object-cover ring-1 ring-black/5">
                         @endif
-                        <h3 class="mt-4 text-2xl font-bold">
-                            {{ $ss->name }} (SS {{ $ss->ss_number }}{{ $ss->is_super_special ? '/S' : '' }})
-                        </h3>
-                        <p class="text-xs text-gray-500">
-                            @if($ss->start_time_local) {{ $ss->start_time_local->format('D H:i') }} @endif
-                            @if($ss->second_pass_time_local) • {{ $ss->second_pass_time_local->format('H:i') }} @endif
-                            @if(!is_null($ss->distance_km)) • {{ number_format($ss->distance_km,1) }} km @endif
-                        </p>
 
+                        {{-- Title + meta badges --}}
+                        <div class="mt-4 flex items-start justify-between gap-4">
+                            <h3 class="text-xl md:text-2xl font-bold leading-snug">
+                                {{ $stageTitle($ss) }}
+                            </h3>
+                            @php $pal = $dayPalette(optional($ss->day)->date); @endphp
+                            <span class="shrink-0 px-2 py-1 text-xs font-semibold rounded-md {{ $pal['bg'] }} {{ $pal['t'] }}">
+                                {{ optional($ss->day)->label ?? optional($ss->start_time_local)->format('D j M') ?? '—' }}
+                            </span>
+                        </div>
+
+                        {{-- Stat row --}}
+                        <div class="mt-2 flex flex-wrap items-center gap-2 text-[12px] text-gray-600">
+                            @if(($ss->stage_type ?? 'SS') === 'SD')
+                                <span class="px-2 py-1 rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-800 font-semibold">Shakedown</span>
+                            @else
+                                <span class="px-2 py-1 rounded-full bg-indigo-50 ring-1 ring-indigo-200 text-indigo-700 font-semibold">
+                                    {{ 'SS ' . ($ss->ss_number ?? '?') }}@if(!empty($ss->second_ss_number))/{{ $ss->second_ss_number }}@endif
+                                    @if(!empty($ss->is_super_special)) • S @endif
+                                </span>
+                            @endif
+
+                            @if($ss->start_time_local)
+                                <span class="px-2 py-1 rounded-full bg-emerald-50 ring-1 ring-emerald-200 text-emerald-700">
+                                    Start {{ $ss->start_time_local->format('H:i') }}
+                                </span>
+                            @endif
+                            @if($ss->second_pass_time_local)
+                                <span class="px-2 py-1 rounded-full bg-amber-50 ring-1 ring-amber-200 text-amber-700">
+                                    {{ $ss->second_pass_time_local->format('H:i') }}
+                                </span>
+                            @endif
+                            @if(!is_null($ss->distance_km))
+                                <span class="px-2 py-1 rounded-full bg-sky-50 ring-1 ring-sky-200 text-sky-700">
+                                    {{ number_format($ss->distance_km, 1) }} km
+                                </span>
+                            @endif
+                        </div>
+
+                        {{-- Collapsible map embed --}}
                         @if($ss->map_embed_url)
-                            <div class="mt-3">
-                                <iframe src="{{ $ss->map_embed_url }}" loading="lazy"
-                                        class="w-full h-64 rounded-xl border"></iframe>
-                            </div>
+                            <details class="mt-4 group">
+                                <summary class="cursor-pointer select-none text-blue-600 hover:text-blue-800 font-semibold">
+                                    See interactive map
+                                </summary>
+                                <div class="mt-3">
+                                    <iframe src="{{ $ss->map_embed_url }}" loading="lazy"
+                                            class="w-full h-72 rounded-xl border ring-1 ring-black/5"></iframe>
+                                </div>
+                            </details>
                         @endif
 
+                        {{-- GPX --}}
                         @if(!empty($ss->gpx_path))
-                            <a class="mt-3 inline-block text-red-600 font-semibold"
+                            <a class="mt-3 inline-block text-red-600 font-semibold hover:underline"
                                href="{{ Storage::url($ss->gpx_path) }}">
                                Download GPX
                             </a>
@@ -76,7 +136,9 @@
     </div>
 
     <button type="button" data-embla-next
-        class="absolute right-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white shadow p-2">→</button>
+        class="absolute right-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-white/90 hover:bg-white shadow p-2 ring-1 ring-black/5">
+        →
+    </button>
 </section>
 @endif
 
@@ -84,22 +146,50 @@
 @if($days->count())
 <section class="mt-10 max-w-6xl mx-auto px-4">
     <h2 class="text-center text-3xl font-extrabold tracking-wide">DETAIL PER DAY</h2>
+
     <div class="mt-6 grid gap-6 md:grid-cols-4">
         @foreach($days as $day)
-            <div class="rounded-2xl bg-white/90 dark:bg-zinc-900 shadow p-4">
-                <div class="text-xs font-bold uppercase text-white bg-blue-900 rounded px-2 py-1">
-                    {{ $day->label ?? strtoupper($day->date->format('l j')) }}
+            @php $pal = $dayPalette($day->date); @endphp
+            <div class="rounded-2xl bg-white/95 dark:bg-zinc-900 shadow-lg ring-1 ring-black/5">
+                <div class="flex items-center justify-between px-4 pt-4">
+                    <span class="text-[11px] font-bold uppercase {{ $pal['t'] }} {{ $pal['bg'] }} rounded px-2 py-1">
+                        {{ $day->label ?? strtoupper($day->date->format('l j')) }}
+                    </span>
                 </div>
-                <div class="mt-3 space-y-3">
+
+                <div class="mt-3 space-y-3 p-4 pt-3">
                     @forelse(($byDay[$day->id] ?? collect()) as $ss)
-                        <a href="#ss-{{ $ss->id }}" class="block rounded-xl border p-3 hover:shadow transition">
-                            <div class="text-sm font-semibold">
-                                {{ $ss->name }} (SS {{ $ss->ss_number }}{{ $ss->is_super_special ? '/S' : '' }})
-                            </div>
-                            <div class="text-[11px] text-gray-500">
-                                @if($ss->start_time_local) Start {{ $ss->start_time_local->format('H:i') }} @endif
-                                @if($ss->second_pass_time_local) / {{ $ss->second_pass_time_local->format('H:i') }} @endif
-                                @if(!is_null($ss->distance_km)) • {{ number_format($ss->distance_km,1) }} km @endif
+                        <a href="#ss-{{ $ss->id }}"
+                           class="block rounded-xl border {{ $pal['b'] }}/40 hover:shadow transition ring-1 ring-black/5 bg-white/90">
+                            <div class="px-3 py-2">
+                                <div class="text-sm font-semibold">
+                                    {{ $ss->name ?? 'Stage' }}
+                                </div>
+                                <div class="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-gray-600">
+                                    @if(($ss->stage_type ?? 'SS') === 'SD')
+                                        <span class="px-2 py-0.5 rounded bg-slate-100 ring-1 ring-slate-200 text-slate-800 font-semibold">SD</span>
+                                    @else
+                                        <span class="px-2 py-0.5 rounded bg-indigo-50 ring-1 ring-indigo-200 text-indigo-700 font-semibold">
+                                            SS {{ $ss->ss_number ?? '?' }}@if(!empty($ss->second_ss_number))/{{ $ss->second_ss_number }}@endif
+                                        </span>
+                                    @endif
+
+                                    @if($ss->start_time_local)
+                                        <span class="px-2 py-0.5 rounded bg-emerald-50 ring-1 ring-emerald-200 text-emerald-700">
+                                            {{ $ss->start_time_local->format('H:i') }}
+                                        </span>
+                                    @endif
+                                    @if($ss->second_pass_time_local)
+                                        <span class="px-2 py-0.5 rounded bg-amber-50 ring-1 ring-amber-200 text-amber-700">
+                                            {{ $ss->second_pass_time_local->format('H:i') }}
+                                        </span>
+                                    @endif
+                                    @if(!is_null($ss->distance_km))
+                                        <span class="px-2 py-0.5 rounded bg-sky-50 ring-1 ring-sky-200 text-sky-700">
+                                            {{ number_format($ss->distance_km,1) }} km
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         </a>
                     @empty
@@ -113,7 +203,6 @@
 @endif
 
 <div class="text-center mt-10 mb-10">
-    {{-- Use whichever route name you have configured --}}
     <a href="{{ Route::has('calendar.index') ? route('calendar.index') : route('calendar') }}"
        class="inline-block text-blue-600 hover:text-blue-800 transition font-semibold">
         ← Back to Calendar
