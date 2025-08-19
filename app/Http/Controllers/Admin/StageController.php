@@ -16,15 +16,14 @@ class StageController extends Controller
         $event->load([
             'days'   => fn ($q) => $q->orderBy('date'),
             'stages' => fn ($q) => $q
-                // SD first, then SS by number, then by start time
                 ->orderByRaw("CASE WHEN stage_type = 'SD' THEN 0 ELSE 1 END")
                 ->orderBy('ss_number')
                 ->orderBy('start_time_local'),
         ]);
 
-        // Next SS number should ignore SD stages
+        // Next SS number ignores SD stages
         $max  = $event->stages->where('stage_type', 'SS')->max('ss_number');
-        $next = ((int) ($max ?? 0)) + 1;
+        $next = (int) ($max ?? 0) + 1;
 
         return view('admin.events.stages.index', compact('event', 'next'));
     }
@@ -35,7 +34,13 @@ class StageController extends Controller
         $data['rally_event_id']   = $event->id;
         $data['is_super_special'] = $request->boolean('is_super_special');
 
-        // For Shakedown, ensure ss_number fields are null
+        // Move embed URL to the EVENT (single map per event)
+        if (!empty($data['map_embed_url'])) {
+            $event->update(['map_embed_url' => trim($data['map_embed_url'])]);
+            unset($data['map_embed_url']);
+        }
+
+        // Shakedown has no SS numbers
         if (($data['stage_type'] ?? 'SS') === 'SD') {
             $data['ss_number']        = null;
             $data['second_ss_number'] = null;
@@ -49,7 +54,6 @@ class StageController extends Controller
     public function edit(RallyEvent $event, RallyStage $stage)
     {
         abort_if($stage->rally_event_id !== $event->id, 404);
-
         $days = $event->days()->orderBy('date')->get();
 
         return view('admin.events.stages.edit', compact('event', 'stage', 'days'));
@@ -61,6 +65,12 @@ class StageController extends Controller
 
         $data = $this->validated($request, $event->id, $stage->id);
         $data['is_super_special'] = $request->boolean('is_super_special');
+
+        // Move embed URL to the EVENT (single map per event)
+        if (!empty($data['map_embed_url'])) {
+            $event->update(['map_embed_url' => trim($data['map_embed_url'])]);
+            unset($data['map_embed_url']);
+        }
 
         if (($data['stage_type'] ?? 'SS') === 'SD') {
             $data['ss_number']        = null;
@@ -77,7 +87,6 @@ class StageController extends Controller
     public function destroy(RallyEvent $event, RallyStage $stage)
     {
         abort_if($stage->rally_event_id !== $event->id, 404);
-
         $stage->delete();
 
         return back()->with('status', 'Stage deleted.');
@@ -89,7 +98,6 @@ class StageController extends Controller
     private function validated(Request $r, int $eventId, ?int $stageId = null): array
     {
         $data = $r->validate([
-            // type (SS or SD / Shakedown)
             'stage_type' => ['required', Rule::in(['SS', 'SD'])],
 
             'rally_event_day_id' => [
@@ -97,7 +105,7 @@ class StageController extends Controller
                 Rule::exists('rally_event_days', 'id')->where('rally_event_id', $eventId),
             ],
 
-            // SS number is only required/validated for SS
+            // SS number only for SS
             'ss_number' => [
                 'nullable', 'integer', 'min:1', 'required_if:stage_type,SS',
                 Rule::unique('rally_stages', 'ss_number')
@@ -111,38 +119,31 @@ class StageController extends Controller
             'start_time_local'       => ['nullable', 'date'],
             'second_pass_time_local' => ['nullable', 'date', 'after_or_equal:start_time_local'],
 
-            // optional second run info
             'second_ss_number' => ['nullable', 'integer', 'min:1', 'different:ss_number'],
             'second_rally_event_day_id' => [
                 'nullable',
                 Rule::exists('rally_event_days', 'id')->where('rally_event_id', $eventId),
             ],
 
-            'map_image_url'   => ['nullable', 'string', 'max:500'],
-            'map_embed_url'   => ['nullable', 'string', 'max:1000'],
-            'gpx_path'        => ['nullable', 'string', 'max:500'],
-            'is_super_special'=> ['sometimes', 'boolean'],
+            // Kept for form compatibility; controller moves it to the event
+            'map_image_url' => ['nullable', 'string', 'max:500'],
+            'map_embed_url' => ['nullable', 'string', 'max:1000'],
+
+            'gpx_path'         => ['nullable', 'string', 'max:500'],
+            'is_super_special' => ['sometimes', 'boolean'],
         ]);
 
-        // --- Normalize map_image_url so it always loads from the web server ---
+        // Normalize map_image_url to a web path under /images/maps when needed
         if (!empty($data['map_image_url'])) {
             $p = trim(str_replace('\\', '/', $data['map_image_url']));
-
-            // Leave full URLs alone
             if (!Str::startsWith($p, ['http://', 'https://', '//'])) {
-                // strip common local prefixes and leading slashes
                 $p = preg_replace('~^/?(?:public|storage)/~i', '', $p);
                 $p = ltrim($p, '/');
-
-                // If they only typed a filename, put it under images/maps
                 if (!Str::startsWith($p, 'images/')) {
                     $p = 'images/maps/' . $p;
                 }
-
-                // Ensure a single leading slash for web path
                 $p = '/' . ltrim($p, '/');
             }
-
             $data['map_image_url'] = $p;
         }
 
@@ -168,9 +169,7 @@ class StageController extends Controller
             }
         }
 
-        // Default type safety
         $data['stage_type'] = $data['stage_type'] ?? 'SS';
-
         return $data;
     }
 }

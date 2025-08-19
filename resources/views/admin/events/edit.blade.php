@@ -68,6 +68,28 @@
           </div>
         </div>
 
+        {{-- EVENT MAP (Google My Maps embed URL) --}}
+        <div class="md:col-span-2">
+          <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Event map embed URL</label>
+          <input name="map_embed_url"
+                 value="{{ old('map_embed_url', $event->map_embed_url) }}"
+                 class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
+                 placeholder="https://www.google.com/maps/d/embed?mid=...">
+          <p class="text-[11px] text-gray-500 mt-1">
+            Paste the <code>src</code> value from Google “My Maps” → Share → Embed.
+          </p>
+        
+          @error('map_embed_url') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+        
+          @if($event->map_embed_url)
+            <div class="mt-3 ring-1 ring-black/5 rounded-xl overflow-hidden">
+              <iframe src="{{ $event->map_embed_url }}" loading="lazy"
+                      class="w-full h-72 border-0"></iframe>
+            </div>
+          @endif
+        </div>
+
+
         {{-- Description --}}
         <div>
           <label class="block text-sm font-medium mb-1">Description</label>

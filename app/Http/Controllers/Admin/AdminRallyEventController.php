@@ -23,20 +23,22 @@ class AdminRallyEventController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'description' => 'nullable|string',
-            'championship' => 'nullable|string|max:50', // <- add this to validation
+            'name'         => 'required|string|max:255',
+            'location'     => 'required|string|max:255',
+            'start_date'   => 'required|date',
+            'end_date'     => 'required|date|after_or_equal:start_date',
+            'description'  => 'nullable|string',
+            'championship' => 'nullable|string|max:50',
+            'map_embed_url'=> ['nullable','string','max:1000'],
         ]);
 
         $event = new RallyEvent($validated);
-        $event->championship = $request->input('championship'); // <- set championship
-        $event->slug = Str::slug($validated['name']) . '-' . uniqid();
+        $event->slug = Str::slug($validated['name']).'-'.uniqid();
         $event->save();
 
-        return redirect()->route('admin.events.index')->with('success', 'Event created successfully.');
+        return redirect()
+            ->route('admin.events.index')
+            ->with('success', 'Event created successfully.');
     }
 
     public function edit(RallyEvent $event)
@@ -47,25 +49,29 @@ class AdminRallyEventController extends Controller
     public function update(Request $request, RallyEvent $event)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'description' => 'nullable|string',
-            'championship' => 'nullable|string|max:50', // <- add this too
+            'name'         => 'required|string|max:255',
+            'location'     => 'required|string|max:255',
+            'start_date'   => 'required|date',
+            'end_date'     => 'required|date|after_or_equal:start_date',
+            'description'  => 'nullable|string',
+            'championship' => 'nullable|string|max:50',
+            'map_embed_url'=> ['nullable','string','max:1000'],
         ]);
 
-        $event->update($validated);
-        $event->championship = $request->input('championship'); // <- update it
-        $event->save();
+        // Single atomic update; relies on fillable in RallyEvent (including map_embed_url & championship).
+        $event->fill($validated)->save();
 
-        return redirect()->route('admin.events.index')->with('success', 'Event updated successfully.');
+        return redirect()
+            ->route('admin.events.index')
+            ->with('success', 'Event updated successfully.');
     }
 
     public function destroy(RallyEvent $event)
     {
         $event->delete();
 
-        return redirect()->route('admin.events.index')->with('success', 'Event deleted.');
+        return redirect()
+            ->route('admin.events.index')
+            ->with('success', 'Event deleted.');
     }
 }

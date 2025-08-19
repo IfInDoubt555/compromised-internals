@@ -117,19 +117,6 @@
                             @endif
                         </div>
 
-                        {{-- Collapsible map embed --}}
-                        @if($ss->map_embed_url)
-                            <details class="mt-4 group">
-                                <summary class="cursor-pointer select-none text-blue-700 hover:text-blue-800 font-semibold">
-                                    See interactive map
-                                </summary>
-                                <div class="mt-3">
-                                    <iframe src="{{ $ss->map_embed_url }}" loading="lazy"
-                                            class="w-full h-72 rounded-xl border ring-1 ring-black/5"></iframe>
-                                </div>
-                            </details>
-                        @endif
-
                         {{-- GPX --}}
                         @if(!empty($ss->gpx_path))
                             <a class="mt-3 inline-block text-red-600 font-semibold hover:underline"
@@ -148,6 +135,12 @@
         →
     </button>
 </section>
+@endif
+
+@if(!empty($event->map_embed_url))
+  <section id="route-map" class="max-w-6xl mx-auto px-4 mt-8">
+    <x-map-embed :src="$event->map_embed_url" />
+  </section>
 @endif
 
 {{-- Detail per day --}}

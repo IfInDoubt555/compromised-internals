@@ -148,16 +148,6 @@
       </p>
       @error('map_image_url') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
     </div>
-
-    {{-- MAP EMBED --}}
-    <div class="md:col-span-3">
-      <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Map embed URL</label>
-      <input name="map_embed_url" value="{{ old('map_embed_url', $stage->map_embed_url) }}"
-             class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
-             placeholder="https://www.google.com/maps/d/embed?...">
-      @error('map_embed_url') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
-    </div>
-  </div>
 </form>
 
 {{-- ACTION BAR: separate forms, no nesting --}}
