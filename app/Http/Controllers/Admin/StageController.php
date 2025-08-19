@@ -11,8 +11,10 @@ class StageController extends Controller
 {
     public function index(RallyEvent $event)
     {
-        $event->load(['days' => fn($q)=>$q->orderBy('date'), 'stages' => fn($q)=>$q->orderBy('ss_number')]);
-        return view('admin.events.stages.index', compact('event'));
+        $event->load(['days' => fn($q)=>$q->orderBy('date'),
+                      'stages' => fn($q)=>$q->orderBy('ss_number')]);
+        $next = ($event->stages->max('ss_number') ?? 0) + 1;
+        return view('admin.events.stages.index', compact('event',   'next'));
     }
 
     public function store(Request $request, RallyEvent $event)
