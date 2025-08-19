@@ -23,8 +23,18 @@
     @csrf
 
     <div class="grid md:grid-cols-6 gap-4">
-      {{-- SS NUMBER --}}
+      {{-- STAGE TYPE --}}
       <div>
+        <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Type</label>
+        <select name="stage_type" id="stage_type"
+                class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
+          <option value="SS" {{ old('stage_type','SS')==='SS' ? 'selected' : '' }}>SS</option>
+          <option value="SD" {{ old('stage_type')==='SD' ? 'selected' : '' }}>SD (Shakedown)</option>
+        </select>
+      </div>
+
+      {{-- SS NUMBER --}}
+      <div id="ss_number_wrap">
         <label class="block text-xs font-semibold uppercase tracking-wide mb-1">SS #</label>
         <input name="ss_number" type="number" min="1" value="{{ old('ss_number', $next) }}"
                class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/30"
@@ -86,6 +96,29 @@
         @error('second_pass_time_local') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
       </div>
 
+      {{-- SECOND SS # --}}
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Second SS #</label>
+        <input type="number" min="1" name="second_ss_number" value="{{ old('second_ss_number') }}"
+               class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
+        @error('second_ss_number') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+      </div>
+
+      {{-- SECOND DAY --}}
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Second Day</label>
+        <select name="second_rally_event_day_id" id="second_day_select"
+                class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
+          <option value="">— auto from time —</option>
+          @foreach($event->days as $d)
+            <option value="{{ $d->id }}" data-date="{{ $d->date->toDateString() }}"
+                    @selected(old('second_rally_event_day_id') == $d->id)>
+              {{ $d->label ?? $d->date->format('D j M') }}
+            </option>
+          @endforeach
+        </select>
+      </div>
+
       {{-- MAP IMAGE --}}
       <div class="md:col-span-3">
         <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Map image URL</label>
@@ -140,7 +173,13 @@
           @forelse($event->stages as $ss)
             <tr class="border-t odd:bg-white even:bg-gray-50">
               <td class="px-4 py-2">
-                <span class="font-semibold">SS {{ $ss->ss_number }}</span>
+                @if($ss->stage_type === 'SD')
+                  <span class="font-semibold">SD</span>
+                @else
+                  <span class="font-semibold">
+                    SS {{ $ss->ss_number }}@if($ss->second_ss_number)/{{ $ss->second_ss_number }}@endif
+                  </span>
+                @endif
                 @if($ss->is_super_special)
                   <span class="ml-1 text-[11px] text-purple-700 font-semibold">/S</span>
                 @endif
@@ -174,9 +213,25 @@
 {{-- Small helper script --}}
 <script>
   (function () {
-    const daySelect = document.getElementById('day_select');
-    const startInput = document.getElementById('start_time_local');
-    const secondInput = document.getElementById('second_pass_time_local');
+    const typeSel     = document.getElementById('stage_type');
+    const ssInput     = document.querySelector('input[name="ss_number"]');
+    const ssWrap      = document.getElementById('ss_number_wrap');
+    const daySelect   = document.getElementById('day_select');
+    const startInput  = document.getElementById('start_time_local');
+    const secondTime  = document.getElementById('second_pass_time_local');
+    const secondDay   = document.getElementById('second_day_select');
+
+    // Toggle SS input when Type = SD
+    const toggleSS = () => {
+      const isSD = typeSel?.value === 'SD';
+      if (ssInput) {
+        ssInput.disabled = !!isSD;
+        if (isSD) ssInput.removeAttribute('required'); else ssInput.setAttribute('required','required');
+      }
+      if (ssWrap) ssWrap.style.opacity = isSD ? '0.6' : '1';
+    };
+    typeSel?.addEventListener('change', toggleSS);
+    toggleSS();
 
     // Auto-select matching Day when Start changes
     startInput?.addEventListener('change', () => {
@@ -193,7 +248,16 @@
       if (!opt?.dataset.date) return;
       const base = opt.dataset.date;
       if (!startInput.value) startInput.value = base + 'T08:00';
-      if (!secondInput.value) secondInput.value = base + 'T13:00';
+      if (!secondTime.value) secondTime.value = base + 'T13:00';
+    });
+
+    // Auto-select Second Day from Second Pass time
+    secondTime?.addEventListener('change', () => {
+      const v = secondTime.value;
+      if (!v || !secondDay) return;
+      const d = v.split('T')[0];
+      const opt = [...secondDay.options].find(o => o.dataset.date === d);
+      if (opt) secondDay.value = opt.value;
     });
   })();
 </script>

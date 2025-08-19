@@ -7,8 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class RallyStage extends Model
 {
     protected $fillable = [
-        'rally_event_id','rally_event_day_id','ss_number','name','distance_km','is_super_special',
-        'start_time_local','second_pass_time_local','map_image_url','map_embed_url','gpx_path','spectator_zones'
+        'rally_event_id',
+        'rally_event_day_id',
+        'name',
+        'ss_number',
+        'distance_km',
+        'start_time_local',
+        'second_pass_time_local',
+        'map_image_url',
+        'map_embed_url',
+        'is_super_special',
+        'stage_type',
+        'second_ss_number',
+        'second_rally_event_day_id',
     ];
 
     protected function casts(): array
