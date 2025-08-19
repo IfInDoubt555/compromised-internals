@@ -12,14 +12,14 @@
     $dayPalette = function ($carbon) {
         $key = optional($carbon)->format('D');
         return match ($key) {
-            'Mon' => ['bg' => 'bg-indigo-600',  'b' => 'border-indigo-700',  't' => 'text-white'],
-            'Tue' => ['bg' => 'bg-cyan-600',    'b' => 'border-cyan-700',    't' => 'text-white'],
-            'Wed' => ['bg' => 'bg-violet-600',  'b' => 'border-violet-700',  't' => 'text-white'],
-            'Thu' => ['bg' => 'bg-sky-600',     'b' => 'border-sky-700',     't' => 'text-white'],
-            'Fri' => ['bg' => 'bg-emerald-600', 'b' => 'border-emerald-700', 't' => 'text-white'],
-            'Sat' => ['bg' => 'bg-amber-600',   'b' => 'border-amber-700',   't' => 'text-white'],
-            'Sun' => ['bg' => 'bg-rose-600',    'b' => 'border-rose-700',    't' => 'text-white'],
-            default => ['bg' => 'bg-slate-600', 'b' => 'border-slate-700',   't' => 'text-white'],
+            'Mon' => ['bg' => 'bg-lime-50',    'b' => 'border-lime-400',    't' => 'text-lime-800'],
+            'Tue' => ['bg' => 'bg-fuchsia-50', 'b' => 'border-fuchsia-400', 't' => 'text-fuchsia-800'],
+            'Wed' => ['bg' => 'bg-teal-50',    'b' => 'border-teal-400',    't' => 'text-teal-800'],
+            'Thu' => ['bg' => 'bg-orange-50',  'b' => 'border-orange-400',  't' => 'text-orange-800'],
+            'Fri' => ['bg' => 'bg-blue-50',    'b' => 'border-blue-400',    't' => 'text-blue-800'],
+            'Sat' => ['bg' => 'bg-amber-50',   'b' => 'border-amber-500',   't' => 'text-amber-900'],
+            'Sun' => ['bg' => 'bg-rose-50',    'b' => 'border-rose-400',    't' => 'text-rose-800'],
+            default => ['bg' => 'bg-slate-50', 'b' => 'border-slate-400',   't' => 'text-slate-800'],
         };
     };
 
@@ -150,60 +150,64 @@
 {{-- Detail per day --}}
 @if($days->count())
 <section class="mt-12 max-w-6xl mx-auto px-4">
-    <h2 class="text-center text-3xl font-extrabold tracking-wide text-slate-900">DETAIL PER DAY</h2>
+  <h2 class="text-center text-3xl font-extrabold tracking-wide text-slate-900">DETAIL PER DAY</h2>
 
-    <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        @foreach($days as $day)
-            @php $pal = $dayPalette($day->date); @endphp
-            <div class="rounded-2xl bg-white shadow-lg ring-1 ring-black/5">
-                <div class="flex items-center justify-between px-4 pt-4">
-                    <span class="text-[11px] font-bold uppercase {{ $pal['t'] }} {{ $pal['bg'] }} rounded px-2 py-1">
-                        {{ $day->label ?? strtoupper($day->date->format('l j')) }}
+  <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    @foreach($days->sortBy('date') as $day)
+      @php $pal = $dayPalette($day->date); @endphp
+
+      <div class="rounded-2xl bg-white shadow-lg ring-1 ring-slate-200">
+        <div class="flex items-center justify-between px-4 pt-4">
+          <span class="text-[11px] font-semibold uppercase tracking-wide {{ $pal['t'] }} {{ $pal['bg'] }} border {{ $pal['b'] }} rounded px-2 py-1">
+            {{ $day->label ?? $day->date->isoFormat('dddd D') }}
+          </span>
+        </div>
+
+        <div class="mt-3 space-y-3 p-4 pt-3">
+          @forelse(($byDay[$day->id] ?? collect()) as $ss)
+            <a href="#ss-{{ $ss->id }}"
+               class="block bg-white rounded-xl border {{ $pal['b'] }}/50 border-l-4 hover:shadow-md transition">
+              <div class="px-3 py-2">
+                <div class="text-sm font-semibold text-slate-900">
+                  {{ $ss->name ?? 'Stage' }}
+                </div>
+
+                <div class="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-700">
+                  @if(($ss->stage_type ?? 'SS') === 'SD')
+                    <span class="px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-slate-800 font-medium">Shakedown</span>
+                  @else
+                    <span class="px-2 py-0.5 rounded bg-violet-50 border border-violet-200 text-violet-800 font-medium">
+                      SS {{ $ss->ss_number ?? '?' }}@if(!empty($ss->second_ss_number))/{{ $ss->second_ss_number }}@endif
                     </span>
-                </div>
+                  @endif
 
-                <div class="mt-3 space-y-3 p-4 pt-3">
-                    @forelse(($byDay[$day->id] ?? collect()) as $ss)
-                        <a href="#ss-{{ $ss->id }}"
-                           class="block rounded-xl border {{ $pal['b'] }}/40 hover:shadow transition ring-1 ring-black/5 bg-white">
-                            <div class="px-3 py-2">
-                                <div class="text-sm font-semibold text-slate-900">
-                                    {{ $ss->name ?? 'Stage' }}
-                                </div>
-                                <div class="mt-1 flex flex-wrap items-center gap-2 text-[11px] text-slate-700">
-                                    @if(($ss->stage_type ?? 'SS') === 'SD')
-                                        <span class="px-2 py-0.5 rounded bg-slate-100 ring-1 ring-slate-200 text-slate-800 font-semibold">SD</span>
-                                    @else
-                                        <span class="px-2 py-0.5 rounded bg-indigo-50 ring-1 ring-indigo-200 text-indigo-700 font-semibold">
-                                            SS {{ $ss->ss_number ?? '?' }}@if(!empty($ss->second_ss_number))/{{ $ss->second_ss_number }}@endif
-                                        </span>
-                                    @endif
+                  @if($ss->start_time_local)
+                    <span class="px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800">
+                      {{ $ss->start_time_local->format('H:i') }}
+                    </span>
+                  @endif
 
-                                    @if($ss->start_time_local)
-                                        <span class="px-2 py-0.5 rounded bg-emerald-50 ring-1 ring-emerald-200 text-emerald-700">
-                                            {{ $ss->start_time_local->format('H:i') }}
-                                        </span>
-                                    @endif
-                                    @if($ss->second_pass_time_local)
-                                        <span class="px-2 py-0.5 rounded bg-amber-50 ring-1 ring-amber-200 text-amber-700">
-                                            {{ $ss->second_pass_time_local->format('H:i') }}
-                                        </span>
-                                    @endif
-                                    @if(!is_null($ss->distance_km))
-                                        <span class="px-2 py-0.5 rounded bg-sky-50 ring-1 ring-sky-200 text-sky-700">
-                                            {{ number_format($ss->distance_km,1) }} km
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </a>
-                    @empty
-                        <p class="text-xs text-slate-500">No stages assigned yet.</p>
-                    @endforelse
+                  @if($ss->second_pass_time_local)
+                    <span class="px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-800">
+                      {{ $ss->second_pass_time_local->format('H:i') }}
+                    </span>
+                  @endif
+
+                  @if(!is_null($ss->distance_km))
+                    <span class="px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800">
+                      {{ number_format($ss->distance_km,1) }} km
+                    </span>
+                  @endif
                 </div>
-            </div>
-        @endforeach
-    </div>
+              </div>
+            </a>
+          @empty
+            <p class="text-xs text-slate-500">No stages assigned yet.</p>
+          @endforelse
+        </div>
+      </div>
+    @endforeach
+  </div>
 </section>
 @endif
 
