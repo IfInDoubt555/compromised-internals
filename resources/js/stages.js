@@ -16,6 +16,7 @@ function initStageForm() {
   // Bail if we’re not on the admin stages form page
   const typeSel    = document.getElementById('stage_type')
   const ssInput    = document.querySelector('input[name="ss_number"]')
+  const ssWrap     = document.getElementById('ss_number_wrap')
   const daySelect  = document.getElementById('day_select')
   const startInput = document.getElementById('start_time_local')
 
@@ -28,11 +29,16 @@ function initStageForm() {
   const toggleSS = () => {
     const isSD = typeSel?.value === 'SD'
     if (ssInput) {
-      ssInput.disabled = !!isSD
-      // dim the SS # field visually when disabled
-      const wrapper = ssInput.closest('div')
-      if (wrapper) wrapper.style.opacity = isSD ? '0.6' : '1'
+      if (isSD) {
+        ssInput.value = ''
+        ssInput.disabled = true
+        ssInput.removeAttribute('required')
+      } else {
+        ssInput.disabled = false
+        ssInput.setAttribute('required', 'required')
+      }
     }
+    if (ssWrap) ssWrap.style.opacity = isSD ? '0.6' : '1'
   }
   typeSel?.addEventListener('change', toggleSS)
   toggleSS()
