@@ -11,7 +11,7 @@ class AdminRallyEventController extends Controller
 {
     public function index()
     {
-        $events = RallyEvent::latest()->paginate(15);
+        $events = RallyEvent::latest()->paginate(10);
         return view('admin.events.index', compact('events'));
     }
 
