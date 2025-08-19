@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-  // Prefer the sorted list the controller passed; fall back to the relation.
+  // Prefer the sorted list the controller passed; fall back to the relation..
   $daysList = isset($days) ? $days : $event->days()->orderBy('date')->get();
 @endphp
 
