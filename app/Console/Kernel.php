@@ -20,19 +20,37 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        // Run daily at 8am
-        $schedule->command('offers:send-birthday')->dailyAt('08:00');
+        // Birthday offer
+        $schedule->command('offers:send-birthday')
+            ->dailyAt('08:00')
+            ->withoutOverlapping()
+            ->onOneServer()
+            ->environments(['production']);
 
-        // Delete sessions missing user_agent hourly
+        // Sitemaps
+        $schedule->command('sitemaps:build')
+            ->dailyAt('03:15')
+            ->withoutOverlapping()
+            ->onOneServer()
+            ->environments(['production']);
+
+        // Clean sessions with missing UA
         $schedule->call(function () {
             DB::table('sessions')
                 ->whereNull('user_agent')
                 ->orWhere('user_agent', '')
                 ->delete();
-        })->hourly();
+        })->hourly()
+          ->withoutOverlapping()
+          ->onOneServer()
+          ->environments(['production']);
 
-        // Run your sessions:prune command every 30 minutes
-        $schedule->command('session:prune')->everyThirtyMinutes();
+        // Built‑in sessions prune (plural)
+        $schedule->command('sessions:prune')
+            ->everyThirtyMinutes()
+            ->withoutOverlapping()
+            ->onOneServer()
+            ->environments(['production']);
     }
 
     /**
