@@ -9,6 +9,7 @@ use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Post;        // adjust if different
 use App\Models\RallyEvent;  // adjust if different
+use Illuminate\Support\Facades\Schema;
 
 class BuildSitemap extends Command
 {
@@ -38,20 +39,31 @@ class BuildSitemap extends Command
                     );
                 }
             });
-        $blog->writeToFile(public_path('sitemaps/blog.xml'));
+        $blog = Sitemap::create();
 
-        // 3) Calendar events
-        $events = Sitemap::create();
-        RallyEvent::query()->orderByDesc('updated_at')
-            ->chunk(500, function ($rows) use ($events) {
-                foreach ($rows as $e) {
-                    $events->add(
-                        Url::create(route('calendar.show', $e->slug)) // or id path
-                           ->setLastModificationDate($e->updated_at ?? $e->created_at ?? now())
-                    );
-                }
-            });
-        $events->writeToFile(public_path('sitemaps/events.xml'));
+        if (Schema::hasTable('posts')) {
+            $query = \App\Models\Post::query();
+        
+            if (Schema::hasColumn('posts', 'is_published')) {
+                $query->where('is_published', 1);
+            } elseif (Schema::hasColumn('posts', 'published_at')) {
+                $query->whereNotNull('published_at');
+            } elseif (Schema::hasColumn('posts', 'status')) {
+                $query->where('status', 'published');
+            } // else: include all posts
+        
+            $query->orderByDesc('updated_at')
+                ->chunk(500, function ($posts) use ($blog) {
+                    foreach ($posts as $p) {
+                        $blog->add(
+                            \Spatie\Sitemap\Tags\Url::create(route('blog.show',$p->slug))
+                                ->setLastModificationDate($p->updated_at ?? $p->created_at ?? now())
+                        );
+                    }
+                });
+        }
+
+        $blog->writeToFile(public_path('sitemaps/blog.xml'));
 
         // 4) History detail pages (JSON → routes like history.show)
         $history = Sitemap::create();
