@@ -13,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Models\User;
+use App\Models\RallyEvent; // ← added for legacy redirect binding
 use App\Http\Controllers\AttributionController;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,6 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CalendarExportController;
 
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Boards (public)
@@ -38,32 +38,38 @@ Route::get('/threads/{thread:slug}', [ThreadController::class, 'show'])->name('t
 
 // Threads (create/store under a specific board — auth required)
 Route::middleware(['auth'])->group(function () {
-    // existing:
     Route::get('/boards/{board:slug}/threads/create', [ThreadController::class, 'create'])->name('threads.create');
     Route::post('/boards/{board:slug}/threads',        [ThreadController::class, 'store'])->name('threads.store');
 
-    // NEW: edit/update/destroy by thread slug (flat routes keep binding simple)
     Route::get   ('/threads/{thread:slug}/edit', [ThreadController::class, 'edit'])->name('threads.edit');
     Route::patch ('/threads/{thread:slug}',      [ThreadController::class, 'update'])->name('threads.update');
     Route::delete('/threads/{thread:slug}',      [ThreadController::class, 'destroy'])->name('threads.destroy');
 
-    // Replies (already present)
     Route::post  ('/threads/{thread:slug}/replies', [ReplyController::class, 'store'])->name('replies.store');
     Route::patch ('/replies/{reply}',               [ReplyController::class, 'update'])->name('replies.update');
     Route::delete('/replies/{reply}',               [ReplyController::class, 'destroy'])->name('replies.destroy');
 });
 
+// Calendar
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
+
+// Legacy: redirect old /calendar/events/{id} links to canonical slug route
+Route::get('/calendar/events/{event}', function (RallyEvent $event) {
+    return redirect()->route('calendar.show', $event->slug, 301);
+})->whereNumber('event')->name('calendar.events.legacy');
+
 Route::get('/calendar/{slug}', [RallyEventController::class, 'show'])->name('calendar.show');
+
 Route::get('/calendar/feed/{year}.ics', [CalendarExportController::class, 'year'])
      ->whereNumber('year')
-     ->name('calendar.feed.year');     // Subscribe URL (inline)
-     
+     ->name('calendar.feed.year');
+
 Route::get('/calendar/download/{year}.ics', [CalendarExportController::class, 'download'])
      ->whereNumber('year')
-     ->name('calendar.download.year'); // Download file
+     ->name('calendar.download.year');
 
+// Cart
 Route::prefix('shop/cart')->name('shop.cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('/add/{product}', [CartController::class, 'add'])->name('add');
@@ -79,20 +85,25 @@ Route::get('/cart/count', function () {
     ]);
 })->name('cart.count');
 
+// Shop
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');
 
+// Checkout
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 Route::view('/checkout/unavailable', 'errors.checkout-unavailable')->name('errors.checkout-unavailable');
 
+// Charity
 Route::get('/charity', [CharityController::class, 'index'])->name('charity.index');
 
+// Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+// Blog
 Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('/{post}', [PostController::class, 'show'])->name('show');
@@ -103,11 +114,13 @@ Route::prefix('blog')->name('blog.')->group(function () {
     });
 });
 
+// History
 Route::prefix('history')->name('history.')->group(function () {
     Route::get('/', [HistoryController::class, 'index'])->name('index');
     Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
 
+// Auth-required routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -129,19 +142,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
+// Public profile
 Route::get('/profile/{user}', function (User $user) {
     return view('profile.public', compact('user'));
 })->middleware(['auth', 'verified'])->name('profile.public');
 
-Route::get('/contact', [ContactController::class, 'show'])
-    ->name('contact');
+// Contact
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
-Route::post('/contact', [ContactController::class, 'submit'])
-    ->name('contact.submit');
-
+// Footer pages
 Route::view('/terms', 'footer.terms')->name('terms');
 Route::view('/privacy', 'footer.privacy')->name('privacy');
 
+// Sitemap
 Route::get('/sitemap.xml', function () {
     $sitemap = Sitemap::create()
         ->add(Url::create('/'))
@@ -162,13 +176,10 @@ Route::get('/sitemap.xml', function () {
         }
     }
 
-    return response(
-        $sitemap->render(),
-        200,
-        ['Content-Type' => 'application/xml']
-    );
+    return response($sitemap->render(), 200, ['Content-Type' => 'application/xml']);
 });
 
+// Security
 Route::view('/security/policy', 'security.policy')->name('security.policy');
 Route::view('/security/hall-of-fame', 'security.hall-of-fame')->name('security.hof');
 

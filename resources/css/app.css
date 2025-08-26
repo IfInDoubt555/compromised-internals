@@ -32,11 +32,12 @@
   .fc .fc-daygrid-event { @apply border-0; }
   .fc .fc-daygrid-event:hover { @apply brightness-110; }
 
-  /* Championship colors (grid + list) */
-  .champ-wrc .fc-daygrid-event  { @apply bg-blue-700 text-white; }
-  .champ-erc .fc-daygrid-event  { @apply bg-amber-500 text-black; }
-  .champ-ara .fc-daygrid-event  { @apply bg-green-600 text-white; }
+  /* Championship colors — Month grid (COMBINED CLASS, no space) */
+  .champ-wrc.fc-daygrid-event { @apply bg-blue-700 text-white; }
+  .champ-erc.fc-daygrid-event { @apply bg-amber-500 text-black; }
+  .champ-ara.fc-daygrid-event { @apply bg-green-600 text-white; }
 
+  /* Championship colors — List view dots (descendant is correct) */
   .champ-wrc .fc-list-event-dot { @apply bg-blue-700; }
   .champ-erc .fc-list-event-dot { @apply bg-amber-500; }
   .champ-ara .fc-list-event-dot { @apply bg-green-600; }

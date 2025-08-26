@@ -53,6 +53,11 @@ class CalendarExportController extends Controller
         $dtstamp = gmdate('Ymd\THis\Z');
 
         foreach ($events as $ev) {
+            // Canonical event URL (prefer slug; fallback to legacy id path)
+            $eventUrl = $ev->slug
+                ? route('calendar.show', $ev->slug)
+                : url("/calendar/events/{$ev->id}");
+
             // ----- Main multi-day rally all-day event -----
             $start = $ev->start_date?->copy();
             $end   = $ev->end_date?->copy();
@@ -65,7 +70,7 @@ class CalendarExportController extends Controller
             $desc    = $this->escape(trim(collect([
                 $ev->description,
                 $ev->official_url ? "Official: {$ev->official_url}" : null,
-                url("/calendar/events/{$ev->id}"),
+                $eventUrl,
             ])->filter()->implode("\n")));
 
             $location = $this->escape($ev->location ?? '');
@@ -79,19 +84,16 @@ class CalendarExportController extends Controller
             if ($location !== '') $lines[] = 'LOCATION:' . $location;
             $lines[] = 'DESCRIPTION:' . $desc;
             if ($ev->championship) $lines[] = 'CATEGORIES:' . $this->escape($ev->championship);
-            $lines[] = 'URL:' . $this->escape(url("/calendar/events/{$ev->id}"));
+            $lines[] = 'URL:' . $this->escape($eventUrl);
             $lines[] = 'END:VEVENT';
 
             // ----- Optional: per-stage events if we have timing -----
-            // Tries to build a start datetime from day + start_time or start_at
             foreach ($ev->stages as $stage) {
                 $startAt = null;
 
-                // Common possibilities; keep whichever you actually store
                 if (isset($stage->start_at) && $stage->start_at) {
                     $startAt = Carbon::parse($stage->start_at);
                 } elseif (isset($stage->start_time) && $stage->start_time) {
-                    // match to a day if you store per-day records
                     $dayDate = optional($ev->days->firstWhere('id', $stage->rally_event_day_id))->date
                                ?? $ev->start_date;
                     if ($dayDate) {
@@ -99,12 +101,10 @@ class CalendarExportController extends Controller
                     }
                 }
 
-                // If we still don’t have a timestamp, skip the stage entry
                 if (!$startAt) {
                     continue;
                 }
 
-                // End time: assume 1 hour if unknown (tweak as needed)
                 $endAt = (clone $startAt)->addHour();
 
                 $stageTitle = trim('SS' . ($stage->ss_number ?? '?') . ' — ' . ($stage->name ?? 'Stage'));
@@ -112,25 +112,24 @@ class CalendarExportController extends Controller
                 $descS      = $this->escape(trim(collect([
                     $ev->location ? "Location: {$ev->location}" : null,
                     $ev->championship ? "Championship: {$ev->championship}" : null,
-                    "Event: " . url("/calendar/events/{$ev->id}"),
+                    "Event: {$eventUrl}",
                 ])->filter()->implode("\n")));
 
                 $lines[] = 'BEGIN:VEVENT';
-                $lines[] = 'UID:stage-' . ($stage->id ?? Str::uuid()) . '@compromised-internals.com';
+                $lines[] = 'UID:stage-' . (isset($stage->id) ? $stage->id : (string) Str::uuid()) . '@compromised-internals.com';
                 $lines[] = 'DTSTAMP:' . $dtstamp;
                 $lines[] = 'DTSTART:' . $startAt->copy()->utc()->format('Ymd\THis\Z');
                 $lines[] = 'DTEND:'   . $endAt->copy()->utc()->format('Ymd\THis\Z');
                 $lines[] = 'SUMMARY:' . $summaryS;
                 $lines[] = 'DESCRIPTION:' . $descS;
                 if ($ev->championship) $lines[] = 'CATEGORIES:' . $this->escape($ev->championship . ',Stage');
-                $lines[] = 'URL:' . $this->escape(url("/calendar/events/{$ev->id}"));
+                $lines[] = 'URL:' . $this->escape($eventUrl);
                 $lines[] = 'END:VEVENT';
             }
         }
 
         $lines[] = 'END:VCALENDAR';
 
-        // RFC allows long lines, but many clients prefer CRLF
         return implode("\r\n", $lines) . "\r\n";
     }
 

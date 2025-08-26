@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const CHAMP_CLASS = (c) => {
     const key = String(c || '').toUpperCase();
-    if (key === 'ARC') return 'champ-ara'; // alias
+    if (key === 'ARC') return 'champ-ara'; // alias ARC -> ARA
     if (key === 'WRC') return 'champ-wrc';
     if (key === 'ERC') return 'champ-erc';
     if (key === 'ARA') return 'champ-ara';
@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return `https://calendar.google.com/calendar/render?${params.toString()}`;
   };
 
+  // Prefer /api/events, but fall back to /calendar/events if needed
+  const EVENTS_ENDPOINTS = ['/api/events', '/calendar/events'];
+
   const calendar = new Calendar(calendarEl, {
     plugins: [dayGridPlugin, interactionPlugin, listPlugin],
     initialView: initialViewFor(),
@@ -80,34 +83,43 @@ document.addEventListener('DOMContentLoaded', () => {
       calendar.setOption('headerToolbar', headerFor());
     },
 
-    // === color classes per championship ===
+    // Color classes per championship
     eventClassNames(arg) {
       const c = arg.event.extendedProps?.championship;
       const cls = CHAMP_CLASS(c);
       return cls ? [cls] : [];
     },
 
-    // === fetch events, with optional championship filter ===
+    // Fetch events with optional championship filter (+ endpoint fallback)
     events(info, success, failure) {
       const params = new URLSearchParams({ start: info.startStr, end: info.endStr });
       if (state.champ) params.set('champ', state.champ);
-      fetch(`/api/events?${params.toString()}`)
-        .then((r) => r.json())
-        .then((data) => {
-          console.log('Events loaded:', data);
-          success(data);
-        })
-        .catch((err) => {
-          console.error('Error loading events:', err);
-          failure(err);
-        });
+
+      let i = 0;
+      const tryFetch = () =>
+        fetch(`${EVENTS_ENDPOINTS[i]}?${params.toString()}`)
+          .then((r) => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            return r.json();
+          })
+          .then((data) => {
+            console.log('Events loaded:', data);
+            success(data);
+          })
+          .catch((err) => {
+            if (++i < EVENTS_ENDPOINTS.length) return tryFetch();
+            console.error('Error loading events:', err);
+            failure(err);
+          });
+
+      tryFetch();
     },
 
     eventDataTransform(eventData) {
       return { ...eventData, allDay: true };
     },
 
-    // === "Add to Google" link in list view ===
+    // Keep default link behavior; add "Add to Google" only in list view
     eventDidMount(arg) {
       if (!arg.view.type.startsWith('list')) return;
       const titleEl = arg.el.querySelector('.fc-list-event-title');
@@ -121,11 +133,18 @@ document.addEventListener('DOMContentLoaded', () => {
       a.dataset.gcal = '1';
       titleEl.appendChild(a);
     },
+
+    // Guard: if you ever add custom logic, don’t hijack valid anchor URLs
+    eventClick(info) {
+      if (info.event.url) return; // let the browser follow the slug link
+      // If you later include a slug in extendedProps, you could do:
+      // window.location.href = `/calendar/${info.event.extendedProps.slug}`;
+    },
   });
 
   calendar.render();
 
-  // === filter chips wiring (#cal-controls [data-champ]) ===
+  // Filter-chip wiring
   document.querySelectorAll('#cal-controls [data-champ]').forEach((btn) => {
     btn.addEventListener('click', () => {
       state.champ = btn.dataset.champ || null;
