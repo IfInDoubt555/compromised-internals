@@ -170,7 +170,7 @@ Route::get('/sitemap.xml', function () {
         }
     }
 
-    foreach (\App\Models\RallyEvent::all() as $event) {
+    foreach (RallyEvent::all() as $event) {
         if ($event->slug) {
             $sitemap->add(Url::create(route('calendar.show', $event->slug)));
         }
