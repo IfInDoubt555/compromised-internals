@@ -48,11 +48,11 @@ class HistoryController extends Controller
         }
 
         return view('history.show', [
-            'item'        => $item,
-            'tab'         => $tab,
-            'decade'      => $decade,
-            'previousItem'=> $previousItem, // ✅ correct mapping
-            'nextItem'    => $nextItem,     // ✅ correct mapping
+            'item'         => $item,
+            'tab'          => $tab,
+            'decade'       => $decade,
+            'previousItem' => $previousItem, // ✅ correct mapping
+            'nextItem'     => $nextItem,     // ✅ correct mapping
         ]);
     }
 
@@ -66,37 +66,37 @@ class HistoryController extends Controller
         $decade = $request->query('decade', '1960s');
         $year   = $request->query('year');
         $tab    = $request->query('tab', 'events');
-    
+
         $decades = $this->allDecades();
-    
+
         if ($view === 'bookmarks') {
             $items = $this->listItems($tab, $decade, $year);
-            $years = $this->yearsFor($decade, $tab); // NEW
+            $years = $this->yearsFor($decade, $tab);
             return view('history.bookmarks', [
                 'decades' => $decades,
                 'decade'  => $decade,
                 'year'    => $year,
                 'tab'     => $tab,
                 'items'   => $items,
-                'years'   => $years,   // pass to Blade
+                'years'   => $years,
                 'view'    => $view,
             ]);
         }
-    
+
         // timeline view: we need events grouped by decade
         $eventsByDecade = [];
         foreach ($decades as $d) {
             // timeline is about events; keep it simple
             $eventsByDecade[$d] = $this->listItems('events', $d);
         }
-    
+
         return view('history.timeline', [
             'decades'        => $decades,
-            'eventsByDecade' => $eventsByDecade, // pass to Blade
+            'eventsByDecade' => $eventsByDecade,
             'view'           => $view,
         ]);
     }
-    
+
     /** Unique years available for a decade (per tab) */
     private function yearsFor(string $decade, string $tab = 'events'): array
     {
@@ -141,10 +141,10 @@ class HistoryController extends Controller
             $rows = $rows->where('year', (int) $year);
         }
 
-        // Stable sorting: year then title when present
+        // Stable sorting: by year (asc) then title (asc)
         return $rows->sortBy([
-            fn ($a, $b) => ($a['year'] ?? 0) <=> ($b['year'] ?? 0),
-            fn ($a, $b) => strcmp((string) ($a['title'] ?? ''), (string) ($b['title'] ?? '')),
+            fn ($row) => (int)($row['year'] ?? 0),
+            fn ($row) => (string)($row['title'] ?? ''),
         ])->values();
     }
 }
