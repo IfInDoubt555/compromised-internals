@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!calendarEl) return;
 
   // --- championship filter state ---
-  const state = { champ: null };
+  const urlChamp = new URLSearchParams(location.search).get('champ');
+  const state = { champ: urlChamp ? urlChamp.toUpperCase() : null };
 
   const CHAMP_CLASS = (c) => {
     const key = String(c || '').toUpperCase();
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const initialViewFor = () => (isMobile() ? 'listMonth' : 'dayGridMonth');
 
-  // Build GCal URL for all-day events
+  // Build GCal URL for all-day events (used in list view “Add to Google”)
   const gcalAllDayUrl = (ev) => {
     const pad = (n) => String(n).padStart(2, '0');
     const ymd = (d) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
@@ -137,25 +138,142 @@ document.addEventListener('DOMContentLoaded', () => {
     // Guard: if you ever add custom logic, don’t hijack valid anchor URLs
     eventClick(info) {
       if (info.event.url) return; // let the browser follow the slug link
-      // If you later include a slug in extendedProps, you could do:
-      // window.location.href = `/calendar/${info.event.extendedProps.slug}`;
     },
   });
 
   calendar.render();
 
+  // ------------------------------
+  // Keep ICS drawer links in sync
+  // ------------------------------
+
+  // Helpers to derive/templating URLs when templates aren’t provided.
+  const deriveTplFromUrl = (urlStr) => {
+    try {
+      const u = new URL(urlStr, window.location.origin);
+      // Replace a year-like segment in the pathname with {year}
+      const replaced = u.pathname.replace(/(?:^|\/)(\d{4})(?=\.ics|\/)/, (m, y) => m.replace(y, '{year}'));
+      if (replaced !== u.pathname) {
+        u.pathname = replaced;
+        u.search = ''; // clear query; we re-add champ each time
+        return u.pathname + (u.search || '');
+      }
+    } catch {}
+    return null;
+  };
+
+  const buildFeedUrl = (year, champ) => {
+    const feedTplAttr = document.body?.dataset?.feedTpl || null;
+    const urlInput = document.getElementById('icsFeedUrl');
+    const appleBtn  = document.getElementById('ics-apple-btn');
+    const gcalBtn   = document.getElementById('ics-gcal-btn');
+
+    let tpl = feedTplAttr;
+    if (!tpl && urlInput?.value) tpl = deriveTplFromUrl(urlInput.value);
+    if (!tpl && gcalBtn?.href) {
+      try {
+        const cid = new URL(gcalBtn.href).searchParams.get('cid');
+        if (cid) tpl = deriveTplFromUrl(cid);
+      } catch {}
+    }
+    if (!tpl && appleBtn?.href) {
+      const https = appleBtn.href.replace(/^webcal:\/\//, 'https://');
+      tpl = deriveTplFromUrl(https);
+    }
+
+    // If we still don’t have a template, just return the current value (no year switching).
+    if (!tpl) {
+      const fallback = urlInput?.value || (appleBtn?.href ? appleBtn.href.replace(/^webcal:\/\//, 'https://') : null);
+      if (!fallback) return null;
+      try {
+        const u = new URL(fallback, window.location.origin);
+        if (champ) {
+          u.searchParams.set('champ', champ);
+        } else {
+          u.searchParams.delete('champ');
+        }
+        return u.toString();
+      } catch {
+        return null;
+      }
+    }
+
+    // Build from template
+    const feedUrl = new URL(tpl.replace('{year}', year), window.location.origin);
+    if (champ) {
+      feedUrl.searchParams.set('champ', champ);
+    } else {
+      feedUrl.searchParams.delete('champ');
+    }
+    return feedUrl.toString();
+  };
+
+  const buildDownloadUrl = (year, champ) => {
+    const dlTplAttr = document.body?.dataset?.downloadTpl || null;
+    const dlBtn     = document.getElementById('ics-download-btn');
+
+    let tpl = dlTplAttr;
+    if (!tpl && dlBtn?.href) tpl = deriveTplFromUrl(dlBtn.href);
+
+    if (!tpl) return dlBtn?.href || null;
+
+    const dlUrl = new URL(tpl.replace('{year}', year), window.location.origin);
+    if (champ) {
+      dlUrl.searchParams.set('champ', champ);
+    } else {
+      dlUrl.searchParams.delete('champ');
+    }
+    return dlUrl.toString();
+  };
+
+  function updateIcsLinks() {
+    const year  = calendar.view.currentStart.getFullYear();
+    const champ = state?.champ ? String(state.champ).toUpperCase() : null;
+
+    // Elements in the drawer
+    const gcalBtn    = document.getElementById('ics-gcal-btn');
+    const appleBtn   = document.getElementById('ics-apple-btn');
+    const outlookBtn = document.getElementById('ics-outlook-btn');
+    const dlBtn      = document.getElementById('ics-download-btn');
+    const urlInput   = document.getElementById('icsFeedUrl');
+
+    const httpsFeed = buildFeedUrl(year, champ);
+    if (httpsFeed) {
+      const webcalHref = httpsFeed.replace(/^https?:\/\//, 'webcal://');
+      const gcalHref   = 'https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(httpsFeed);
+
+      if (gcalBtn)    gcalBtn.href = gcalHref;
+      if (appleBtn)   appleBtn.href = webcalHref;
+      if (outlookBtn) outlookBtn.href = webcalHref;
+      if (urlInput)   urlInput.value = httpsFeed;
+    }
+
+    const dlHref = buildDownloadUrl(year, champ);
+    if (dlBtn && dlHref) dlBtn.href = dlHref;
+  }
+
+  // run on start and whenever the view changes
+  calendar.on('datesSet', updateIcsLinks);
+  updateIcsLinks();
+
+  // ------------------------------
   // Filter-chip wiring
-  document.querySelectorAll('#cal-controls [data-champ]').forEach((btn) => {
+  // ------------------------------
+  const chipBtns = document.querySelectorAll('#cal-controls [data-champ]');
+  chipBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      state.champ = btn.dataset.champ || null;
-      document.querySelectorAll('#cal-controls [data-champ]').forEach((b) => {
+      state.champ = btn.dataset.champ ? btn.dataset.champ.toUpperCase() : null;
+
+      chipBtns.forEach((b) => {
         const active = b === btn;
         b.classList.toggle('bg-gray-700', active);
         b.classList.toggle('text-white', active);
         b.classList.toggle('bg-gray-200', !active);
         b.classList.toggle('text-gray-900', !active);
       });
+
       calendar.refetchEvents();
+      updateIcsLinks(); // keep drawer links in sync with current filter
     });
   });
 });

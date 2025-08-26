@@ -8,16 +8,14 @@
         'image'       => asset('images/calendar-og.png'),
     ];
 
-    // Year + optional championship param carried through to feed/download links
     $year  = now()->year;
     $champ = request('champ'); // 'WRC' | 'ERC' | 'ARA' | null
 
     $feedRoute = route('calendar.feed.year', array_filter(['year' => $year, 'champ' => $champ]));
     $dlRoute   = route('calendar.download.year', array_filter(['year' => $year, 'champ' => $champ]));
 
-    // Platform helpers
-    $webcal     = preg_replace('#^https?://#', 'webcal://', $feedRoute); // native subscribe for Apple/Outlook
-    $gcalAddUrl = 'https://calendar.google.com/calendar/r?cid=' . urlencode($feedRoute); // prefilled Google flow
+    $webcal     = preg_replace('#^https?://#', 'webcal://', $feedRoute);
+    $gcalAddUrl = 'https://calendar.google.com/calendar/r?cid=' . urlencode($feedRoute);
 @endphp
 
 @push('head')
@@ -36,6 +34,16 @@
     <meta name="twitter:title"       content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
     <meta name="twitter:image"       content="{{ $seo['image'] }}">
+
+    {{-- Provide URL templates to app.js so it can swap year & champ --}}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // IMPORTANT: use url('/...') so {year} stays literal (route() would encode it)
+        document.body.dataset.feedTpl     = "{{ url('/calendar/feed/{year}.ics') }}";
+        document.body.dataset.downloadTpl = "{{ url('/calendar/download/{year}.ics') }}";
+      });
+    </script>
+
 @endpush
 
 @section('content')
@@ -76,7 +84,7 @@
             {{-- Google --}}
             <div class="rounded-lg border border-gray-200 bg-white p-4">
                 <h3 class="text-sm font-bold mb-2">Google Calendar (Web / Android / iOS)</h3>
-                <a href="{{ $gcalAddUrl }}" target="_blank" rel="noopener"
+                <a id="ics-gcal-btn" href="{{ $gcalAddUrl }}" target="_blank" rel="noopener"
                    class="inline-block w-full text-center px-3 py-2 rounded bg-[#1a73e8] text-white text-sm font-semibold">
                     Open in Google Calendar
                 </a>
@@ -89,13 +97,15 @@
             {{-- Apple --}}
             <div class="rounded-lg border border-gray-200 bg-white p-4">
                 <h3 class="text-sm font-bold mb-2">Apple Calendar (iPhone / iPad / Mac)</h3>
-                <a href="{{ $webcal }}" class="inline-block w-full text-center px-3 py-2 rounded bg-black text-white text-sm font-semibold">
+                <a id="ics-apple-btn" href="{{ $webcal }}"
+                   class="inline-block w-full text-center px-3 py-2 rounded bg-black text-white text-sm font-semibold">
                     Subscribe via Apple Calendar
                 </a>
                 <p class="mt-2 text-xs text-gray-600">
                     Taps the <code>webcal://</code> link and opens the Calendar app to subscribe.
                 </p>
-                <a href="{{ $dlRoute }}" class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
+                <a id="ics-download-btn" href="{{ $dlRoute }}"
+                   class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
                     Or download {{ $year }} (.ics)
                 </a>
             </div>
@@ -103,13 +113,15 @@
             {{-- Outlook --}}
             <div class="rounded-lg border border-gray-200 bg-white p-4">
                 <h3 class="text-sm font-bold mb-2">Outlook (Windows / Mac / Web)</h3>
-                <a href="{{ $webcal }}" class="inline-block w-full text-center px-3 py-2 rounded bg-[#2563eb] text-white text-sm font-semibold">
+                <a id="ics-outlook-btn" href="{{ $webcal }}"
+                   class="inline-block w-full text-center px-3 py-2 rounded bg-[#2563eb] text-white text-sm font-semibold">
                     Subscribe in Outlook
                 </a>
                 <p class="mt-2 text-xs text-gray-600">
                     On Outlook Web: <em>My Calendars → Add calendar → From Internet</em>, then paste the feed URL.
                 </p>
-                <a href="{{ $dlRoute }}" class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
+                <a href="{{ $dlRoute }}"
+                   class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
                     Or download {{ $year }} (.ics)
                 </a>
             </div>
@@ -132,7 +144,6 @@
             </button>
         </div>
 
-        {{-- Friendly help line --}}
         <p class="mt-2 text-xs text-gray-600">
             <strong>What to use?</strong>
             Google users: click <em>Open in Google Calendar</em>. Apple/Outlook users: click <em>Subscribe</em> to open your calendar app automatically.
