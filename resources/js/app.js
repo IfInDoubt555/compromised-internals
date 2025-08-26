@@ -22,11 +22,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const calendar = new Calendar(calendarEl, {
             plugins: [dayGridPlugin, interactionPlugin],
             initialView: 'dayGridMonth',
+                
+            // ⬇️ Add these
+            displayEventTime: false,   // hides "12a" or time text
+            timeZone: 'local',         // optional, safe when sending YYYY-MM-DD only
+                
             events: function (info, successCallback, failureCallback) {
                 fetch('/api/events?start=' + info.startStr + '&end=' + info.endStr)
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Events loaded from API:', data); // ✅ DEBUG HERE
+                        console.log('Events loaded from API:', data);
                         successCallback(data);
                     })
                     .catch(error => {
@@ -34,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         failureCallback(error);
                     });
             },
-                        eventDataTransform: function (eventData) {
+        
+            eventDataTransform: function (eventData) {
                 return {
                     ...eventData,
-                    allDay: true // ⬅️ Ensure full-day rendering
+                    allDay: true
                 };
             }
         });
-
         calendar.render();
     }
 });

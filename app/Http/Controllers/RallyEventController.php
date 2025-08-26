@@ -17,44 +17,35 @@ class RallyEventController extends Controller
 
     public function api(Request $request)
     {
-        try {
-            $events = RallyEvent::query()
-                ->when($request->start, fn($q) => $q->whereDate('end_date', '>=', $request->start))
-                ->when($request->end, fn($q) => $q->whereDate('start_date', '<=', $request->end))
-                ->get()
-                ->map(function ($event) {
-                    if (!$event->start_date || !$event->end_date) {
-                        return null; // skip invalid events
-                    }
-
-                    $color = match ($event->championship) {
-                        'WRC' => '#1E40AF',
-                        'ARA' => '#15803D',
-                        'ERC' => '#9333EA',
-                        default => '#6B7280',
-                    };
-
-                    return [
-                        'title' => $event->name ?? 'Untitled Event',
-                        'start' => \Carbon\Carbon::parse($event->start_date)->startOfDay()->toIso8601String(),
-                        'end' => \Carbon\Carbon::parse($event->end_date)->addDay()->startOfDay()->toIso8601String(),
-                        'url' => $event->slug ? route('calendar.show', $event->slug) : '#',
-                        'color' => $color,
-                    ];
-                })
-                ->filter() // removes any nulls
-                ->values();
-
-            return response()->json($events);
-        } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::error('Calendar API failed: ' . $e->getMessage(), [
-                'start' => $request->start,
-                'end' => $request->end,
-                'trace' => $e->getTraceAsString(),
-            ]);
-
-            return response()->json(['error' => 'Failed to load events'], 500);
-        }
+        $events = RallyEvent::query()
+            ->when($request->start, fn($q) => $q->whereDate ('end_date', '>=', $request->start))
+            ->when($request->end, fn($q) => $q->whereDate   ('start_date', '<=', $request->end))
+            ->get()
+            ->map(function ($event) {
+                if (!$event->start_date || !$event->end_date) return null;
+            
+                $color = match ($event->championship) {
+                    'WRC' => '#1E40AF',
+                    'ARA' => '#15803D',
+                    'ERC' => '#9333EA',
+                    default => '#6B7280',
+                };
+            
+                return [
+                    'title'  => $event->name ?? 'Untitled Event',
+                    // Send DATE strings; no time, no timezone
+                    'start'  => $event->start_date->toDateString(),
+                    // FullCalendar end is exclusive, so add one day
+                    'end'    => $event->end_date->copy()->addDay()->toDateString(),
+                    'allDay' => true,
+                    'url'    => $event->slug ? route('calendar.show', $event->slug) :   '#',
+                    'color'  => $color,
+                ];
+            })
+            ->filter()
+            ->values();
+        
+        return response()->json($events);
     }
 
     public function show($slug)
