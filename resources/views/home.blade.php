@@ -107,48 +107,35 @@
         </div>
     </section>
 
-    <!-- Blog Highlights Title -->
-    <section class="max-w-6xl mx-auto px-6 mt-16 mb-4 text-center">
-        <h2 class="text-2xl text-black font-bold mb-2">📰 Latest Blog Posts</h2>
-        <h1 class="text-black ">Catch up on the latest rally insights, news, and behind-the-scenes stories from our team.</h1>
-    </section>
+    {{-- BLOG: Media List Rows --}}
+<section class="max-w-6xl mx-auto px-6 mt-16">
+  <h2 class="text-2xl text-black font-bold mb-2 text-center">📰 Latest Blog Posts</h2>
+  <p class="text-black text-center mb-6">Fresh posts from Compromised Internals.</p>
 
-    <!-- Blog Cards Section -->
-    <section class="p-6 grid grid-cols-1 bg-gray-400 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        @foreach($posts as $post)
-        <div class="bg-white-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
-            <div class="h-64 w-full flex items-center justify-center overflow-hidden rounded-t-lg bg-black/5 hover:bg-black/10 transition-colors duration-300">
-                @if ($post->image_path && Storage::disk('public')->exists($post->image_path))
-                <img src="{{ Storage::url($post->image_path) }}"
-                    alt="{{ $post->title }}"
-                    class="w-full h-full object-cover" />
-                @else
-                <img src="{{ asset('images/default-post.png') }}"
-                    alt="Default Blog Post Image"
-                    class="w-full h-full object-cover" />
-                @endif
+  <ul class="divide-y divide-gray-300/60">
+    @foreach($posts as $post)
+      <li class="py-5">
+        <a href="{{ route('posts.show', $post->slug) }}" class="grid sm:grid-cols-[160px_1fr] gap-5 items-center group">
+          <div class="aspect-[16/10] w-full sm:w-40 overflow-hidden rounded-lg">
+            <img
+              src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path) ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
+              alt="{{ $post->title }}"
+              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+          </div>
+          <div>
+            <div class="text-xs text-gray-600">
+              <span class="font-medium text-gray-800">{{ $post->user?->name ?? 'Unknown' }}</span>
+              <span>•</span>
+              <time datetime="{{ $post->created_at->toDateString() }}">{{ $post->created_at->format('M j, Y') }}</time>
             </div>
+            <h3 class="mt-1 font-orbitron text-xl font-bold text-gray-900 group-hover:underline">{{ $post->title }}</h3>
+            <p class="mt-1 text-gray-700 line-clamp-2">{{ $post->excerpt }}</p>
+          </div>
+        </a>
+      </li>
+    @endforeach
+  </ul>
+</section>
 
-            <div class="p-4 flex flex-col bg-gray-300 flex-grow space-y-2">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center space-x-3">
-                        <a href="{{ route('profile.public', $post->user->id) }}">
-                            <x-user-avatar :user="$post->user" size="w-10 h-10" />
-                        </a>
-                        <div>
-                            <p class="font-semibold text-black text-sm">{{ $post->user?->name ?? 'Unknown Author' }}</p>
-                            <p class="text-xs text-gray-500">{{ $post->created_at->format('M j, Y') }}</p>
-                        </div>
-                    </div>
-                    <a href="{{ route('posts.show', $post->slug) }}" class="px-4 py-2 bg-red-600 text-white font-semibold text-sm rounded hover:bg-red-700">
-                        Read More
-                    </a>
-                </div>
-                <h2 class="text-lg font-bold text-gray-900 font-orbitron">{{ $post->title }}</h2>
-                <p class="text-gray-600 flex-grow font-orbitron">{{ $post->excerpt }}</p>
-            </div>
-        </div>
-        @endforeach
-    </section>
 </div>
 @endsection

@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->take(3)->get();
+        $posts = Post::latest()->take(6)->get();
 
         // Define paths to all available decades
         $decades = range(1960, 1990, 10);
