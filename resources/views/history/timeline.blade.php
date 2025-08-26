@@ -25,12 +25,12 @@
         <ul class="divide-y border rounded-md overflow-hidden">
             @foreach(($eventsByDecade[$d] ?? []) as $e)
             <li class="p-3 history-card hover:bg-white/70 transition">
-            <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $d, 'id' => $e['id']]) }}"
-               class="font-medium hover:underline">
-              {{ $e['title'] }}
-            </a>
-            <p class="text-sm opacity-80">{{ $e['bio'] ?? '' }}</p>
-            </li>
+  <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $d, 'id' => $e['id'], 'view' => $view]) }}"
+     class="font-medium hover:underline">
+    {{ $e['title'] }}
+  </a>
+  <p class="text-sm opacity-80">{{ $e['bio'] ?? '' }}</p>
+</li>
           @endforeach
         </ul>
 
