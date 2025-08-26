@@ -9,16 +9,15 @@
     ];
 
     // Year + optional championship param carried through to feed/download links
-    $year      = now()->year;
-    $champ     = request('champ'); // 'WRC' | 'ERC' | 'ARA' | null
+    $year  = now()->year;
+    $champ = request('champ'); // 'WRC' | 'ERC' | 'ARA' | null
+
     $feedRoute = route('calendar.feed.year', array_filter(['year' => $year, 'champ' => $champ]));
     $dlRoute   = route('calendar.download.year', array_filter(['year' => $year, 'champ' => $champ]));
 
-    // webcal:// variant for native calendar apps (Apple/Outlook)
-    $webcal = preg_replace('#^https?://#', 'webcal://', $feedRoute);
-
-    // Google helper link that opens “Add calendar from URL” with your feed prefilled
-    $gcalAddUrl = 'https://calendar.google.com/calendar/r?cid=' . urlencode($feedRoute);
+    // Platform helpers
+    $webcal     = preg_replace('#^https?://#', 'webcal://', $feedRoute); // native subscribe for Apple/Outlook
+    $gcalAddUrl = 'https://calendar.google.com/calendar/r?cid=' . urlencode($feedRoute); // prefilled Google flow
 @endphp
 
 @push('head')
@@ -43,7 +42,7 @@
 <div class="max-w-4xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-4">Rally Calendar</h1>
 
-    {{-- Legend + Filters (JS wires these via #cal-controls [data-champ]) --}}
+    {{-- Legend + Filters (wired by app.js via #cal-controls [data-champ]) --}}
     <div id="cal-controls" class="mb-4 flex flex-wrap items-center gap-3 text-sm">
         <div class="flex items-center gap-2">
             <span class="inline-block h-3 w-3 rounded-full bg-blue-700"></span> WRC
@@ -66,53 +65,83 @@
     {{-- Calendar --}}
     <div id="calendar" class="bg-white rounded shadow p-4"></div>
 
-    {{-- ICS: subscribe/import controls (below the calendar) --}}
-    <div class="mt-6 flex flex-col gap-2">
-        <div class="flex flex-wrap items-stretch gap-2">
-            {{-- Google quick subscribe (opens Add-from-URL with feed prefilled) --}}
-            <a href="{{ $gcalAddUrl }}" target="_blank" rel="noopener"
-               class="px-3 py-1.5 rounded bg-gray-800 text-white text-sm">
-                Subscribe in Google
-            </a>
+    {{-- Subscribe / Download (hidden in a drawer) --}}
+    <details class="mt-6 group">
+        <summary class="cursor-pointer select-none flex items-center justify-between rounded-lg bg-gray-100 hover:bg-gray-200 px-4 py-3 text-sm font-semibold">
+            <span>Subscribe / Download calendar options</span>
+            <span class="ml-3 text-gray-500 group-open:rotate-180 transition-transform">▾</span>
+        </summary>
 
-            {{-- One-click subscribe for clients supporting webcal:// (Apple/Outlook variants) --}}
-            <a href="{{ $webcal }}" class="px-3 py-1.5 rounded bg-blue-600 text-white text-sm">
-                Subscribe (open in calendar app)
-            </a>
+        <div class="mt-4 grid gap-4 md:grid-cols-3">
+            {{-- Google --}}
+            <div class="rounded-lg border border-gray-200 bg-white p-4">
+                <h3 class="text-sm font-bold mb-2">Google Calendar (Web / Android / iOS)</h3>
+                <a href="{{ $gcalAddUrl }}" target="_blank" rel="noopener"
+                   class="inline-block w-full text-center px-3 py-2 rounded bg-[#1a73e8] text-white text-sm font-semibold">
+                    Open in Google Calendar
+                </a>
+                <p class="mt-2 text-xs text-gray-600">
+                    If that doesn’t open, copy the feed URL below and paste it in
+                    <em>Settings → Add calendar → From URL</em>.
+                </p>
+            </div>
 
-            {{-- Snapshot download (.ics) --}}
-            <a href="{{ $dlRoute }}" class="px-3 py-1.5 rounded bg-gray-200 text-gray-900 text-sm">
-                Download {{ $year }} (.ics)
-            </a>
+            {{-- Apple --}}
+            <div class="rounded-lg border border-gray-200 bg-white p-4">
+                <h3 class="text-sm font-bold mb-2">Apple Calendar (iPhone / iPad / Mac)</h3>
+                <a href="{{ $webcal }}" class="inline-block w-full text-center px-3 py-2 rounded bg-black text-white text-sm font-semibold">
+                    Subscribe via Apple Calendar
+                </a>
+                <p class="mt-2 text-xs text-gray-600">
+                    Taps the <code>webcal://</code> link and opens the Calendar app to subscribe.
+                </p>
+                <a href="{{ $dlRoute }}" class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
+                    Or download {{ $year }} (.ics)
+                </a>
+            </div>
 
-            {{-- Copy the raw HTTPS feed URL for apps that need paste-in --}}
-            <div class="flex items-stretch gap-2">
-                <input
-                    type="text"
-                    readonly
-                    value="{{ $feedRoute }}"
-                    class="w-[26rem] max-w-full px-3 py-1.5 rounded border border-gray-300 text-sm bg-white"
-                    id="icsFeedUrl"
-                    aria-label="ICS feed URL (copy for Google/Outlook web)">
-                <button
-                    type="button"
-                    class="px-3 py-1.5 rounded bg-gray-700 text-white text-sm"
-                    onclick="navigator.clipboard.writeText(document.getElementById('icsFeedUrl').value)">
-                    Copy URL
-                </button>
+            {{-- Outlook --}}
+            <div class="rounded-lg border border-gray-200 bg-white p-4">
+                <h3 class="text-sm font-bold mb-2">Outlook (Windows / Mac / Web)</h3>
+                <a href="{{ $webcal }}" class="inline-block w-full text-center px-3 py-2 rounded bg-[#2563eb] text-white text-sm font-semibold">
+                    Subscribe in Outlook
+                </a>
+                <p class="mt-2 text-xs text-gray-600">
+                    On Outlook Web: <em>My Calendars → Add calendar → From Internet</em>, then paste the feed URL.
+                </p>
+                <a href="{{ $dlRoute }}" class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
+                    Or download {{ $year }} (.ics)
+                </a>
             </div>
         </div>
 
-        <p class="text-xs text-gray-600">
-            Tip: <strong>Google Calendar</strong> users should click “Subscribe in Google”.  
-            Or copy the feed URL and paste in <em>Settings → Add calendar → From URL</em>.  
-            <strong>Apple/Outlook</strong> users can use the <code>Subscribe</code> button (webcal://) for a one-click subscription,
-            or import the downloaded <code>.ics</code> file for a one-time snapshot.
+        {{-- Feed URL + copy --}}
+        <div class="mt-4 flex flex-wrap items-stretch gap-2">
+            <input
+                type="text"
+                readonly
+                value="{{ $feedRoute }}"
+                class="w-[32rem] max-w-full px-3 py-2 rounded border border-gray-300 text-sm bg-white"
+                id="icsFeedUrl"
+                aria-label="ICS feed URL (copy for manual subscribe)">
+            <button
+                type="button"
+                class="px-3 py-2 rounded bg-gray-700 text-white text-sm"
+                onclick="navigator.clipboard.writeText(document.getElementById('icsFeedUrl').value)">
+                Copy URL
+            </button>
+        </div>
+
+        {{-- Friendly help line --}}
+        <p class="mt-2 text-xs text-gray-600">
+            <strong>What to use?</strong>
+            Google users: click <em>Open in Google Calendar</em>. Apple/Outlook users: click <em>Subscribe</em> to open your calendar app automatically.
+            You can always import a one-time snapshot by downloading the <code>.ics</code> file instead.
             @if($champ)
-                <span class="ml-1">(Links are filtered for <strong>{{ $champ }}</strong>.)</span>
+                <span class="ml-1">(Links are currently filtered for <strong>{{ $champ }}</strong>.)</span>
             @endif
         </p>
-    </div>
+    </details>
 
     <noscript class="text-red-500 text-center mt-4">
         Please enable JavaScript to view the event calendar.
