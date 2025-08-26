@@ -35,25 +35,43 @@
 
     {{-- ICS actions --}}
     <div class="mb-4 flex flex-wrap items-center gap-2">
-        {{-- Subscribe via URL (inline ICS) --}}
         <a href="{{ route('calendar.feed.year', ['year' => now()->year]) }}"
            target="_blank" rel="noopener"
            class="px-3 py-1.5 rounded bg-gray-700 text-white text-sm">
             Subscribe (Google Calendar via URL)
         </a>
 
-        {{-- Download .ics snapshot --}}
         <a href="{{ route('calendar.download.year', ['year' => now()->year]) }}"
            class="px-3 py-1.5 rounded bg-gray-200 text-gray-900 text-sm">
             Download {{ now()->year }} (.ics)
         </a>
 
-        {{-- Optional: subscribe only WRC --}}
+        {{-- Example champ-specific subscribe (optional) --}}
         <a href="{{ route('calendar.feed.year', ['year' => now()->year, 'champ' => 'WRC']) }}"
            target="_blank" rel="noopener"
            class="px-3 py-1.5 rounded bg-red-700 text-white text-sm">
             Subscribe WRC
         </a>
+    </div>
+
+    {{-- Legend + Filters --}}
+    <div id="cal-controls" class="mb-3 flex flex-wrap items-center gap-3 text-sm">
+        <div class="flex items-center gap-2">
+            <span class="inline-block h-3 w-3 rounded-full bg-blue-700"></span> WRC
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="inline-block h-3 w-3 rounded-full bg-amber-500"></span> ERC
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="inline-block h-3 w-3 rounded-full bg-green-600"></span> ARA
+        </div>
+
+        <div class="ml-auto flex gap-2">
+            <button data-champ=""    class="px-3 py-1 rounded bg-gray-700 text-white">All</button>
+            <button data-champ="WRC" class="px-3 py-1 rounded bg-gray-200 text-gray-900">WRC</button>
+            <button data-champ="ERC" class="px-3 py-1 rounded bg-gray-200 text-gray-900">ERC</button>
+            <button data-champ="ARA" class="px-3 py-1 rounded bg-gray-200 text-gray-900">ARA</button>
+        </div>
     </div>
 
     <div id="calendar" class="bg-white rounded shadow p-4"></div>

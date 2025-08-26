@@ -16,7 +16,7 @@
   }
 }
 
-/* Components (Calendar polish) */
+/* Components (Calendar polish + championships) */
 @layer components {
   /* FullCalendar toolbar */
   .fc .fc-toolbar { @apply !items-center !gap-2; }
@@ -28,16 +28,32 @@
   .fc-theme-standard td,
   .fc-theme-standard th { @apply border-gray-300; }
 
+  /* DayGrid event polish */
+  .fc .fc-daygrid-event { @apply border-0; }
+  .fc .fc-daygrid-event:hover { @apply brightness-110; }
+
+  /* Championship colors (grid + list) */
+  .champ-wrc .fc-daygrid-event  { @apply bg-blue-700 text-white; }
+  .champ-erc .fc-daygrid-event  { @apply bg-amber-500 text-black; }
+  .champ-ara .fc-daygrid-event  { @apply bg-green-600 text-white; }
+
+  .champ-wrc .fc-list-event-dot { @apply bg-blue-700; }
+  .champ-erc .fc-list-event-dot { @apply bg-amber-500; }
+  .champ-ara .fc-list-event-dot { @apply bg-green-600; }
+
   /* List (agenda) view polish */
   .fc .fc-list { @apply text-gray-900; }
   .fc .fc-list-event-title { @apply font-medium; }
   .fc .fc-list-event-time { @apply text-xs text-gray-600; }
+
+  /* Sticky day headers + softer rows in list view */
+  .fc .fc-list-day-cushion { @apply sticky top-0 z-10 bg-gray-100; }
+  .fc .fc-list-table { @apply rounded-xl overflow-hidden; }
+  .fc tr.fc-list-event:hover td { @apply bg-gray-50; }
 }
 
 /* Utilities */
 @layer utilities {
   .fade-in { @apply animate-fade-in; }
-
-  /* Font utility used across headings */
   .font-orbitron { font-family: 'Orbitron', sans-serif; }
 }
