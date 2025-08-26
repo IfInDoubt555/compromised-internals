@@ -51,6 +51,39 @@
   .fc .fc-list-day-cushion { @apply sticky top-0 z-10 bg-gray-100; }
   .fc .fc-list-table { @apply rounded-xl overflow-hidden; }
   .fc tr.fc-list-event:hover td { @apply bg-gray-50; }
+
+  /* ===========================
+     History section helpers
+     =========================== */
+
+  /* Readable card surface over animated decade backgrounds */
+  .history-card {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(3px);
+    border-radius: 0.5rem; /* a bit rounder looks nicer on gradients */
+  }
+
+  /* Slight hover so items feel interactive */
+  .history-card:hover {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Divider/border color that’s visible on gradients */
+  .history-divider {
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+
+  /* “Bookmark” decade tab baseline look if not fully using Tailwind classes */
+  .bookmark-tab {
+    @apply px-4 py-2 font-semibold rounded-r-lg shadow-sm transition;
+    background: rgba(255, 255, 255, 0.3);
+    border-left-width: 4px;
+  }
+  .bookmark-tab--active {
+    border-left-color: #ffffffaa;
+    background: rgba(255, 255, 255, 0.5);
+  }
 }
 
 /* Utilities */
