@@ -8,16 +8,36 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base */
 @layer base {
   html {
     font-family: 'Orbitron', sans-serif;
     font-size: 16px;
   }
 }
-@layer utilities {
-  .fade-in {
-    @apply animate-fade-in;
-  }
 
-  /* alias */
+/* Components (Calendar polish) */
+@layer components {
+  /* FullCalendar toolbar */
+  .fc .fc-toolbar { @apply !items-center !gap-2; }
+  .fc .fc-toolbar-title { @apply text-lg md:text-2xl font-orbitron; }
+  .fc .fc-button { @apply !py-1 !px-2 !text-sm rounded-md bg-gray-700 text-white hover:bg-gray-600; }
+
+  /* Month grid readability */
+  .fc .fc-daygrid-day-number { @apply text-xs md:text-sm; }
+  .fc-theme-standard td,
+  .fc-theme-standard th { @apply border-gray-300; }
+
+  /* List (agenda) view polish */
+  .fc .fc-list { @apply text-gray-900; }
+  .fc .fc-list-event-title { @apply font-medium; }
+  .fc .fc-list-event-time { @apply text-xs text-gray-600; }
+}
+
+/* Utilities */
+@layer utilities {
+  .fade-in { @apply animate-fade-in; }
+
+  /* Font utility used across headings */
+  .font-orbitron { font-family: 'Orbitron', sans-serif; }
 }

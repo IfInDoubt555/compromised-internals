@@ -8,45 +8,71 @@ Alpine.start();
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 
 window.FullCalendar = {
-    Calendar,
-    dayGridPlugin,
-    interactionPlugin
+  Calendar,
+  dayGridPlugin,
+  interactionPlugin,
+  listPlugin,
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-    const calendarEl = document.getElementById('calendar');
+const mq = window.matchMedia('(max-width: 768px)');
+const isMobile = () => mq.matches;
 
-    if (calendarEl) {
-        const calendar = new Calendar(calendarEl, {
-            plugins: [dayGridPlugin, interactionPlugin],
-            initialView: 'dayGridMonth',
-                
-            // ⬇️ Add these
-            displayEventTime: false,   // hides "12a" or time text
-            timeZone: 'local',         // optional, safe when sending YYYY-MM-DD only
-                
-            events: function (info, successCallback, failureCallback) {
-                fetch('/api/events?start=' + info.startStr + '&end=' + info.endStr)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Events loaded from API:', data);
-                        successCallback(data);
-                    })
-                    .catch(error => {
-                        console.error('Error loading events:', error);
-                        failureCallback(error);
-                    });
-            },
-        
-            eventDataTransform: function (eventData) {
-                return {
-                    ...eventData,
-                    allDay: true
-                };
-            }
+document.addEventListener('DOMContentLoaded', () => {
+  const calendarEl = document.getElementById('calendar');
+  if (!calendarEl) return;
+
+  const headerFor = () =>
+    isMobile()
+      ? { left: 'title', right: 'prev,next' }
+      : { left: 'prev,next today', center: 'title', right: '' };
+
+  const initialViewFor = () => (isMobile() ? 'listMonth' : 'dayGridMonth');
+
+  const calendar = new Calendar(calendarEl, {
+    plugins: [dayGridPlugin, interactionPlugin, listPlugin],
+    initialView: initialViewFor(),
+    headerToolbar: headerFor(),
+    contentHeight: 'auto',
+    expandRows: true,
+    dayMaxEvents: true,
+
+    displayEventTime: false,
+    timeZone: 'local',
+
+    views: {
+      listMonth: {
+        noEventsContent: 'No rallies this month.',
+      },
+    },
+
+    windowResize() {
+      const nextView = initialViewFor();
+      if (calendar.view.type !== nextView) {
+        calendar.changeView(nextView);
+      }
+      calendar.setOption('headerToolbar', headerFor());
+    },
+
+    events(info, success, failure) {
+      fetch(`/api/events?start=${info.startStr}&end=${info.endStr}`)
+        .then((r) => r.json())
+        .then((data) => {
+          console.log('Events loaded from API:', data);
+          success(data);
+        })
+        .catch((err) => {
+          console.error('Error loading events:', err);
+          failure(err);
         });
-        calendar.render();
-    }
+    },
+
+    eventDataTransform(eventData) {
+      return { ...eventData, allDay: true };
+    },
+  });
+
+  calendar.render();
 });
