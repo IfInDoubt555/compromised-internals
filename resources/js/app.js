@@ -1,7 +1,9 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
+import intersect from '@alpinejs/intersect';   // ← add this
 import './stages';
 
+Alpine.plugin(intersect);                      // ← and this
 window.Alpine = Alpine;
 Alpine.start();
 

@@ -47,10 +47,11 @@
       <ul class="divide-y border rounded-md overflow-hidden">
         @foreach($items as $e)
           <li class="p-3">
-            <a href="{{ route('history.show', $e->slug) }}" class="font-medium hover:underline">
-              {{ $e->year }} — {{ $e->title }}
+            <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $e['id']]) }}"
+               class="font-medium hover:underline">
+              {{ $e['year'] }} — {{ $e['title'] }}
             </a>
-            <p class="text-sm text-neutral-600 line-clamp-2">{{ $e->bio }}</p>
+            <p class="text-sm text-neutral-600 line-clamp-2">{{ $e['bio'] ?? '' }}</p>
           </li>
         @endforeach
       </ul>
