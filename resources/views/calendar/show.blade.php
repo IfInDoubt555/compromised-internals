@@ -56,13 +56,11 @@
       <p class="mt-2">
         <a href="{{ $event->official_url }}" target="_blank" rel="noopener nofollow"
            class="inline-flex items-center gap-2 text-blue-500 hover:underline">
-          {{-- small link icon --}}
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"     fill="currentColor"><path d="M10.59 13.41a1 1 0 0 0 1.41 1.41l4.24-4.24a3 3 0 1 0-4.24-4. 24l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06a1 1 0 1 1 1.41 1.41l-4.24 4.24ZM13.41 10.59a1 1 0 0 0-1.41-1.41L7.76 13.41a3 3 0 1 0 4.24 4.24l1.06-1.06a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l4.24-4.24Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 13.41a1 1 0 0 0 1.41 1.41l4.24-4.24a3 3 0 1 0-4.24-4.24l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06a1 1 0 1 1 1.41 1.41l-4.24 4.24ZM13.41 10.59a1 1 0 0 0-1.41-1.41L7.76 13.41a3 3 0 1 0 4.24 4.24l1.06-1.06a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l4.24-4.24Z"/></svg>
           Official Website
         </a>
       </p>
     @endif
-
 
     <section class="text-lg leading-relaxed text-slate-800">
         {!! nl2br(e($event->description ?? 'No additional information available.')) !!}
@@ -82,7 +80,6 @@
             @foreach($stages as $ss)
                 <div class="min-w-0 flex-[0_0_94%] md:flex-[0_0_66%] px-4 py-5" id="ss-{{ $ss->id }}">
                     <article class="rounded-2xl bg-white shadow-lg p-4 ring-1 ring-black/5">
-                        {{-- Image (uses model accessor for normalized absolute URL) --}}
                         @if($ss->map_image_src)
                           <img
                                src="{{ $ss->map_image_src }}"
@@ -91,7 +88,6 @@
                                class="w-full rounded-xl aspect-[16/9] object-cover ring-1 ring-black/5">
                         @endif
 
-                        {{-- Title + day chip --}}
                         <div class="mt-4 flex items-start justify-between gap-4">
                             <h3 class="text-xl md:text-2xl font-bold leading-snug text-slate-900">
                                 {{ $stageTitle($ss) }}
@@ -102,7 +98,6 @@
                             </span>
                         </div>
 
-                        {{-- Badges --}}
                         <div class="mt-2 flex flex-wrap items-center gap-2 text-[12px] text-slate-700">
                             @if(($ss->stage_type ?? 'SS') === 'SD')
                                 <span class="px-2 py-1 rounded-full bg-slate-100 ring-1 ring-slate-200 text-slate-800 font-semibold">Shakedown</span>
@@ -130,7 +125,6 @@
                             @endif
                         </div>
 
-                        {{-- GPX --}}
                         @if(!empty($ss->gpx_path))
                             <a class="mt-3 inline-block text-red-600 font-semibold hover:underline"
                                href="{{ Storage::url($ss->gpx_path) }}">

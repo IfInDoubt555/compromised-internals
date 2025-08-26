@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RallyEvent;
 use Illuminate\Http\Request;
+use App\Services\Schema\EventSchemaBuilder;
 
 class RallyEventController extends Controller
 {
@@ -63,16 +64,17 @@ class RallyEventController extends Controller
         return response()->json($events);
     }
 
-    public function show($slug)
+    public function show($slug, EventSchemaBuilder $schemaBuilder)
     {
         $event = RallyEvent::where('slug', $slug)
             ->with([
                 'days'   => fn ($q) => $q->orderBy('date'),
                 'stages' => fn ($q) => $q->orderBy('ss_number'),
             ])->firstOrFail();
-
+            
         $stagesByDay = $event->stages->groupBy('rally_event_day_id');
-
-        return view('calendar.show', compact('event', 'stagesByDay'));
+        $schema = $schemaBuilder->build($event);
+            
+        return view('calendar.show', compact('event', 'stagesByDay',    'schema'));
     }
 }
