@@ -23,13 +23,6 @@
   .fc .fc-toolbar-title { @apply text-lg md:text-2xl font-orbitron; }
   .fc .fc-button { @apply !py-1 !px-2 !text-sm rounded-md bg-gray-700 text-white hover:bg-gray-600; }
 
-  /* Sticky month/day headers in list view */
-  .fc .fc-list-day-cushion { @apply sticky top-0 z-10 bg-gray-100; }
-
-  /* Round the list and soften rows */
-  .fc .fc-list-table { @apply rounded-xl overflow-hidden; }
-  .fc tr.fc-list-event:hover td { @apply bg-gray-50; }
-
   /* Month grid readability */
   .fc .fc-daygrid-day-number { @apply text-xs md:text-sm; }
   .fc-theme-standard td,
