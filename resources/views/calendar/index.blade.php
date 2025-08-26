@@ -5,7 +5,7 @@
         'title'       => 'Rally Events Calendar | Compromised Internals',
         'description' => 'Explore upcoming and past rally events in our interactive calendar. Find dates, locations & detailed info for every rally.',
         'url'         => url()->current(),
-        'image'       => asset('images/calendar-og.png'), // put your own banner here
+        'image'       => asset('images/calendar-og.png'),
     ];
 @endphp
 
@@ -31,7 +31,30 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Rally Calendar</h1>
+    <h1 class="text-3xl font-bold mb-4">Rally Calendar</h1>
+
+    {{-- ICS actions --}}
+    <div class="mb-4 flex flex-wrap items-center gap-2">
+        {{-- Subscribe via URL (inline ICS) --}}
+        <a href="{{ route('calendar.feed.year', ['year' => now()->year]) }}"
+           target="_blank" rel="noopener"
+           class="px-3 py-1.5 rounded bg-gray-700 text-white text-sm">
+            Subscribe (Google Calendar via URL)
+        </a>
+
+        {{-- Download .ics snapshot --}}
+        <a href="{{ route('calendar.download.year', ['year' => now()->year]) }}"
+           class="px-3 py-1.5 rounded bg-gray-200 text-gray-900 text-sm">
+            Download {{ now()->year }} (.ics)
+        </a>
+
+        {{-- Optional: subscribe only WRC --}}
+        <a href="{{ route('calendar.feed.year', ['year' => now()->year, 'champ' => 'WRC']) }}"
+           target="_blank" rel="noopener"
+           class="px-3 py-1.5 rounded bg-red-700 text-white text-sm">
+            Subscribe WRC
+        </a>
+    </div>
 
     <div id="calendar" class="bg-white rounded shadow p-4"></div>
 

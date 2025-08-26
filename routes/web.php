@@ -24,6 +24,7 @@ use Spatie\Sitemap\Tags\Url;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\CalendarExportController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -55,6 +56,13 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
 Route::get('/calendar/{slug}', [RallyEventController::class, 'show'])->name('calendar.show');
+Route::get('/calendar/feed/{year}.ics', [CalendarExportController::class, 'year'])
+     ->whereNumber('year')
+     ->name('calendar.feed.year');     // Subscribe URL (inline)
+     
+Route::get('/calendar/download/{year}.ics', [CalendarExportController::class, 'download'])
+     ->whereNumber('year')
+     ->name('calendar.download.year'); // Download file
 
 Route::prefix('shop/cart')->name('shop.cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
