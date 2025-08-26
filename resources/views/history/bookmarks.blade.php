@@ -2,86 +2,208 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- before: <div x-data="{ decade: '{{ $decade }}', ... }" :class="`theme-${decade}`" class="min-h-screen"> --}}
-<div id="theme-wrapper"
-     x-data="{ decade: '{{ $decade }}', openYear: '{{ $year ?? '' }}' }"
-     :class="{
-       'decade-1960': decade==='1960s',
-       'decade-1970': decade==='1970s',
-       'decade-1980': decade==='1980s',
-       'decade-1990': decade==='1990s',
-       'decade-2000': decade==='2000s',
-       'decade-2010': decade==='2010s',
-       'decade-2020': decade==='2020s'
-     }"
-     class="min-h-screen">
-  <header class="max-w-6xl mx-auto px-4 py-6 flex items-center gap-3">
-    <h1 class="text-3xl font-bold">Rally History Archive</h1>
-    <div class="mb-4 flex gap-2">
-      @foreach(['events' => 'Events', 'cars' => 'Cars', 'drivers' => 'Drivers'] as $key => $label)
-        <a href="{{ route('history.index', ['view'=>'bookmarks','decade'=>$decade,  'tab'=>$key]) }}"
-           class="px-3 py-1 rounded-full border text-sm
-                  {{ $tab === $key ? 'bg-white/70' : 'bg-white/30 hover:bg-white/50' }}">
-          {{ $label }}
-        </a>
-      @endforeach
-    </div>
-    <a href="{{ route('history.index', ['view' => 'timeline']) }}" class="text-sm underline">Try Timeline →</a>
-  </header>
+<div
+  id="theme-wrapper"
+  class="min-h-screen history-body overflow-x-hidden"
+  x-data="historyDrawerOnly('{{ $tab }}', '{{ $decade }}', '{{ $year ?? '' }}')"
+  :class="{
+    'decade-1960': decade==='1960s',
+    'decade-1970': decade==='1970s',
+    'decade-1980': decade==='1980s',
+    'decade-1990': decade==='1990s',
+    'decade-2000': decade==='2000s',
+    'decade-2010': decade==='2010s',
+    'decade-2020': decade==='2020s',
+    'drawer-open': drawerOpen
+  }"
+  x-init="init()"
+>
+  <div class="block md:hidden flex items-center justify-center px-4 py-8">
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-center">
+      Rally History Archive
+    </h1>
+</div>
 
-  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-[140px_1fr] gap-6">
-    {{-- Bookmarks (decade tabs) --}}
-    <nav class="relative">
-      <ul class="flex md:flex-col gap-2">
+  {{-- ====== MOBILE pull-tab (only control) + one-time tooltip ====== --}}
+  <div class="md:hidden fixed left-0 top-1/2 -translate-y-1/2 z-40">
+    <button
+      type="button"
+      class="history-pull-tab"
+      @click="drawerOpen = true; markHintSeen()"
+      aria-label="Open browse drawer"
+    >▎</button>
+
+    {{-- Little bubble hint (first visit only) --}}
+    <div
+      x-show="showHint"
+      x-transition.opacity
+      class="absolute left-[36px] top-1/2 -translate-y-1/2 bg-black/80 text-white text-xs rounded-lg px-3 py-2 shadow-md"
+      style="pointer-events:none"
+    >
+      Tap for more options
+      <span class="ml-1 opacity-70">→</span>
+      <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-0 h-0
+                  border-y-8 border-y-transparent border-r-8 border-r-black/80"></div>
+    </div>
+  </div>
+
+  {{-- ====== MOBILE off-canvas drawer ====== --}}
+  <div class="md:hidden fixed inset-0 z-50"
+       x-show="drawerOpen"
+       x-transition.opacity
+       @click.self="drawerOpen = false">
+    <div class="history-drawer"
+         x-show="drawerOpen"
+         x-transition
+         @keydown.escape.window="drawerOpen=false">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-semibold">Browse</h3>
+        <button class="text-sm underline" @click="drawerOpen=false">Close</button>
+      </div>
+
+      {{-- Tabs --}}
+      <div class="flex gap-2 mb-3">
+        @foreach(['events' => 'Events', 'cars' => 'Cars', 'drivers' => 'Drivers'] as $key => $label)
+          <a href="{{ route('history.index', ['decade'=>$decade, 'tab'=>$key]) }}"
+             class="history-chip px-3 py-1 rounded-full text-sm {{ $tab === $key ? 'ring-1 ring-black/10' : 'hover:bg-white/80' }}"
+             @click="drawerOpen=false">
+            {{ $label }}
+          </a>
+        @endforeach
+      </div>
+
+      {{-- Decades --}}
+      <p class="text-xs uppercase tracking-wide text-gray-600 mb-1">Decades</p>
+      <ul class="grid grid-cols-3 gap-2 mb-4">
         @foreach($decades as $d)
           @php
-            $active = $d === $decade;
-            $params = ['view'=>'bookmarks','decade'=>$d,'tab'=>$tab];
+            $params = ['decade'=>$d, 'tab'=>$tab];
             if ($tab === 'events' && $year) { $params['year'] = $year; }
           @endphp
           <li>
             <a href="{{ route('history.index', $params) }}"
-               class="group relative block px-4 py-2 font-semibold
-                      bg-[var(--bg)] border-l-4
-                      {{ $active ? 'border-[var(--accent)] translate-x-0' : 'border-transparent     hover:translate-x-1' }}
-                      rounded-r-lg shadow-sm transition">
-              <span class="inline-block -skew-x-6">{{ $d }}</span>
-              <span class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3
-                           bg-[var(--accent)] rounded-tr-lg"></span>
+               class="history-chip block text-center px-2 py-1 rounded {{ $d===$decade ? 'ring-1 ring-black/20' : '' }}"
+               @click="drawerOpen=false">
+              {{ $d }}
             </a>
           </li>
         @endforeach
-       </ul>
+      </ul>
+
+      {{-- Years (events only) --}}
+      @if($tab === 'events' && !empty($years))
+        <p class="text-xs uppercase tracking-wide text-gray-600 mb-1">Years</p>
+        <div class="flex flex-wrap gap-2">
+          @foreach($years as $y)
+            <a href="{{ route('history.index', ['decade'=>$decade, 'tab'=>'events', 'year'=>$y]) }}"
+               class="history-chip px-2 py-1 rounded text-sm {{ (string)$y === (string)($year ?? '') ? 'ring-1 ring-black/20' : '' }}"
+               @click="drawerOpen=false">
+              {{ $y }}
+            </a>
+          @endforeach
+        </div>
+      @endif
+    </div>
+  </div>
+
+  {{-- ====== DESKTOP header ====== --}}
+  <header class="hidden md:block max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Rally History Archive</h1>
+    <div class="mt-4 flex gap-2">
+      @foreach(['events' => 'Events', 'cars' => 'Cars', 'drivers' => 'Drivers'] as $key => $label)
+        <a href="{{ route('history.index', ['decade'=>$decade, 'tab'=>$key]) }}"
+           class="history-chip px-3 py-1 rounded-full text-sm hover:bg-white/80 {{ $tab === $key ? 'ring-1 ring-black/10' : '' }}">
+          {{ $label }}
+        </a>
+      @endforeach
+    </div>
+  </header>
+
+  {{-- ====== DESKTOP grid ====== --}}
+  <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-[160px_1fr] gap-6">
+    {{-- Decade rail (desktop) --}}
+    <nav class="hidden md:block">
+      <ul class="flex md:flex-col gap-2">
+        @foreach($decades as $d)
+          @php
+            $active = $d === $decade;
+            $params = ['decade'=>$d, 'tab'=>$tab];
+            if ($tab === 'events' && $year) { $params['year'] = $year; }
+          @endphp
+          <li>
+            <a href="{{ route('history.index', $params) }}"
+               class="history-decade-tab block px-4 py-2 rounded-r-lg transition {{ $active ? 'is-active' : 'hover:translate-x-[2px]' }}">
+              <span class="inline-block -skew-x-6">{{ $d }}</span>
+            </a>
+          </li>
+        @endforeach
+      </ul>
     </nav>
 
     {{-- Main panel --}}
-    <section>
-      {{-- Year chip row — only for Events --}}
-        @if($tab === 'events' && !empty($years))
-          <div class="flex flex-wrap gap-2 mb-4">
-            @foreach($years as $y)
-              <a href="{{ route('history.index', ['view'=>'bookmarks','decade'=>$decade, 'tab'=>'events','year'=>$y]) }}"
-                 class="px-3 py-1 rounded-full border text-sm
-                        {{ (string)$y === (string)($year ?? '') ? 'bg-[var(--accent)] text-white' :'hover:bg-neutral-100' }}">
-                {{ $y }}
-              </a>
-            @endforeach
-          </div>
-        @endif
+    <section class="pb-16 md:pb-8">
+      {{-- Year chips (desktop only) --}}
+      @if($tab === 'events' && !empty($years))
+        <div class="hidden md:flex flex-wrap gap-2 mb-4">
+          @foreach($years as $y)
+            <a href="{{ route('history.index', ['decade'=>$decade, 'tab'=>'events', 'year'=>$y]) }}"
+               class="history-chip px-3 py-1 rounded-full text-sm {{ (string)$y === (string)($year ?? '') ? 'ring-1 ring-black/20' : 'hover:bg-white/80' }}">
+              {{ $y }}
+            </a>
+          @endforeach
+        </div>
+      @endif
 
-      {{-- Results list (no cards) --}}
-      <ul class="divide-y border rounded-md overflow-hidden">
+      {{-- Results list --}}
+      <ul class="space-y-3">
         @foreach($items as $e)
-           <li class="p-3 history-card hover:bg-white/70 transition">
-  <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $e['id'], 'view' => $view]) }}"
-     class="font-medium hover:underline">
-    {{ $e['title'] }}
-  </a>
-  <p class="text-sm opacity-80">{{ $e['bio'] ?? '' }}</p>
-</li>
+          @php
+            $display = $e['title'] ?? $e['name'] ?? $e['model'] ?? $e['driver'] ?? 'Untitled';
+            $blurb   = $e['bio'] ?? $e['summary'] ?? $e['description'] ?? '';
+          @endphp
+          <li class="history-card p-4 md:p-5 transition hover:bg-white/90">
+            <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $e['id']]) }}"
+               class="history-link history-title text-lg md:text-xl hover:underline">
+              {{ $display }}
+            </a>
+            @if($blurb !== '')
+              <p class="history-blurb mt-1 text-sm md:text-base">{{ $blurb }}</p>
+            @endif
+          </li>
         @endforeach
       </ul>
     </section>
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function historyDrawerOnly(tab, decade, year) {
+  const KEY = 'historyDrawerHintSeen:v1';
+  return {
+    tab, decade, year,
+    drawerOpen: false,
+    showHint: false,
+    hintTimer: null,
+
+    init() {
+      // one-time tooltip: show if we haven't shown it on this device
+      try {
+        const seen = localStorage.getItem(KEY);
+        if (!seen) {
+          this.showHint = true;
+          this.hintTimer = setTimeout(() => this.markHintSeen(), 3000);
+        }
+      } catch (_) { /* ignore */ }
+    },
+
+    markHintSeen() {
+      if (this.hintTimer) clearTimeout(this.hintTimer);
+      this.showHint = false;
+      try { localStorage.setItem(KEY, '1'); } catch (_) {}
+    }
+  }
+}
+</script>
+@endpush

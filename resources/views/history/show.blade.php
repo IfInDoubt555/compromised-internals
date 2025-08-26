@@ -18,9 +18,6 @@
   ];
   $decadeClass = $decadeMap[$decade] ?? 'decade-1960';
 
-  // Keep whichever index layout the user came from; default to bookmarks
-  $view = request('view', 'bookmarks');
-
   $label = match ($tab) {
     'drivers' => 'Driver',
     'cars'    => 'Car',
@@ -80,8 +77,8 @@
           <div></div>
         @endif
 
-        {{-- Back (preserve view/decade/tab) --}}
-        <a href="{{ route('history.index', ['view' => $view, 'decade' => $decade, 'tab' => $tab]) }}"
+        {{-- Back (always to Bookmarks index, preserve decade/tab) --}}
+        <a href="{{ route('history.index', ['decade' => $decade, 'tab' => $tab]) }}"
            class="text-blue-600 hover:text-blue-800 underline transition font-medium">
           Back to {{ ucfirst($label) }} Index
         </a>

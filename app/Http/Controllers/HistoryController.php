@@ -62,38 +62,21 @@ class HistoryController extends Controller
      */
     public function index(Request $request)
     {
-        $view   = $request->query('view', 'timeline');  // 'timeline' | 'bookmarks'
         $decade = $request->query('decade', '1960s');
         $year   = $request->query('year');
         $tab    = $request->query('tab', 'events');
-
+    
         $decades = $this->allDecades();
-
-        if ($view === 'bookmarks') {
-            $items = $this->listItems($tab, $decade, $year);
-            $years = $this->yearsFor($decade, $tab);
-            return view('history.bookmarks', [
-                'decades' => $decades,
-                'decade'  => $decade,
-                'year'    => $year,
-                'tab'     => $tab,
-                'items'   => $items,
-                'years'   => $years,
-                'view'    => $view,
-            ]);
-        }
-
-        // timeline view: we need events grouped by decade
-        $eventsByDecade = [];
-        foreach ($decades as $d) {
-            // timeline is about events; keep it simple
-            $eventsByDecade[$d] = $this->listItems('events', $d);
-        }
-
-        return view('history.timeline', [
-            'decades'        => $decades,
-            'eventsByDecade' => $eventsByDecade,
-            'view'           => $view,
+        $items   = $this->listItems($tab, $decade, $year);
+        $years   = $this->yearsFor($decade, $tab); // only used for events
+    
+        return view('history.bookmarks', [
+            'decades' => $decades,
+            'decade'  => $decade,
+            'year'    => $year,
+            'tab'     => $tab,
+            'items'   => $items,
+            'years'   => $years,
         ]);
     }
 
@@ -128,23 +111,30 @@ class HistoryController extends Controller
         if (!in_array($tab, $validTabs, true)) {
             return collect();
         }
-
+    
         $path = public_path("data/{$tab}-{$decade}.json");
         if (!File::exists($path)) {
             return collect();
         }
-
+    
         $rows = collect(json_decode(File::get($path), true) ?: []);
-
-        // Only events reliably have year; guard for others
-        if ($tab === 'events' && $year) {
+    
+        // --- EVENTS: keep the file's original ordering ---
+        if ($tab === 'events') {
+            if ($year) {
+                $rows = $rows->filter(fn ($r) => (int)($r['year'] ?? 0) ===     (int) $year);
+            }
+            return $rows->values(); // no sorting → preserve JSON order
+        }
+    
+        // --- CARS/DRIVERS: reasonable stable sort (year then display name) ---
+        if ($year) {
             $rows = $rows->where('year', (int) $year);
         }
-
-        // Stable sorting: by year (asc) then title (asc)
+    
         return $rows->sortBy([
             fn ($row) => (int)($row['year'] ?? 0),
-            fn ($row) => (string)($row['title'] ?? ''),
+            fn ($row) => (string)($row['title'] ?? $row['name'] ?? $row['model'] ?? $row    ['driver'] ?? ''),
         ])->values();
     }
 }

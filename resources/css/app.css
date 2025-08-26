@@ -14,40 +14,41 @@
     font-family: 'Orbitron', sans-serif;
     font-size: 16px;
   }
+
+  /* prevent any horizontal overflow globally */
+  html, body {
+    overflow-x: hidden;
+  }
 }
 
-/* Components (Calendar polish + championships) */
+/* Components (Calendar polish + championships + History helpers) */
 @layer components {
-  /* FullCalendar toolbar */
+  /* -------- FullCalendar -------- */
   .fc .fc-toolbar { @apply !items-center !gap-2; }
   .fc .fc-toolbar-title { @apply text-lg md:text-2xl font-orbitron; }
   .fc .fc-button { @apply !py-1 !px-2 !text-sm rounded-md bg-gray-700 text-white hover:bg-gray-600; }
 
-  /* Month grid readability */
   .fc .fc-daygrid-day-number { @apply text-xs md:text-sm; }
   .fc-theme-standard td,
   .fc-theme-standard th { @apply border-gray-300; }
 
-  /* DayGrid event polish */
   .fc .fc-daygrid-event { @apply border-0; }
   .fc .fc-daygrid-event:hover { @apply brightness-110; }
 
-  /* Championship colors — Month grid (COMBINED CLASS, no space) */
+  /* Month grid colors (combined class) */
   .champ-wrc.fc-daygrid-event { @apply bg-blue-700 text-white; }
   .champ-erc.fc-daygrid-event { @apply bg-amber-500 text-black; }
   .champ-ara.fc-daygrid-event { @apply bg-green-600 text-white; }
 
-  /* Championship colors — List view dots (descendant is correct) */
+  /* List view dots */
   .champ-wrc .fc-list-event-dot { @apply bg-blue-700; }
   .champ-erc .fc-list-event-dot { @apply bg-amber-500; }
   .champ-ara .fc-list-event-dot { @apply bg-green-600; }
 
-  /* List (agenda) view polish */
   .fc .fc-list { @apply text-gray-900; }
   .fc .fc-list-event-title { @apply font-medium; }
   .fc .fc-list-event-time { @apply text-xs text-gray-600; }
 
-  /* Sticky day headers + softer rows in list view */
   .fc .fc-list-day-cushion { @apply sticky top-0 z-10 bg-gray-100; }
   .fc .fc-list-table { @apply rounded-xl overflow-hidden; }
   .fc tr.fc-list-event:hover td { @apply bg-gray-50; }
@@ -61,20 +62,52 @@
     background: rgba(255, 255, 255, 0.55);
     border: 1px solid rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(3px);
-    border-radius: 0.5rem; /* a bit rounder looks nicer on gradients */
+    border-radius: 0.5rem;
+    max-width: 100%;
+    overflow-x: clip;
   }
 
-  /* Slight hover so items feel interactive */
-  .history-card:hover {
-    background: rgba(255, 255, 255, 0.7);
+  /* keep any surfaces from widening the layout */
+  .history-card,
+  .history-section,
+  .history-list {
+    max-width: 100%;
+    overflow-x: clip;
   }
+  
+  .history-card:hover { background: rgba(255, 255, 255, 0.7); }
 
   /* Divider/border color that’s visible on gradients */
-  .history-divider {
-    border-color: rgba(0, 0, 0, 0.12);
+  .history-divider { border-color: rgba(0, 0, 0, 0.12); }
+
+  /* Small chip buttons used for tabs/years */
+  .history-chip {
+    background: rgba(255,255,255,.85);
+    border: 1px solid rgba(0,0,0,.06);
+    border-radius: 9999px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
   }
 
-  /* “Bookmark” decade tab baseline look if not fully using Tailwind classes */
+  /* Decade rail tab (desktop) */
+  .history-decade-tab {
+    background: rgba(255,255,255,.30);
+    border-left: 4px solid transparent;
+    border-top-right-radius: .75rem;
+    border-bottom-right-radius: .75rem;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  }
+  .history-decade-tab.is-active {
+    border-left-color: rgba(0,0,0,.25);
+    background: rgba(255,255,255,.55);
+  }
+
+  .history-title { 
+    @apply font-semibold;
+    word-break: break-word;
+    hyphens: auto; }
+  .history-blurb { @apply text-gray-700; }
+
+  /* “Bookmark” decade tab (legacy helper if needed) */
   .bookmark-tab {
     @apply px-4 py-2 font-semibold rounded-r-lg shadow-sm transition;
     background: rgba(255, 255, 255, 0.3);
@@ -84,10 +117,70 @@
     border-left-color: #ffffffaa;
     background: rgba(255, 255, 255, 0.5);
   }
+
+  /* --- Mobile toolbar & drawer ---------------------------------- */
+  .history-toolbar {
+    display: grid;
+    gap: .5rem;
+    padding: .5rem;
+    border-radius: .75rem;
+    background: rgba(255,255,255,.86);
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .history-toolbar--ghost {
+    transform: translateY(-10px);
+    opacity: .35;
+    pointer-events: none;
+  }
+
+  /* Drawer: fixed, never wider than the screen, fully off-canvas when closed */
+.history-drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 78%;
+  max-width: min(320px, 90vw);
+  height: 100%;
+  background: rgba(255,255,255,.98);
+  border-right: 1px solid rgba(0,0,0,.06);
+  padding: 1rem;
+
+  /* Move completely off the viewport (border/shadow safe) */
+  transform: translateX(calc(-100% - 8px));
+  will-change: transform;
+  contain: layout paint; /* prevents it from affecting page size */
+}
+
+/* When open, slide in */
+.drawer-open .history-drawer { transform: translateX(0); }
+
+/* Pull tab should not affect layout width */
+.history-pull-tab {
+  position: fixed;       /* ← important */
+  left: 0;
+  top: 45%;
+  translate: 0 -50%;
+  z-index: 40;
+  width: 26px;
+  height: 46px;
+  border-radius: 0 .5rem .5rem 0;
+  background: rgba(0,0,0,.65);
+  color: #fff;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.history-pull-tab:active { transform: scale(.98); }
 }
 
 /* Utilities */
 @layer utilities {
   .fade-in { @apply animate-fade-in; }
   .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+  /* no-scrollbar helper (used on mobile chips) */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
