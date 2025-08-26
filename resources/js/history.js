@@ -1,219 +1,198 @@
-import noUiSlider from 'nouislider';
-import 'nouislider/dist/nouislider.css';
+// resources/js/history.js (slider removed)
 import initScrollControls from './scrollControls';
 
 let currentDecade = 1960;
-let activeTab = "events";
-let historyContent = null;
+let activeTab = 'events';
 let yearFilter = null;
 
+const EL = {
+  wrapper: null,
+  content: null,
+  yearSelect: null,
+  tabButtons: () => document.querySelectorAll('.tab-btn'),
+};
+
 function updateDecadeTheme(decade) {
-  const wrapper = document.getElementById("theme-wrapper");
-  if (!wrapper) return;
-  wrapper.classList.forEach(cls => {
-    if (cls.startsWith("decade-")) wrapper.classList.remove(cls);
+  if (!EL.wrapper) return;
+  // remove any previous decade-* class
+  [...EL.wrapper.classList].forEach((cls) => {
+    if (cls.startsWith('decade-')) EL.wrapper.classList.remove(cls);
   });
-  wrapper.classList.add(`decade-${decade}`);
+  EL.wrapper.classList.add(`decade-${decade}`);
 }
 
 function populateYearDropdown(decadeStart) {
-  const yearFilterInput = document.getElementById("year-filter");
-  if (!yearFilterInput) return;
-
-  yearFilterInput.innerHTML = `<option value="">Full Decade</option>`;
+  if (!EL.yearSelect) return;
+  EL.yearSelect.innerHTML = `<option value="">Full Decade</option>`;
   const end = decadeStart + 9;
   for (let y = decadeStart; y <= end; y++) {
-    const option = document.createElement("option");
-    option.value = y;
-    option.textContent = y;
-    yearFilterInput.appendChild(option);
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    EL.yearSelect.appendChild(opt);
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function setYearFilterFromSelect() {
+  if (!EL.yearSelect) return;
+  const val = parseInt(EL.yearSelect.value, 10);
+  yearFilter = Number.isNaN(val) ? null : val;
+}
+
+function showHideYearDropdown() {
+  if (!EL.yearSelect) return;
+  if (activeTab === 'events') {
+    EL.yearSelect.classList.remove('hidden');
+    populateYearDropdown(currentDecade);
+  } else {
+    EL.yearSelect.classList.add('hidden');
+    EL.yearSelect.value = '';
+    yearFilter = null;
+  }
+}
+
+function wireYearDropdown() {
+  if (!EL.yearSelect) return;
+  EL.yearSelect.addEventListener('change', () => {
+    setYearFilterFromSelect();
+    loadHistoryContent(activeTab, currentDecade);
+  });
+}
+
+function wireTabs() {
+  EL.tabButtons().forEach((btn) => {
+    btn.addEventListener('click', () => {
+      // visual state
+      EL.tabButtons().forEach((b) => {
+        b.classList.remove('bg-blue-600', 'text-white');
+        b.classList.add('bg-gray-300', 'text-black');
+      });
+      btn.classList.remove('bg-gray-300', 'text-black');
+      btn.classList.add('bg-blue-600', 'text-white');
+
+      // data state
+      activeTab = btn.dataset.tab || 'events';
+      showHideYearDropdown();
+      loadHistoryContent(activeTab, currentDecade);
+    });
+  });
+}
+
+function readUrlState() {
+  const url = new URLSearchParams(window.location.search);
+  const startDecade = url.has('decade') ? parseInt(url.get('decade'), 10) : 1960;
+  const startTab = url.get('tab') || 'events';
+  const startYear = url.has('year') ? parseInt(url.get('year'), 10) : null;
+
+  currentDecade = Number.isNaN(startDecade) ? 1960 : startDecade;
+  activeTab = startTab;
+
+  if (EL.yearSelect && !Number.isNaN(startYear) && activeTab === 'events') {
+    populateYearDropdown(currentDecade);
+    EL.yearSelect.value = String(startYear);
+    setYearFilterFromSelect();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Always enable scroll assist
   initScrollControls();
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const startDecade = urlParams.has('decade') ? parseInt(urlParams.get('decade'), 10) : 1960;
-  const startTab = urlParams.get('tab') || "events";
-  const slider = document.getElementById("slider");
-  const selectedTitle = document.getElementById("selected-decade-title");
-  const viewButton = document.getElementById("view-button");
-  historyContent = document.getElementById("history-content");
-  const yearFilterInput = document.getElementById("year-filter");
+  // Element refs
+  EL.wrapper = document.getElementById('theme-wrapper');
+  EL.content = document.getElementById('history-content');
+  EL.yearSelect = document.getElementById('year-filter');
 
-  if (yearFilterInput) {
-    yearFilterInput.addEventListener("change", () => {
-      const val = parseInt(yearFilterInput.value, 10);
-      yearFilter = !isNaN(val) ? val : null;
-      loadHistoryContent(activeTab, currentDecade);
-    });
-  }
+  // Read initial state from URL
+  readUrlState();
 
-  if (viewButton) {
-    viewButton.disabled = true;
-    viewButton.innerText = "Loading...";
-  }
-
-  noUiSlider.create(slider, {
-    start: [startDecade],
-    step: 10,
-    range: { min: 1960, max: 2020 },
-    tooltips: false,
-    format: {
-      to: v => Math.round(v),
-      from: v => Number(v)
-    }
-  });
-
-  currentDecade = startDecade;
-  activeTab = startTab;
+  // Apply theme and UI state
   updateDecadeTheme(currentDecade);
+  showHideYearDropdown();
 
-  function updateYearInputBounds() {
-    populateYearDropdown(currentDecade);
-    if (yearFilterInput) {
-      yearFilterInput.value = "";
-      yearFilter = null;
-    }
-  }
-
-  // Fix: Show year dropdown immediately if "events" is active
-  if (yearFilterInput) {
-    if (activeTab === "events") {
-      yearFilterInput.classList.remove("hidden");
-      populateYearDropdown(currentDecade);
-    } else {
-      yearFilterInput.classList.add("hidden");
-    }
-  }
-
-  slider.noUiSlider.on("update", (values, handle) => {
-    const decadeKey = Math.floor(values[handle] / 10) * 10;
-    selectedTitle.textContent = `Selected: ${decadeKey}`;
-    if (decadeKey !== currentDecade) {
-      currentDecade = decadeKey;
-      updateDecadeTheme(currentDecade);
-      updateYearInputBounds();
-      loadHistoryContent(activeTab, currentDecade);
-    }
-  });
-
-  document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      // Reset tab styles
-      document.querySelectorAll(".tab-btn").forEach(b => {
-        b.classList.remove("bg-blue-600", "text-white");
-        b.classList.add("bg-gray-300", "text-black");
-      });
-      btn.classList.remove("bg-gray-300", "text-black");
-      btn.classList.add("bg-blue-600", "text-white");
-
-      // Set active tab
-      activeTab = btn.dataset.tab;
-
-      // Handle year filter visibility and reset when not on "events"
-      if (yearFilterInput) {
-        if (activeTab === "events") {
-          yearFilterInput.classList.remove("hidden");
-          updateYearInputBounds();
-        } else {
-          yearFilterInput.classList.add("hidden");
-          yearFilterInput.value = "";
-          yearFilter = null;
-        }
-      }
-
-      loadHistoryContent(activeTab, currentDecade);
-    });
-  });
+  // Wire controls
+  wireYearDropdown();
+  wireTabs();
 
   // Initial load
-  slider.noUiSlider.set(startDecade);
-  selectedTitle.textContent = `Selected: ${startDecade}`;
-  updateYearInputBounds();
   loadHistoryContent(activeTab, currentDecade);
-
-  if (viewButton) {
-    viewButton.disabled = false;
-    viewButton.innerText = "View History";
-    viewButton.addEventListener("click", () => {
-      const raw = slider.noUiSlider.get();
-      const decade = Math.floor(raw / 10) * 10;
-      currentDecade = decade;
-      updateDecadeTheme(currentDecade);
-      updateYearInputBounds();
-      loadHistoryContent(activeTab, currentDecade);
-    });
-  }
 });
 
 function loadHistoryContent(tab, decade) {
-  if (!historyContent) return;
-  historyContent.innerHTML = `<p class="text-center text-gray-500">Loading ${tab} for the ${decade}s...</p>`;
+  if (!EL.content) return;
+  EL.content.innerHTML = `<p class="text-center text-gray-500">Loading ${tab} for the ${decade}s...</p>`;
 
-  const path = `/data/${tab}-${decade}s.json?version=${new Date().getTime()}`;
+  const path = `/data/${tab}-${decade}s.json?version=${Date.now()}`;
 
   fetch(path)
-    .then(res => res.json())
-    .then(items => {
-      if (!Array.isArray(items) || items.length === 0) {
-        historyContent.innerHTML = `<p class="text-center text-gray-500">No ${tab} data available for the ${decade}s.</p>`;
+    .then((res) => res.json())
+    .then((items) => {
+      let list = Array.isArray(items) ? items : [];
+      if (tab === 'events' && yearFilter) {
+        list = list.filter((item) => item.year === yearFilter);
+      }
+
+      if (!list.length) {
+        const msg =
+          tab === 'events' && yearFilter
+            ? `No ${tab} entries found for year ${yearFilter}.`
+            : `No ${tab} data available for the ${decade}s.`;
+        EL.content.innerHTML = `<p class="text-center text-gray-500">${msg}</p>`;
         return;
       }
 
-      // Apply year filter ONLY for events tab
-      if (tab === "events" && yearFilter) {
-        items = items.filter(item => item.year === yearFilter);
-      }
+      // Build grid
+      EL.content.innerHTML = '';
+      const grid = document.createElement('div');
+      grid.classList.add(
+        'grid',
+        'grid-cols-1',
+        'sm:grid-cols-2',
+        'lg:grid-cols-3',
+        'xl:grid-cols-4',
+        'gap-4'
+      );
 
-      if (items.length === 0) {
-        const msg = tab === "events" && yearFilter
-          ? `No ${tab} entries found for year ${yearFilter}.`
-          : `No ${tab} entries found.`;
-        historyContent.innerHTML = `<p class="text-center text-gray-500">${msg}</p>`;
-        return;
-      }
-
-      historyContent.innerHTML = "";
-
-      const grid = document.createElement("div");
-      grid.classList.add("grid", "grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3", "xl:grid-cols-4", "gap-4");
-
-      items.forEach(item => {
-        const title = item.title || item.name || "Untitled";
-        const description = item.bio || "No summary available.";
+      list.forEach((item) => {
+        const title = item.title || item.name || 'Untitled';
+        const description =
+          item.bio || item.summary || item.description || 'No summary available.';
         const link = `/history/${tab}/${decade}/${item.id}`;
 
-        const card = document.createElement("div");
+        const card = document.createElement('div');
         card.classList.add(
-          "card", "bg-white", "rounded-lg", "shadow-md",
-          "overflow-hidden", "flex", "flex-col", "items-center", "p-4"
+          'card',
+          'bg-white',
+          'rounded-lg',
+          'shadow-md',
+          'overflow-hidden',
+          'flex',
+          'flex-col',
+          'items-center',
+          'p-4'
         );
 
-        const h2 = document.createElement("h2");
-        h2.className = "text-xl font-bold mb-2 text-center";
+        const h2 = document.createElement('h2');
+        h2.className = 'text-xl font-bold mb-2 text-center';
         h2.textContent = title;
-        card.appendChild(h2);
 
-        const p = document.createElement("p");
-        p.className = "text-gray-600 mb-4 text-center";
+        const p = document.createElement('p');
+        p.className = 'text-gray-600 mb-4 text-center';
         p.textContent = description;
-        card.appendChild(p);
 
-        const a = document.createElement("a");
+        const a = document.createElement('a');
         a.href = link;
-        a.className = "mt-auto text-blue-600 hover:underline";
-        a.textContent = "Read More";
-        card.appendChild(a);
+        a.className = 'mt-auto text-blue-600 hover:underline';
+        a.textContent = 'Read More';
 
+        card.append(h2, p, a);
         grid.appendChild(card);
       });
 
-      historyContent.appendChild(grid);
+      EL.content.appendChild(grid);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(`Failed to load ${tab} for ${decade}:`, err);
-      historyContent.innerHTML = `<p class="text-center text-red-600">Failed to load ${tab} data for the ${decade}s.</p>`;
+      EL.content.innerHTML = `<p class="text-center text-red-600">Failed to load ${tab} data for the ${decade}s.</p>`;
     });
 }
