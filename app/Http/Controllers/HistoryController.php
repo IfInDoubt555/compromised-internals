@@ -63,25 +63,50 @@ class HistoryController extends Controller
     public function index(Request $request)
     {
         $view   = $request->query('view', 'timeline');  // 'timeline' | 'bookmarks'
-        $decade = $request->query('decade', '1960s');   // keep as string, e.g. '1960s'
-        $year   = $request->query('year');              // optional, mainly for events
-        $tab    = $request->query('tab', 'events');     // 'events' | 'cars' | 'drivers'
-
+        $decade = $request->query('decade', '1960s');
+        $year   = $request->query('year');
+        $tab    = $request->query('tab', 'events');
+    
         $decades = $this->allDecades();
-
-        // Load items for the chosen tab/decade (and optional year for events)
-        $items = $this->listItems($tab, $decade, $year);
-
-        $blade = $view === 'bookmarks' ? 'history.bookmarks' : 'history.timeline';
-
-        return view($blade, [
-            'decades' => $decades,
-            'decade'  => $decade,
-            'year'    => $year,
-            'tab'     => $tab,
-            'items'   => $items, // use this in your list partials
-            'view'    => $view,
+    
+        if ($view === 'bookmarks') {
+            $items = $this->listItems($tab, $decade, $year);
+            $years = $this->yearsFor($decade, $tab); // NEW
+            return view('history.bookmarks', [
+                'decades' => $decades,
+                'decade'  => $decade,
+                'year'    => $year,
+                'tab'     => $tab,
+                'items'   => $items,
+                'years'   => $years,   // pass to Blade
+                'view'    => $view,
+            ]);
+        }
+    
+        // timeline view: we need events grouped by decade
+        $eventsByDecade = [];
+        foreach ($decades as $d) {
+            // timeline is about events; keep it simple
+            $eventsByDecade[$d] = $this->listItems('events', $d);
+        }
+    
+        return view('history.timeline', [
+            'decades'        => $decades,
+            'eventsByDecade' => $eventsByDecade, // pass to Blade
+            'view'           => $view,
         ]);
+    }
+    
+    /** Unique years available for a decade (per tab) */
+    private function yearsFor(string $decade, string $tab = 'events'): array
+    {
+        return $this->listItems($tab, $decade)
+            ->pluck('year')
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values()
+            ->all();
     }
 
     /** Available decades (adjust or auto-detect from files if you prefer). */

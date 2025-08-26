@@ -34,7 +34,7 @@
     <section>
       {{-- Year chip row --}}
       <div class="flex flex-wrap gap-2 mb-4">
-        @foreach(collect(app(HistoryRepo::class)->yearsFor($decade))->sort() as $y)
+        @foreach($years as $y)
           <a href="{{ route('history.index', ['view'=>'bookmarks','decade'=>$decade,'year'=>$y]) }}"
              class="px-3 py-1 rounded-full border text-sm
                     {{ (string)$y === (string)($year ?? '') ? 'bg-[var(--accent)] text-white' : 'hover:bg-neutral-100' }}">
@@ -45,7 +45,7 @@
 
       {{-- Results list (no cards) --}}
       <ul class="divide-y border rounded-md overflow-hidden">
-        @foreach($events as $e)
+        @foreach($items as $e)
           <li class="p-3">
             <a href="{{ route('history.show', $e->slug) }}" class="font-medium hover:underline">
               {{ $e->year }} — {{ $e->title }}

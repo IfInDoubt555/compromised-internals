@@ -20,7 +20,7 @@
         </div>
 
         <ul class="divide-y border rounded-md overflow-hidden">
-          @foreach(app(HistoryRepo::class)->list($d) as $e)
+            @foreach(($eventsByDecade[$d] ?? []) as $e)
             <li class="p-3">
               <a href="{{ route('history.show', $e->slug) }}" class="font-medium hover:underline">
                 {{ $e->year }} — {{ $e->title }}
