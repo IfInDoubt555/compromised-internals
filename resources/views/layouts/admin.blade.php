@@ -34,7 +34,7 @@
 
                 <a href="{{ route('admin.events.index') }}"
                     class="block px-3 py-2 rounded hover:bg-gray-700 {{ request()->routeIs('admin.events.*') ? 'bg-gray-800' : '' }}">
-                    🏁 Rally Events
+                     Rally Events
                 </a>
 
                 <a href="{{ route('admin.emails.index') }}"

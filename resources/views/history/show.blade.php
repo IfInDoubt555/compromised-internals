@@ -72,10 +72,10 @@
             </span>
           @endif
           @if($startLocation)
-            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 ring-1 ring-white/15">🏁 Start: {{ $startLocation }}</span>
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 ring-1 ring-white/15"> Start: {{ $startLocation }}</span>
           @endif
           @if($finishLocation)
-            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 ring-1 ring-white/15">🏁 Finish: {{ $finishLocation }}</span>
+            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 ring-1 ring-white/15"> Finish: {{ $finishLocation }}</span>
           @endif
         </div>
       </div>
@@ -112,22 +112,22 @@
   <section class="max-w-5xl mx-auto px-4">
     <div class="mt-6 flex flex-wrap gap-2">
       @if($tab === 'events')
-        <a href="#overview"   class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🏁 Overview</a>
-        <a href="#route"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🗺️ Route</a>
-        <a href="#results"    class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🏆 Results</a>
-        <a href="#vehicles"   class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🚗 Cars</a>
-        <a href="#challenges" class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🧭 Challenges</a>
+        <a href="#overview"   class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Overview</a>
+        <a href="#route"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">Route</a>
+        <a href="#results"    class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Results</a>
+        <a href="#vehicles"   class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Cars</a>
+        <a href="#challenges" class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Challenges</a>
       @elseif($tab === 'drivers')
-        <a href="#overview"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🏁 Overview</a>
-        <a href="#achievements"  class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🏆 Achievements</a>
-        <a href="#vehicles"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🚗 Vehicles</a>
-        <a href="#style"         class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🧠 Style & Legacy</a>
-        <a href="#teamwork"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🤝 Teamwork</a>
+        <a href="#overview"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Overview</a>
+        <a href="#achievements"  class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Achievements</a>
+        <a href="#vehicles"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Vehicles</a>
+        <a href="#style"         class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Style & Legacy</a>
+        <a href="#teamwork"      class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Teamwork</a>
       @else {{-- cars --}}
-        <a href="#overview"     class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🏁 Overview</a>
-        <a href="#specs"        class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">⚙️ Specs</a>
-        <a href="#highlights"   class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🏆 Highlights</a>
-        <a href="#character"    class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900">🧠 Characteristics</a>
+        <a href="#overview"     class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Overview</a>
+        <a href="#specs"        class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Specs</a>
+        <a href="#highlights"   class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Highlights</a>
+        <a href="#character"    class="px-3 py-1 text-sm rounded-full bg-stone-800 text-stone-100 hover:bg-stone-900"> Characteristics</a>
       @endif
     </div>
   </section>
@@ -150,22 +150,22 @@
 
   // Headings per tab
   if ($tab === 'events') {
-    $secOverview   = $extract('🏁 Overview');
-    $secRoute      = $extract('🗺️ Route Details');
+    $secOverview   = $extract(' Overview');
+    $secRoute      = $extract('Route Details');
     $secResults    = $extract('🏆 Results');
-    $secVehicles   = $extract('🚗 Vehicle Highlights');
-    $secChallenges = $extract('🧭 Navigation and Challenges');
+    $secVehicles   = $extract(' Vehicle Highlights');
+    $secChallenges = $extract(' Navigation and Challenges');
   } elseif ($tab === 'drivers') {
-    $secOverview = $extract('🏁 Overview');
+    $secOverview = $extract(' Overview');
     $secAchieve  = $extract('🏆 Major Achievements:') ?: $extract('🏆 Major Achievements');
-    $secVehicles = $extract('🚗 Vehicle Highlights');
-    $secStyle    = $extract('🧠 Driving Style and Legacy:') ?: $extract('🧠 Driving Style and Legacy');
-    $secTeamwork = $extract('🧭 Navigation and Teamwork:')   ?: $extract('🧭 Navigation and Teamwork');
+    $secVehicles = $extract(' Vehicle Highlights');
+    $secStyle    = $extract(' Driving Style and Legacy:') ?: $extract(' Driving Style and Legacy');
+    $secTeamwork = $extract(' Navigation and Teamwork:')   ?: $extract(' Navigation and Teamwork');
   } else { // cars
-    $secOverview  = $extract('🏁 Overview');
-    $secSpecs     = $extract('⚙️ Technical Specs & Innovations');
+    $secOverview  = $extract(' Overview');
+    $secSpecs     = $extract(' Technical Specs & Innovations');
     $secHighlights= $extract('🏆 Competitive Highlights');
-    $secChar      = $extract('🧠 Driving Characteristics');
+    $secChar      = $extract(' Driving Characteristics');
   }
 
   // Convert <li> lists to "chips" and remove the <ul> from prose to avoid duplication
@@ -208,9 +208,10 @@
 
 @if($secOverview)
   <article id="overview" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
-    <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-      <div class="h-5 w-1.5 rounded-full bg-amber-400"></div>
-      <h2 class="text-lg font-semibold">🏁 Overview</h2>
+    <header class="flex items-center gap-3 bg-stone-900
+ text-stone-100 px-5 py-3">
+      
+      <h2 class="text-lg font-semibold"> Overview</h2>
     </header>
     <div class="bg-white/90 backdrop-blur px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">
       {!! $secOverview !!}
@@ -221,18 +222,23 @@
 {{-- Events: Route --}}
 @if($tab === 'events' && $secRoute)
   <section id="route" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
-    <header class="flex items-center gap-3 bg-gradient-to-r from-stone-900 to-stone-800 text-stone-100 px-5 py-2.5">
-      <div class="h-5 w-1.5 rounded-full bg-sky-400"></div>
-      <h2 class="text-lg font-semibold">🗺️ Route</h2>
+    <header
+      class="flex items-center gap-3 text-stone-100 font-semibold px-5 py-2.5
+             bg-stone-900">
+      <h2 class="text-lg font-semibold">Route</h2>
     </header>
+
     <div class="bg-white/95 p-5 space-y-4">
       @if(count($routeLis))
-        <div class="flex flex-wrap gap-2.5">
+        <div class="grid gap-2 sm:grid-cols-2">
           @foreach($routeLis as $li)
-            <span class="inline-flex items-center rounded-full border border-stone-300 bg-stone-50 px-2.5 py-1 text-xs sm:text-sm">{!! $li !!}</span>
+            <div class="rounded-lg border border-stone-300 bg-white px-3 py-2 text-[0.95rem] leading-relaxed shadow-sm hover:shadow-md transition-shadow duration-200">
+              {!! $li !!}
+            </div>
           @endforeach
         </div>
       @endif
+
       @if($secRouteProse && trim(strip_tags($secRouteProse)) !== '')
         <div class="prose max-w-none">{!! $secRouteProse !!}</div>
       @endif
@@ -243,8 +249,8 @@
 {{-- Events: Results --}}
 @if($tab === 'events' && ($winner || $second || $third || $secResults))
   <section id="results" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
-    <header class="flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 text-amber-950 px-5 py-2.5">
-      <div class="h-5 w-1.5 rounded-full bg-white/80"></div>
+    <header class="flex items-center gap-3 bg-gradient-to-r from-amber-500 via-[#ebbf0f] to-amber-600 text-amber-950 px-5 py-2.5">
+      
       <h2 class="text-lg font-semibold">🏆 Results</h2>
     </header>
 
@@ -280,8 +286,8 @@
 @if($tab === 'drivers')
   @if($secAchieve)
     <section id="achievements" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
-      <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-        <div class="h-5 w-1.5 rounded-full bg-amber-400"></div>
+      <header class="flex items-center gap-3 bg-gradient-to-r from-amber-500 via-[#ebbf0f] to-amber-600 text-amber-950 px-5 py-3">
+        
         <h2 class="text-lg font-semibold">🏆 Major Achievements</h2>
       </header>
       <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secAchieveProse !!}</div>
@@ -290,8 +296,8 @@
   @if($secVehicles)
     <section id="vehicles" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
       <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-        <div class="h-5 w-1.5 rounded-full bg-pink-400"></div>
-        <h2 class="text-lg font-semibold">🚗 Vehicle Highlights</h2>
+        
+        <h2 class="text-lg font-semibold"> Vehicle Highlights</h2>
       </header>
       <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secVehicles !!}</div>
     </section>
@@ -299,8 +305,8 @@
   @if($secStyle)
     <section id="style" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
       <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-        <div class="h-5 w-1.5 rounded-full bg-blue-400"></div>
-        <h2 class="text-lg font-semibold">🧠 Driving Style & Legacy</h2>
+        
+        <h2 class="text-lg font-semibold"> Driving Style & Legacy</h2>
       </header>
       <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secStyle !!}</div>
     </section>
@@ -308,8 +314,8 @@
   @if($secTeamwork)
     <section id="teamwork" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
       <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-        <div class="h-5 w-1.5 rounded-full bg-green-400"></div>
-        <h2 class="text-lg font-semibold">🧭 Navigation & Teamwork</h2>
+        
+        <h2 class="text-lg font-semibold"> Navigation & Teamwork</h2>
       </header>
       <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secTeamwork !!}</div>
     </section>
@@ -320,17 +326,17 @@
 @if($tab === 'cars')
   @if($secSpecs)
     <section id="specs" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
-      <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-        <div class="h-5 w-1.5 rounded-full bg-cyan-400"></div>
-        <h2 class="text-lg font-semibold">⚙️ Technical Specs & Innovations</h2>
+<header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-2.5">
+        
+        <h2 class="text-lg font-semibold"> Technical Specs & Innovations</h2>
       </header>
       <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secSpecsProse !!}</div>
     </section>
   @endif
   @if($secHighlights)
     <section id="highlights" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
-      <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-        <div class="h-5 w-1.5 rounded-full bg-yellow-400"></div>
+      <header class="flex items-center gap-3 bg-gradient-to-r from-amber-500 via-[#ebbf0f] to-amber-600 text-amber-950 px-5 py-3">
+        
         <h2 class="text-lg font-semibold">🏆 Competitive Highlights</h2>
       </header>
       <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secHighlights !!}</div>
@@ -339,8 +345,8 @@
   @if($secChar)
     <section id="character" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
       <header class="flex items-center gap-3 bg-stone-900 text-stone-100 px-5 py-3">
-        <div class="h-5 w-1.5 rounded-full bg-purple-400"></div>
-        <h2 class="text-lg font-semibold">🧠 Driving Characteristics</h2>
+        
+        <h2 class="text-lg font-semibold"> Driving Characteristics</h2>
       </header>
       <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secChar !!}</div>
     </section>
@@ -351,8 +357,8 @@
 @if($tab === 'events' && $secChallenges)
   <section id="challenges" class="overflow-hidden rounded-2xl shadow ring-1 ring-black/5">
     <header class="flex items-center gap-3 bg-gradient-to-r from-stone-900 to-stone-800 text-stone-100 px-5 py-2.5">
-      <div class="h-5 w-1.5 rounded-full bg-orange-400"></div>
-      <h2 class="text-lg font-semibold">🧭 Navigation & Challenges</h2>
+      
+      <h2 class="text-lg font-semibold"> Navigation & Challenges</h2>
     </header>
     <div class="bg-white/95 px-5 py-4 prose prose-stone prose-sm max-w-none leading-relaxed">{!! $secChallenges !!}</div>
   </section>
@@ -377,40 +383,47 @@
 
 {{-- ====================== FOOTER NAV ====================== --}}
 <section class="max-w-5xl mx-auto px-4">
-  <div class="mt-8 pb-8 flex flex-col sm:flex-row items-stretch gap-4">
+  <div class="mt-8 pb-8 grid gap-4 sm:grid-cols-[1fr_auto_1fr] items-stretch">
     {{-- Prev --}}
-    <div class="flex-1 min-w-0">
-      <a href="{{ !empty($previousItem)
-                  ? route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']])
-                  : 'javascript:void(0)' }}"
-         class="block rounded-xl bg-white/80 backdrop-blur-md shadow ring-1 ring-black/5 hover:bg-white/70 transition h-full">
-        <div class="flex items-center justify-between gap-3 h-full px-5 py-4 min-h-[64px]">
-          <span class="text-stone-700 font-medium whitespace-nowrap">← Previous {{ $label }}</span>
-          <span class="text-stone-500 text-sm truncate">{{ $previousItem['title'] ?? $previousItem['name'] ?? '—' }}</span>
-        </div>
-      </a>
-    </div>
+    <a
+      href="{{ !empty($previousItem)
+                ? route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $previousItem['id']])
+                : 'javascript:void(0)' }}"
+      class="rounded-xl bg-white/80 backdrop-blur-md shadow ring-1 ring-black/5 hover:bg-white/70 transition"
+    >
+      <div class="flex h-full flex-col items-center justify-center text-center px-5 py-4 min-h-[64px]">
+        <span class="font-medium">← Previous {{ $label }}</span>
+        <span class="text-sm text-stone-500 truncate max-w-[95%]">
+          {{ $previousItem['title'] ?? $previousItem['name'] ?? '—' }}
+        </span>
+      </div>
+    </a>
 
-    {{-- Back --}}
-    <div class="grow-0 shrink-0">
-      <a href="{{ route('history.index', ['decade' => $decade, 'tab' => $tab]) }}"
-         class="inline-flex items-center justify-center px-4 py-3 rounded-xl bg-stone-900 text-stone-100 shadow ring-1 ring-black/5 hover:bg-stone-800 transition min-h-[64px]">
-        Back<br class="hidden sm:block"> to {{ ucfirst($tab) }} Index
-      </a>
-    </div>
+    {{-- Back (center pill) --}}
+    <a
+      href="{{ route('history.index', ['decade' => $decade, 'tab' => $tab]) }}"
+      class="justify-self-center rounded-xl bg-stone-900 text-stone-100 shadow ring-1 ring-black/5 hover:bg-stone-800 transition w-44 sm:w-56"
+    >
+      <div class="flex h-full flex-col items-center justify-center text-center px-4 py-3 min-h-[64px]">
+        <span>Back</span>
+        <span>to {{ ucfirst($tab) }} Index</span>
+      </div>
+    </a>
 
     {{-- Next --}}
-    <div class="flex-1 min-w-0">
-      <a href="{{ !empty($nextItem)
-                  ? route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']])
-                  : 'javascript:void(0)' }}"
-         class="block rounded-xl bg-white/80 backdrop-blur-md shadow ring-1 ring-black/5 hover:bg-white/70 transition h-full">
-        <div class="flex items-center justify-between gap-3 h-full px-5 py-4 min-h-[64px]">
-          <span class="text-stone-500 text-sm truncate">{{ $nextItem['title'] ?? $nextItem['name'] ?? '—' }}</span>
-          <span class="text-stone-700 font-medium whitespace-nowrap">Next {{ $label }} →</span>
-        </div>
-      </a>
-    </div>
+    <a
+      href="{{ !empty($nextItem)
+                ? route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']])
+                : 'javascript:void(0)' }}"
+      class="rounded-xl bg-white/80 backdrop-blur-md shadow ring-1 ring-black/5 hover:bg-white/70 transition"
+    >
+      <div class="flex h-full flex-col items-center justify-center text-center px-5 py-4 min-h-[64px]">
+        <span class="text-sm text-stone-500 truncate max-w-[95%]">
+          {{ $nextItem['title'] ?? $nextItem['name'] ?? '—' }}
+        </span>
+        <span class="font-medium">Next {{ $label }} →</span>
+      </div>
+    </a>
   </div>
 </section>
 

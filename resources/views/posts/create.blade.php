@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-4xl mx-auto mt-12 mb-12">
     <div class="bg-white shadow-xl rounded-2xl p-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Create a New Rally Post 🏁</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Create a New Rally Post </h1>
 
         {{-- Validation Errors --}}
         @if ($errors->any())
@@ -100,7 +100,7 @@
                     type="submit"
                     class="px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition"
                 >
-                    Publish Post 🏁
+                    Publish Post 
                 </button>
             </div>
         </form>

@@ -18,7 +18,7 @@
         <div class="w-full max-w-none sm:max-w-lg lg:max-w-xl bg-white shadow-2xl rounded-2xl p-8 sm:p-12 mx-auto my-10 border border-gray-100 z-10 transition-shadow duration-300 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]">
             <div class="text-center mb-4">
                 <h2 class="text-4xl sm:text-3xl font-bold text-gray-800">Welcome Back</h2>
-                <p class="text-base sm:text-sm text-gray-500 mt-2">Glad to have you back on the rally stage 🏁</p>
+                <p class="text-base sm:text-sm text-gray-500 mt-2">Glad to have you back on the rally stage </p>
             </div>
 
             @if ($errors->has('recaptcha'))

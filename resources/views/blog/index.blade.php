@@ -30,7 +30,7 @@
 <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
   <div class="flex justify-center items-center gap-2 mb-6">
       <h1 class="text-3xl font-bold">Rally Blog</h1>
-      <span class="text-3xl inline-block animate-floatWave origin-bottom-left">🏁</span>
+      <span class="text-3xl inline-block animate-floatWave origin-bottom-left"></span>
   </div>
 
   @auth
