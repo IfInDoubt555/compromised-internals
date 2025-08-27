@@ -27,7 +27,7 @@
 @endpush
 
 @section('content')
-<div class="w-full px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="flex justify-center items-center gap-2 mb-6">
       <h1 class="text-3xl font-bold">Rally Blog</h1>
       <span class="text-3xl inline-block animate-floatWave origin-bottom-left"></span>
@@ -83,11 +83,6 @@
                       <time datetime="{{ $post->created_at->toDateString() }}">
                         {{ $post->created_at->format('M j, Y') }}
                       </time>
-
-                      <a href="{{ route('posts.show', $post->slug) }}"
-                         class="ml-auto inline-flex items-center gap-1 text-sm font-semibold text-red-700 hover:underline">
-                        Read article →
-                      </a>
                     </div>
 
                     <h2 class="mt-2 font-orbitron text-2xl font-bold text-gray-900">
