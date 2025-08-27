@@ -59,5 +59,6 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\ScanImageAttributions::class,
         \App\Console\Commands\PruneSessions::class, // add your prune command here
+        \App\Console\Commands\HistoryAddResults::class,
     ];
 }

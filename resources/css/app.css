@@ -172,6 +172,8 @@
   transition: opacity .2s ease, transform .2s ease;
 }
 .history-pull-tab:active { transform: scale(.98); }
+
+
 }
 
 /* Utilities */

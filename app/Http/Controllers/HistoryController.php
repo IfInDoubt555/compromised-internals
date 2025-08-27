@@ -4,57 +4,115 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use App\Support\SectionExtractor;
 use Parsedown;
 
 class HistoryController extends Controller
 {
     /**
+     * Format a single podium result row into a neat string like:
+     * "Walter Schock / Rolf Moll · Mercedes-Benz 220 SE · 3h42m"
+     */
+    private function fmtResult(?array $r): ?string
+    {
+        if (!$r) return null;
+
+        $bits = [];
+        if (!empty($r['crew']))  $bits[] = e($r['crew']);
+        if (!empty($r['car']))   $bits[] = e($r['car']);
+        if (!empty($r['time']))  $bits[] = e($r['time']);
+        if (!empty($r['notes'])) $bits[] = e($r['notes']);
+
+        return count($bits) ? implode(' · ', $bits) : null;
+    }
+
+    /**
      * Show a single item from a tab+decade JSON file.
      * URL example: /history/events/1960s/123
      */
     public function show(string $tab, string $decade, int $id)
-    {
-        $validTabs = ['events', 'cars', 'drivers'];
-        if (!in_array($tab, $validTabs, true)) {
-            abort(404, 'Invalid tab type.');
-        }
-
-        // Use decade string as-is (e.g., "1960s"); do NOT append another "s"
-        $filePath = public_path("data/{$tab}-{$decade}.json");
-        if (!File::exists($filePath)) {
-            abort(404, "Data file not found for {$tab}-{$decade}.");
-        }
-
-        $data = json_decode(File::get($filePath), true);
-        if (!is_array($data)) {
-            abort(500, 'Failed to decode data file.');
-        }
-
-        $collection = collect($data)->values();
-        $item = $collection->firstWhere('id', (int) $id);
-        if (!$item) {
-            abort(404, 'Item not found.');
-        }
-
-        // Determine current index for prev/next
-        $currentIndex = $collection->search(fn ($e) => (int) ($e['id'] ?? 0) === (int) $id);
-        $previousItem = $currentIndex !== false ? ($collection[$currentIndex - 1] ?? null) : null;
-        $nextItem     = $currentIndex !== false ? ($collection[$currentIndex + 1] ?? null) : null;
-
-        // Fallback: render markdown if details_html missing
-        if (empty($item['details_html']) && !empty($item['details'])) {
-            $parsedown = new Parsedown();
-            $item['details_html'] = $parsedown->text($item['details']);
-        }
-
-        return view('history.show', [
-            'item'         => $item,
-            'tab'          => $tab,
-            'decade'       => $decade,
-            'previousItem' => $previousItem, // ✅ correct mapping
-            'nextItem'     => $nextItem,     // ✅ correct mapping
-        ]);
+{
+    $validTabs = ['events', 'cars', 'drivers'];
+    if (!in_array($tab, $validTabs, true)) {
+        abort(404, 'Invalid tab type.');
     }
+
+    $filePath = public_path("data/{$tab}-{$decade}.json");
+    if (!File::exists($filePath)) {
+        abort(404, "Data file not found for {$tab}-{$decade}.");
+    }
+
+    $data = json_decode(File::get($filePath), true);
+    if (!is_array($data)) {
+        abort(500, 'Failed to decode data file.');
+    }
+
+    $collection = collect($data)->values();
+    $item = $collection->firstWhere('id', (int) $id);
+    if (!$item) {
+        abort(404, 'Item not found.');
+    }
+
+    // Prev/next
+    $currentIndex = $collection->search(fn ($e) => (int) ($e['id'] ?? 0) === (int) $id);
+    $previousItem = $currentIndex !== false ? ($collection[$currentIndex - 1] ?? null) : null;
+    $nextItem     = $currentIndex !== false ? ($collection[$currentIndex + 1] ?? null) : null;
+
+    // Fallback: markdown → HTML
+    if (empty($item['details_html']) && !empty($item['details'])) {
+        $parsedown = new Parsedown();
+        $item['details_html'] = $parsedown->text($item['details']);
+    }
+
+    // ---------- Results block (events only) ----------
+    $winner = $second = $third = $resultsNarrative = null;
+    $secResults = false;
+
+    if ($tab === 'events') {
+        $winnerRaw = Arr::get($item, 'results.winner');
+        $secondRaw = Arr::get($item, 'results.second');
+        $thirdRaw  = Arr::get($item, 'results.third');
+
+        $winner = $this->fmtResult($winnerRaw);
+        $second = $this->fmtResult($secondRaw);
+        $third  = $this->fmtResult($thirdRaw);
+
+        $resultsNarrative = Arr::get($item, 'results.narrative_html');
+
+        $secResults = (bool) (
+            $winner || $second || $third ||
+            (isset($resultsNarrative) && trim(strip_tags($resultsNarrative)) !== '')
+        );
+    }
+
+    // ---------- Section extraction (NEW) ----------
+    $type = match ($tab) {
+        'drivers' => 'drivers',
+        'cars'    => 'cars',
+        default   => 'events',
+    };
+    $sections = SectionExtractor::parse($item['details_html'] ?? null, $type); // NEW
+
+    return view('history.show', [
+        'item'             => $item,
+        'tab'              => $tab,
+        'decade'           => $decade,
+        'previousItem'     => $previousItem,
+        'nextItem'         => $nextItem,
+
+        // Results-related vars
+        'winner'           => $winner,
+        'second'           => $second,
+        'third'            => $third,
+        'resultsNarrative' => $resultsNarrative,
+        'secResults'       => $secResults,
+
+        // Sections for Blade (NEW)
+        'sections'         => $sections,
+    ]);
+}
 
     /**
      * Index page with experimental layouts.
@@ -65,11 +123,11 @@ class HistoryController extends Controller
         $decade = $request->query('decade', '1960s');
         $year   = $request->query('year');
         $tab    = $request->query('tab', 'events');
-    
+
         $decades = $this->allDecades();
         $items   = $this->listItems($tab, $decade, $year);
         $years   = $this->yearsFor($decade, $tab); // only used for events
-    
+
         return view('history.bookmarks', [
             'decades' => $decades,
             'decade'  => $decade,
@@ -111,30 +169,30 @@ class HistoryController extends Controller
         if (!in_array($tab, $validTabs, true)) {
             return collect();
         }
-    
+
         $path = public_path("data/{$tab}-{$decade}.json");
         if (!File::exists($path)) {
             return collect();
         }
-    
+
         $rows = collect(json_decode(File::get($path), true) ?: []);
-    
+
         // --- EVENTS: keep the file's original ordering ---
         if ($tab === 'events') {
             if ($year) {
-                $rows = $rows->filter(fn ($r) => (int)($r['year'] ?? 0) ===     (int) $year);
+                $rows = $rows->filter(fn ($r) => (int)($r['year'] ?? 0) === (int) $year);
             }
             return $rows->values(); // no sorting → preserve JSON order
         }
-    
+
         // --- CARS/DRIVERS: reasonable stable sort (year then display name) ---
         if ($year) {
             $rows = $rows->where('year', (int) $year);
         }
-    
+
         return $rows->sortBy([
             fn ($row) => (int)($row['year'] ?? 0),
-            fn ($row) => (string)($row['title'] ?? $row['name'] ?? $row['model'] ?? $row    ['driver'] ?? ''),
+            fn ($row) => (string)($row['title'] ?? $row['name'] ?? $row['model'] ?? $row['driver'] ?? ''),
         ])->values();
     }
 }
