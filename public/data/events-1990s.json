@@ -44,7 +44,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -72,13 +72,13 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Armin Schwarz &amp; Klaus Wicha",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Biasion’s win came through discipline and smoothness, particularly in tricky fan-lined gravel sections where others lost time or composure.</p>"
     }
@@ -94,13 +94,13 @@
         "crew": "Björn Waldegård &amp; Fred Gallagher",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Alain Oreille &amp; Gilles Thimonier",
@@ -128,7 +128,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Alain Oreille &amp; Gilles Thimonier",
@@ -150,7 +150,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -162,7 +162,7 @@
         "crew": "Armin Schwarz &amp; Klaus Wicha",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Sainz’s victory in Greece proved Toyota’s gravel pace had matured—beating Kankkunen and surviving the Acropolis meant the team had arrived as true title contenders.</p>"
     }
@@ -184,13 +184,13 @@
         "crew": "Ari Vatanen &amp; Bruno Berglund",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "third": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>McRae’s win announced the beginning of a new WRC chapter—his fearless style and natural speed left a lasting impression in just his second full WRC season.</p>"
     }
@@ -206,7 +206,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -240,13 +240,13 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Kenneth Eriksson &amp; Staffan Parmander",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Kankkunen’s home win kept the championship pressure on Sainz and reminded everyone that in Finland, commitment is king—and few committed harder than Juha.</p>"
     }
@@ -262,19 +262,19 @@
         "crew": "Juha Kankkunen &amp; Juha Piironen",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Ari Vatanen &amp; Bruno Berglund",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Kankkunen’s victory brought the title fight down to the wire—his return to the top step in Australia was a statement of championship intent.</p>"
     }
@@ -296,13 +296,13 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Auriol’s triumph further cemented his status as one of the most adaptable drivers of the era—delivering the goods for Lancia on both surfaces with unwavering composure.</p>"
     }
@@ -318,13 +318,13 @@
         "crew": "Patrick Tauziac &amp; Claude Papin",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "second": {
         "crew": "Alain Ambrosino &amp; Jean-Claude Lemoine",
         "car": "Nissan 200SX",
         "time": null,
-        "notes": "Claude Lemoine (Nissan 200SX)"
+        "notes": null
       },
       "third": {
         "crew": "Mike Kirkland &amp; David Williamson",
@@ -346,7 +346,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -402,7 +402,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "François Delecour &amp; Michel Perin",
@@ -430,7 +430,7 @@
         "crew": "Kenneth Eriksson &amp; Staffan Parmander",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "second": {
         "crew": "Ari Vatanen &amp; Bruno Berglund",
@@ -464,7 +464,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -486,7 +486,7 @@
         "crew": "Kenjiro Shinozuka &amp; John Meadows",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "second": {
         "crew": "Ari Vatanen &amp; Bruno Berglund",
@@ -520,7 +520,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Franco Cunico &amp; Sauro Farnocchia",
@@ -548,7 +548,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -570,13 +570,13 @@
         "crew": "Armin Schwarz &amp; Arne Hertz",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -604,13 +604,13 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Armin Schwarz &amp; Arne Hertz",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Recalde’s triumph was a source of national pride—his intimate knowledge of the terrain and tire discipline gave him an edge no outsider could replicate that week.</p>"
     }
@@ -632,7 +632,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -660,7 +660,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -688,7 +688,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -710,19 +710,19 @@
         "crew": "Kenjiro Shinozuka &amp; John Meadows",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "second": {
         "crew": "Alain Ambrosino &amp; Jean-Claude Lemoine",
         "car": "Nissan 200SX",
         "time": null,
-        "notes": "Claude Lemoine (Nissan 200SX)"
+        "notes": null
       },
       "third": {
         "crew": "Patrick Tauziac &amp; Claude Papin",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Shinozuka’s second major African victory further cemented his role as Mitsubishi’s endurance ace—his poise and strategic control gave him the edge in one of rallying’s ultimate endurance tests.</p>"
     }
@@ -738,13 +738,13 @@
         "crew": "Armin Schwarz &amp; Arne Hertz",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Colin McRae &amp; Derek Ringer",
@@ -778,7 +778,7 @@
         "crew": "Bruno Saby &amp; Jean-Paul Chiaroni",
         "car": "Mitsubishi Pajero Evolution",
         "time": null,
-        "notes": "Paul Chiaroni (Mitsubishi Pajero Evolution)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Auriol’s win reaffirmed his reputation as a master of marathon rallies—balancing speed with survivability over nearly three weeks of relentless competition.</p>"
     }
@@ -800,7 +800,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "third": {
         "crew": "François Delecour &amp; Dominique Savignoni",
@@ -822,13 +822,13 @@
         "crew": "Mats Jonsson &amp; Lars Bäckman",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "third": {
         "crew": "Ari Vatanen &amp; Bruno Berglund",
@@ -856,7 +856,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -878,13 +878,13 @@
         "crew": "Kenjiro Shinozuka &amp; John Meadows",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "second": {
         "crew": "Ian Duncan &amp; Ian Munro",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "third": {
         "crew": "Ari Vatanen &amp; Bruno Berglund",
@@ -918,7 +918,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Auriol’s calm, methodical driving was once again the perfect weapon for Corsica—his pace was untouchable even for the rising asphalt stars behind him.</p>"
     }
@@ -934,7 +934,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "second": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -962,7 +962,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "second": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -996,7 +996,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "third": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -1024,7 +1024,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "third": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -1046,7 +1046,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "second": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -1086,7 +1086,7 @@
         "crew": "Jean-Louis Schlesser &amp; François Borsotto",
         "car": "Schlesser-Renault Buggy",
         "time": null,
-        "notes": "Louis Schlesser &amp; François Borsotto (Schlesser-Renault Buggy)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Lartigue’s experience, combined with Périn’s navigational mastery, proved unbeatable over the vast Eurasian landscape—their Citroën never missed a beat.</p>"
     }
@@ -1108,7 +1108,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -1130,19 +1130,19 @@
         "crew": "Kenjiro Shinozuka &amp; John Meadows",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "second": {
         "crew": "Alain Ambrosino &amp; Jean-Claude Lemoine",
         "car": "Nissan Sunny GTI",
         "time": null,
-        "notes": "Claude Lemoine (Nissan Sunny GTI)"
+        "notes": null
       },
       "third": {
         "crew": "Patrick Tauziac &amp; Claude Papin",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Shinozuka’s calm, methodical drive through extreme conditions reaffirmed his status as a true African rally specialist—he outlasted the chaos while others fell victim to it.</p>"
     }
@@ -1164,7 +1164,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "third": {
         "crew": "François Delecour &amp; Daniel Grataloup",
@@ -1198,7 +1198,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>McRae’s win ignited a new era for British rallying—he became the youngest winner of the RAC and gave Subaru a powerful foothold in the WRC narrative.</p>"
     }
@@ -1338,7 +1338,7 @@
         "crew": "Ari Vatanen &amp; Bruno Berglund",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Duncan’s victory was as much about endurance and mechanical preservation as outright pace—his understanding of local terrain made the difference when rivals suffered breakdowns and delays.</p>"
     }
@@ -1590,7 +1590,7 @@
         "crew": "Kenneth Eriksson &amp; Staffan Parmander",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Vatanen’s experience and raw speed through the varying terrain proved decisive—this win helped Subaru raise its international profile in Asia before the Impreza’s debut.</p>"
     }
@@ -1976,13 +1976,13 @@
         "crew": "Kenneth Eriksson &amp; Staffan Parmander",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "third": {
         "crew": "Juha Kankkunen &amp; Nicky Grist",
         "car": "Toyota Celica GT-Four ST165",
         "time": null,
-        "notes": "Four ST165)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Bourne’s consistency and careful pacing through the entire route secured his win, despite strong competition from Eriksson and Kankkunen.</p>"
     }
@@ -2088,13 +2088,13 @@
         "crew": "Stéphane Peterhansel &amp; Jean-Paul Cottret",
         "car": "Mitsubishi Pajero",
         "time": null,
-        "notes": "Paul Cottret (Mitsubishi Pajero)"
+        "notes": null
       },
       "third": {
         "crew": "Jean-Louis Schlesser &amp; Dominique Sarron",
         "car": "Schlesser 4x4",
         "time": null,
-        "notes": "Louis Schlesser &amp; Dominique Sarron (Schlesser 4x4)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Lartigue’s victory marked a milestone for Citroën in Dakar history. His disciplined approach and mastery of navigation in the desert led him to secure the win over some of the most experienced rally drivers in the world.</p>"
     }
@@ -2166,7 +2166,7 @@
         "crew": "Juha Kankkunen &amp; Nicky Grist",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
@@ -2194,13 +2194,13 @@
         "crew": "Yoshio Fujimoto &amp; Arne Hertz",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "second": {
         "crew": "Juha Kankkunen &amp; Nicky Grist",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Carlos Sainz &amp; Luis Moya",
@@ -2234,7 +2234,7 @@
         "crew": "Juha Kankkunen &amp; Nicky Grist",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Mikkola’s experience in navigating through a variety of conditions, paired with his car’s resilience, helped him secure the win ahead of Blomqvist and Kankkunen, who both pushed hard but fell short in the final stages.</p>"
     }
@@ -2318,7 +2318,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST185",
         "time": null,
-        "notes": "Four ST185)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Bourne’s superb control on New Zealand’s gravel roads allowed him to edge out McRae and Sainz. Despite the strong competition, Bourne’s tire management and pace through the later stages secured him the victory in one of the most challenging rallies of the season.</p>"
     }
@@ -2334,7 +2334,7 @@
         "crew": "Didier Auriol &amp; Bernard Occelli",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
@@ -2368,7 +2368,7 @@
         "crew": "Juha Kankkunen &amp; Nicky Grist",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Colin McRae &amp; Derek Ringer",
@@ -2424,7 +2424,7 @@
         "crew": "Juha Kankkunen &amp; Nicky Grist",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Colin McRae &amp; Derek Ringer",
@@ -2508,7 +2508,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -2536,7 +2536,7 @@
         "crew": "Stéphane Peterhansel &amp; Jean-Paul Cottret",
         "car": "Peugeot 405 T16",
         "time": null,
-        "notes": "Paul Cottret (Peugeot 405 T16)"
+        "notes": null
       },
       "third": {
         "crew": "Philippe Wambergue &amp; Michel Perin",
@@ -2598,7 +2598,7 @@
         "crew": "Juha Kankkunen &amp; Nicky Grist",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Eriksson’s steady performance across the snow and ice stages helped him maintain his lead throughout the event, while Mäkinen and Kankkunen struggled to catch up due to small errors in the slippery conditions.</p>"
     }
@@ -2642,7 +2642,7 @@
         "crew": "Yoshio Fujimoto &amp; Arne Hertz",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "second": {
         "crew": "Colin McRae &amp; Derek Ringer",
@@ -2654,7 +2654,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Fujimoto’s steady pace and impeccable tire management throughout the event allowed him to maintain his lead over McRae and Sainz, who both showed speed but faced several issues along the way. The victory was a testament to Fujimoto’s experience and strategic approach in the face of challenging conditions.</p>"
     }
@@ -2704,7 +2704,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -2732,7 +2732,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -2760,7 +2760,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Tommi Mäkinen &amp; Seppo Harjanne",
@@ -2816,7 +2816,7 @@
         "crew": "Armin Schwarz &amp; Manfred Hiemer",
         "car": "Toyota Celica GT-Four ST205",
         "time": null,
-        "notes": "Four ST205)"
+        "notes": null
       },
       "third": {
         "crew": "Oriol Gómez &amp; Joan Josep Santamaria",
@@ -2872,7 +2872,7 @@
         "crew": "Jean-Pierre Fontenay &amp; Gilles Picard",
         "car": "Mitsubishi Pajero",
         "time": null,
-        "notes": "Pierre Fontenay &amp; Gilles Picard (Mitsubishi Pajero)"
+        "notes": null
       },
       "third": {
         "crew": "Bruno Saby &amp; Michel Périn",
@@ -3174,7 +3174,7 @@
         "crew": "Philippe Bugalski &amp; Jean-Paul Chiaroni",
         "car": "Citroën Xsara Kit Car",
         "time": null,
-        "notes": "Paul Chiaroni (Citroën Xsara Kit Car)"
+        "notes": null
       },
       "second": {
         "crew": "Piero Liatti &amp; Fabrizia Pons",
@@ -3202,7 +3202,7 @@
         "crew": "Proton PERT Team",
         "car": "Driver details limited — national-level documentation",
         "time": null,
-        "notes": "national-level documentation)"
+        "notes": null
       },
       "second": {
         "crew": "Mitsubishi Lancer Evolution entry",
@@ -3214,7 +3214,7 @@
         "crew": "Subaru Impreza WRX",
         "car": "Asia-Pacific private entry",
         "time": null,
-        "notes": "Pacific private entry)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Proton’s win marked an important milestone for Southeast Asian motorsport, highlighting local manufacturing and rallying expertise in international competition.</p>"
     }
@@ -3258,7 +3258,7 @@
         "crew": "Jean-Pierre Fontenay &amp; Gilles Picard",
         "car": "Mitsubishi Pajero Evolution",
         "time": null,
-        "notes": "Pierre Fontenay &amp; Gilles Picard (Mitsubishi Pajero Evolution)"
+        "notes": null
       },
       "second": {
         "crew": "Bruno Saby &amp; Dominique Serieys",
@@ -3650,7 +3650,7 @@
         "crew": "Jean-Louis Schlesser &amp; Philippe Monnet",
         "car": "Schlesser Buggy",
         "time": null,
-        "notes": "Louis Schlesser &amp; Philippe Monnet (Schlesser Buggy)"
+        "notes": null
       },
       "second": {
         "crew": "Hiroshi Masuoka &amp; Pascal Maimon",
@@ -3790,7 +3790,7 @@
         "crew": "Philippe Bugalski &amp; Jean-Paul Chiaroni",
         "car": "Citroën Xsara Kit Car",
         "time": null,
-        "notes": "Paul Chiaroni (Citroën Xsara Kit Car)"
+        "notes": null
       },
       "second": {
         "crew": "Didier Auriol &amp; Denis Giraudet",
@@ -3818,7 +3818,7 @@
         "crew": "Philippe Bugalski &amp; Jean-Paul Chiaroni",
         "car": "Citroën Xsara Kit Car",
         "time": null,
-        "notes": "Paul Chiaroni (Citroën Xsara Kit Car)"
+        "notes": null
       },
       "second": {
         "crew": "Didier Auriol &amp; Denis Giraudet",

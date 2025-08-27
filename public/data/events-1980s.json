@@ -22,7 +22,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Vincent Laverne",
         "car": "Peugeot 504 Coupé V6",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Vincent Laverne (Peugeot 504 Coupé V6)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Röhrl’s calculated aggression and Geistdörfer’s flawless pacenotes were key to their consistent pace across all terrain—no stage win dominance, just relentless control.</p>"
     }
@@ -134,7 +134,7 @@
         "crew": "Björn Waldegård &amp; Hans Thorszelius",
         "car": "Mercedes-Benz 500 SLC",
         "time": null,
-        "notes": "Benz 500 SLC)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Vatanen’s victory was hard-fought, earned through tire preservation and quick repairs. His dynamic pace combined with Richards’ faultless navigation to edge out Mikkola and survive what became a race of attrition.</p>"
     }
@@ -218,7 +218,7 @@
         "crew": "Malcolm Stewart &amp; Rob McKenzie",
         "car": "Mazda RX-3",
         "time": null,
-        "notes": "3)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Salonen’s composed style and expert throttle modulation across changing terrain helped him outlast Mikkola, who faced minor mechanical issues and pressure from strong local entries. It was a significant win for Datsun’s consistency-focused campaign.</p>"
     }
@@ -262,7 +262,7 @@
         "crew": "Jean-Luc Thérier &amp; Michel Vial",
         "car": "Porsche 911 SC",
         "time": null,
-        "notes": "Luc Thérier &amp; Michel Vial (Porsche 911 SC)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Alain Mahé",
@@ -318,19 +318,19 @@
         "crew": "Björn Waldegård &amp; Hans Thorszelius",
         "car": "Mercedes-Benz 500 SLC",
         "time": null,
-        "notes": "Benz 500 SLC)"
+        "notes": null
       },
       "second": {
         "crew": "Andrew Cowan &amp; Klaus Kaiser",
         "car": "Mercedes-Benz 500 SLC",
         "time": null,
-        "notes": "Benz 500 SLC)"
+        "notes": null
       },
       "third": {
         "crew": "Jean-Pierre Nicolas &amp; Michel Gamet",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Gamet (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Waldegård’s calm control and deep experience in African rallies paid off as he kept a steady pace, avoided major damage, and navigated flawlessly across all 5,000+ kilometers of the rally.</p>"
     }
@@ -352,13 +352,13 @@
         "crew": "Jacky Ickx &amp; Claude Brasseur",
         "car": "Mercedes-Benz 280 GE",
         "time": null,
-        "notes": "Benz 280 GE)"
+        "notes": null
       },
       "third": {
         "crew": "Jean Ragnotti &amp; Jean-Pierre Jaussaud",
         "car": "Renault 4 Sinpar",
         "time": null,
-        "notes": "Pierre Jaussaud (Renault 4 Sinpar)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Kottulinsky’s careful balance of speed, survival, and technical insight—paired with Löffelmann’s navigation—delivered a shock win for the military-spec Iltis, laying the groundwork for Audi’s Quattro system and Volkswagen’s rally raid legacy.</p>"
     }
@@ -374,7 +374,7 @@
         "crew": "Jean Ragnotti &amp; Jean-Marc Andrié",
         "car": "Renault 5 Turbo",
         "time": null,
-        "notes": "Marc Andrié (Renault 5 Turbo)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Alain Mahé",
@@ -492,7 +492,7 @@
         "crew": "Jean Ragnotti &amp; Jean-Marc Andrié",
         "car": "Renault 5 Turbo",
         "time": null,
-        "notes": "Marc Andrié (Renault 5 Turbo)"
+        "notes": null
       },
       "third": {
         "crew": "Guy Fréquelin &amp; Jean Todt",
@@ -666,7 +666,7 @@
         "crew": "Jean-Claude Lefebvre &amp; Daniel Colas",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Claude Lefebvre &amp; Daniel Colas (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Salonen drove at a measured pace, avoiding major issues while others faltered. Mehta remained competitive but lost time with mechanical setbacks. Datsun’s 1–2 finish proved the strength of their African program.</p>"
     }
@@ -850,7 +850,7 @@
         "crew": "Jean Ragnotti &amp; Jean-Marc Andrié",
         "car": "Renault 5 Turbo",
         "time": null,
-        "notes": "Marc Andrié (Renault 5 Turbo)"
+        "notes": null
       },
       "second": {
         "crew": "Michèle Mouton &amp; Fabrizia Pons",
@@ -1093,7 +1093,7 @@
         "crew": "Jean Ragnotti &amp; Jean-Marc Andrié",
         "car": "Renault 5 Turbo",
         "time": null,
-        "notes": "Marc Andrié (Renault 5 Turbo)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Röhrl’s win was historic—defeating the favored AWD Audis with masterful driving in the agile rear-wheel-drive Lancia 037.</p>"
     }
@@ -1193,7 +1193,7 @@
         "crew": "Jean-Claude Andruet &amp; \"Biche\"",
         "car": "Ferrari 308 GTB",
         "time": null,
-        "notes": "Claude Andruet &amp; \"Biche\" (Ferrari 308 GTB)"
+        "notes": null
       },
       "second": {
         "crew": "Guy Fréquelin &amp; Jean Todt",
@@ -1367,7 +1367,7 @@
         "crew": "Alain Ambrosino &amp; Jean-Claude Brierre",
         "car": "Nissan 240RS",
         "time": null,
-        "notes": "Claude Brierre (Nissan 240RS)"
+        "notes": null
       },
       "third": {
         "crew": "Patrick Tauziac &amp; Claude Papin",
@@ -1436,7 +1436,7 @@
         "crew": "Ari Vatanen &amp; Terry Harryman",
         "car": "Peugeot 205 T16 – non-homologated, ran as test entry",
         "time": null,
-        "notes": "non-homologated, ran as test entry)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Röhrl’s fourth Monte Carlo win solidified his reputation as a tarmac and snow master, flawlessly executing Audi’s plan with strategic precision.</p>"
     }
@@ -1464,7 +1464,7 @@
         "crew": "Ari Vatanen &amp; Terry Harryman",
         "car": "Peugeot 205 T16 – non-homologated",
         "time": null,
-        "notes": "non-homologated)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Blomqvist’s controlled aggression and deep snow experience proved unbeatable, as he led a decisive Audi 1-2 and continued to build momentum in the 1984 title fight.</p>"
     }
@@ -1492,7 +1492,7 @@
         "crew": "Ari Vatanen &amp; Terry Harryman",
         "car": "Peugeot 205 T16 – non-homologated",
         "time": null,
-        "notes": "non-homologated)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Alén’s aggressive yet composed drive pushed the rear-wheel-drive 037 to its limits, holding off the Quattro’s grip advantage in wet conditions.</p>"
     }
@@ -1885,7 +1885,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Peugeot 205 T16",
         "time": null,
-        "notes": "François Fauchille (Peugeot 205 T16)"
+        "notes": null
       },
       "third": {
         "crew": "Fabrizio Tabaton &amp; Luciano Tedeschini",
@@ -2494,7 +2494,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Renault 11 Turbo",
         "time": null,
-        "notes": "François Fauchille (Renault 11 Turbo)"
+        "notes": null
       },
       "third": {
         "crew": "François Chatriot &amp; Michel Périn",
@@ -2600,7 +2600,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "François Fauchille (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "second": {
         "crew": "François Chatriot &amp; Michel Périn",
@@ -2612,7 +2612,7 @@
         "crew": "Yves Loubet &amp; Jean-Marc Andrié",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "Marc Andrié (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Saby’s victory highlighted the Delta’s versatility on all surfaces, and Corsica cemented his status as one of rallying’s top tarmac specialists.</p>"
     }
@@ -2640,7 +2640,7 @@
         "crew": "Yves Loubet &amp; Jean-Marc Andrié",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "Marc Andrié (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>It was a dominant Lancia 1-2-3 finish, proving that the Delta HF 4WD could survive—and thrive—where others broke down.</p>"
     }
@@ -2740,7 +2740,7 @@
         "crew": "Yves Loubet &amp; Jean-Michel Arbiolet",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "Michel Arbiolet (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "second": {
         "crew": "Erwin Weber &amp; Manfred Hiemer",
@@ -2752,7 +2752,7 @@
         "crew": "Alain Ambrosino &amp; Jean-Pierre Bousquet",
         "car": "Toyota Celica TCT",
         "time": null,
-        "notes": "Pierre Bousquet (Toyota Celica TCT)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Drivers-only round – no manufacturers' points awarded</p>"
     }
@@ -2824,7 +2824,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "François Fauchille (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "second": {
         "crew": "Miki Biasion &amp; Tiziano Siviero",
@@ -2886,7 +2886,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "François Fauchille (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -2942,7 +2942,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "François Fauchille (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "third": {
         "crew": "François Chatriot &amp; Michel Périn",
@@ -2976,7 +2976,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "François Fauchille (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Biasion’s calm execution and the Delta’s bulletproof setup gave Lancia another valuable 1–3 finish—critical in both the drivers’ and manufacturers’ standings.</p>"
     }
@@ -3088,7 +3088,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Lancia Delta HF 4WD",
         "time": null,
-        "notes": "François Fauchille (Lancia Delta HF 4WD)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Fiorio’s breakout win was the first WRC victory by a second-generation rally driver and highlighted Lancia’s iron grip on the 1988 season with another 1–2–3 finish.</p>"
     }
@@ -3110,7 +3110,7 @@
         "crew": "Alain Ambrosino &amp; Jean-Pierre Bousquet",
         "car": "Toyota Celica TCT",
         "time": null,
-        "notes": "Pierre Bousquet (Toyota Celica TCT)"
+        "notes": null
       },
       "third": {
         "crew": "Erwin Weber &amp; Manfred Hiemer",
@@ -3138,7 +3138,7 @@
         "crew": "Pentti Airikkala &amp; Ronan Morgan",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "third": {
         "crew": "Jimmy McRae &amp; Ian Grindrod",
@@ -3200,7 +3200,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Biasion’s consistent pace and superior tire choices gave him the edge—marking back-to-back Monte Carlo wins and setting the tone for 1989.</p>"
     }
@@ -3250,7 +3250,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -3272,13 +3272,13 @@
         "crew": "Björn Waldegård &amp; Fred Gallagher",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "second": {
         "crew": "Alain Ambrosino &amp; Jean-Pierre Bousquet",
         "car": "Nissan 200SX",
         "time": null,
-        "notes": "Pierre Bousquet (Nissan 200SX)"
+        "notes": null
       },
       "third": {
         "crew": "Mike Kirkland &amp; David Williamson",
@@ -3312,7 +3312,7 @@
         "crew": "Bruno Saby &amp; Jean-François Fauchille",
         "car": "Lancia Delta Integrale",
         "time": null,
-        "notes": "François Fauchille (Lancia Delta Integrale)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Auriol’s speed on Corsican asphalt was unmatched. His win completed a clean Lancia podium sweep and marked a key highlight of his growing legend in tarmac rallying.</p>"
     }
@@ -3334,7 +3334,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "third": {
         "crew": "Juha Kankkunen &amp; Juha Piironen",
@@ -3362,13 +3362,13 @@
         "crew": "Juha Kankkunen &amp; Juha Piironen",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "third": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Fiorio’s breakthrough win on gravel showed his maturity and consistency—holding off strong pressure from Kankkunen and the Toyota team.</p>"
     }
@@ -3384,13 +3384,13 @@
         "crew": "Juha Kankkunen &amp; Juha Piironen",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "third": {
         "crew": "Didier Auriol &amp; Bernard Occelli",
@@ -3412,7 +3412,7 @@
         "crew": "Juha Kankkunen &amp; Juha Piironen",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "second": {
         "crew": "Markku Alén &amp; Ilkka Kivimäki",
@@ -3424,7 +3424,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Kankkunen’s performance was clinical and fearless—his speed over crests and commitment through the forests left no doubt who ruled the Finnish gravel.</p>"
     }
@@ -3452,7 +3452,7 @@
         "crew": "Carlos Sainz &amp; Luis Moya",
         "car": "Toyota Celica GT-Four",
         "time": null,
-        "notes": "Four)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Auriol’s smooth and calculated drive gave Lancia another home victory and further strengthened his reputation as a lethal tarmac specialist.</p>"
     }
@@ -3468,7 +3468,7 @@
         "crew": "Alain Ambrosino &amp; Jean-Claude Lemoine",
         "car": "Nissan 200SX",
         "time": null,
-        "notes": "Claude Lemoine (Nissan 200SX)"
+        "notes": null
       },
       "second": {
         "crew": "Alain Oreille &amp; Gilles Thimonier",
@@ -3496,7 +3496,7 @@
         "crew": "Pentti Airikkala &amp; Paul White",
         "car": "Mitsubishi Galant VR-4",
         "time": null,
-        "notes": "4)"
+        "notes": null
       },
       "second": {
         "crew": "Malcolm Wilson &amp; Nigel Harris",

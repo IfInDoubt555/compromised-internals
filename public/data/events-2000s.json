@@ -38,7 +38,7 @@
         "crew": "Jean-Louis Schlesser &amp; Henri Magne",
         "car": "Schlesser-Renault Buggy",
         "time": null,
-        "notes": "Louis Schlesser &amp; Henri Magne (Schlesser-Renault Buggy)"
+        "notes": null
       },
       "second": {
         "crew": "Hiroshi Masuoka &amp; Pascal Maimon",
@@ -554,7 +554,7 @@
         "crew": "Jean-Louis Schlesser &amp; Henri Magne",
         "car": "Schlesser-Renault Buggy",
         "time": null,
-        "notes": "Louis Schlesser &amp; Henri Magne (Schlesser-Renault Buggy)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Kleinschmidt’s steady approach and clean navigation gave her the edge over teammates and rivals. Masuoka showed speed but couldn’t recover lost time, while Schlesser’s buggy excelled in the dunes but struggled in rocky sections.</p>"
     }
@@ -884,7 +884,7 @@
         "crew": "Philippe Bugalski &amp; Jean-Paul Chiaroni",
         "car": "Citroën Xsara WRC",
         "time": null,
-        "notes": "Paul Chiaroni (Citroën Xsara WRC)"
+        "notes": null
       },
       "third": {
         "crew": "François Delecour &amp; Daniel Grataloup",
@@ -996,13 +996,13 @@
         "crew": "Stéphane Peterhansel &amp; Jean-Paul Cottret",
         "car": "Nissan Navara",
         "time": null,
-        "notes": "Paul Cottret (Nissan Navara)"
+        "notes": null
       },
       "third": {
         "crew": "Jean-Louis Schlesser &amp; Henri Magne",
         "car": "Schlesser-Renault Buggy",
         "time": null,
-        "notes": "Louis Schlesser &amp; Henri Magne (Schlesser-Renault Buggy)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Masuoka built his lead steadily across the early African legs and defended it smartly through the dunes. Peterhansel returned to form in a Nissan, while Schlesser’s buggy excelled in sand but struggled in rocky terrain and long straights.</p>"
     }
@@ -1444,13 +1444,13 @@
         "crew": "Stéphane Peterhansel &amp; Jean-Paul Cottret",
         "car": "Mitsubishi Pajero",
         "time": null,
-        "notes": "Paul Cottret (Mitsubishi Pajero)"
+        "notes": null
       },
       "third": {
         "crew": "Jean-Louis Schlesser &amp; Henri Magne",
         "car": "Schlesser-Renault Buggy",
         "time": null,
-        "notes": "Louis Schlesser &amp; Henri Magne (Schlesser-Renault Buggy)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Masuoka maintained a consistent pace and avoided major mistakes or mechanical failures, while Peterhansel, also in a Mitsubishi, kept pressure on. Schlesser’s buggy again showed impressive pace but struggled with reliability in the most extreme stages.</p>"
     }
@@ -1606,7 +1606,7 @@
         "crew": "Philippe Bugalski &amp; Jean-Paul Chiaroni",
         "car": "Citroën Xsara WRC",
         "time": null,
-        "notes": "Paul Chiaroni (Citroën Xsara WRC)"
+        "notes": null
       },
       "second": {
         "crew": "Carlos Sainz &amp; Marc Martí",
@@ -1640,7 +1640,7 @@
         "crew": "François Duval &amp; Jean-Marc Fortin",
         "car": "Ford Focus RS WRC",
         "time": null,
-        "notes": "Marc Fortin (Ford Focus RS WRC)"
+        "notes": null
       },
       "third": {
         "crew": "Carlos Sainz &amp; Marc Martí",
@@ -1914,7 +1914,7 @@
         "crew": "Stéphane Peterhansel &amp; Jean-Paul Cottret",
         "car": "Mitsubishi Pajero",
         "time": null,
-        "notes": "Paul Cottret (Mitsubishi Pajero)"
+        "notes": null
       },
       "second": {
         "crew": "Hiroshi Masuoka &amp; Pascal Maimon",
@@ -1926,7 +1926,7 @@
         "crew": "Jean-Louis Schlesser &amp; Henri Magne",
         "car": "Schlesser-Renault Buggy",
         "time": null,
-        "notes": "Louis Schlesser &amp; Henri Magne (Schlesser-Renault Buggy)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Peterhansel’s victory was both strategic and dominant. He balanced attack and preservation while managing risk in navigation and vehicle wear, holding off a hard push from teammate Masuoka and Schlesser’s lightweight buggy in the dunes.</p>"
     }
@@ -2418,7 +2418,7 @@
         "crew": "Stéphane Peterhansel &amp; Jean-Paul Cottret",
         "car": "Mitsubishi Pajero Evo",
         "time": null,
-        "notes": "Paul Cottret (Mitsubishi Pajero Evo)"
+        "notes": null
       },
       "second": {
         "crew": "Luc Alphand &amp; Gilles Picard",
@@ -2894,7 +2894,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "second": {
         "crew": "Marcus Grönholm &amp; Timo Rautiainen",
@@ -2928,7 +2928,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "third": {
         "crew": "Daniel Carlsson &amp; Mattias Andersson",
@@ -2950,7 +2950,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "second": {
         "crew": "Petter Solberg &amp; Phil Mills",
@@ -2984,7 +2984,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "third": {
         "crew": "Manfred Stohl &amp; Ilka Minor",
@@ -3006,7 +3006,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "second": {
         "crew": "Marcus Grönholm &amp; Timo Rautiainen",
@@ -3018,7 +3018,7 @@
         "crew": "Dani Sordo &amp; Marc Martí",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb’s ability to keep the car tidy through Sardinia’s roughest sections proved decisive. Grönholm kept the pressure on but lost time in dust and rocky hairpins, while Sordo impressed with his first podium finish in WRC.</p>"
     }
@@ -3034,7 +3034,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "second": {
         "crew": "Marcus Grönholm &amp; Timo Rautiainen",
@@ -3046,7 +3046,7 @@
         "crew": "Dani Sordo &amp; Marc Martí",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb and Grönholm traded stage wins early, but Loeb pulled clear as the rally progressed. Sordo once again showed maturity beyond his years with a second consecutive podium.</p>"
     }
@@ -3102,7 +3102,7 @@
         "crew": "Dani Sordo &amp; Marc Martí",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Grönholm controlled the pace from the front while Hirvonen backed up Ford’s dominant weekend with a career-best second place. Sordo’s third podium of the year confirmed his growing consistency on gravel.</p>"
     }
@@ -3130,7 +3130,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Grönholm’s win was emphatic, leading a Ford 1–2 at home. Hirvonen impressed with his pace on familiar ground, while Loeb salvaged strong points despite struggling to match the Fords’ top speed.</p>"
     }
@@ -3146,7 +3146,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "second": {
         "crew": "Marcus Grönholm &amp; Timo Rautiainen",
@@ -3158,7 +3158,7 @@
         "crew": "Dani Sordo &amp; Marc Martí",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb controlled the rally from the start, never allowing Grönholm to get within striking distance. Sordo completed a strong Citroën showing with another podium on tarmac.</p>"
     }
@@ -3174,7 +3174,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "second": {
         "crew": "Marcus Grönholm &amp; Timo Rautiainen",
@@ -3202,7 +3202,7 @@
         "crew": "Sébastien Loeb &amp; Daniel Elena",
         "car": "Citroën Xsara WRC – Kronos Racing",
         "time": null,
-        "notes": "Kronos Racing)"
+        "notes": null
       },
       "second": {
         "crew": "Marcus Grönholm &amp; Timo Rautiainen",
@@ -3354,7 +3354,7 @@
         "crew": "Henning Solberg &amp; Cato Menkerud",
         "car": "Ford Focus RS WRC 06/07 – Stobart",
         "time": null,
-        "notes": "Stobart)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Hirvonen controlled the event with clean, consistent pace. Petter thrilled the home crowd with aggressive attacks, while Henning’s measured speed secured a popular podium for the Solberg family.</p>"
     }
@@ -3656,7 +3656,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 06",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 06)"
+        "notes": null
       },
       "third": {
         "crew": "Dani Sordo &amp; Marc Martí",
@@ -3734,7 +3734,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 07",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 07)"
+        "notes": null
       },
       "second": {
         "crew": "Mikko Hirvonen &amp; Jarmo Lehtinen",
@@ -3774,7 +3774,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 07",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 07)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb’s dominant pace left Atkinson to battle Latvala for the runner-up spot, with the Australian edging ahead after a measured final day drive.</p>"
     }
@@ -3858,7 +3858,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 07",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 07)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb’s ability to avoid punctures and maintain pace through the island’s toughest sections gave him a narrow but decisive win over Hirvonen, with Latvala rounding out the podium.</p>"
     }
@@ -3914,7 +3914,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 07",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 07)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb built an early lead and carefully managed his pace, while Ford teammates Hirvonen and Latvala battled for second, with Hirvonen edging ahead on the final day.</p>"
     }
@@ -4082,7 +4082,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 07",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 07)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Hirvonen stayed clear of trouble while Loeb settled for second, focusing on championship points. Latvala’s pace ensured a strong double podium for Ford.</p>"
     }
@@ -4110,7 +4110,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 07",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 07)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb controlled the rally from the outset, with Sordo backing up Citroën’s dominance. Latvala salvaged a podium for Ford, but the wet Welsh stages favored the Citroën package.</p>"
     }
@@ -4166,7 +4166,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 08",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 08)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Hirvonen and Loeb swapped stage wins throughout the weekend, with the Finn ultimately securing victory by managing risks better in the final icy stages.</p>"
     }
@@ -4272,7 +4272,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 08",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 08)"
+        "notes": null
       },
       "third": {
         "crew": "Petter Solberg &amp; Phil Mills",
@@ -4300,7 +4300,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 08",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 08)"
+        "notes": null
       },
       "third": {
         "crew": "Sébastien Loeb &amp; Daniel Elena",
@@ -4362,7 +4362,7 @@
         "crew": "Jari-Matti Latvala &amp; Miikka Anttila",
         "car": "Ford Focus RS WRC 09",
         "time": null,
-        "notes": "Matti Latvala &amp; Miikka Anttila (Ford Focus RS WRC 09)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Loeb pushed hard but couldn’t match Hirvonen’s fearless pace over the crests. Latvala backed up Ford’s dominance with a strong podium showing.</p>"
     }

@@ -22,7 +22,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Claude Roure",
         "car": "Alpine-Renault A110 1300",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Claude Roure (Alpine-Renault A110 1300)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>The Porsche 911 S secured its first Monte Carlo victory, showcasing its resilience and pace.</p>"
     }
@@ -66,7 +66,7 @@
         "crew": "Jean-Luc Thérier &amp; Marcel Callewaert",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Luc Thérier &amp; Marcel Callewaert (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Harry Källström &amp; Gunnar Häggbom",
@@ -78,7 +78,7 @@
         "crew": "Jean Vinatier &amp; David Stone",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Thérier’s lightweight A110 proved unbeatable on twisty mountain roads.</p>"
     }
@@ -94,13 +94,13 @@
         "crew": "Jean-Claude Andruet &amp; David Stone",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; David Stone (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Jean Todt",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Rauno Aaltonen &amp; Henry Liddon",
@@ -128,13 +128,13 @@
         "crew": "Manfred Schikora &amp; Klaus-Dieter Michel",
         "car": "Moskvitch 412",
         "time": null,
-        "notes": "Dieter Michel (Moskvitch 412)"
+        "notes": null
       },
       "third": {
         "crew": "Siegfried Hentschel &amp; Karl-Heinz Bröckel",
         "car": "Skoda 1000 MB",
         "time": null,
-        "notes": "Heinz Bröckel (Skoda 1000 MB)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Hommel’s consistent pace and faultless timing allowed the Wartburg to outpace rival Eastern Bloc manufacturers in a fiercely contested rally.</p>"
     }
@@ -296,7 +296,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Claude Roure",
         "car": "Alpine-Renault A110 1300",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Claude Roure (Alpine-Renault A110 1300)"
+        "notes": null
       },
       "third": {
         "crew": "Walter Roser &amp; Wolfgang Neumayr",
@@ -330,7 +330,7 @@
         "crew": "Dieter Kern &amp; Hans-Peter Söhner",
         "car": "NSU 1200 TT",
         "time": null,
-        "notes": "Peter Söhner (NSU 1200 TT)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Warmbold’s ability to push the Kadett to its limit on short tarmac sections secured a critical home victory against tough local rivals.</p>"
     }
@@ -346,13 +346,13 @@
         "crew": "Jean-Luc Thérier &amp; Marcel Callewaert",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Luc Thérier &amp; Marcel Callewaert (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Jean Vinatier &amp; David Stone",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Ove Andersson &amp; Jim Porter",
@@ -374,13 +374,13 @@
         "crew": "Jean-Claude Andruet &amp; Michel Vial",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; Michel Vial (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Jean Todt",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Jean Ragnotti &amp; Jacques Jaubert",
@@ -430,19 +430,19 @@
         "crew": "Jean-Claude Andruet &amp; Michèle “Biche” Espinosi-Petit",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; Michèle “Biche” Espinosi-Petit (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Jean Todt",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Amédée Gordini &amp; Claude Ballot-Léna",
         "car": "Renault 8 Gordini",
         "time": null,
-        "notes": "Léna (Renault 8 Gordini)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Andruet and co-driver Biche formed a seamless team, combining technical mastery and expert navigation to outpace the competition on Geneva’s tricky tarmac stages.</p>"
     }
@@ -486,7 +486,7 @@
         "crew": "Jean-Claude Andruet &amp; Michèle “Biche” Espinosi-Petit",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; Michèle “Biche” Espinosi-Petit (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Simo Lampinen &amp; Martti Tiukkanen",
@@ -598,7 +598,7 @@
         "crew": "Jean-Pierre Beltoise &amp; Jean Todt",
         "car": "Matra Simca MS650",
         "time": null,
-        "notes": "Pierre Beltoise &amp; Jean Todt (Matra Simca MS650)"
+        "notes": null
       },
       "second": {
         "crew": "Gérard Larrousse &amp; Maurice Gélin",
@@ -610,7 +610,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Beltoise’s unmatched circuit prowess and Todt’s impeccable organization delivered a dominant performance, with the prototype Matra demonstrating sheer speed and stamina across every format.</p>"
     }
@@ -626,7 +626,7 @@
         "crew": "Jean-Claude Andruet &amp; Michèle “Biche” Espinosi-Petit",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; Michèle “Biche” Espinosi-Petit (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Achim Warmbold &amp; Rolf Hellmich",
@@ -738,7 +738,7 @@
         "crew": "Jean-Pierre Nicolas &amp; David Stone",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Pierre Nicolas &amp; David Stone (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Salvador Cañellas &amp; Jorge Babler",
@@ -750,7 +750,7 @@
         "crew": "Bernard Darniche &amp; Jean Todt",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Nicolas and Stone capitalized on the Alpine’s asphalt mastery to fend off rising Spanish talent and secure another victory in the A110’s storied campaign.</p>"
     }
@@ -778,7 +778,7 @@
         "crew": "Jean-François Piot",
         "car": "Ford Escort Twin Cam",
         "time": null,
-        "notes": "François Piot (Ford Escort Twin Cam)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Waldegård’s reliability in his Porsche earned the win over the punishing Alpine course.</p>"
     }
@@ -850,13 +850,13 @@
         "crew": "Ove Andersson &amp; David Stone",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Jean-Luc Thérier &amp; Jacques Jaubert",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Luc Thérier &amp; Jacques Jaubert (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Rauno Aaltonen &amp; Henry Liddon",
@@ -934,13 +934,13 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Jean Todt",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Gérard Larrousse &amp; Maurice Gélin",
@@ -968,7 +968,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Sandro Munari &amp; Mario Mannucci",
@@ -996,7 +996,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Salvador Cañellas &amp; Jorge Babler",
@@ -1024,7 +1024,7 @@
         "crew": "Colin Bond &amp; George Shepheard",
         "car": "Holden Torana GTR XU-1",
         "time": null,
-        "notes": "1)"
+        "notes": null
       },
       "third": {
         "crew": "Frank Kilfoyle &amp; Doug Stewart",
@@ -1046,7 +1046,7 @@
         "crew": "Harry Källström &amp; Jean Todt",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Hannu Mikkola &amp; Atso Aho",
@@ -1058,7 +1058,7 @@
         "crew": "Bernard Darniche &amp; Jacques Jaubert",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Källström’s finesse and Todt’s precise pace notes led to a well-earned win over the Escort threat, with Alpine once again proving its might on a mixed-surface international stage.</p>"
     }
@@ -1136,7 +1136,7 @@
         "crew": "Ove Andersson &amp; Jean-François Jacob",
         "car": "Renault 12 Gordini",
         "time": null,
-        "notes": "François Jacob (Renault 12 Gordini)"
+        "notes": null
       },
       "third": {
         "crew": "Rauno Aaltonen &amp; Lofty Drews",
@@ -1158,13 +1158,13 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Jacques Jaubert",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Walter Roser &amp; Karl Berger",
@@ -1186,13 +1186,13 @@
         "crew": "Ove Andersson &amp; David Stone",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Harry Källström &amp; Gunnar Haggbom",
@@ -1220,7 +1220,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Walter Roser &amp; Karl Berger",
@@ -1310,7 +1310,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Aaltonen’s legendary precision and Todt’s tactical discipline made the Datsun 240Z a powerful force across the varied terrain—proving its growing reputation beyond endurance events like the Safari.</p>"
     }
@@ -1326,7 +1326,7 @@
         "crew": "Colin Bond &amp; George Shepheard",
         "car": "Holden Torana GTR XU-1",
         "time": null,
-        "notes": "1)"
+        "notes": null
       },
       "second": {
         "crew": "Frank Kilfoyle &amp; Doug Stewart",
@@ -1360,13 +1360,13 @@
         "crew": "Bernard Darniche &amp; Alain Mahé",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Jean-François Piot &amp; Jean Todt",
         "car": "Ford Escort RS1600",
         "time": null,
-        "notes": "François Piot &amp; Jean Todt (Ford Escort RS1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Larrousse’s mastery of high-speed braking and tire conservation allowed the powerful Porsche to edge out more agile rivals on a course known for punishing oversteer and brake fade.</p>"
     }
@@ -1416,7 +1416,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine-Renault A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine-Renault A110 1600)"
+        "notes": null
       },
       "third": {
         "crew": "Ove Andersson &amp; Arne Hertz",
@@ -1522,7 +1522,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine A110 1600)"
+        "notes": null
       },
       "second": {
         "crew": "Gérard Larrousse &amp; Claude Perramond",
@@ -1606,7 +1606,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504)"
+        "notes": null
       },
       "second": {
         "crew": "Ove Andersson &amp; Arne Hertz",
@@ -1646,7 +1646,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine A110 1600",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine A110 1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Röhrl’s precision and the Opel’s durability proved decisive, allowing the young German crew to outlast the favorites and survive the infamous Acropolis brutality.</p>"
     }
@@ -1674,7 +1674,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine A110 1600",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine A110 1600)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Helmer and Haggbom used the Fulvia’s FWD grip and durability to full effect, capitalizing on the mixed conditions to edge out Warmbold’s local knowledge and Andruet’s tarmac pace.</p>"
     }
@@ -1702,7 +1702,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Warmbold’s understanding of alpine dynamics and Todt’s meticulous navigation gave BMW the edge over a stacked field of gravel rally specialists.</p>"
     }
@@ -1774,13 +1774,13 @@
         "crew": "Jean-Pierre Nicolas &amp; Jean Todt",
         "car": "Peugeot 504",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Jean Todt (Peugeot 504)"
+        "notes": null
       },
       "second": {
         "crew": "Jorge Recalde &amp; Héctor Luis Pérez",
         "car": "IKA-Renault Torino",
         "time": null,
-        "notes": "Renault Torino)"
+        "notes": null
       },
       "third": {
         "crew": "Francisco Mayorga &amp; Carlos Menditeguy",
@@ -1808,7 +1808,7 @@
         "crew": "Colin Bond &amp; George Shepheard",
         "car": "Holden Torana GTR XU-1",
         "time": null,
-        "notes": "1)"
+        "notes": null
       },
       "third": {
         "crew": "Barry Ferguson &amp; Dave Johnson",
@@ -1830,7 +1830,7 @@
         "crew": "Harry Källström &amp; Claes-Göran Andersson",
         "car": "Datsun 240Z",
         "time": null,
-        "notes": "Göran Andersson (Datsun 240Z)"
+        "notes": null
       },
       "second": {
         "crew": "John Buffum &amp; Tom Grimshaw",
@@ -1858,7 +1858,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine A110 1800",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine A110 1800)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Alain Mahé",
@@ -1870,7 +1870,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Andruet’s fluid cornering rhythm and “Biche’s” precise calls carried them to a standout victory, underlining the Alpine’s dominance on French tarmac in one of rallying’s most technical events.</p>"
     }
@@ -1914,19 +1914,19 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "second": {
         "crew": "Ove Andersson &amp; Jean Todt",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Alpine’s 1-2-3 finish set the tone for their 1973 campaign, and Andruet’s pace on both snow and tarmac solidified him as the WRC’s first event winner in history.</p>"
     }
@@ -2026,13 +2026,13 @@
         "crew": "Jean-Luc Thérier &amp; Jacques Jaubert",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Luc Thérier &amp; Jacques Jaubert (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "second": {
         "crew": "Ove Andersson &amp; Arne Hertz",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Rauno Aaltonen &amp; Jean Todt",
@@ -2110,13 +2110,13 @@
         "crew": "Bernard Darniche &amp; Alain Mahé",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Renault A110 1800)"
+        "notes": null
       },
       "second": {
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504)"
+        "notes": null
       },
       "third": {
         "crew": "Rauno Aaltonen &amp; Jean Todt",
@@ -2138,13 +2138,13 @@
         "crew": "Jean-Luc Thérier &amp; Christian Delferrier",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Luc Thérier &amp; Christian Delferrier (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "second": {
         "crew": "Ove Andersson &amp; Arne Hertz",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Rauno Aaltonen &amp; Jean Todt",
@@ -2166,7 +2166,7 @@
         "crew": "“Pedro” (Jean-Pierre Gaban) &amp; “Jimmy” (Jean-Michel Etienne)",
         "car": "BMW 2002 Ti",
         "time": null,
-        "notes": "Pierre Gaban) &amp; “Jimmy” (Jean-Michel Etienne) (BMW 2002 Ti)"
+        "notes": null
       },
       "second": {
         "crew": "Gilbert Staepelaere &amp; Willy Lux",
@@ -2200,7 +2200,7 @@
         "crew": "Jean-Luc Thérier &amp; Christian Delferrier",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Luc Thérier &amp; Christian Delferrier (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Sobiesław Zasada &amp; Andrzej Zembrzuski",
@@ -2256,7 +2256,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Walter Röhrl &amp; Jochen Berger",
@@ -2278,7 +2278,7 @@
         "crew": "Jean-Luc Thérier &amp; Jacques Jaubert",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Luc Thérier &amp; Jacques Jaubert (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "second": {
         "crew": "Walter Röhrl &amp; Jochen Berger",
@@ -2362,19 +2362,19 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Alain Mahé",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Gérard Larrousse &amp; Jean-Claude Lefèbvre",
         "car": "Porsche 911 Carrera RS",
         "time": null,
-        "notes": "Claude Lefèbvre (Porsche 911 Carrera RS)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Nicolas's composure under pressure and Vial's exacting co-driving ensured a 1–2 Alpine finish on home ground, reinforcing the French marque’s supremacy on asphalt in 1973.</p>"
     }
@@ -2452,7 +2452,7 @@
         "crew": "Jean-Luc Thérier &amp; Christian Delferrier",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Luc Thérier &amp; Christian Delferrier (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Ove Andersson &amp; Arne Hertz",
@@ -2486,7 +2486,7 @@
         "crew": "Harry Källström &amp; Claes-Göran Andersson",
         "car": "Datsun 1800 SSS",
         "time": null,
-        "notes": "Göran Andersson (Datsun 1800 SSS)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Singh’s calculated pace and local knowledge, paired with the Lancer’s toughness, allowed them to overcome faster cars and claim a historic win for both Kenya and Mitsubishi.</p>"
     }
@@ -2620,7 +2620,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Raffaele Pinto &amp; Arnaldo Bernacchini",
@@ -2698,7 +2698,7 @@
         "crew": "Jean-Luc Thérier &amp; Christian Delferrier",
         "car": "Renault 17 Gordini",
         "time": null,
-        "notes": "Luc Thérier &amp; Christian Delferrier (Renault 17 Gordini)"
+        "notes": null
       },
       "second": {
         "crew": "Walter Boyce &amp; Doug Woods",
@@ -2754,13 +2754,13 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Lancia Stratos HF",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Lancia Stratos HF)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Alain Mahé",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Guy Fréquelin &amp; Jacques Delaval",
@@ -2788,7 +2788,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Hannu Mikkola &amp; Atso Aho",
@@ -2984,7 +2984,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Tony Pond &amp; Johnstone Syer",
@@ -3124,7 +3124,7 @@
         "crew": "Jean-Luc Thérier &amp; Michel Vial",
         "car": "Renault-Alpine A110 1800",
         "time": null,
-        "notes": "Luc Thérier &amp; Michel Vial (Renault-Alpine A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Markku Alén &amp; Ilkka Kivimäki",
@@ -3180,7 +3180,7 @@
         "crew": "Colin Bond &amp; George Shepheard",
         "car": "Holden Torana GTR XU-1",
         "time": null,
-        "notes": "1)"
+        "notes": null
       },
       "third": {
         "crew": "Greg Carr &amp; Wayne Gregson",
@@ -3208,7 +3208,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Alpine-Renault A110 1800",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Alpine-Renault A110 1800)"
+        "notes": null
       },
       "third": {
         "crew": "Guy Fréquelin &amp; Jacques Delaval",
@@ -3292,7 +3292,7 @@
         "crew": "Jean-Claude Andruet &amp; \"Biche\"",
         "car": "Fiat 124 Abarth Rallye",
         "time": null,
-        "notes": "Claude Andruet &amp; \"Biche\" (Fiat 124 Abarth Rallye)"
+        "notes": null
       },
       "third": {
         "crew": "Björn Waldegård &amp; Hans Thorszelius",
@@ -3382,7 +3382,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Munari’s disciplined drive and Maiga’s split-second navigation kept the Stratos ahead even as conditions shifted—cementing their mastery over Portugal’s diverse rally terrain.</p>"
     }
@@ -3510,13 +3510,13 @@
         "crew": "Harry Källström &amp; Claes-Göran Andersson",
         "car": "Datsun 160J Violet",
         "time": null,
-        "notes": "Göran Andersson (Datsun 160J Violet)"
+        "notes": null
       },
       "second": {
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504 V6",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504 V6)"
+        "notes": null
       },
       "third": {
         "crew": "Markku Alén &amp; Ilkka Kivimäki",
@@ -3566,7 +3566,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Gamet",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Gamet (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "second": {
         "crew": "Simo Lampinen &amp; Jean Todt",
@@ -3578,7 +3578,7 @@
         "crew": "Björn Waldegård &amp; Hans Thorszelius",
         "car": "Mercedes-Benz 450 SLC",
         "time": null,
-        "notes": "Benz 450 SLC)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Nicolas and Gamet’s calculated pace and the Peugeot’s legendary reliability overcame the terrain, beating faster cars that succumbed to breakdowns or navigation errors.</p>"
     }
@@ -3656,7 +3656,7 @@
         "crew": "Jean-Claude Andruet &amp; \"Biche\"",
         "car": "Fiat 131 Abarth",
         "time": null,
-        "notes": "Claude Andruet &amp; \"Biche\" (Fiat 131 Abarth)"
+        "notes": null
       },
       "third": {
         "crew": "Maurizio Verini &amp; Angiolina Russo",
@@ -3712,7 +3712,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "third": {
         "crew": "Bernard Darniche &amp; Alain Mahé",
@@ -3768,7 +3768,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "third": {
         "crew": "Hannu Mikkola &amp; Jean Todt",
@@ -3874,7 +3874,7 @@
         "crew": "“Jacques” Henry &amp; Bernard Occelli",
         "car": "Alpine-Renault A110",
         "time": null,
-        "notes": "Renault A110)"
+        "notes": null
       },
       "second": {
         "crew": "",
@@ -3908,7 +3908,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "third": {
         "crew": "Hannu Mikkola &amp; Atso Aho",
@@ -4048,7 +4048,7 @@
         "crew": "Tony Fowkes / Peter O'Gorman",
         "car": "Mercedes-Benz 280E",
         "time": null,
-        "notes": "Benz 280E)"
+        "notes": null
       },
       "third": {
         "crew": "Paddy Hopkirk / Mike Taylor / Neville Johnston",
@@ -4104,7 +4104,7 @@
         "crew": "Jean-Paul Perusse &amp; Normand Lalonde",
         "car": "Volvo 142",
         "time": null,
-        "notes": "Paul Perusse &amp; Normand Lalonde (Volvo 142)"
+        "notes": null
       },
       "third": {
         "crew": "Tom Burgess &amp; Brian Maxwell",
@@ -4126,7 +4126,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Fiat 131 Abarth",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Fiat 131 Abarth)"
+        "notes": null
       },
       "second": {
         "crew": "Bernard Darniche &amp; Alain Mahé",
@@ -4160,7 +4160,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Michel Vial",
         "car": "Peugeot 504 Coupé V6",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Michel Vial (Peugeot 504 Coupé V6)"
+        "notes": null
       },
       "third": {
         "crew": "Antonio “Tony” Carello &amp; Giuseppe Russo",
@@ -4210,13 +4210,13 @@
         "crew": "Jean-Pierre Nicolas &amp; Vincent Laverne",
         "car": "Porsche 911 Carrera",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Vincent Laverne (Porsche 911 Carrera)"
+        "notes": null
       },
       "second": {
         "crew": "Jean Ragnotti &amp; Jean-Marc Andrié",
         "car": "Renault 5 Alpine",
         "time": null,
-        "notes": "Marc Andrié (Renault 5 Alpine)"
+        "notes": null
       },
       "third": {
         "crew": "Hannu Mikkola &amp; Arne Hertz",
@@ -4350,7 +4350,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Jean-Claude Lefebvre",
         "car": "Peugeot 504 Coupé V6",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Jean-Claude Lefebvre (Peugeot 504 Coupé V6)"
+        "notes": null
       },
       "second": {
         "crew": "Hannu Mikkola &amp; Arne Hertz",
@@ -4418,7 +4418,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Vincent Laverne",
         "car": "Porsche 911 SC",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Vincent Laverne (Porsche 911 SC)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Alén’s aggressive but composed driving on both surfaces, coupled with the Fiat’s well-balanced chassis, allowed them to pull away from the pack—cementing their dominance in mixed-surface rallying.</p>"
     }
@@ -4440,7 +4440,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Vincent Laverne",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Vincent Laverne (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "third": {
         "crew": "Hannu Mikkola &amp; Arne Hertz",
@@ -4502,7 +4502,7 @@
         "crew": "Jean-Pierre Gaban &amp; Jean-Michel Etienne",
         "car": "Porsche 911 Carrera RS",
         "time": null,
-        "notes": "Pierre Gaban &amp; Jean-Michel Etienne (Porsche 911 Carrera RS)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Ambrosino’s smooth tarmac handling and Le Saux’s flawless pacing allowed them to capitalize on others’ mistakes—making the Datsun’s reliability count on a night where many slipped off line or lost time to cuts and spins.</p>"
     }
@@ -4546,7 +4546,7 @@
         "crew": "Andrew Cowan &amp; Colin Malkin",
         "car": "Mercedes-Benz 450 SLC",
         "time": null,
-        "notes": "Benz 450 SLC)"
+        "notes": null
       },
       "second": {
         "crew": "Jorge Recalde &amp; Francisco Mayorga",
@@ -4614,7 +4614,7 @@
         "crew": "Neal Allport &amp; Alan Whyte",
         "car": "Mazda RX-3",
         "time": null,
-        "notes": "3)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Brookes and Broad’s teamwork and clean driving earned them a hard-fought international win, helping to elevate their FIA Cup campaign and gaining recognition among the Southern Hemisphere rallying elite.</p>"
     }
@@ -4642,7 +4642,7 @@
         "crew": "Jean-Paul Perusse &amp; Roger Labrecque",
         "car": "Datsun 710",
         "time": null,
-        "notes": "Paul Perusse &amp; Roger Labrecque (Datsun 710)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Röhrl’s calm, calculated style allowed him to manage the rapid changes in surface and visibility, while Geistdörfer’s precise pacenotes ensured maximum efficiency through Québec’s dense forests.</p>"
     }
@@ -4664,13 +4664,13 @@
         "crew": "Jean Ragnotti &amp; Jean-Marc Andrié",
         "car": "Renault Alpine A310 V6",
         "time": null,
-        "notes": "Marc Andrié (Renault Alpine A310 V6)"
+        "notes": null
       },
       "third": {
         "crew": "Claude Ballot-Léna &amp; Guy Chasseuil",
         "car": "Porsche 911 SC",
         "time": null,
-        "notes": "Léna &amp; Guy Chasseuil (Porsche 911 SC)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Mouton’s blend of smooth rallying and confident circuit driving—combined with Conconi’s steady timing—led to a well-deserved and groundbreaking victory in one of France’s most prestigious motorsport events.</p>"
     }
@@ -4770,7 +4770,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Vincent Laverne",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Vincent Laverne (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "second": {
         "crew": "Timo Mäkinen &amp; Henry Liddon",
@@ -4782,7 +4782,7 @@
         "crew": "Bernard Béguin &amp; Jean-Jacques Lenne",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Jacques Lenne (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Peugeot dominated the event with its rugged 504 Coupés, sweeping the podium and reinforcing the brand’s reputation in African endurance rallying.</p>"
     }
@@ -4804,7 +4804,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Vincent Laverne",
         "car": "Peugeot 504 Coupé V6",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Vincent Laverne (Peugeot 504 Coupé V6)"
+        "notes": null
       },
       "third": {
         "crew": "Guy Fréquelin &amp; Jacques Delaval",
@@ -4866,7 +4866,7 @@
         "crew": "Jean-Pierre Nicolas &amp; Vincent Laverne",
         "car": "Peugeot 504 Coupé V6",
         "time": null,
-        "notes": "Pierre Nicolas &amp; Vincent Laverne (Peugeot 504 Coupé V6)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Darniche’s fearless night-time attack on snow and ice sealed a legendary win, with Mahé’s precision pacenotes making the difference in treacherous Alpine conditions.</p>"
     }
@@ -5134,7 +5134,7 @@
         "crew": "Jean-Claude Andruet &amp; “Biche”",
         "car": "Lancia Stratos HF",
         "time": null,
-        "notes": "Claude Andruet &amp; “Biche” (Lancia Stratos HF)"
+        "notes": null
       },
       "second": {
         "crew": "Simo Lampinen &amp; Jaakko Markula",
@@ -5196,7 +5196,7 @@
         "crew": "Jean-Paul Perusse &amp; Yvon Dufour",
         "car": "Datsun 710",
         "time": null,
-        "notes": "Paul Perusse &amp; Yvon Dufour (Datsun 710)"
+        "notes": null
       },
       "third": {
         "crew": "John Buffum &amp; Doug Shepherd",
@@ -5314,7 +5314,7 @@
         "crew": "Jean Ragnotti &amp; Jean-Marc Andrié",
         "car": "Renault 5 Alpine",
         "time": null,
-        "notes": "Marc Andrié (Renault 5 Alpine)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Darniche’s win on home territory was commanding—his smooth rhythm and absolute trust in Mahé’s notes allowed them to stay ahead of newer machinery on the unforgiving Corsican roads.</p>"
     }
@@ -5358,19 +5358,19 @@
         "crew": "Hannu Mikkola &amp; Arne Hertz",
         "car": "Mercedes-Benz 450 SLC 5.0",
         "time": null,
-        "notes": "Benz 450 SLC 5.0)"
+        "notes": null
       },
       "second": {
         "crew": "Andrew Cowan &amp; Klaus Kaiser",
         "car": "Mercedes-Benz 450 SLC 5.0",
         "time": null,
-        "notes": "Benz 450 SLC 5.0)"
+        "notes": null
       },
       "third": {
         "crew": "Alain Ambrosino &amp; Jean-Pierre Nicolas",
         "car": "Peugeot 504 V6 Coupé",
         "time": null,
-        "notes": "Pierre Nicolas (Peugeot 504 V6 Coupé)"
+        "notes": null
       },
       "narrative_html": "<p class='text-center mt-4'>Mikkola and Hertz led a strong Mercedes-Benz effort, with their experience in African rallies proving vital as they withstood mechanical punishment and navigational complexity across thousands of kilometers.</p>"
     }
