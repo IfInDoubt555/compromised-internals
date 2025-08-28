@@ -26,6 +26,7 @@ use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CalendarExportController;
+use App\Http\Controllers\TravelPageController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -122,6 +123,8 @@ Route::prefix('history')->name('history.')->group(function () {
 
 // Travel
 Route::view('/travel', 'travel.index')->name('travel.index');
+Route::get('/travel', [TravelPageController::class, 'index'])->name('travel.index');
+Route::get('/travel/event/{event}', [TravelPageController::class, 'event'])->name('travel.plan.event');
 
 // Auth-required routes
 Route::middleware(['auth', 'verified'])->group(function () {

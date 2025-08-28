@@ -16,26 +16,14 @@
     </p>
 
     {{-- Rally quick-picks --}}
-    <div class="mb-8">
-        <h2 class="text-xl font-bold mb-3">Find Travel by Rally</h2>
-        <ul class="list-disc list-inside space-y-1">
-            <li>
-                <a href="{{ url('/calendar') }}" class="text-blue-600 hover:underline">
-                    Rallye Monte-Carlo → Plan Trip
-                </a>
-            </li>
-            <li>
-                <a href="{{ url('/calendar') }}" class="text-blue-600 hover:underline">
-                    Rally Sweden → Plan Trip
-                </a>
-            </li>
-            <li>
-                <a href="{{ url('/calendar') }}" class="text-blue-600 hover:underline">
-                    See Full Rally Schedule
-                </a>
-            </li>
-        </ul>
-    </div>
+    <h3 class="text-lg font-bold mt-6">Find Travel by Rally</h3>
+    <ul class="list-disc ml-6 mt-2 space-y-1">
+        @forelse($items as $it)
+            <li><a href="{{ $it['url'] }}" class="text-blue-600 underline">{{ $it['title'] }}</a></li>
+        @empty
+            <li class="text-gray-500">No upcoming events yet. Check back soon.</li>
+        @endforelse
+    </ul>
 
     {{-- Travel tools grid --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
