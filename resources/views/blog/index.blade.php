@@ -31,20 +31,14 @@
 
   {{-- Hero --}}
   <header class="mb-8 text-center">
-    <h1 class="text-4xl font-extrabold tracking-tight">
-      <span class="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 bg-clip-text text-transparent">
-        Rally Blog
-      </span>
-    </h1>
-    <p class="mt-2 text-sm text-slate-600">
-      News, features, and notes from the stages.
-    </p>
+    <h1 class="ci-title-xl">Rally Blog</h1>
+    <p class="mt-2 text-sm ci-muted">News, features, and notes from the stages.</p>
   </header>
 
   @auth
   {{-- Floating New Post button --}}
   <a href="{{ route('posts.create') }}"
-     class="fixed bottom-6 right-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg ring-1 ring-black/10 transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+     class="fixed bottom-6 right-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg ring-1 ring-stone-900/10 dark:ring-white/10 transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
      title="New Post" aria-label="Create new post">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
            viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
@@ -58,6 +52,7 @@
 
     {{-- Sidebar --}}
     <aside class="lg:sticky lg:top-24">
+      {{-- Ensure panels/inputs inside the partial use ci-card/ci-muted and dark: ring classes --}}
       @include('partials.blog-sidebar')
     </aside>
 
@@ -67,11 +62,11 @@
         <ul class="space-y-5">
           @foreach($posts as $post)
             <li>
-              <article class="group rounded-2xl border border-slate-200/70 bg-white/80 backdrop-blur-sm p-4 sm:p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+              <article class="group ci-card p-4 sm:p-5 transition hover:-translate-y-0.5 hover:shadow-lg">
                 <div class="grid sm:grid-cols-[220px_1fr] gap-5 items-start">
                   {{-- Thumbnail --}}
                   <a href="{{ route('posts.show', $post->slug) }}"
-                     class="block overflow-hidden rounded-xl ring-1 ring-slate-200/70">
+                     class="block overflow-hidden rounded-xl ring-1 ring-stone-900/5 dark:ring-white/10">
                     <div class="aspect-[16/10]">
                       <img
                         src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path)
@@ -85,30 +80,30 @@
 
                   {{-- Text --}}
                   <div>
-                    <div class="flex items-center gap-3 text-xs text-slate-600">
+                    <div class="flex items-center gap-3 text-xs ci-muted">
                       <a href="{{ route('profile.public', $post->user->id) }}" class="shrink-0">
                         <x-user-avatar :user="$post->user" size="w-8 h-8" />
                       </a>
-                      <span class="font-medium text-slate-800">{{ $post->user->name }}</span>
+                      <span class="font-medium ci-body">{{ $post->user->name }}</span>
                       <span aria-hidden="true">•</span>
                       <time datetime="{{ $post->created_at->toDateString() }}">
                         {{ $post->created_at->format('M j, Y') }}
                       </time>
                     </div>
 
-                    <h2 class="mt-2 font-orbitron text-2xl font-bold leading-snug text-slate-900">
+                    <h2 class="mt-2 ci-title-lg leading-snug">
                       <a href="{{ route('posts.show', $post->slug) }}" class="underline-offset-4 hover:underline">
                         {{ $post->title }}
                       </a>
                     </h2>
 
-                    <p class="mt-2 text-slate-700 line-clamp-3">
+                    <p class="mt-2 ci-body line-clamp-3">
                       {{ $post->excerpt }}
                     </p>
 
                     <div class="mt-4 flex items-center justify-between">
                       <a href="{{ route('posts.show', $post->slug) }}"
-                         class="inline-flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-red-700">
+                         class="ci-cta inline-flex items-center gap-2 text-sm font-semibold">
                         Read article
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M13.5 4.5 21 12l-7.5 7.5-1.06-1.06L18.88 12l-6.44-6.44 1.06-1.06Z"/>
@@ -118,11 +113,11 @@
 
                       @can('update', $post)
                         <div class="flex items-center gap-4 text-xs sm:text-sm">
-                          <a href="{{ route('posts.edit', $post) }}" class="font-semibold text-emerald-700 hover:underline">✏️ Edit</a>
+                          <a href="{{ route('posts.edit', $post) }}" class="font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">✏️ Edit</a>
                           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this post?');">
                             @csrf @method('DELETE')
-                            <button type="submit" class="font-semibold text-red-600 hover:underline">🗑️ Delete</button>
+                            <button type="submit" class="font-semibold text-red-600 dark:text-red-400 hover:underline">🗑️ Delete</button>
                           </form>
                         </div>
                       @endcan
@@ -134,12 +129,12 @@
           @endforeach
         </ul>
       @else
-        <p class="text-slate-700">No posts yet.</p>
+        <p class="ci-body">No posts yet.</p>
       @endif
 
       {{-- Pagination --}}
       <div class="mt-10 flex justify-center">
-        <div class="rounded-xl border border-slate-200 bg-white/70 px-3 py-2 shadow-sm">
+        <div class="ci-card px-3 py-2">
           {{ $posts->links() }}
         </div>
       </div>
