@@ -16,11 +16,16 @@
       Heading to a rally? Compare <span class="font-semibold">hotels, camping, flights, and car rentals</span> in one place.
     </p>
 
+    {{-- Find Travel by Rally --}}
     <div class="mt-5">
       <h3 class="text-lg font-semibold mb-2">Find Travel by Rally</h3>
       <ul class="grid sm:grid-cols-2 gap-2">
         @forelse($items as $it)
-          <li><a href="{{ $it['url'] }}" class="pill pill-hover w-full justify-center">{{ $it['title'] }}</a></li>
+          <li>
+            <a href="{{ $it['url'] }}" class="pill pill-hover w-full justify-center">
+              {{ $it['title'] }}
+            </a>
+          </li>
         @empty
           <li class="text-white/70">No upcoming events yet. Check back soon.</li>
         @endforelse
@@ -75,15 +80,41 @@
   </div>
 
   {{-- Tips + disclosure --}}
+  @php
+    // Build tips list from singleton if active
+    $tipsLines = [];
+    if (!empty($tips) && $tips->is_active) {
+        $all = collect(preg_split('/\R/', (string) $tips->tips_md))
+              ->map(fn($t) => trim($t))
+              ->filter()
+              ->values();
+
+        // If tips_selection is null => show all; if it's an array => use it (even if empty)
+        $selection = $tips->tips_selection;
+        if (is_null($selection)) {
+            $tipsLines = $all->all();
+        } else {
+            $idx = collect($selection)
+                ->map(fn($i) => (int)$i)
+                ->filter(fn($i) => $i >= 0 && $i < $all->count())
+                ->values();
+            $tipsLines = $idx->map(fn($i) => $all[$i])->all();
+        }
+    }
+  @endphp
+
   <div class="mt-10 grid md:grid-cols-2 gap-6">
-    <section>
-      <h2 class="text-xl font-bold mb-3">Travel Tips for Rally Fans</h2>
-      <ul class="list-disc list-inside text-gray-700 space-y-1">
-        <li>Book early for Monte-Carlo and Finland — hotels & camping fill fast.</li>
-        <li>Consider car rentals for Portugal or Sardinia — many stages are remote.</li>
-        <li>Check official event sites for shuttles and restricted roads.</li>
-      </ul>
-    </section>
+    @if (!empty($tipsLines))
+      <section>
+        <h2 class="text-xl font-bold mb-3">Travel Tips for Rally Fans</h2>
+        <ul class="list-disc list-inside text-gray-700 space-y-1">
+          @foreach ($tipsLines as $line)
+            <li>{{ $line }}</li>
+          @endforeach
+        </ul>
+      </section>
+    @endif
+
     <section class="text-xs text-gray-500 self-end">
       <p>
         Disclosure: Some links on this page are affiliate links. If you book through them, we may earn a small commission
