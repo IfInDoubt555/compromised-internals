@@ -173,7 +173,25 @@
 }
 .history-pull-tab:active { transform: scale(.98); }
 
+.pill {
+    @apply px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/10 text-sm inline-flex items-center gap-2;
+}
+.pill-hover {
+    @apply hover:bg-white/20 transition;
+}
+.pill-primary {
+    @apply bg-blue-600/80 text-white hover:bg-blue-600;
+}
 
+.text-glow { text-shadow: 0 1px 1px rgba(0,0,0,.35); }
+
+  /* subtle dark scrim over any busy gradient */
+.scrim::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.28), rgba(0,0,0,.12), rgba(0,0,0,.28));
+  pointer-events: none;
+}
 }
 
 /* Utilities */

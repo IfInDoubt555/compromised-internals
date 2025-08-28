@@ -26,6 +26,7 @@ use App\Http\Controllers\BoardController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CalendarExportController;
+use App\Http\Controllers\TravelPageController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -119,6 +120,15 @@ Route::prefix('history')->name('history.')->group(function () {
     Route::get('/', [HistoryController::class, 'index'])->name('index');
     Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
+
+// Travel
+Route::view('/travel', 'travel.index')->name('travel.index');
+Route::get('/travel', [TravelPageController::class, 'index'])->name('travel.index');
+Route::get('/travel', [TravelPageController::class, 'index'])->name('travel.index');
+// If you enabled slug binding above, keep the {event:slug} form.
+// If not using slugs, change to {event}.
+Route::get('/travel/event/{event:slug}', [TravelPageController::class, 'event'])
+    ->name('travel.plan.event');
 
 // Auth-required routes
 Route::middleware(['auth', 'verified'])->group(function () {

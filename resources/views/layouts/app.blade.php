@@ -9,7 +9,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- AlpineJS -->
-    <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cmp.osano.com/QSYKFTgmsG/68c885bf-d384-489c-a092-2092f351097c/osano.js"></script>
     
     <!-- Fonts -->
@@ -26,7 +25,12 @@
     @stack('head')
 </head>
 
-<body class="antialiased bg-gray-400">
+<body
+  class="antialiased bg-gray-400"
+  data-events-endpoint="{{ url('/api/events') }}"
+  data-feed-tpl="{{ url('/calendar/feed/{year}.ics') }}"
+  data-download-tpl="{{ url('/calendar/download/{year}.ics') }}"
+>
     @auth
     @if (Auth::user()->profile && Auth::user()->profile->isBirthday())
     <div class="fixed top-4 right-4 bg-yellow-200 text-yellow-800 px-4 py-2 rounded shadow z-50">

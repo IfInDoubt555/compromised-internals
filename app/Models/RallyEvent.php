@@ -20,5 +20,12 @@ class RallyEvent extends Model
     }
 
     public function days()   { return $this->hasMany(RallyEventDay::class)->orderBy('date'); }
+
     public function stages() { return $this->hasMany(RallyStage::class)->orderBy('ss_number'); }
+
+    // app/Models/RallyEvent.php
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

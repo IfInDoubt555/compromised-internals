@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\EmailController;
 use App\Http\Controllers\Admin\EventDayController;
 use App\Http\Controllers\Admin\StageController;
+use App\Http\Controllers\Admin\TravelHighlightController;
+
 
 /**
  * NOTE: This file is already wrapped in RouteServiceProvider with:
@@ -67,3 +69,15 @@ Route::prefix('emails')->name('emails.')->group(function () {
     Route::patch('/{id}/category',  [EmailController::class, 'updateCategory'])->name('updateCategory');
     Route::patch('/{message}/archive', [EmailController::class, 'archive'])->name('archive');
 });
+
+/* ---------- Travel Highlights (Plan Your Trip) ---------- */
+Route::resource('travel-highlights', TravelHighlightController::class)
+    ->except(['show'])
+    ->names('travel-highlights'); // => admin.travel-highlights.*
+
+/* Travel Tips (singleton, lives in the same controller) */
+Route::get('travel-highlights/tips', [TravelHighlightController::class, 'editTips'])
+    ->name('travel-highlights.tips.edit');   // => admin.travel-highlights.tips.edit
+
+Route::put('travel-highlights/tips', [TravelHighlightController::class, 'updateTips'])
+    ->name('travel-highlights.tips.update'); // => admin.travel-highlights.tips.update
