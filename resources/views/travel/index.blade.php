@@ -39,7 +39,7 @@
       <p class="text-gray-600 text-sm mt-1 mb-4">Compare prices near rally HQ and popular stages.</p>
       <div id="tp-hotels-widget"
            class="min-h-[220px] bg-gray-50 rounded-lg flex items-center justify-center text-gray-500 ring-1 ring-black/5">
-        Hotels widget will render here.
+        Hotels coming soon!
       </div>
     </article>
 
@@ -49,7 +49,7 @@
       <p class="text-gray-600 text-sm mt-1 mb-4">Prefer tents, cabins, or van sites close to stages?</p>
       <div id="hipcamp-widget"
            class="min-h-[220px] bg-gray-50 rounded-lg flex items-center justify-center text-gray-500 ring-1 ring-black/5">
-        Hipcamp widget / links will render here.
+        Camping coming soon!
       </div>
     </article>
 
@@ -59,7 +59,7 @@
       <p class="text-gray-600 text-sm mt-1 mb-4">Fly into the closest airports for each event weekend.</p>
       <div id="tp-flights-widget"
            class="min-h-[220px] bg-gray-50 rounded-lg flex items-center justify-center text-gray-500 ring-1 ring-black/5">
-        Flights widget will render here.
+        Flights coming soon!
       </div>
     </article>
 
@@ -69,7 +69,7 @@
       <p class="text-gray-600 text-sm mt-1 mb-4">Get to remote stages and service parks with ease.</p>
       <div id="tp-cars-widget"
            class="min-h-[220px] bg-gray-50 rounded-lg flex items-center justify-center text-gray-500 ring-1 ring-black/5">
-        Car rental widget will render here.
+        Car rental coming soon!
       </div>
     </article>
   </div>
