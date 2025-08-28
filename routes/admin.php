@@ -73,4 +73,11 @@ Route::prefix('emails')->name('emails.')->group(function () {
 /* ---------- Travel Highlights (Plan Your Trip) ---------- */
 Route::resource('travel-highlights', TravelHighlightController::class)
     ->except(['show'])
-    ->names('travel-highlights');   // => admin.travel-highlights.index, create, store, edit, update, destroy
+    ->names('travel-highlights'); // => admin.travel-highlights.*
+
+/* Travel Tips (singleton, lives in the same controller) */
+Route::get('travel-highlights/tips', [TravelHighlightController::class, 'editTips'])
+    ->name('travel-highlights.tips.edit');   // => admin.travel-highlights.tips.edit
+
+Route::put('travel-highlights/tips', [TravelHighlightController::class, 'updateTips'])
+    ->name('travel-highlights.tips.update'); // => admin.travel-highlights.tips.update

@@ -3,11 +3,55 @@
 @section('content')
 <h1 class="text-2xl font-bold mb-6">Plan Your Trip – Highlights</h1>
 
-<a href="{{ route('admin.travel-highlights.create') }}"
-   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">➕ Add Highlight</a>
+<div class="flex items-center gap-3 mb-4">
+  <a href="{{ route('admin.travel-highlights.create') }}"
+     class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+     ➕ Add Highlight
+  </a>
+
+  <a href="{{ route('admin.travel-highlights.tips.edit') }}"
+     class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded">
+     ✍️ Edit Travel Tips
+  </a>
+</div>
 
 @if (session('status'))
   <p class="mt-4 text-green-700">{{ session('status') }}</p>
+@endif
+
+{{-- Tips preview card --}}
+@if($tips)
+  @php
+    $lines = collect(preg_split('/\R/', (string) $tips->tips_md))
+              ->map(fn($t) => trim($t))
+              ->filter()
+              ->take(3);
+  @endphp
+  <div class="mb-6 bg-white rounded shadow p-4 border-l-4 {{ $tips->is_active ? 'border-green-500' : 'border-gray-400' }}">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h2 class="font-semibold">Travel Tips</h2>
+        <p class="text-xs text-gray-500">
+          Status: {{ $tips->is_active ? 'Active (shown on /travel)' : 'Hidden' }}
+        </p>
+
+        @if($lines->isNotEmpty())
+          <ul class="mt-2 list-disc list-inside text-sm text-gray-700 space-y-1">
+            @foreach($lines as $tip)
+              <li>{{ $tip }}</li>
+            @endforeach
+          </ul>
+        @else
+          <p class="mt-2 text-sm text-gray-500">No tips yet.</p>
+        @endif
+      </div>
+
+      <a href="{{ route('admin.travel-highlights.tips.edit') }}"
+         class="shrink-0 bg-gray-700 hover:bg-gray-800 text-white px-3 py-2 rounded">
+        Edit Tips
+      </a>
+    </div>
+  </div>
 @endif
 
 <div class="mt-6 bg-white rounded shadow overflow-x-auto">
