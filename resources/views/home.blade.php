@@ -5,34 +5,27 @@
         'title'       => 'Compromised Internals | Rally Racing News, History & Events',
         'description' => 'Your one-stop hub for rally racing: daily news, interactive history, upcoming event calendar, driver & car profiles, and community insights.',
         'url'         => url('/'),
-        'image'        => asset('images/ci-og.png'),
+        'image'       => asset('images/ci-og.png'),
         'favicon'     => asset('favicon.png'),
     ];
 @endphp
 
 @push('head')
-
     <link rel="icon" href="{{ $seo['favicon'] }}" type="image/png" />
-
-    <!-- Primary Meta Tags -->
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}" />
-
-    <!-- Open Graph -->
     <meta property="og:type"        content="website" />
     <meta property="og:site_name"   content="Compromised Internals" />
     <meta property="og:url"         content="{{ $seo['url'] }}" />
     <meta property="og:title"       content="{{ $seo['title'] }}" />
     <meta property="og:description" content="{{ $seo['description'] }}" />
     <meta property="og:image"       content="{{ $seo['image'] }}" />
-
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:url"         content="{{ $seo['url'] }}" />
     <meta name="twitter:title"       content="{{ $seo['title'] }}" />
     <meta name="twitter:description" content="{{ $seo['description'] }}" />
     <meta name="twitter:image"       content="{{ $seo['image'] }}" />
 
-    <!-- Schema.org: Site Search Box -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -49,93 +42,163 @@
 @endpush
 
 @section('content')
-<div class="min-h-screen bg-gray-400 text-white font-sans">
+<div class="min-h-screen bg-stone-100 text-stone-900">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 
-    <!-- Welcome Message -->
-    <div class="bg-gray-700 py-10 text-center shadow mb-4">
-        <h1 class="text-3xl font-bold">Welcome to Compromised Internals</h1>
-        <p class="mt-2 text-white">Your one-stop hub for everything rally – news, history, events, and more.</p>
-        <div class="text-center mt-2">
-            <a href="{{ route('contact') }}"
-                class="inline-block text-sm text-blue-600 hover:underline bg-yellow-100 border border-yellow-400 px-3 py-1 rounded shadow-md">
-                🛠️ Click here to leave feedback during testing
-            </a>
+    {{-- HERO / QUICK ACTIONS --}}
+    <section class="pt-8">
+      <div class="rounded-2xl bg-gradient-to-r from-stone-900 to-stone-700 text-white p-6 sm:p-8 shadow">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <h1 class="font-orbitron text-2xl sm:text-3xl font-bold">Compromised Internals</h1>
+            <p class="mt-2 text-stone-200">News, history, schedules, and deep-dive profiles for rally fans.</p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:flex gap-3">
+            <a href="{{ route('calendar.index') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">Rally Schedule</a>
+            <a href="{{ route('history.index') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">History Archive</a>
+            {{-- Adjust this route to your “Plan Your Trip” page --}}
+            <a href="{{ route('travel.plan') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">Plan Your Trip</a>
+            <a href="{{ route('blog.index') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">Blog</a>
+          </div>
         </div>
 
-        <div class="text-center mt-2">
-            <a href="{{ route('security.policy') }}"
-                class="inline-block text-sm px-4 py-2 rounded-md bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition">
-                🛡️ Report a Security Issue
-            </a>
+        {{-- utility strip --}}
+        <div class="mt-4 flex flex-wrap items-center gap-3 text-xs">
+          <a href="{{ route('contact') }}" class="inline-flex items-center rounded-md bg-yellow-100/90 text-yellow-900 px-3 py-1 font-medium hover:bg-yellow-100">Leave feedback</a>
+          <a href="{{ route('security.policy') }}" class="inline-flex items-center rounded-md bg-blue-100/90 text-blue-900 px-3 py-1 font-medium hover:bg-blue-100">Report a security issue</a>
         </div>
-    </div>
-
-    <!-- History Highlights -->
-    <section class="max-w-6xl mx-auto px-6 mb-8">
-        <h2 class="text-2xl font-bold mb-2 text-black text-center">📚 History Highlights</h2>
-        <p class="text-center text-black mb-6">Explore the comprehensive history for rally dating back to 1960. I will be working on expanding further as time goes on.</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {{-- Event --}}
-            @if($event)
-            <div class="card bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
-                <h2 class="text-xl text-black font-bold mb-2 text-center">{{ $event['title'] ?? 'Untitled' }}</h2>
-                <p class="text-gray-600 mb-4 text-center">{{ $event['bio'] ?? 'No description available.' }}</p>
-                <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $event['decade'], 'id' => $event['id']]) }}"
-                    class="mt-auto text-blue-600 hover:underline">View Event</a>
-            </div>
-            @endif
-
-            {{-- Car --}}
-            @if($car)
-            <div class="card bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
-                <h2 class="text-xl text-black font-bold mb-2 text-center">{{ $car['name'] ?? 'Unnamed Car' }}</h2>
-                <p class="text-gray-600 mb-4 text-center">{{ $car['bio'] ?? 'No description available.' }}</p>
-                <a href="{{ route('history.show', ['tab' => 'cars', 'decade' => $car['decade'], 'id' => $car['id']]) }}"
-                    class="mt-auto text-blue-600 hover:underline">View Car</a>
-            </div>
-            @endif
-
-            {{-- Driver --}}
-            @if($driver)
-            <div class="card bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center p-4">
-                <h2 class="text-xl text-black font-bold mb-2 text-center">{{ $driver['name'] ?? 'Unnamed Driver' }}</h2>
-                <p class="text-gray-600 mb-4 text-center">{{ $driver['bio'] ?? 'No description available.' }}</p>
-                <a href="{{ route('history.show', ['tab' => 'drivers', 'decade' => $driver['decade'], 'id' => $driver['id']]) }}"
-                    class="mt-auto text-blue-600 hover:underline">View Driver</a>
-            </div>
-            @endif
-        </div>
+      </div>
     </section>
 
-    {{-- BLOG: Media List Rows --}}
-<section class="max-w-6xl mx-auto px-6 mt-16">
-  <h2 class="text-2xl text-black font-bold mb-2 text-center">📰 Latest Blog Posts</h2>
-  <p class="text-black text-center mb-6">Fresh posts from Compromised Internals.</p>
+    {{-- SPOTLIGHTS + NEXT EVENTS --}}
+    <section class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {{-- History spotlights (uses your $event/$car/$driver) --}}
+      <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
+        @if($event)
+          <article class="rounded-xl bg-white shadow p-5 flex flex-col">
+            <h2 class="font-orbitron text-lg font-bold">{{ $event['title'] ?? 'Untitled Event' }}</h2>
+            <p class="mt-2 text-stone-600 line-clamp-4">{{ $event['bio'] ?? 'No description available.' }}</p>
+            <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $event['decade'], 'id' => $event['id']]) }}"
+               class="mt-auto inline-flex items-center gap-2 text-stone-900 font-semibold hover:underline">
+              View Event
+            </a>
+          </article>
+        @endif
 
-  <ul class="divide-y divide-gray-300/60">
-    @foreach($posts as $post)
-      <li class="py-5">
-        <a href="{{ route('posts.show', $post->slug) }}" class="grid sm:grid-cols-[160px_1fr] gap-5 items-center group">
-          <div class="aspect-[16/10] w-full sm:w-40 overflow-hidden rounded-lg">
+        @if($car)
+          <article class="rounded-xl bg-white shadow p-5 flex flex-col">
+            <h2 class="font-orbitron text-lg font-bold">{{ $car['name'] ?? 'Unnamed Car' }}</h2>
+            <p class="mt-2 text-stone-600 line-clamp-4">{{ $car['bio'] ?? 'No description available.' }}</p>
+            <a href="{{ route('history.show', ['tab' => 'cars', 'decade' => $car['decade'], 'id' => $car['id']]) }}"
+               class="mt-auto inline-flex items-center gap-2 text-stone-900 font-semibold hover:underline">
+              View Car
+            </a>
+          </article>
+        @endif
+
+        @if($driver)
+          <article class="rounded-xl bg-white shadow p-5 flex flex-col">
+            <h2 class="font-orbitron text-lg font-bold">{{ $driver['name'] ?? 'Unnamed Driver' }}</h2>
+            <p class="mt-2 text-stone-600 line-clamp-4">{{ $driver['bio'] ?? 'No description available.' }}</p>
+            <a href="{{ route('history.show', ['tab' => 'drivers', 'decade' => $driver['decade'], 'id' => $driver['id']]) }}"
+               class="mt-auto inline-flex items-center gap-2 text-stone-900 font-semibold hover:underline">
+              View Driver
+            </a>
+          </article>
+        @endif
+      </div>
+
+      {{-- Next rallies (small “calendar” list) --}}
+      <aside class="rounded-xl bg-white shadow p-5">
+        <h3 class="font-orbitron text-lg font-bold">Next Rallies</h3>
+        <ul class="mt-3 divide-y">
+          @forelse($nextEvents ?? [] as $e)
+            <li class="py-3">
+              <div class="text-sm font-semibold">{{ $e->title }}</div>
+              <div class="text-xs text-stone-600">
+                <time datetime="{{ $e->start_date?->toDateString() }}">
+                  {{ optional($e->start_date)->format('M j') }}
+                  @if($e->end_date) – {{ $e->end_date->format('M j') }} @endif
+                </time>
+                @if(!empty($e->location)) • {{ $e->location }} @endif
+              </div>
+              @if(!empty($e->slug))
+                <a href="{{ route('events.show', $e->slug) }}" class="text-xs font-medium text-stone-900 hover:underline mt-1 inline-block">Event details</a>
+              @endif
+            </li>
+          @empty
+            <li class="py-3 text-sm text-stone-600">No upcoming events found.</li>
+          @endforelse
+        </ul>
+        <a href="{{ route('calendar.index') }}" class="mt-3 inline-flex items-center text-sm font-semibold text-stone-900 hover:underline">Open full calendar</a>
+      </aside>
+    </section>
+
+    {{-- BLOG FEATURED + LATEST --}}
+    <section class="mt-12">
+      <h2 class="text-center font-orbitron text-2xl font-bold">Latest From the Blog</h2>
+
+      @php
+        // Expect controller to pass a length-aware collection $posts (latest first)
+        $featured = $posts->first();
+        $rest     = $posts->slice(1);
+      @endphp
+
+      @if($featured)
+        <article class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          <a href="{{ route('posts.show', $featured->slug) }}" class="aspect-[16/9] w-full overflow-hidden rounded-2xl bg-stone-200">
             <img
-              src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path) ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
-              alt="{{ $post->title }}"
-              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
-          </div>
-          <div>
-            <div class="text-xs text-gray-600">
-              <span class="font-medium text-gray-800">{{ $post->user?->name ?? 'Unknown' }}</span>
+              src="{{ $featured->image_path && Storage::disk('public')->exists($featured->image_path) ? Storage::url($featured->image_path) : asset('images/default-post.png') }}"
+              alt="{{ $featured->title }}"
+              class="h-full w-full object-cover" />
+          </a>
+          <div class="rounded-2xl bg-white p-6 shadow">
+            <div class="text-xs text-stone-600">
+              <span class="font-medium text-stone-800">{{ $featured->user?->name ?? 'Unknown' }}</span>
               <span>•</span>
-              <time datetime="{{ $post->created_at->toDateString() }}">{{ $post->created_at->format('M j, Y') }}</time>
+              <time datetime="{{ $featured->created_at->toDateString() }}">{{ $featured->created_at->format('M j, Y') }}</time>
             </div>
-            <h3 class="mt-1 font-orbitron text-xl font-bold text-gray-900 group-hover:underline">{{ $post->title }}</h3>
-            <p class="mt-1 text-gray-700 line-clamp-2">{{ $post->excerpt }}</p>
+            <h3 class="mt-2 font-orbitron text-2xl font-bold">
+              <a href="{{ route('posts.show', $featured->slug) }}" class="hover:underline">{{ $featured->title }}</a>
+            </h3>
+            <p class="mt-2 text-stone-700 line-clamp-3">{{ $featured->excerpt }}</p>
+            <a href="{{ route('posts.show', $featured->slug) }}" class="mt-4 inline-flex items-center font-semibold hover:underline">Read post</a>
           </div>
-        </a>
-      </li>
-    @endforeach
-  </ul>
-</section>
+        </article>
+      @endif
 
+      <ul class="mt-8 divide-y divide-stone-200">
+        @foreach($rest as $post)
+          <li class="py-5">
+            <a href="{{ route('posts.show', $post->slug) }}" class="grid sm:grid-cols-[160px_1fr] gap-5 items-center group">
+              <div class="aspect-[16/10] w-full sm:w-40 overflow-hidden rounded-lg bg-stone-200">
+                <img
+                  src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path) ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
+                  alt="{{ $post->title }}"
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+              </div>
+              <div>
+                <div class="text-xs text-stone-600">
+                  <span class="font-medium text-stone-800">{{ $post->user?->name ?? 'Unknown' }}</span>
+                  <span>•</span>
+                  <time datetime="{{ $post->created_at->toDateString() }}">{{ $post->created_at->format('M j, Y') }}</time>
+                </div>
+                <h4 class="mt-1 font-orbitron text-xl font-bold text-stone-900 group-hover:underline">{{ $post->title }}</h4>
+                <p class="mt-1 text-stone-700 line-clamp-2">{{ $post->excerpt }}</p>
+              </div>
+            </a>
+          </li>
+        @endforeach
+      </ul>
+
+      @if(method_exists($posts, 'links'))
+        <div class="mt-6">{{ $posts->links() }}</div>
+      @endif
+    </section>
+
+    {{-- FOOTER PAD --}}
+    <div class="py-8"></div>
+  </div>
 </div>
 @endsection

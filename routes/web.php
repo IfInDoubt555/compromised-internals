@@ -13,7 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Models\User;
-use App\Models\RallyEvent; // ← added for legacy redirect binding
+use App\Models\RallyEvent; // for legacy redirect binding
 use App\Http\Controllers\AttributionController;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
@@ -30,14 +30,15 @@ use App\Http\Controllers\TravelPageController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Boards (public)
+/* ----------------- Boards (public) ----------------- */
 Route::get('/boards', [BoardController::class, 'index'])->name('boards.index');
 Route::get('/boards/{board:slug}', [BoardController::class, 'show'])->name('boards.show');
 
-// Threads (public show)
+/* ----------------- Threads ----------------- */
+// public show
 Route::get('/threads/{thread:slug}', [ThreadController::class, 'show'])->name('threads.show');
 
-// Threads (create/store under a specific board — auth required)
+// create/store/edit/delete (auth)
 Route::middleware(['auth'])->group(function () {
     Route::get('/boards/{board:slug}/threads/create', [ThreadController::class, 'create'])->name('threads.create');
     Route::post('/boards/{board:slug}/threads',        [ThreadController::class, 'store'])->name('threads.store');
@@ -51,26 +52,29 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/replies/{reply}',               [ReplyController::class, 'destroy'])->name('replies.destroy');
 });
 
-// Calendar
-Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar');
+/* ----------------- Calendar ----------------- */
+// Home page for calendar (rename to calendar.index)
+Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar.index');
+
+// JSON API feed the calendar uses
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
 
-// Legacy: redirect old /calendar/events/{id} links to canonical slug route
+// Legacy: redirect old numeric ID URLs to slug route
 Route::get('/calendar/events/{event}', function (RallyEvent $event) {
     return redirect()->route('calendar.show', $event->slug, 301);
 })->whereNumber('event')->name('calendar.events.legacy');
 
+// Canonical calendar event by slug (kept)
 Route::get('/calendar/{slug}', [RallyEventController::class, 'show'])->name('calendar.show');
 
+// iCal endpoints
 Route::get('/calendar/feed/{year}.ics', [CalendarExportController::class, 'year'])
-     ->whereNumber('year')
-     ->name('calendar.feed.year');
+    ->whereNumber('year')->name('calendar.feed.year');
 
 Route::get('/calendar/download/{year}.ics', [CalendarExportController::class, 'download'])
-     ->whereNumber('year')
-     ->name('calendar.download.year');
+    ->whereNumber('year')->name('calendar.download.year');
 
-// Cart
+/* ----------------- Cart ----------------- */
 Route::prefix('shop/cart')->name('shop.cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('/add/{product}', [CartController::class, 'add'])->name('add');
@@ -81,30 +85,27 @@ Route::prefix('shop/cart')->name('shop.cart.')->group(function () {
 Route::view('/rally-resources', 'rally-resources.resources')->name('resources');
 
 Route::get('/cart/count', function () {
-    return response()->json([
-        'count' => session('cart') ? count(session('cart')) : 0
-    ]);
+    return response()->json(['count' => session('cart') ? count(session('cart')) : 0]);
 })->name('cart.count');
 
-// Shop
+/* ----------------- Shop ----------------- */
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');
 
-// Checkout
+/* ----------------- Checkout ----------------- */
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 Route::view('/checkout/unavailable', 'errors.checkout-unavailable')->name('errors.checkout-unavailable');
 
-// Charity
+/* ----------------- Charity ----------------- */
 Route::get('/charity', [CharityController::class, 'index'])->name('charity.index');
 
-// Dashboard
+/* ----------------- Dashboard ----------------- */
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
-// Blog
+/* ----------------- Blog ----------------- */
 Route::prefix('blog')->name('blog.')->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('index');
     Route::get('/{post}', [PostController::class, 'show'])->name('show');
@@ -115,22 +116,20 @@ Route::prefix('blog')->name('blog.')->group(function () {
     });
 });
 
-// History
+/* ----------------- History ----------------- */
 Route::prefix('history')->name('history.')->group(function () {
     Route::get('/', [HistoryController::class, 'index'])->name('index');
     Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
 
-// Travel
-Route::view('/travel', 'travel.index')->name('travel.index');
-Route::get('/travel', [TravelPageController::class, 'index'])->name('travel.index');
-Route::get('/travel', [TravelPageController::class, 'index'])->name('travel.index');
-// If you enabled slug binding above, keep the {event:slug} form.
-// If not using slugs, change to {event}.
-Route::get('/travel/event/{event:slug}', [TravelPageController::class, 'event'])
-    ->name('travel.plan.event');
+/* ----------------- Travel ----------------- */
+// Landing page used by the Home hero link
+Route::get('/travel/plan', [TravelPageController::class, 'index'])->name('travel.plan');
 
-// Auth-required routes
+// Individual travel page for a rally event (slug binding)
+Route::get('/travel/event/{event:slug}', [TravelPageController::class, 'event'])->name('travel.plan.event');
+
+/* ----------------- Auth-required ----------------- */
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -150,22 +149,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
+// Public post show
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
-// Public profile
+/* ----------------- Public profile ----------------- */
 Route::get('/profile/{user}', function (User $user) {
     return view('profile.public', compact('user'));
 })->middleware(['auth', 'verified'])->name('profile.public');
 
-// Contact
+/* ----------------- Contact ----------------- */
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
-// Footer pages
+/* ----------------- Footer pages ----------------- */
 Route::view('/terms', 'footer.terms')->name('terms');
 Route::view('/privacy', 'footer.privacy')->name('privacy');
 
-// Sitemap
+/* ----------------- Sitemap ----------------- */
 Route::get('/sitemap.xml', function () {
     $sitemap = Sitemap::create()
         ->add(Url::create('/'))
@@ -189,8 +189,12 @@ Route::get('/sitemap.xml', function () {
     return response($sitemap->render(), 200, ['Content-Type' => 'application/xml']);
 });
 
-// Security
+/* ----------------- Security ----------------- */
 Route::view('/security/policy', 'security.policy')->name('security.policy');
 Route::view('/security/hall-of-fame', 'security.hall-of-fame')->name('security.hof');
 
 require __DIR__ . '/auth.php';
+
+/* ----------------- Optional: Event details alias ----------------- */
+/* Keep both URLs working: /calendar/{slug} and /events/{slug} */
+Route::get('/events/{rallyEvent:slug}', [RallyEventController::class, 'show'])->name('events.show');
