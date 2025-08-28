@@ -48,7 +48,7 @@
     </div>
 
     {{-- Quick anchors --}}
-    <nav class="mt-5 flex flex-wrap gap-2 text-sm">
+    <nav class="mt-5 flex flex-wrap gap-2 text-sm md:hidden">
       @foreach (['hotels'=>'Hotels','camping'=>'Camping','flights'=>'Flights','cars'=>'Car Rentals','map'=>'Map'] as $id => $label)
         <a href="#{{ $id }}"
            class="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 ring-1 ring-white/10 transition">
