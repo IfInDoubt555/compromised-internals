@@ -11,26 +11,35 @@ class TravelPageController extends Controller
 {
     public function index()
     {
-        $manual = TravelHighlight::where('is_active', true)
+        // curated highlights (only kind=highlight)
+        $manual = TravelHighlight::highlights()
+            ->where('is_active', true)
             ->orderBy('sort_order')
             ->take(3)
             ->get(['title','url']);
 
         if ($manual->isNotEmpty()) {
-            $items = $manual->map(fn($h) => ['title' => $h->title, 'url' => $h->url])->all();
+            $items = $manual->map(fn($h) => [
+                'title' => $h->title,
+                'url'   => $h->url,
+            ])->all();
         } else {
-            $items = RallyEvent::whereDate('start_date', '>=', now())
+            // fallback: next 3 upcoming rallies
+            $items = RallyEvent::query()
+                ->whereDate('start_date', '>=', now()->toDateString())
                 ->orderBy('start_date')
                 ->take(3)
                 ->get()
                 ->map(fn($e) => [
                     'title' => "{$e->name} — Plan Trip",
-                    'url'   => route('travel.plan.event', $e), // uses slug if getRouteKeyName() set
-                ])
-                ->all();
+                    'url'   => route('travel.plan.event', $e), // ensure this route exists
+                ])->all();
         }
 
-        return view('travel.index', compact('items'));
+        // (optional) tips card down the page
+        $tips = TravelHighlight::tips()->first();
+
+        return view('travel.index', compact('items','tips'));
     }
 
     public function event(RallyEvent $event)
