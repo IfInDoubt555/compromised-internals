@@ -74,8 +74,9 @@
 {{-- SPOTLIGHTS + NEXT EVENTS --}}
 <section class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-  {{-- Featured History Event --}}
-  <div class="lg:col-span-2">
+  {{-- History spotlights stacked --}}
+  <div class="lg:col-span-2 space-y-6">
+
     @if($event)
       <article class="rounded-xl bg-white shadow p-6 flex flex-col">
         <h2 class="font-orbitron text-2xl font-bold text-center">{{ $event['title'] ?? 'Untitled Event' }}</h2>
@@ -87,11 +88,34 @@
           </a>
         </div>
       </article>
-    @else
-      <div class="rounded-xl bg-white shadow p-6 text-center text-stone-600">
-        No featured event available yet. Check back soon!
-      </div>
     @endif
+
+    @if($car)
+      <article class="rounded-xl bg-white shadow p-6 flex flex-col">
+        <h2 class="font-orbitron text-2xl font-bold text-center">{{ $car['name'] ?? 'Unnamed Car' }}</h2>
+        <p class="mt-4 text-stone-600 text-center">{{ $car['bio'] ?? 'No description available.' }}</p>
+        <div class="mt-6 text-center">
+          <a href="{{ route('history.show', ['tab' => 'cars', 'decade' => $car['decade'], 'id' => $car['id']]) }}"
+             class="inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline">
+            Read More
+          </a>
+        </div>
+      </article>
+    @endif
+
+    @if($driver)
+      <article class="rounded-xl bg-white shadow p-6 flex flex-col">
+        <h2 class="font-orbitron text-2xl font-bold text-center">{{ $driver['name'] ?? 'Unnamed Driver' }}</h2>
+        <p class="mt-4 text-stone-600 text-center">{{ $driver['bio'] ?? 'No description available.' }}</p>
+        <div class="mt-6 text-center">
+          <a href="{{ route('history.show', ['tab' => 'drivers', 'decade' => $driver['decade'], 'id' => $driver['id']]) }}"
+             class="inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline">
+            Read More
+          </a>
+        </div>
+      </article>
+    @endif
+
   </div>
 
   {{-- Next rallies (small “calendar” list) --}}
