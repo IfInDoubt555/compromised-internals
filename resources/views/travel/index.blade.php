@@ -8,27 +8,21 @@
 @section('content')
 {{-- Hero --}}
 <section class="max-w-5xl mx-auto px-4 pt-8">
-  <div class="rounded-2xl px-6 py-8
-              bg-gradient-to-r from-slate-800/70 via-slate-700/60 to-slate-800/70
-              ring-1 ring-white/10 shadow-lg mb-6">
-    <h1 class="text-3xl md:text-4xl font-bold">Plan Your Trip</h1>
-    <p class="text-slate-200/90 mt-2">
+  <div class="relative scrim rounded-2xl px-6 py-8 mb-6
+              bg-gradient-to-r from-slate-900/80 via-slate-800/75 to-slate-900/80
+              ring-1 ring-white/10 shadow-lg backdrop-blur-sm text-white">
+    <h1 class="text-3xl md:text-4xl font-bold text-glow">Plan Your Trip</h1>
+    <p class="mt-2 text-white/90">
       Heading to a rally? Compare <span class="font-semibold">hotels, camping, flights, and car rentals</span> in one place.
     </p>
 
-    {{-- Quick picks (manual highlights or next 3) --}}
     <div class="mt-5">
       <h3 class="text-lg font-semibold mb-2">Find Travel by Rally</h3>
       <ul class="grid sm:grid-cols-2 gap-2">
         @forelse($items as $it)
-          <li>
-            <a href="{{ $it['url'] }}"
-               class="pill pill-hover w-full justify-center">
-              {{ $it['title'] }}
-            </a>
-          </li>
+          <li><a href="{{ $it['url'] }}" class="pill pill-hover w-full justify-center">{{ $it['title'] }}</a></li>
         @empty
-          <li class="text-gray-300">No upcoming events yet. Check back soon.</li>
+          <li class="text-white/70">No upcoming events yet. Check back soon.</li>
         @endforelse
       </ul>
     </div>

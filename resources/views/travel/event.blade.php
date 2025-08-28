@@ -19,38 +19,32 @@
   </div>
 
   <div class="max-w-6xl mx-auto px-4">
-    <div class="rounded-2xl px-6 py-8
-                bg-gradient-to-r from-slate-800/70 via-slate-700/60 to-slate-800/70
-                ring-1 ring-white/10 shadow-lg mb-6">
-      <h1 class="text-3xl md:text-4xl font-bold tracking-wide">{{ $event->name }}</h1>
+      <div class="relative scrim rounded-2xl px-6 py-8 mb-6
+                  bg-gradient-to-r from-slate-900/80 via-slate-800/75 to-slate-900/80
+                  ring-1 ring-white/10 shadow-lg backdrop-blur-sm text-white">
+        <h1 class="text-3xl md:text-4xl font-bold tracking-wide text-glow">{{ $event->name }}</h1>
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+          @if($event->location)
+            <span class="pill">📍 {{ $event->location }}</span>
+          @endif
+          @if($event->start_date && $event->end_date)
+            <span class="pill">🗓 {{ $event->start_date->toFormattedDateString() }} – {{    $event->end_date->toFormattedDateString() }}</span>
+          @elseif($event->start_date)
+            <span class="pill">🗓 {{ $event->start_date->toFormattedDateString() }}</span>
+          @endif
+          @if($event->official_url)
+            <a href="{{ $event->official_url }}" target="_blank" rel="noopener" class="pill     pill-primary">🔗 Official site</a>
+          @endif
+        </div>
 
-      {{-- Meta chips --}}
-      <div class="mt-3 flex flex-wrap items-center gap-2">
-        @if($event->location)
-          <span class="pill">📍 {{ $event->location }}</span>
-        @endif
-
-        @if($event->start_date && $event->end_date)
-          <span class="pill">🗓 {{ $event->start_date->toFormattedDateString() }} – {{ $event->end_date->toFormattedDateString() }}</span>
-        @elseif($event->start_date)
-          <span class="pill">🗓 {{ $event->start_date->toFormattedDateString() }}</span>
-        @endif
-
-        @if($event->official_url)
-          <a href="{{ $event->official_url }}" target="_blank" rel="noopener" class="pill pill-primary">
-            🔗 Official site
-          </a>
-        @endif
+        {{-- mobile-only anchors --}}
+        <nav class="mt-5 flex flex-wrap gap-2 md:hidden">
+          @foreach (['hotels'=>'Hotels','camping'=>'Camping','flights'=>'Flights','cars'=>'Car Rentals',    'map'=>'Map'] as $id => $label)
+            <a href="#{{ $id }}" class="pill pill-hover">{{ $label }}</a>
+          @endforeach
+        </nav>
       </div>
-
-      {{-- Quick anchors (mobile only) --}}
-      <nav class="mt-5 flex flex-wrap gap-2 md:hidden">
-        @foreach (['hotels'=>'Hotels','camping'=>'Camping','flights'=>'Flights','cars'=>'Car Rentals','map'=>'Map'] as $id => $label)
-          <a href="#{{ $id }}" class="pill pill-hover">{{ $label }}</a>
-        @endforeach
-      </nav>
     </div>
-  </div>
 </section>
 
 {{-- Content grid --}}
