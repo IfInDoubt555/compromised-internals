@@ -71,69 +71,58 @@
       </div>
     </section>
 
-    {{-- SPOTLIGHTS + NEXT EVENTS --}}
-    <section class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {{-- History spotlights (uses your $event/$car/$driver) --}}
-      <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
-        @if($event)
-          <article class="rounded-xl bg-white shadow p-5 flex flex-col">
-            <h2 class="font-orbitron text-lg font-bold">{{ $event['title'] ?? 'Untitled Event' }}</h2>
-            <p class="mt-2 text-stone-600 line-clamp-4">{{ $event['bio'] ?? 'No description available.' }}</p>
-            <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $event['decade'], 'id' => $event['id']]) }}"
-               class="mt-auto inline-flex items-center gap-2 text-stone-900 font-semibold hover:underline">
-              View Event
-            </a>
-          </article>
-        @endif
+{{-- SPOTLIGHTS + NEXT EVENTS --}}
+<section class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        @if($car)
-          <article class="rounded-xl bg-white shadow p-5 flex flex-col">
-            <h2 class="font-orbitron text-lg font-bold">{{ $car['name'] ?? 'Unnamed Car' }}</h2>
-            <p class="mt-2 text-stone-600 line-clamp-4">{{ $car['bio'] ?? 'No description available.' }}</p>
-            <a href="{{ route('history.show', ['tab' => 'cars', 'decade' => $car['decade'], 'id' => $car['id']]) }}"
-               class="mt-auto inline-flex items-center gap-2 text-stone-900 font-semibold hover:underline">
-              View Car
-            </a>
-          </article>
-        @endif
-
-        @if($driver)
-          <article class="rounded-xl bg-white shadow p-5 flex flex-col">
-            <h2 class="font-orbitron text-lg font-bold">{{ $driver['name'] ?? 'Unnamed Driver' }}</h2>
-            <p class="mt-2 text-stone-600 line-clamp-4">{{ $driver['bio'] ?? 'No description available.' }}</p>
-            <a href="{{ route('history.show', ['tab' => 'drivers', 'decade' => $driver['decade'], 'id' => $driver['id']]) }}"
-               class="mt-auto inline-flex items-center gap-2 text-stone-900 font-semibold hover:underline">
-              View Driver
-            </a>
-          </article>
-        @endif
+  {{-- Featured History Event --}}
+  <div class="lg:col-span-2">
+    @if($event)
+      <article class="rounded-xl bg-white shadow p-6 flex flex-col">
+        <h2 class="font-orbitron text-2xl font-bold text-center">{{ $event['title'] ?? 'Untitled Event' }}</h2>
+        <p class="mt-4 text-stone-600 text-center">{{ $event['bio'] ?? 'No description available.' }}</p>
+        <div class="mt-6 text-center">
+          <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $event['decade'], 'id' => $event['id']]) }}"
+             class="inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline">
+            Read More
+          </a>
+        </div>
+      </article>
+    @else
+      <div class="rounded-xl bg-white shadow p-6 text-center text-stone-600">
+        No featured event available yet. Check back soon!
       </div>
+    @endif
+  </div>
 
-      {{-- Next rallies (small “calendar” list) --}}
-      <aside class="rounded-xl bg-white shadow p-5">
-        <h3 class="font-orbitron text-lg font-bold">Next Rallies</h3>
-        <ul class="mt-3 divide-y">
-          @forelse($nextEvents ?? [] as $e)
-            <li class="py-3">
-              <div class="text-sm font-semibold">{{ $e->title }}</div>
-              <div class="text-xs text-stone-600">
-                <time datetime="{{ $e->start_date?->toDateString() }}">
-                  {{ optional($e->start_date)->format('M j') }}
-                  @if($e->end_date) – {{ $e->end_date->format('M j') }} @endif
-                </time>
-                @if(!empty($e->location)) • {{ $e->location }} @endif
-              </div>
-              @if(!empty($e->slug))
-                <a href="{{ route('events.show', $e->slug) }}" class="text-xs font-medium text-stone-900 hover:underline mt-1 inline-block">Event details</a>
-              @endif
-            </li>
-          @empty
-            <li class="py-3 text-sm text-stone-600">No upcoming events found.</li>
-          @endforelse
-        </ul>
-        <a href="{{ route('calendar.index') }}" class="mt-3 inline-flex items-center text-sm font-semibold text-stone-900 hover:underline">Open full calendar</a>
-      </aside>
-    </section>
+  {{-- Next rallies (small “calendar” list) --}}
+  <aside class="rounded-xl bg-white shadow p-5">
+    <h3 class="font-orbitron text-lg font-bold">Next Rallies</h3>
+    <ul class="mt-3 divide-y">
+      @forelse($nextEvents ?? [] as $e)
+        <li class="py-3">
+          <div class="text-sm font-semibold">{{ $e->title }}</div>
+          <div class="text-xs text-stone-600">
+            <time datetime="{{ $e->start_date?->toDateString() }}">
+              {{ optional($e->start_date)->format('M j') }}
+              @if($e->end_date) – {{ $e->end_date->format('M j') }} @endif
+            </time>
+            @if(!empty($e->location)) • {{ $e->location }} @endif
+          </div>
+          @if(!empty($e->slug))
+            <a href="{{ route('events.show', $e->slug) }}" class="text-xs font-medium text-stone-900 hover:underline mt-1 inline-block">
+              Event details
+            </a>
+          @endif
+        </li>
+      @empty
+        <li class="py-3 text-sm text-stone-600">No upcoming events found.</li>
+      @endforelse
+    </ul>
+    <a href="{{ route('calendar.index') }}" class="mt-3 inline-flex items-center text-sm font-semibold text-stone-900 hover:underline">
+      Open full calendar
+    </a>
+  </aside>
+</section>
 
     {{-- BLOG FEATURED + LATEST --}}
     <section class="mt-12">
