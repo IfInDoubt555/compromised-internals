@@ -10,71 +10,111 @@
 @endpush
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 py-8">
-    <a href="{{ route('travel.index') }}" class="text-blue-600 hover:underline">← Back to Plan Your Trip</a>
+{{-- Hero --}}
+<section class="relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4 pt-8">
+    <a href="{{ route('travel.index') }}" class="text-blue-300 hover:text-blue-200 inline-flex items-center gap-1">
+      <span>←</span><span>Back to Plan Your Trip</span>
+    </a>
+  </div>
+  <div class="max-w-6xl mx-auto px-4 py-6 mt-3 rounded-2xl
+              bg-gradient-to-r from-slate-800/70 via-slate-700/60 to-slate-800/70
+              ring-1 ring-white/10 shadow-lg">
+    <h1 class="text-3xl md:text-4xl font-bold tracking-wide">{{ $event->name }}</h1>
 
-    <h1 class="text-3xl font-bold mt-4">{{ $event->name }}</h1>
-    <p class="text-gray-600 mt-1">
-        {{ $event->location }}
-        @if($event->start_date && $event->end_date)
-            • {{ $event->start_date->toFormattedDateString() }} – {{ $event->end_date->toFormattedDateString() }}
-        @elseif($event->start_date)
-            • {{ $event->start_date->toFormattedDateString() }}
-        @endif
-    </p>
+    <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
+      @if($event->location)
+        <span class="px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/10">
+          📍 {{ $event->location }}
+        </span>
+      @endif
+      @if($event->start_date && $event->end_date)
+        <span class="px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/10">
+          🗓 {{ $event->start_date->toFormattedDateString() }} – {{ $event->end_date->toFormattedDateString() }}
+        </span>
+      @elseif($event->start_date)
+        <span class="px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/10">
+          🗓 {{ $event->start_date->toFormattedDateString() }}
+        </span>
+      @endif
 
-    @if($event->official_url)
-        <p class="mt-2">
-            Official site: <a href="{{ $event->official_url }}" class="text-blue-600 underline" rel="noopener" target="_blank">{{ $event->official_url }}</a>
-        </p>
-    @endif
-
-    <div class="grid md:grid-cols-2 gap-6 mt-8">
-        <!-- Hotels -->
-        <div class="bg-white/70 rounded-lg shadow p-5">
-            <h2 class="text-lg font-semibold">Find the Best Hotels</h2>
-            <p class="text-xs text-gray-500 mb-3">Compare prices near rally HQ and popular stages.</p>
-            <div class="bg-gray-100 rounded p-4 text-sm text-gray-600">
-                <!-- Drop your affiliate widget/embed here -->
-                Hotels widget will render here.
-            </div>
-        </div>
-
-        <!-- Camping -->
-        <div class="bg-white/70 rounded-lg shadow p-5">
-            <h2 class="text-lg font-semibold">Camping Near the Rally</h2>
-            <p class="text-xs text-gray-500 mb-3">Prefer tents, cabins, or van sites close to stages?</p>
-            <div class="bg-gray-100 rounded p-4 text-sm text-gray-600">
-                Hipcamp widget / links will render here.
-            </div>
-        </div>
-
-        <!-- Flights -->
-        <div class="bg-white/70 rounded-lg shadow p-5">
-            <h2 class="text-lg font-semibold">Book Flights</h2>
-            <p class="text-xs text-gray-500 mb-3">Fly into the closest airports for this rally weekend.</p>
-            <div class="bg-gray-100 rounded p-4 text-sm text-gray-600">
-                Flights widget will render here.
-            </div>
-        </div>
-
-        <!-- Car Rentals -->
-        <div class="bg-white/70 rounded-lg shadow p-5">
-            <h2 class="text-lg font-semibold">Car Rentals</h2>
-            <p class="text-xs text-gray-500 mb-3">Get to remote stages and service parks with ease.</p>
-            <div class="bg-gray-100 rounded p-4 text-sm text-gray-600">
-                Car rental widget will render here.
-            </div>
-        </div>
+      @if($event->official_url)
+        <a href="{{ $event->official_url }}" target="_blank" rel="noopener"
+           class="px-3 py-1 rounded-full bg-blue-600/80 hover:bg-blue-600 transition
+                  text-white inline-flex items-center gap-2">
+          🔗 Official site
+        </a>
+      @endif
     </div>
 
-    @if($event->map_embed_url)
-        <div class="mt-8">
-            <h2 class="text-lg font-semibold mb-3">Map</h2>
-            <div class="aspect-video bg-gray-200 rounded overflow-hidden">
-                <iframe src="{{ $event->map_embed_url }}" class="w-full h-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-            </div>
-        </div>
-    @endif
+    {{-- Quick anchors --}}
+    <nav class="mt-5 flex flex-wrap gap-2 text-sm">
+      @foreach (['hotels'=>'Hotels','camping'=>'Camping','flights'=>'Flights','cars'=>'Car Rentals','map'=>'Map'] as $id => $label)
+        <a href="#{{ $id }}"
+           class="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 ring-1 ring-white/10 transition">
+          {{ $label }}
+        </a>
+      @endforeach
+    </nav>
+  </div>
+</section>
+
+{{-- Content grid --}}
+<div class="max-w-6xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
+
+  {{-- Hotels --}}
+  <section id="hotels" class="rounded-xl bg-white/70 shadow-lg ring-1 ring-black/5 p-5">
+    <header class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Find the Best Hotels</h2>
+      <span class="text-xs text-gray-500">near HQ & popular stages</span>
+    </header>
+    <div class="mt-3 rounded-lg bg-gray-50 p-4 text-sm text-gray-600 min-h-[220px] flex items-center justify-center">
+      Hotels widget will render here.
+    </div>
+  </section>
+
+  {{-- Camping --}}
+  <section id="camping" class="rounded-xl bg-white/70 shadow-lg ring-1 ring-black/5 p-5">
+    <header class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Camping Near the Rally</h2>
+      <span class="text-xs text-gray-500">tents, cabins & van sites</span>
+    </header>
+    <div class="mt-3 rounded-lg bg-gray-50 p-4 text-sm text-gray-600 min-h-[220px] flex items-center justify-center">
+      Hipcamp widget / links will render here.
+    </div>
+  </section>
+
+  {{-- Flights --}}
+  <section id="flights" class="rounded-xl bg-white/70 shadow-lg ring-1 ring-black/5 p-5">
+    <header class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Book Flights</h2>
+      <span class="text-xs text-gray-500">closest airports</span>
+    </header>
+    <div class="mt-3 rounded-lg bg-gray-50 p-4 text-sm text-gray-600 min-h-[220px] flex items-center justify-center">
+      Flights widget will render here.
+    </div>
+  </section>
+
+  {{-- Cars --}}
+  <section id="cars" class="rounded-xl bg-white/70 shadow-lg ring-1 ring-black/5 p-5">
+    <header class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Car Rentals</h2>
+      <span class="text-xs text-gray-500">reach remote stages</span>
+    </header>
+    <div class="mt-3 rounded-lg bg-gray-50 p-4 text-sm text-gray-600 min-h-[220px] flex items-center justify-center">
+      Car rental widget will render here.
+    </div>
+  </section>
 </div>
+
+{{-- Map --}}
+@if($event->map_embed_url)
+  <section id="map" class="max-w-6xl mx-auto px-4 pb-12">
+    <h2 class="text-lg font-semibold mb-3">Map</h2>
+    <div class="aspect-video bg-gray-200 rounded-xl overflow-hidden ring-1 ring-black/5 shadow-lg">
+      <iframe src="{{ $event->map_embed_url }}" class="w-full h-full" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </section>
+@endif
 @endsection
