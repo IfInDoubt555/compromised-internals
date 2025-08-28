@@ -53,14 +53,6 @@
             <h1 class="font-orbitron text-2xl sm:text-3xl font-bold">Compromised Internals</h1>
             <p class="mt-2 text-stone-200">News, history, schedules, and deep-dive profiles for rally fans.</p>
           </div>
-
-          <div class="grid grid-cols-2 sm:flex gap-3">
-            <a href="{{ route('calendar.index') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">Rally Schedule</a>
-            <a href="{{ route('history.index') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">History Archive</a>
-            {{-- Adjust this route to your “Plan Your Trip” page --}}
-            <a href="{{ route('travel.plan') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">Plan Your Trip</a>
-            <a href="{{ route('blog.index') }}" class="rounded-xl bg-white/10 hover:bg-white/15 px-4 py-2 text-sm font-semibold">Blog</a>
-          </div>
         </div>
 
         {{-- utility strip --}}
