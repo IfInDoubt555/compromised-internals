@@ -120,6 +120,9 @@ Route::prefix('history')->name('history.')->group(function () {
     Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
 });
 
+// Travel
+Route::view('/travel', 'travel.index')->name('travel.index');
+
 // Auth-required routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');

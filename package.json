@@ -11,6 +11,10 @@
     },
     "devDependencies": {
         "@alpinejs/intersect": "^3.14.9",
+        "@fullcalendar/core": "^6.1.19",
+        "@fullcalendar/daygrid": "^6.1.19",
+        "@fullcalendar/interaction": "^6.1.19",
+        "@fullcalendar/list": "^6.1.19",
         "@fullhuman/postcss-purgecss": "^7.0.2",
         "autoprefixer": "^10.4.21",
         "axios": "^1.7.7",
@@ -21,10 +25,6 @@
         "vite": "^6.3.5"
     },
     "dependencies": {
-        "@fullcalendar/core": "^6.1.17",
-        "@fullcalendar/daygrid": "^6.1.17",
-        "@fullcalendar/interaction": "^6.1.17",
-        "@fullcalendar/list": "^6.1.19",
         "alpinejs": "^3.14.9",
         "embla-carousel": "^8.6.0",
         "form-data": "^4.0.4",

@@ -41,31 +41,12 @@
             <!-- Right: Main Nav Links -->
             <div class="hidden lg:flex items-center space-x-6 text-sm lg:text-base whitespace-nowrap overflow-x-auto no-scrollbar">
                 <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')" class="whitespace-nowrap">Home</x-nav-link>
+                <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')" class="whitespace-nowrap">Rally Schedule</x-nav-link>
+                <x-nav-link href="{{ route('travel.index') }}" :active="request()->routeIs('travel.index')" class="whitespace-nowrap">Plan Your Trip</x-nav-link>
                 <x-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')" class="whitespace-nowrap">History</x-nav-link>
-
-                <div class="flex items-center space-x-1 whitespace-nowrap">
-                    <x-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index', 'shop.show')" class="whitespace-nowrap">
-                        {{ __('Shop') }}
-                    </x-nav-link>
-
-                    @if (request()->is('shop*') || request()->is('cart'))
-                        <a href="{{ route('shop.cart.index') }}" class="relative text-gray-600 hover:text-gray-900 transition hover:scale-110 mt-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.293 1.293a1 1 0 001.414 1.414L7 13zm10 0l1.293 1.293a1 1 0 01-1.414 1.414L17 13z" />
-                            </svg>
-                            @if (session('cart') && count(session('cart')) > 0)
-                                <span id="cart-badge" class="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold text-white bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
-                                    {{ array_sum(array_column(session('cart'), 'quantity')) }}
-                                </span>
-                            @endif
-                        </a>
-                    @endif
-                </div>
-
                 <x-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')" class="whitespace-nowrap">Blog</x-nav-link>
-                <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')" class="whitespace-nowrap">Calendar</x-nav-link>
                 <x-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')" class="whitespace-nowrap">Rally Resources</x-nav-link>
+                <x-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index', 'shop.show')" class="whitespace-nowrap">Shop</x-nav-link>
                 <x-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')" class="whitespace-nowrap">Charity Work</x-nav-link>
 
                 @can('access-admin')
@@ -96,30 +77,31 @@
                     <div class="font-medium text-sm text-gray-500 whitespace-nowrap">{{ Auth::user()->email }}</div>
                 </div>
 
-                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('profile.public', Auth::id()) }}">Profile</x-responsive-nav-link>
-                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('dashboard') }}">Dashboard</x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('profile.public', Auth::id()) }}">Profile</x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('dashboard') }}">Dashboard</x-responsive-nav-link>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                    <x-responsive-nav-link href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
                         Log Out
                     </x-responsive-nav-link>
                 </form>
             @else
-                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('login') }}">Log in</x-responsive-nav-link>
-                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('register') }}">Register</x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('login') }}">Log in</x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('register') }}">Register</x-responsive-nav-link>
             @endauth
 
-            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">History</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index')">Shop</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Calendar</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
-            <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Rally Schedule</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('travel.index') }}" :active="request()->routeIs('travel.index')">Plan Your Trip</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">History</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index')">Shop</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
 
             @can('access-admin')
-                <x-responsive-nav-link class="text-sm lg:text-base whitespace-nowrap" href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
+                <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
                     Admin Panel
                 </x-responsive-nav-link>
             @endcan

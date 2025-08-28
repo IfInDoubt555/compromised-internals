@@ -1,4 +1,3 @@
-// Calendar module: initialize FullCalendar on a page (only if the element exists)
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -38,8 +37,7 @@ const gcalAllDayUrl = (ev) => {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 };
 
-const EVENTS_ENDPOINTS = ['/api/events', '/calendar/events'];
-
+// ---- Helpers for the ICS subscribe/download controls ----
 function deriveTplFromUrl(urlStr) {
   try {
     const u = new URL(urlStr, window.location.origin);
@@ -138,6 +136,9 @@ export default function initCalendar(containerId = 'calendar') {
   const el = document.getElementById(containerId);
   if (!el) return null;
 
+  // Single, explicit endpoint (can be overridden via data attribute on <body>)
+  const endpoint = document.body?.dataset?.eventsEndpoint || '/api/events';
+
   const urlChamp = new URLSearchParams(location.search).get('champ');
   const state = { champ: urlChamp ? urlChamp.toUpperCase() : null };
 
@@ -150,10 +151,7 @@ export default function initCalendar(containerId = 'calendar') {
     dayMaxEvents: true,
     displayEventTime: false,
     timeZone: 'local',
-
-    views: {
-      listMonth: { noEventsContent: 'No rallies this month.' },
-    },
+    views: { listMonth: { noEventsContent: 'No rallies this month.' } },
 
     windowResize() {
       const nextView = initialViewFor();
@@ -167,27 +165,29 @@ export default function initCalendar(containerId = 'calendar') {
       return cls ? [cls] : [];
     },
 
+    // ---- Single-source fetch with strong logging ----
     events(info, success, failure) {
-      const params = new URLSearchParams({ start: info.startStr, end: info.endStr });
+      const params = new URLSearchParams({
+        start: info.startStr,
+        end:   info.endStr,
+      });
       if (state.champ) params.set('champ', state.champ);
 
-      let i = 0;
-      const tryFetch = () =>
-        fetch(`${EVENTS_ENDPOINTS[i]}?${params.toString()}`)
-          .then((r) => {
-            if (!r.ok) throw new Error(`HTTP ${r.status}`);
-            return r.json();
-          })
-          .then((data) => {
-            success(data);
-          })
-          .catch((err) => {
-            if (++i < EVENTS_ENDPOINTS.length) return tryFetch();
-            console.error('Error loading events:', err);
-            failure(err);
-          });
+      const url = `${endpoint}?${params.toString()}`;
 
-      tryFetch();
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          console.log('Events loaded:', { url, count: data?.length, sample: data?.[0] });
+          success(data);
+        })
+        .catch(err => {
+          console.error('Failed to load events:', { url, err });
+          failure(err);
+        });
     },
 
     eventDataTransform(eventData) {
@@ -209,17 +209,17 @@ export default function initCalendar(containerId = 'calendar') {
     },
 
     eventClick(info) {
-      if (info.event.url) return;
+      if (info.event.url) return; // keep default navigation if a URL exists
     },
   });
 
   calendar.render();
 
-  // ICS links sync
+  // Keep ICS links in sync with the visible month + filter
   calendar.on('datesSet', () => updateIcsLinks(calendar, state));
   updateIcsLinks(calendar, state);
 
-  // Filter-chip wiring
+  // Filter-chip wiring (WRC / ERC / ARA / ALL)
   const chipBtns = document.querySelectorAll('#cal-controls [data-champ]');
   chipBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -241,5 +241,5 @@ export default function initCalendar(containerId = 'calendar') {
   return calendar;
 }
 
-// Optional: expose for debugging if you like
+// Optional: expose for debugging
 window.initRallyCalendar = initCalendar;
