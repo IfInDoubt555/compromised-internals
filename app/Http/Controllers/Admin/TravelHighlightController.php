@@ -93,18 +93,21 @@ class TravelHighlightController extends Controller
         return view('admin.travel-highlights.tips', compact('tips'));
     }
 
-    public function updateTips(Request $request)
-    {
+    public function updateTips(Request $request) {
         $data = $request->validate([
             'tips_md'   => ['nullable','string','max:20000'],
             'is_active' => ['required','boolean'],
+            'enabled'   => ['array'],         // ⬅ array of selected indices
+            'enabled.*' => ['integer','min:0']
         ]);
 
         $tips = TravelHighlight::tips()->firstOrFail();
-        $tips->update($data);
+        $tips->tips_md        = $data['tips_md'] ?? '';
+        $tips->is_active      = $data['is_active'];
+        $tips->tips_selection = array_values(array_unique(array_map('intval', $data['enabled'] ?? [])));
+        $tips->save();
 
-        return redirect()
-            ->route('admin.travel-highlights.tips.edit')
+        return redirect()->route('admin.travel-highlights.tips.edit')
             ->with('status', 'Travel tips updated.');
     }
 }

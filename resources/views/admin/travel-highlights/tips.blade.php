@@ -54,30 +54,53 @@
       </div>
     </form>
 
-    {{-- Preview --}}
+    {{-- Selection / Preview --}}
     @php
-      $previewLines = collect(preg_split('/\R/', (string) old('tips_md', $tips->tips_md)))
-          ->map(fn($t) => trim($t))
-          ->filter()
-          ->values();
+      $raw     = (string) old('tips_md', $tips->tips_md);
+      $lines   = collect(preg_split('/\R/', $raw))->map(fn($t) => trim($t))->filter()->values();
+      // If nothing selected yet, default to all indices:
+      $default = $lines->isEmpty() ? [] : range(0, $lines->count() - 1);
+      $enabled = collect(old('enabled', $tips->tips_selection ?? $default))
+                  ->map(fn($i) => (int) $i)
+                  ->values()
+                  ->all();
     @endphp
+
     <div class="bg-white rounded shadow p-6">
       <div class="flex items-center justify-between">
-        <h2 class="font-semibold">Preview</h2>
+        <h2 class="font-semibold">Choose which tips to display</h2>
         <span class="text-xs px-2 py-1 rounded
                      {{ old('is_active', $tips->is_active) ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-700' }}">
           {{ old('is_active', $tips->is_active) ? 'Active' : 'Hidden' }}
         </span>
       </div>
 
-      @if ($previewLines->isEmpty())
-        <p class="mt-3 text-sm text-gray-500">Start typing tips on the left to see a preview.</p>
+      @if ($lines->isEmpty())
+        <p class="mt-3 text-sm text-gray-500">Add tips on the left and save to select them.</p>
       @else
-        <ul class="mt-3 list-disc list-inside text-sm text-gray-800 space-y-1">
-          @foreach ($previewLines as $line)
-            <li>{{ $line }}</li>
+        <div class="mt-3 flex items-center justify-between text-xs">
+          <div class="text-gray-600">Tick the items you want to show on the public page.</div>
+          <div class="space-x-3">
+            <button type="button" class="underline"
+                    onclick="document.querySelectorAll('input[name=&quot;enabled[]&quot;]').forEach(c=>c.checked=true)">
+              Select all
+            </button>
+            <button type="button" class="underline"
+                    onclick="document.querySelectorAll('input[name=&quot;enabled[]&quot;]').forEach(c=>c.checked=false)">
+              None
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-3 space-y-2">
+          @foreach ($lines as $i => $line)
+            <label class="flex items-start gap-2">
+              <input type="checkbox" name="enabled[]" value="{{ $i }}" class="mt-1"
+                     {{ in_array($i, $enabled, true) ? 'checked' : '' }}>
+              <span class="text-sm text-gray-800">{{ $line }}</span>
+            </label>
           @endforeach
-        </ul>
+        </div>
       @endif
     </div>
   </div>
