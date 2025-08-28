@@ -98,27 +98,19 @@
                            ring-stone-900/10 bg-stone-200
                            dark:ring-white/10 dark:bg-stone-700"
                   >
-                    <!-- Left hint (single node) -->
+                    <!-- Static left hint: moon; hidden in LIGHT -->
                     <span class="absolute inset-y-0 left-1 flex items-center">
-                      <span
-                        x-cloak
-                        x-text="$store.theme.dark ? '☀️' : '🌙'"
-                        :class="$store.theme.dark
-                          ? 'opacity-60 text-amber-300'
-                          : 'opacity-60 text-sky-500'"></span>
+                      <span x-cloak class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500"
+                            aria-hidden="true">🌙</span>
                     </span>
-                            
-                    <!-- Right hint (single node) -->
+                              
+                    <!-- Static right hint: sun; hidden in DARK -->
                     <span class="absolute inset-y-0 right-1 flex items-center">
-                      <span
-                        x-cloak
-                        x-text="$store.theme.dark ? '🌙' : '☀️'"
-                        :class="$store.theme.dark
-                          ? 'opacity-60 text-sky-300'
-                          : 'opacity-0 text-amber-400'"></span>
+                      <span x-cloak class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400"
+                            aria-hidden="true">☀️</span>
                     </span>
-                            
-                    <!-- Knob -->
+                              
+                    <!-- Knob (active icon only) -->
                     <span
                       class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 transition-all duration-300
                              ring-stone-900/10 bg-white
@@ -126,10 +118,8 @@
                              flex items-center justify-center text-base"
                       :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-7'"
                     >
-                      <span
-                        x-cloak
-                        x-text="$store.theme.dark ? '🌙' : '☀️'"
-                        :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
+                      <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
+                            :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
                       <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
                     </span>
                   </span>
@@ -215,27 +205,23 @@
                          ring-stone-900/10 bg-stone-200
                          dark:ring-white/10 dark:bg-stone-700"
                 >
-                  <!-- Left hint -->
+                  <!-- Static left hint: moon; hidden in LIGHT (to avoid duplicate with knob) -->
                   <span class="absolute inset-y-0 left-1 flex items-center">
                     <span
                       x-cloak
-                      x-text="$store.theme.dark ? '☀️' : '🌙'"
-                      :class="$store.theme.dark
-                        ? 'opacity-60 text-amber-300'
-                        : 'opacity-60 text-sky-500'"></span>
+                      class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500"
+                      aria-hidden="true">🌙</span>
                   </span>
 
-                  <!-- Right hint -->
+                  <!-- Static right hint: sun; hidden in DARK (to avoid duplicate with knob) -->
                   <span class="absolute inset-y-0 right-1 flex items-center">
                     <span
                       x-cloak
-                      x-text="$store.theme.dark ? '🌙' : '☀️'"
-                      :class="$store.theme.dark
-                        ? 'opacity-60 text-sky-300'
-                        : 'opacity-0 text-amber-400'"></span>
+                      class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400"
+                      aria-hidden="true">☀️</span>
                   </span>
 
-                  <!-- Knob -->
+                  <!-- Knob shows the ACTIVE state icon -->
                   <span
                     class="absolute top-1 left-1 size-6 rounded-full shadow-sm ring-1 transition-all duration-300
                            ring-stone-900/10 bg-white
@@ -243,10 +229,8 @@
                            flex items-center justify-center text-sm"
                     :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-6'"
                   >
-                    <span
-                      x-cloak
-                      x-text="$store.theme.dark ? '🌙' : '☀️'"
-                      :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
+                    <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
+                          :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
                     <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
                   </span>
                 </span>
