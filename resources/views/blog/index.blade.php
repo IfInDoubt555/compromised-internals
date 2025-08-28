@@ -28,16 +28,24 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="flex justify-center items-center gap-2 mb-6">
-      <h1 class="text-3xl font-bold">Rally Blog</h1>
-      <span class="text-3xl inline-block animate-floatWave origin-bottom-left"></span>
-  </div>
+
+  {{-- Hero --}}
+  <header class="mb-8 text-center">
+    <h1 class="text-4xl font-extrabold tracking-tight">
+      <span class="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 bg-clip-text text-transparent">
+        Rally Blog
+      </span>
+    </h1>
+    <p class="mt-2 text-sm text-slate-600">
+      News, features, and notes from the stages.
+    </p>
+  </header>
 
   @auth
   {{-- Floating New Post button --}}
   <a href="{{ route('posts.create') }}"
-     class="fixed bottom-6 right-6 bg-red-600 hover:bg-red-700 text-white rounded-full p-4 shadow-lg z-50 transition"
-     title="New Post">
+     class="fixed bottom-6 right-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg ring-1 ring-black/10 transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+     title="New Post" aria-label="Create new post">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
            viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 5v14m7-7H5" />
@@ -46,7 +54,8 @@
   @endauth
 
   {{-- Layout: sidebar + main --}}
-  <div class="grid grid-cols-1 lg:grid-cols-[minmax(260px,320px)_1fr] gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8">
+
     {{-- Sidebar --}}
     <aside class="lg:sticky lg:top-24">
       @include('partials.blog-sidebar')
@@ -54,68 +63,83 @@
 
     {{-- Main --}}
     <main>
-      {{-- BLOG: Media List Rows --}}
-      <div class="mt-2">
-        @if($posts->count())
-          <ul class="divide-y divide-gray-300/60">
-            @foreach($posts as $post)
-              <li class="py-6">
-                <div class="grid sm:grid-cols-[200px_1fr] gap-6 items-start">
+      @if($posts->count())
+        <ul class="space-y-5">
+          @foreach($posts as $post)
+            <li>
+              <article class="group rounded-2xl border border-slate-200/70 bg-white/80 backdrop-blur-sm p-4 sm:p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+                <div class="grid sm:grid-cols-[220px_1fr] gap-5 items-start">
                   {{-- Thumbnail --}}
                   <a href="{{ route('posts.show', $post->slug) }}"
-                     class="block aspect-[16/10] overflow-hidden rounded-xl group">
-                    <img
-                      src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path)
-                              ? Storage::url($post->image_path)
-                              : asset('images/default-post.png') }}"
-                      alt="{{ $post->title }}"
-                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+                     class="block overflow-hidden rounded-xl ring-1 ring-slate-200/70">
+                    <div class="aspect-[16/10]">
+                      <img
+                        src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path)
+                                ? Storage::url($post->image_path)
+                                : asset('images/default-post.png') }}"
+                        alt="{{ $post->title }}"
+                        loading="lazy"
+                        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+                    </div>
                   </a>
 
                   {{-- Text --}}
                   <div>
-                    <div class="flex items-center gap-3 text-xs text-gray-600">
-                      <a href="{{ route('profile.public', $post->user->id) }}">
+                    <div class="flex items-center gap-3 text-xs text-slate-600">
+                      <a href="{{ route('profile.public', $post->user->id) }}" class="shrink-0">
                         <x-user-avatar :user="$post->user" size="w-8 h-8" />
                       </a>
-                      <span class="font-medium text-gray-800">{{ $post->user->name }}</span>
-                      <span>•</span>
+                      <span class="font-medium text-slate-800">{{ $post->user->name }}</span>
+                      <span aria-hidden="true">•</span>
                       <time datetime="{{ $post->created_at->toDateString() }}">
                         {{ $post->created_at->format('M j, Y') }}
                       </time>
                     </div>
 
-                    <h2 class="mt-2 font-orbitron text-2xl font-bold text-gray-900">
-                      <a href="{{ route('posts.show', $post->slug) }}" class="hover:underline">
+                    <h2 class="mt-2 font-orbitron text-2xl font-bold leading-snug text-slate-900">
+                      <a href="{{ route('posts.show', $post->slug) }}" class="underline-offset-4 hover:underline">
                         {{ $post->title }}
                       </a>
                     </h2>
 
-                    <p class="mt-2 text-gray-700">
+                    <p class="mt-2 text-slate-700 line-clamp-3">
                       {{ $post->excerpt }}
                     </p>
 
-                    @can('update', $post)
-                      <div class="mt-3 flex items-center gap-4 text-sm">
-                        <a href="{{ route('posts.edit', $post) }}" class="text-green-800 hover:underline">✏️ Edit</a>
-                        <form action="{{ route('posts.destroy', $post) }}" method="POST"
-                              onsubmit="return confirm('Are you sure you want to delete this post?');">
-                          @csrf @method('DELETE')
-                          <button type="submit" class="text-red-600 hover:underline">🗑️ Delete</button>
-                        </form>
-                      </div>
-                    @endcan
+                    <div class="mt-4 flex items-center justify-between">
+                      <a href="{{ route('posts.show', $post->slug) }}"
+                         class="inline-flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-red-700">
+                        Read article
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M13.5 4.5 21 12l-7.5 7.5-1.06-1.06L18.88 12l-6.44-6.44 1.06-1.06Z"/>
+                          <path d="M3 12h15v1.5H3z" />
+                        </svg>
+                      </a>
+
+                      @can('update', $post)
+                        <div class="flex items-center gap-4 text-xs sm:text-sm">
+                          <a href="{{ route('posts.edit', $post) }}" class="font-semibold text-emerald-700 hover:underline">✏️ Edit</a>
+                          <form action="{{ route('posts.destroy', $post) }}" method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this post?');">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="font-semibold text-red-600 hover:underline">🗑️ Delete</button>
+                          </form>
+                        </div>
+                      @endcan
+                    </div>
                   </div>
                 </div>
-              </li>
-            @endforeach
-          </ul>
-        @else
-          <p class="text-gray-700">No posts yet.</p>
-        @endif
+              </article>
+            </li>
+          @endforeach
+        </ul>
+      @else
+        <p class="text-slate-700">No posts yet.</p>
+      @endif
 
-        {{-- Pagination --}}
-        <div class="flex justify-center mt-8">
+      {{-- Pagination --}}
+      <div class="mt-10 flex justify-center">
+        <div class="rounded-xl border border-slate-200 bg-white/70 px-3 py-2 shadow-sm">
           {{ $posts->links() }}
         </div>
       </div>
