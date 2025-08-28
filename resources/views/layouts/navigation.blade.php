@@ -38,16 +38,44 @@
                 @endauth
             </div>
 
+            @php
+                // Safe URL helpers: if a named route is missing (e.g., special 503 render), fall back to a plain URL
+                $url = function ($name, $fallback) {
+                    return \Illuminate\Support\Facades\Route::has($name) ? route($name) : url($fallback);
+                };
+            @endphp
+
             <!-- Right: Main Nav Links -->
             <div class="hidden lg:flex items-center space-x-6 text-sm lg:text-base whitespace-nowrap overflow-x-auto no-scrollbar">
                 <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')" class="whitespace-nowrap">Home</x-nav-link>
-                <x-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')" class="whitespace-nowrap">Rally Schedule</x-nav-link>
-                <x-nav-link href="{{ route('travel.index') }}" :active="request()->routeIs('travel.index')" class="whitespace-nowrap">Plan Your Trip</x-nav-link>
-                <x-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')" class="whitespace-nowrap">History</x-nav-link>
-                <x-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')" class="whitespace-nowrap">Blog</x-nav-link>
-                <x-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')" class="whitespace-nowrap">Rally Resources</x-nav-link>
-                <x-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index', 'shop.show')" class="whitespace-nowrap">Shop</x-nav-link>
-                <x-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')" class="whitespace-nowrap">Charity Work</x-nav-link>
+
+                <x-nav-link href="{{ $url('calendar.index','/calendar') }}"
+                            :active="request()->routeIs('calendar.index')"
+                            class="whitespace-nowrap">Rally Schedule</x-nav-link>
+
+                <x-nav-link href="{{ $url('travel.plan','/travel/plan') }}"
+                            :active="request()->routeIs('travel.plan')"
+                            class="whitespace-nowrap">Plan Your Trip</x-nav-link>
+
+                <x-nav-link href="{{ $url('history.index','/history') }}"
+                            :active="request()->routeIs('history.*')"
+                            class="whitespace-nowrap">History</x-nav-link>
+
+                <x-nav-link href="{{ $url('blog.index','/blog') }}"
+                            :active="request()->routeIs('blog.index')"
+                            class="whitespace-nowrap">Blog</x-nav-link>
+
+                <x-nav-link href="{{ $url('resources','/rally-resources') }}"
+                            :active="request()->routeIs('resources')"
+                            class="whitespace-nowrap">Rally Resources</x-nav-link>
+
+                <x-nav-link href="{{ $url('shop.index','/shop') }}"
+                            :active="request()->routeIs('shop.index') || request()->routeIs('shop.show')"
+                            class="whitespace-nowrap">Shop</x-nav-link>
+
+                <x-nav-link href="{{ $url('charity.index','/charity') }}"
+                            :active="request()->routeIs('charity.index')"
+                            class="whitespace-nowrap">Charity Work</x-nav-link>
 
                 @can('access-admin')
                     <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')" class="whitespace-nowrap">
@@ -92,13 +120,27 @@
             @endauth
 
             <x-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">Home</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('calendar') }}" :active="request()->routeIs('calendar')">Rally Schedule</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('travel.index') }}" :active="request()->routeIs('travel.index')">Plan Your Trip</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('history.index') }}" :active="request()->routeIs('history.*')">History</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('blog.index') }}" :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('resources') }}" :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('shop.index') }}" :active="request()->routeIs('shop.index')">Shop</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('charity.index') }}" :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ $url('calendar.index','/calendar') }}"
+                                   :active="request()->routeIs('calendar.index')">Rally Schedule</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ $url('travel.plan','/travel/plan') }}"
+                                   :active="request()->routeIs('travel.plan')">Plan Your Trip</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ $url('history.index','/history') }}"
+                                   :active="request()->routeIs('history.*')">History</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ $url('blog.index','/blog') }}"
+                                   :active="request()->routeIs('blog.index')">Blog</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ $url('resources','/rally-resources') }}"
+                                   :active="request()->routeIs('resources')">Rally Resources</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ $url('shop.index','/shop') }}"
+                                   :active="request()->routeIs('shop.index') || request()->routeIs('shop.show')">Shop</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ $url('charity.index','/charity') }}"
+                                   :active="request()->routeIs('charity.index')">Charity Work</x-responsive-nav-link>
 
             @can('access-admin')
                 <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
