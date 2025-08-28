@@ -23,7 +23,7 @@
                     ⚠️ <strong>Testing Notice:</strong> You may now register with a real email…
                 </div>
                 <h2 class="text-3xl font-bold text-gray-800">Join Compromised Internals</h2>
-                <p class="text-sm text-gray-500 mt-2">Be part of the rally revolution 🚗💨</p>
+                <p class="text-sm text-gray-500 mt-2">Be part of the rally revolution 💨</p>
             </div>
 
             @if ($errors->has('recaptcha'))

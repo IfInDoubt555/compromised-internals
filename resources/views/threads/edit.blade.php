@@ -90,7 +90,7 @@
                 type="submit"
                 class="px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition"
             >
-                Update Thread 🏁
+                Update Thread 
             </button>
             <a href="{{ route('threads.show', $thread) }}" class="ml-4 text-sm text-gray-600 underline">Cancel</a>
         </div>

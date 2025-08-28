@@ -10,6 +10,7 @@
         "brace-expansion": "2.0.2"
     },
     "devDependencies": {
+        "@alpinejs/intersect": "^3.14.9",
         "@fullhuman/postcss-purgecss": "^7.0.2",
         "autoprefixer": "^10.4.21",
         "axios": "^1.7.7",
