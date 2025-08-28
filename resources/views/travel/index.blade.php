@@ -10,7 +10,7 @@
 <section class="max-w-5xl mx-auto px-4 pt-8">
   <div class="rounded-2xl px-6 py-8
               bg-gradient-to-r from-slate-800/70 via-slate-700/60 to-slate-800/70
-              ring-1 ring-white/10 shadow-lg">
+              ring-1 ring-white/10 shadow-lg mb-6">
     <h1 class="text-3xl md:text-4xl font-bold">Plan Your Trip</h1>
     <p class="text-slate-200/90 mt-2">
       Heading to a rally? Compare <span class="font-semibold">hotels, camping, flights, and car rentals</span> in one place.
@@ -23,8 +23,7 @@
         @forelse($items as $it)
           <li>
             <a href="{{ $it['url'] }}"
-               class="block w-full px-3 py-2 rounded-md bg-white/10 hover:bg-white/20 transition
-                      ring-1 ring-white/10">
+               class="pill pill-hover w-full justify-center">
               {{ $it['title'] }}
             </a>
           </li>
