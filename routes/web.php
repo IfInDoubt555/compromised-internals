@@ -124,7 +124,11 @@ Route::prefix('history')->name('history.')->group(function () {
 // Travel
 Route::view('/travel', 'travel.index')->name('travel.index');
 Route::get('/travel', [TravelPageController::class, 'index'])->name('travel.index');
-Route::get('/travel/event/{event}', [TravelPageController::class, 'event'])->name('travel.plan.event');
+Route::get('/travel', [TravelPageController::class, 'index'])->name('travel.index');
+// If you enabled slug binding above, keep the {event:slug} form.
+// If not using slugs, change to {event}.
+Route::get('/travel/event/{event:slug}', [TravelPageController::class, 'event'])
+    ->name('travel.plan.event');
 
 // Auth-required routes
 Route::middleware(['auth', 'verified'])->group(function () {
