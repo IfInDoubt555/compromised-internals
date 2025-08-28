@@ -13,7 +13,7 @@
 {{-- Hero --}}
 <section class="relative overflow-hidden">
   <div class="max-w-6xl mx-auto px-4 pt-8">
-    <a href="{{ route('travel.index') }}" class="text-blue-300 hover:text-blue-200 inline-flex items-center gap-1">
+    <a href="{{ route('travel.index') }}" class="text-[#0a61dc] hover:text-[#0a3edc]inline-flex items-center gap-1">
       <span>←</span><span>Back to Plan Your Trip</span>
     </a>
   </div>
