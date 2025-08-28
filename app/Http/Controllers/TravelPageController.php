@@ -24,14 +24,15 @@ class TravelPageController extends Controller
         } else {
             // Fallback: next 3 upcoming rallies
             $items = RallyEvent::query()
-                ->whereDate('start_date', '>=', today()->toDateString())
+                ->whereDate('start_date', '>=', now()->toDateString())
                 ->orderBy('start_date')
                 ->take(3)
-                ->get(['id', 'name', 'location', 'start_date']) // add 'slug' here if your route binds by slug
+                ->get(['id','slug', 'name','location','start_date'])   // keep id in the select
                 ->map(fn ($e) => [
                     'title' => "{$e->name} — Plan Trip",
-                    'url'   => route('travel.plan.event', $e), // implicit model binding
-                ])->all();
+                    'url'   => route('travel.plan.event', ['event' => $e->slug]),
+                ])
+                ->all();
         }
 
         // Tips singleton for the tips card
