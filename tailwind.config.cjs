@@ -3,6 +3,8 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  darkMode: 'class', // ← enable class-based dark mode
+
   content: [
     './resources/views/**/*.blade.php',
     './resources/js/**/*.js',
@@ -36,6 +38,7 @@ module.exports = {
 
   plugins: [
     function ({ addBase, theme }) {
+      // Keep Orbitron as the default sans stack
       addBase({
         html: { fontFamily: theme('fontFamily.orbitron') },
       })

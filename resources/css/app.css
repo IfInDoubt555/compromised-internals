@@ -52,6 +52,27 @@
   .fc .fc-list-table { @apply rounded-xl overflow-hidden; }
   .fc tr.fc-list-event:hover td { @apply bg-gray-50; }
 
+  /* -------- Light Dark Mode  -------- */
+  /* Surfaces */
+  .ci-surface      {@apply bg-stone-50/90 ring-1 ring-stone-900/5 shadow-sm dark:bg-stone-900/70 dark:ring-white/10;}
+  .ci-surface-hero {@apply bg-stone-900/70 ring-1 ring-white/10 backdrop-blur shadow-xl;}
+  .ci-divider      {@apply divide-stone-200 dark:divide-white/10;}
+  .ci-card         {@apply rounded-xl ci-surface p-6;}
+  .ci-card-hero    {@apply rounded-2xl ci-surface-hero p-6 sm:p-8;}
+
+  /* Type */
+  .ci-title-xl     {@apply font-orbitron text-3xl sm:text-4xl font-bold tracking-tight text-stone-900 dark:text-stone-100;}
+  .ci-title-lg     {@apply font-orbitron text-2xl font-bold text-stone-900 dark:text-stone-100;}
+  .ci-title-md     {@apply font-orbitron text-lg  font-bold text-stone-900 dark:text-stone-100;}
+  .ci-body         {@apply text-stone-700 dark:text-stone-300;}
+  .ci-muted        {@apply text-stone-500 dark:text-stone-400;}
+
+  /* Links / CTAs */
+  .ci-cta          {@apply font-semibold text-rose-700 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200;}
+  .ci-btn          {@apply inline-flex items-center rounded-lg px-3 py-2 text-sm font-semibold transition;}
+  .ci-btn-amber    {@apply ci-btn bg-amber-400/90 text-stone-900 hover:bg-amber-400;}
+  .ci-btn-sky      {@apply ci-btn bg-sky-400/90 text-stone-900 hover:bg-sky-400;}
+
   /* ===========================
      History section helpers
      =========================== */

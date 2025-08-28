@@ -82,6 +82,44 @@
                         Admin Panel
                     </x-nav-link>
                 @endcan
+
+                {{-- Theme Switch (pill) --}}
+                <button
+                  x-data
+                  @click="$store.theme.toggle()"
+                  :aria-pressed="$store.theme.dark"
+                  role="switch"
+                  aria-label="Toggle dark mode"
+                  class="group relative inline-flex items-center justify-center select-none"
+                >
+                  <!-- Track -->
+                  <span
+                    class="relative w-16 h-9 rounded-full ring-1 transition-all duration-300 ring-stone-900/10 bg-stone-200 dark:ring-white/10 dark:bg-stone-700"
+                  >
+                    <!-- Hint icons on track (left/right) -->
+                    <span class="absolute inset-y-0 left-1 flex items-center">
+                      <span x-show="!$store.theme.dark" class="opacity-60 transition-opacity duration-300 text-sky-500" aria-hidden="true">🌙</span>
+                      <span x-show="$store.theme.dark"  class="opacity-60 transition-opacity duration-300 text-amber-300" aria-hidden="true">☀️</span>
+                    </span>
+                    <span class="absolute inset-y-0 right-1 flex items-center">
+                      <span x-show="!$store.theme.dark" class="opacity-0 transition-opacity duration-300 text-amber-400" aria-hidden="true">☀️</span>
+                      <span x-show="$store.theme.dark"  class="opacity-60 transition-opacity duration-300 text-sky-300" aria-hidden="true">🌙</span>
+                    </span>
+
+                    <!-- Knob -->
+                    <span
+                      class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 transition-all duration-300
+                             ring-stone-900/10 bg-white
+                             dark:ring-white/10 dark:bg-stone-800
+                             flex items-center justify-center text-base"
+                      :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-7'"
+                    >
+                      <span x-show="$store.theme.dark"  class="transition-opacity text-sky-300" aria-hidden="true">🌙</span>
+                      <span x-show="!$store.theme.dark" class="transition-opacity text-amber-400" aria-hidden="true">☀️</span>
+                      <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
+                    </span>
+                  </span>
+                </button>
             </div>
 
             <!-- Hamburger Menu (Mobile) -->
@@ -147,6 +185,44 @@
                     Admin Panel
                 </x-responsive-nav-link>
             @endcan
+
+            {{-- Theme switch in mobile menu --}}
+            <div class="px-4 py-2">
+              <button
+                x-data
+                @click="$store.theme.toggle()"
+                :aria-pressed="$store.theme.dark"
+                role="switch"
+                aria-label="Toggle dark mode"
+                class="group relative inline-flex items-center justify-center select-none"
+              >
+                <span
+                  class="relative w-14 h-8 rounded-full ring-1 transition-all duration-300
+                         ring-stone-900/10 bg-stone-200
+                         dark:ring-white/10 dark:bg-stone-700"
+                >
+                  <span class="absolute inset-y-0 left-1 flex items-center">
+                    <span x-show="!$store.theme.dark" class="opacity-60 text-sky-500" aria-hidden="true">🌙</span>
+                    <span x-show="$store.theme.dark" class="opacity-60 text-amber-300" aria-hidden="true">☀️</span>
+                  </span>
+                  <span class="absolute inset-y-0 right-1 flex items-center">
+                    <span x-show="!$store.theme.dark" class="opacity-0 text-amber-400" aria-hidden="true">☀️</span>
+                    <span x-show="$store.theme.dark" class="opacity-60 text-sky-300" aria-hidden="true">🌙</span>
+                  </span>
+                  <span
+                    class="absolute top-1 left-1 size-6 rounded-full shadow-sm ring-1 transition-all               duration-300
+                           ring-stone-900/10 bg-white
+                           dark:ring-white/10 dark:bg-stone-800
+                           flex items-center justify-center text-sm"
+                    :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-6'"
+                  >
+                    <span x-show="$store.theme.dark" class="text-sky-300" aria-hidden="true">🌙</span>
+                    <span x-show="!$store.theme.dark" class="text-amber-400" aria-hidden="true">☀️</span>
+                    <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
+                  </span>
+                </span>
+              </button>
+            </div>
         </div>
     </div>
 </nav>
