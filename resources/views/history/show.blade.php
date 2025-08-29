@@ -400,10 +400,8 @@
     </a>
 
     {{-- Back (center pill) --}}
-    <a
-      href="{{ route('history.index', ['decade' => $decade, 'tab' => $tab]) }}"
-      class="justify-self-center rounded-xl bg-stone-900 text-stone-100 shadow ring-1 ring-black/5 hover:bg-stone-800 transition w-44 sm:w-56"
-    >
+    <a href="{{ route('history.index', ['tab' => $tab, 'decade' => $decade]) }}"
+      class="justify-self-center rounded-xl bg-stone-900 text-stone-100 shadow ring-1 ring-black/5 hover:bg-stone-800 transition w-44 sm:w-56">
       <div class="flex h-full flex-col items-center justify-center text-center px-4 py-3 min-h-[64px]">
         <span>Back</span>
         <span>to {{ ucfirst($tab) }} Index</span>
@@ -415,8 +413,7 @@
       href="{{ !empty($nextItem)
                 ? route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $nextItem['id']])
                 : 'javascript:void(0)' }}"
-      class="rounded-xl bg-white/80 backdrop-blur-md shadow ring-1 ring-black/5 hover:bg-white/70 transition"
-    >
+      class="rounded-xl bg-white/80 backdrop-blur-md shadow ring-1 ring-black/5 hover:bg-white/70 transition">
       <div class="flex h-full flex-col items-center justify-center text-center px-5 py-4 min-h-[64px]">
         <span class="text-sm text-stone-500 truncate max-w-[95%]">
           {{ $nextItem['title'] ?? $nextItem['name'] ?? '—' }}

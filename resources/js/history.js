@@ -81,20 +81,29 @@ function wireTabs() {
 function readUrlState() {
   const qs = new URLSearchParams(window.location.search);
 
-  // Try to parse /history/{tab}/{decade}/{id}
+  // 1) From route /history/{tab}/{decade}/{id}
   const parts = window.location.pathname.split('/').filter(Boolean);
   let decadeFromPath = null;
   let tabFromPath = null;
-
-  if (parts[0] === 'history') {
-    tabFromPath = parts[1];                 // events|cars|drivers
-    const decadeSeg = parts[2];             // "1990" or "1990s"
-    const m = /^(\d{4})s?$/.exec(decadeSeg);
+  if (parts[0] === 'history' && ['events','cars','drivers'].includes(parts[1] || '')) {
+    tabFromPath = parts[1];
+    const m = /^(\d{4})s?$/.exec(parts[2] || '');
     if (m) decadeFromPath = parseInt(m[1], 10);
   }
 
-  const startDecade = decadeFromPath ?? (qs.has('decade') ? parseInt(qs.get('decade'), 10) : 1960);
-  const startTab = tabFromPath ?? qs.get('tab') ?? 'events';
+  // 2) From server-rendered data attributes on the wrapper
+  const decadeFromData = EL.wrapper?.dataset.decade
+    ? parseInt(EL.wrapper.dataset.decade, 10)
+    : null;
+  const tabFromData = EL.wrapper?.dataset.tab || null;
+
+  // 3) From query string
+  const decadeFromQS = qs.has('decade') ? parseInt(qs.get('decade'), 10) : null;
+  const tabFromQS = qs.get('tab');
+
+  // Resolve with sane defaults
+  const startDecade = decadeFromPath ?? decadeFromData ?? decadeFromQS ?? 1960;
+  const startTab = tabFromPath ?? tabFromData ?? tabFromQS ?? 'events';
   const startYear = qs.has('year') ? parseInt(qs.get('year'), 10) : null;
 
   currentDecade = Number.isNaN(startDecade) ? 1960 : startDecade;

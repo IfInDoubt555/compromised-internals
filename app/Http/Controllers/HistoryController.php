@@ -129,23 +129,25 @@ class HistoryController extends Controller
      * Index page with experimental layouts.
      * /history?view=timeline|bookmarks&decade=1960s&year=1963&tab=events
      */
+    // HistoryController@index
     public function index(Request $request)
     {
         $decade = $request->query('decade', '1960s');
-        $year   = $request->query('year');
         $tab    = $request->query('tab', 'events');
-
+        $year   = $request->query('year');
+    
         $decades = $this->allDecades();
         $items   = $this->listItems($tab, $decade, $year);
-        $years   = $this->yearsFor($decade, $tab); // only used for events
-
+        $years   = $this->yearsFor($decade, $tab);
+    
         return view('history.bookmarks', [
-            'decades' => $decades,
-            'decade'  => $decade,
-            'year'    => $year,
-            'tab'     => $tab,
-            'items'   => $items,
-            'years'   => $years,
+            'decades'     => $decades,
+            'decade'      => $decade,                  // "1990s"
+            'themeDecade' => (int) substr($decade, 0, 4), // 1990  ✅
+            'year'        => $year,
+            'tab'         => $tab,
+            'items'       => $items,
+            'years'       => $years,
         ]);
     }
 

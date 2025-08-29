@@ -31,18 +31,11 @@
 
 <div
   id="theme-wrapper"
-  class="min-h-screen history-body overflow-x-hidden"
+  class="min-h-screen history-body overflow-x-hidden decade-{{ $themeDecade }}"
+  data-decade="{{ $themeDecade }}"
+  data-tab="{{ $tab }}"
   x-data="historyDrawerOnly('{{ $tab }}', '{{ $decade }}', '{{ $year ?? '' }}')"
-  :class="{
-    'decade-1960': decade==='1960s',
-    'decade-1970': decade==='1970s',
-    'decade-1980': decade==='1980s',
-    'decade-1990': decade==='1990s',
-    'decade-2000': decade==='2000s',
-    'decade-2010': decade==='2010s',
-    'decade-2020': decade==='2020s',
-    'drawer-open': drawerOpen
-  }"
+  :class="{ 'drawer-open': drawerOpen }"
   x-init="init()"
 >
   {{-- Mobile header --}}
@@ -179,24 +172,29 @@
         </div>
       @endif
 
-      {{-- Results list --}}
-      <ul class="space-y-3">
-        @foreach($items as $e)
-          @php
-            $display = $e['title'] ?? $e['name'] ?? $e['model'] ?? $e['driver'] ?? 'Untitled';
-            $blurb   = $e['bio'] ?? $e['summary'] ?? $e['description'] ?? '';
-          @endphp
-          <li class="history-card p-4 md:p-5 transition hover:bg-white/90">
-            <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $e['id']]) }}"
-               class="history-link history-title text-lg md:text-xl hover:underline">
-              {{ $display }}
-            </a>
-            @if($blurb !== '')
-              <p class="history-blurb mt-1 text-sm md:text-base">{{ $blurb }}</p>
-            @endif
-          </li>
-        @endforeach
-      </ul>
+      {{-- JS render target (history.js will populate this) --}}
+      <div id="history-content" class="min-h-[200px]"></div>
+
+      {{-- No-JS fallback (server-rendered list) --}}
+      <noscript>
+        <ul class="space-y-3 mt-4">
+          @foreach($items as $e)
+            @php
+              $display = $e['title'] ?? $e['name'] ?? $e['model'] ?? $e['driver'] ?? 'Untitled';
+              $blurb   = $e['bio'] ?? $e['summary'] ?? $e['description'] ?? '';
+            @endphp
+            <li class="history-card p-4 md:p-5 transition">
+              <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $e['id']]) }}"
+                 class="history-link history-title text-lg md:text-xl hover:underline">
+                {{ $display }}
+              </a>
+              @if($blurb !== '')
+                <p class="history-blurb mt-1 text-sm md:text-base">{{ $blurb }}</p>
+              @endif
+            </li>
+          @endforeach
+        </ul>
+      </noscript>
     </section>
   </div>
 </div>
