@@ -83,7 +83,7 @@
     <section class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
       {{-- LEFT: History features --}}
       <div class="lg:col-span-2">
-        <h2 class="text-center font-orbitron text-xl font-bold mb-2 text-stone-700 dark:text-stone-300">
+        <h2 class="text-center font-orbitron text-xl font-bold mb-2 text-slate-400 dark:text-stone-300">
           History Features
         </h2>
         <p class="text-center text-stone-500 dark:text-stone-400 text-sm mb-6">
