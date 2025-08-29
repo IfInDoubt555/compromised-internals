@@ -158,10 +158,9 @@ $seo = [
     @endif
 
     <section class="text-xs text-gray-500 self-end dark:text-stone-400">
-      <p>
-        Disclosure: Some links on this page are affiliate links. If you book through them, we may earn a small commission
-        at no extra cost to you. This helps keep Compromised Internals running. Thanks for the support! ❤️
-      </p>
+      <div class="mt-4 p-3 bg-gray-100 dark:bg-zinc-800 rounded text-sm text-gray-700 dark:text-gray-300">
+        <strong>Disclosure:</strong> Some links on this page are affiliate links. If you book through them, we may earn a small commission at no extra cost to you. This helps keep Compromised Internals running. Thanks for the support! ❤️
+      </div>
     </section>
   </div>
 </section>
