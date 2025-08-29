@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class Thread extends Model
 {
@@ -13,26 +14,27 @@ class Thread extends Model
 
     protected $casts = ['last_activity_at' => 'datetime'];
 
-    public function board(): BelongsTo
-    {
-        return $this->belongsTo(Board::class);
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function replies(): HasMany
-    {
-        return $this->hasMany(Reply::class);
-    }
+    public function board(): BelongsTo { return $this->belongsTo(Board::class); }
+    public function user(): BelongsTo  { return $this->belongsTo(User::class); }
+    public function replies(): HasMany  { return $this->hasMany(Reply::class); }
 
     public function tags(): BelongsToMany
     {
-        // Default pivot name is singular snake_case in alpha order: tag_thread
-        return $this->belongsToMany(Tag::class); 
-        // If your pivot is named thread_tag instead, use:
-        // return $this->belongsToMany(Tag::class, 'thread_tag');
+        return $this->belongsToMany(Tag::class); // change table name if your pivot differs
+    }
+
+    // Bind by slug (so Thread $thread resolves from /threads/{slug})
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (Thread $t) {
+            if (empty($t->slug) && !empty($t->title)) {
+                $t->slug = Str::slug($t->title);
+            }
+        });
     }
 }

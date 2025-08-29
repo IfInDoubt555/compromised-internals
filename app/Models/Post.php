@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Board; // <-- add this
+use App\Models\Board;
 use Illuminate\Support\Str;
 
 class Post extends Model
@@ -20,7 +20,7 @@ class Post extends Model
         'image_path',
         'user_id',
         'status',
-        'board_id', // <-- add this
+        'board_id',
     ];
 
     public function user()
@@ -28,7 +28,7 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function board() // <-- add this
+    public function board()
     {
         return $this->belongsTo(Board::class);
     }
@@ -55,10 +55,13 @@ class Post extends Model
         return 'slug';
     }
 
-    // Auto-generate excerpt if not set
+    // Auto-generate slug/excerpt when missing
     protected static function booted()
     {
         static::saving(function ($post) {
+            if (empty($post->slug) && !empty($post->title)) {
+                $post->slug = Str::slug($post->title);
+            }
             if (empty($post->excerpt) && !empty($post->body)) {
                 $post->excerpt = Str::limit(strip_tags($post->body), 100);
             }
@@ -71,7 +74,6 @@ class Post extends Model
         if ($this->image_path && file_exists(public_path('storage/' . $this->image_path))) {
             return asset('storage/' . $this->image_path);
         }
-
         return asset('images/default-post.png');
     }
 }
