@@ -14,10 +14,9 @@
     <!-- Set theme BEFORE CSS paints to avoid FOUC -->
     <script>
     (() => {
-      const saved = localStorage.getItem('ci-theme');
-      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-      const isDark = saved ? saved === 'dark' : !!prefersDark;
-      if (isDark) document.documentElement.classList.add('dark');
+      let isDark = false;
+      try { isDark = localStorage.getItem('ci-theme') === 'dark'; } catch {}
+      document.documentElement.classList.toggle('dark', isDark);
     })();
     </script>
 
