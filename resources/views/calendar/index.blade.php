@@ -98,7 +98,7 @@
             <div class="ci-card p-4">
               <h3 class="text-sm font-bold mb-2">Apple Calendar (iPhone / iPad / Mac)</h3>
               <a id="ics-apple-btn" href="{{ $webcal }}"
-                 class="inline-block w-full text-center px-3 py-2 rounded bg-stone-900 text-white text-sm font-semibold">
+                 class="inline-block w-full text-center px-3 py-2 rounded bg-[#1a73e8] text-white text-sm font-semibold">
                 Subscribe via Apple Calendar
               </a>
               <p class="mt-2 text-xs ci-muted">
