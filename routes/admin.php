@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\EmailController;
 use App\Http\Controllers\Admin\EventDayController;
 use App\Http\Controllers\Admin\StageController;
 use App\Http\Controllers\Admin\TravelHighlightController;
-
+use App\Http\Controllers\Admin\AffiliateClickController;
 
 /**
  * NOTE: This file is already wrapped in RouteServiceProvider with:
@@ -22,6 +22,12 @@ Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dash
 
 Route::get('/attributions', [AttributionController::class, 'index'])->name('attributions.index');
 Route::post('/attributions', [AttributionController::class, 'update'])->name('attributions.bulkUpdate');
+
+/* ---------- Affiliate Clicks ---------- */
+Route::get('/affiliates/clicks', [AffiliateClickController::class, 'index'])
+    ->name('admin.affiliates.clicks');
+Route::get('/affiliates/clicks/export', [AffiliateClickController::class, 'export'])
+    ->name('admin.affiliates.clicks.export');
 
 /* ---------- Admin Rally Events CRUD ---------- */
 Route::prefix('events')->name('events.')->group(function () {

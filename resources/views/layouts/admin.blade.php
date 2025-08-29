@@ -39,37 +39,44 @@
           <a href="{{ route('admin.attributions.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.attributions.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-            📸 Image Attributions
+           📸 Image Attributions
           </a>
 
           <a href="{{ route('admin.users.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.users.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-            👥 Manage Users
+          👥 Manage Users
           </a>
 
           <a href="{{ route('admin.posts.moderation') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.posts.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-            📝 Blog Moderation
+           📝 Blog Moderation
           </a>
 
           <a href="{{ route('admin.events.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.events.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-             🗓️ Rally Events
+           🗓️ Rally Events
           </a>
 
           <a href="{{ route('admin.emails.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.emails.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-            ✉️ Email Inbox
+           ✉️ Email Inbox
           </a>
 
           <a href="{{ route('admin.travel-highlights.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.travel-highlights.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-            🧭 Travel Highlights
+           🧭 Travel Highlights
+          </a>
+
+          {{-- NEW: Affiliate Clicks report --}}
+          <a href="{{ route('admin.affiliates.clicks') }}"
+             class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
+                    {{ request()->routeIs('admin.affiliates.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
+           📈 Affiliate Clicks
           </a>
         @endcan
       </nav>
