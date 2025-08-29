@@ -3,28 +3,21 @@
     <title>Login | Compromised Internals</title>
     <meta name="description" content="Log in to Compromised Internals to post, comment, and engage with the rally racing community.">
     <meta name="robots" content="noindex, nofollow">
-  @endpush
+  @endpush>
 
-  <div class="min-h-screen w-full overflow-hidden flex flex-col lg:flex-row items-center justify-center lg:justify-between
+  <div class="min-h-screen w-full overflow-hidden flex items-center justify-center px-4
               bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300
               dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
 
-    {{-- Left image --}}
-    <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-      <img src="{{ asset('images/login-left.png') }}"
-           alt="Night Stage Fire"
-           class="h-full w-full object-cover mask-fade-left brightness-90 contrast-110" />
-    </div>
-
     {{-- Auth card --}}
-    <div class="w-full max-w-none sm:max-w-lg lg:max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
+    <div class="w-full max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
                 bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
                 transition-shadow
                 hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
                 focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+                dark:bg-stone-900/80 dark:ring-white/10
                 dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
-                dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]
-                ">
+                dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
       <div class="text-center mb-4">
         <h2 class="text-4xl sm:text-3xl font-bold text-gray-800 dark:text-stone-100">Welcome Back</h2>
         <p class="mt-2 text-base sm:text-sm text-gray-500 dark:text-stone-400">Glad to have you back on the rally stage</p>
@@ -77,8 +70,8 @@
         <div class="flex items-center justify-between text-sm">
           <label for="remember_me" class="inline-flex items-center">
             <input id="remember_me" type="checkbox" name="remember"
-                   class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500
-                        dark:bg-stone-800 dark:border-white/10" />
+                   class="rounded border-gray-300 text-red-600 focus:ring-red-500
+                          dark:bg-stone-800 dark:border-white/10" />
             <span class="ml-2 text-gray-700 dark:text-stone-300">Remember me</span>
           </label>
 
@@ -110,13 +103,6 @@
           ← Back to Home
         </a>
       </div>
-    </div>
-
-    {{-- Right image --}}
-    <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-      <img src="{{ asset('images/login-right.png') }}"
-           alt="Rally Forest Charge"
-           class="h-full w-full object-cover mask-fade-right brightness-90 contrast-110" />
     </div>
   </div>
 

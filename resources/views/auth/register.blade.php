@@ -3,27 +3,21 @@
     <title>Register | Compromised Internals</title>
     <meta name="description" content="Join Compromised Internals to share your rally stories, comment on posts, and connect with the motorsport community.">
     <meta name="robots" content="noindex, nofollow">
-  @endpush
+  @endpush>
 
-  <div class="w-screen min-h-screen flex lg:flex-row flex-col items-center justify-center px-0 sm:px-6 lg:px-8 overflow-hidden
+  <div class="w-screen min-h-screen flex items-center justify-center px-4 overflow-hidden
               bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300
               dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
 
-    {{-- Left image --}}
-    <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-      <img src="{{ asset('images/reg-left-image.png') }}" alt="Sno-Drift Attack"
-           class="h-full w-full object-cover mask-fade-left brightness-90 contrast-110" />
-    </div>
-
     {{-- Auth card --}}
-    <div class="w-full max-w-none sm:max-w-lg lg:max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
-            bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
-            transition-shadow
-            hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
-            focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
-            dark:bg-stone-900/80 dark:ring-white/10
-            dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
-            dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
+    <div class="w-full max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
+                bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
+                transition-shadow
+                hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+                focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+                dark:bg-stone-900/80 dark:ring-white/10
+                dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+                dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
       <div class="text-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800 dark:text-stone-100">Join Compromised Internals</h2>
         <p class="mt-2 text-sm text-gray-500 dark:text-stone-400">Be part of the rally revolution 💨</p>
@@ -122,12 +116,6 @@
         </a>
       </div>
     </div>
-
-    {{-- Right image --}}
-    <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-      <img src="{{ asset('images/reg-right-image.png') }}" alt="Forest Push"
-           class="h-full w-full object-cover mask-fade-right brightness-90 contrast-110" />
-    </div>
   </div>
 
   @push('scripts')
@@ -140,16 +128,12 @@
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         if (typeof grecaptcha === 'undefined') return form.submit();
-
         grecaptcha.ready(function () {
           grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'register' })
             .then(function (token) {
               tokenInput.value = token;
-              if (typeof form.requestSubmit === 'function') {
-                form.requestSubmit();
-              } else {
-                form.submit();
-              }
+              if (typeof form.requestSubmit === 'function') form.requestSubmit();
+              else form.submit();
             })
             .catch(console.error);
         });
