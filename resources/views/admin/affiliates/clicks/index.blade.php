@@ -11,6 +11,18 @@
     <div class="ci-card p-4"><div class="text-sm ci-muted">Last 30 days</div><div class="text-2xl font-semibold">{{ $stats['30d'] }}</div></div>
   </div>
 
+  {{-- Charts --}}
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="ci-card p-4">
+      <h2 class="text-lg font-semibold mb-2">Clicks Over Time</h2>
+      <canvas id="clicksChart" height="120"></canvas>
+    </div>
+    <div class="ci-card p-4">
+      <h2 class="text-lg font-semibold mb-2">Clicks by Brand</h2>
+      <canvas id="brandChart" height="120"></canvas>
+    </div>
+  </div>
+
   {{-- Filters --}}
   <form method="GET" class="ci-card p-4 mb-6 grid md:grid-cols-6 gap-3">
     <select name="brand" class="ci-input">
@@ -68,3 +80,66 @@
   <div class="mt-4">{{ $clicks->links() }}</div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Fetch daily clicks
+  fetch("{{ route('admin.affiliates.clicks.chart') }}")
+    .then(r => r.json())
+    .then(data => {
+      const labels = Object.keys(data);
+      const values = Object.values(data);
+
+      new Chart(document.getElementById('clicksChart'), {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Clicks',
+            data: values,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.2)',
+            tension: 0.2,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { title: { display: true, text: 'Date' }},
+            y: { title: { display: true, text: 'Clicks' }, beginAtZero: true }
+          }
+        }
+      });
+    });
+
+  // Fetch brand breakdown
+  fetch("{{ route('admin.affiliates.clicks.chart') }}?group=brand")
+    .then(r => r.json())
+    .then(data => {
+      const labels = Object.keys(data);
+      const values = Object.values(data);
+
+      new Chart(document.getElementById('brandChart'), {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    });
+});
+</script>
+@endpush

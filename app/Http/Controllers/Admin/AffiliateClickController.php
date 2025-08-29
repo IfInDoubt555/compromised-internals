@@ -61,4 +61,18 @@ class AffiliateClickController extends Controller
             fclose($out);
         }, $file, ['Content-Type' => 'text/csv']);
     }
+
+    /**
+     * Return JSON data for clicks per day for the last 30 days.
+     */
+    public function chartData()
+    {
+        $byDay = \App\Models\AffiliateClick::selectRaw('DATE(created_at) as date, count(*) as total')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->pluck('total', 'date');
+
+        return response()->json($byDay);
+    }
+
 }

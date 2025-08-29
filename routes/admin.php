@@ -30,6 +30,9 @@ Route::get('/affiliates/clicks', [AffiliateClickController::class, 'index'])
 Route::get('/affiliates/clicks/export', [AffiliateClickController::class, 'export'])
     ->name('affiliates.clicks.export');
 
+    Route::get('/affiliates/clicks/chart-data', [AffiliateClickController::class, 'chartData'])
+    ->name('affiliates.clicks.chart');
+
 /* ---------- Admin Rally Events CRUD ---------- */
 Route::prefix('events')->name('events.')->group(function () {
     // Main CRUD (admin.events.*)

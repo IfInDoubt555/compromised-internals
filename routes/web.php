@@ -31,7 +31,10 @@ use App\Http\Controllers\AffiliateRedirectController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/out', AffiliateRedirectController::class)->name('out');
+/* ------------------ Affiliate ------------*/
+Route::get('/out', AffiliateRedirectController::class)
+    ->middleware('throttle:300,1') // 300 requests per minute per IP
+    ->name('out');
 
 /* ----------------- Boards (public) ----------------- */
 Route::get('/boards', [BoardController::class, 'index'])->name('boards.index');
