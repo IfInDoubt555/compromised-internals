@@ -211,32 +211,35 @@
         </article>
       @endif
 
-      <ul class="mt-8 divide-y divide-stone-200 dark:divide-white/10">
-        @foreach($rest as $post)
-          <li class="py-5">
-            <a href="{{ route('posts.show', $post->slug) }}" class="grid sm:grid-cols-[160px_1fr] gap-5 items-center group">
-              <div class="aspect-[16/10] w-full sm:w-40 overflow-hidden rounded-lg ring-1 ring-black/10 bg-stone-100
-                          dark:ring-white/10 dark:bg-stone-800">
-                <img
-                  src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path) ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
-                  alt="{{ $post->title }}"
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
-              </div>
-              <div>
-                <div class="text-xs text-stone-600 dark:text-stone-400">
-                  <span class="font-medium">{{ $post->user?->name ?? 'Unknown' }}</span>
-                  <span>•</span>
-                  <time datetime="{{ $post->created_at->toDateString() }}">{{ $post->created_at->format('M j, Y') }}</time>
+      <div class="mt-8 rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow
+            dark:bg-stone-900/70 dark:ring-white/10 overflow-hidden">
+        <ul class="divide-y divide-stone-200/70 dark:divide-white/10">
+          @foreach($rest as $post)
+            <li class="p-5">
+              <a href="{{ route('posts.show', $post->slug) }}" class="grid sm:grid-cols-[160px_1fr] gap-5 items-center group">
+                <div class="aspect-[16/10] w-full sm:w-40 overflow-hidden rounded-lg ring-1 ring-black/10 bg-stone-100
+                            dark:ring-white/10 dark:bg-stone-800">
+                  <img
+                    src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path) ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
+                    alt="{{ $post->title }}"
+                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
                 </div>
-                <h4 class="mt-1 font-orbitron text-xl font-bold group-hover:underline">
-                  {{ $post->title }}
-                </h4>
-                <p class="mt-1 text-stone-700 dark:text-stone-300 line-clamp-2">{{ $post->excerpt }}</p>
-              </div>
-            </a>
-          </li>
-        @endforeach
-      </ul>
+                <div>
+                  <div class="text-xs text-stone-600 dark:text-stone-400">
+                    <span class="font-medium">{{ $post->user?->name ?? 'Unknown' }}</span>
+                    <span>•</span>
+                    <time datetime="{{ $post->created_at->toDateString() }}">{{ $post->created_at->format('M j, Y') }}</time>
+                  </div>
+                  <h4 class="mt-1 font-orbitron text-xl font-bold group-hover:underline">
+                    {{ $post->title }}
+                  </h4>
+                  <p class="mt-1 text-stone-700 dark:text-stone-300 line-clamp-2">{{ $post->excerpt }}</p>
+                </div>
+              </a>
+            </li>
+          @endforeach
+        </ul>
+      </div>
 
       @if(method_exists($posts, 'links'))
         <div class="mt-6">{{ $posts->links() }}</div>
