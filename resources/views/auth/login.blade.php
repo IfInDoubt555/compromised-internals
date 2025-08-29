@@ -77,8 +77,8 @@
         <div class="flex items-center justify-between text-sm">
           <label for="remember_me" class="inline-flex items-center">
             <input id="remember_me" type="checkbox" name="remember"
-                   class="rounded border-gray-300 text-red-600 focus:ring-red-500
-                          dark:bg-stone-800 dark:border-white/10" />
+                   class="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500
+                        dark:bg-stone-800 dark:border-white/10" />
             <span class="ml-2 text-gray-700 dark:text-stone-300">Remember me</span>
           </label>
 
