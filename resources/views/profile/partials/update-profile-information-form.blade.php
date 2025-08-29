@@ -1,7 +1,7 @@
 <section>
     <header>
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">Update Profile Information</h2>
-        <p class="text-sm text-gray-600">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2 dark:text-stone-100">Update Profile Information</h2>
+        <p class="text-sm text-gray-600 dark:text-stone-400">
             Update your account's profile information and email address.
         </p>
     </header>
@@ -15,7 +15,7 @@
     <form method="POST"
           action="{{ route('profile.update') }}"
           enctype="multipart/form-data"
-          class="mt-6 space-y-6">
+          class="mt-6 space-y-6 dark:text-stone-200">
         @csrf
         @method('PATCH')
 
@@ -40,16 +40,18 @@
 
         @if($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
             <div>
-                <p class="text-sm mt-2 text-gray-800">
+                <p class="text-sm mt-2 text-gray-800 dark:text-stone-100">
                     Your email address is unverified.
                     <button form="send-verification"
-                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="underline text-sm text-gray-600 hover:text-gray-900
+                                   dark:text-stone-300 dark:hover:text-stone-100
+                                   rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Click here to re-send the verification email.
                     </button>
                 </p>
 
                 @if(session('status') === 'verification-link-sent')
-                    <p class="mt-2 font-medium text-sm text-green-600">
+                    <p class="mt-2 font-medium text-sm text-green-600 dark:text-emerald-400">
                         A new verification link has been sent to your email address.
                     </p>
                 @endif
@@ -58,7 +60,7 @@
 
         <!-- Profile Picture -->
         <div>
-            <label for="profile_picture" class="block text-sm font-medium text-gray-700 mb-1">
+            <label for="profile_picture" class="block text-sm font-medium text-gray-700 mb-1 dark:text-stone-300">
                 Profile Picture
             </label>
 
@@ -69,13 +71,15 @@
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
                     onchange="previewAvatar(event)"
-                    class="file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition text-sm border border-gray-300 rounded-xl w-full max-w-sm"
+                    class="file:px-3 file:py-2 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition text-sm
+                           border border-gray-300 rounded-xl w-full max-w-sm
+                           dark:bg-stone-800 dark:border-white/10 dark:text-stone-200"
                 />
 
                 <script>
                     function previewAvatar(e) {
                         const [file] = e.target.files;
-                        if (! file) return;
+                        if (!file) return;
                         const reader = new FileReader();
                         reader.onload = ev => {
                             document.getElementById('avatar-preview').src = ev.target.result;
@@ -88,60 +92,40 @@
                     id="avatar-preview"
                     src="{{ $user->profile_picture_url }}"
                     alt="Avatar Preview"
-                    class="w-28 h-28 rounded-full object-cover shadow"
+                    class="w-28 h-28 rounded-full object-cover shadow ring-1 ring-black/5 dark:ring-white/10"
                 />
             </div>
 
-            <p class="text-xs text-gray-500 mt-1">
+            <p class="text-xs text-gray-500 mt-1 dark:text-stone-400">
                 Max file size: 2MB. Formats: JPG, PNG, WebP
             </p>
 
             @error('profile_picture')
-                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                <p class="text-sm text-red-600 mt-1 dark:text-rose-400">{{ $message }}</p>
             @enderror
         </div>
 
         <!-- Extended Profile Details -->
-        <h2 class="text-lg font-semibold text-gray-700 mb-2">Profile Details</h2>
+        <h2 class="text-lg font-semibold text-gray-700 mb-2 dark:text-stone-100">Profile Details</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <x-input
-                name="display_name"
-                label="Display Name"
-                value="{{ old('display_name', $user->profile->display_name ?? '') }}"
-            />
+            <x-input name="display_name" label="Display Name"
+                     value="{{ old('display_name', $user->profile->display_name ?? '') }}" />
 
-            <x-input
-                name="location"
-                label="Location"
-                value="{{ old('location', $user->profile->location ?? '') }}"
-            />
+            <x-input name="location" label="Location"
+                     value="{{ old('location', $user->profile->location ?? '') }}" />
 
-            <x-input
-                name="rally_fan_since"
-                label="Rally Fan Since"
-                type="number"
-                value="{{ old('rally_fan_since', $user->profile->rally_fan_since ?? '') }}"
-            />
+            <x-input name="rally_fan_since" label="Rally Fan Since" type="number"
+                     value="{{ old('rally_fan_since', $user->profile->rally_fan_since ?? '') }}" />
 
-            <x-input
-                name="birthday"
-                label="Birthday"
-                type="date"
-                value="{{ old('birthday', $user->profile->birthday ?? '') }}"
-            />
+            <x-input name="birthday" label="Birthday" type="date"
+                     value="{{ old('birthday', $user->profile->birthday ?? '') }}" />
 
-            <x-input
-                name="favorite_driver"
-                label="Favorite Driver"
-                value="{{ old('favorite_driver', $user->profile->favorite_driver ?? '') }}"
-            />
+            <x-input name="favorite_driver" label="Favorite Driver"
+                     value="{{ old('favorite_driver', $user->profile->favorite_driver ?? '') }}" />
 
-            <x-input
-                name="favorite_car"
-                label="Favorite Car"
-                value="{{ old('favorite_car', $user->profile->favorite_car ?? '') }}"
-            />
+            <x-input name="favorite_car" label="Favorite Car"
+                     value="{{ old('favorite_car', $user->profile->favorite_car ?? '') }}" />
         </div>
 
         @php
@@ -155,36 +139,40 @@
         @endphp
 
         <div>
-            <label for="rally_role" class="block text-sm font-medium text-gray-700">
+            <label for="rally_role" class="block text-sm font-medium text-gray-700 dark:text-stone-300">
                 Rally Role
             </label>
 
             <select
                 name="rally_role"
                 id="rally_role"
-                class="w-auto max-w-xs rounded-xl border-gray-300 shadow-sm px-4 py-2 text-sm"
+                class="w-auto max-w-xs rounded-xl border-gray-300 shadow-sm px-4 py-2 text-sm
+                       dark:bg-stone-800 dark:border-white/10 dark:text-stone-100"
             >
                 <option value="">Select a role…</option>
                 @foreach($roles as $role)
-                    <option value="{{ $role }}" @selected($selectedRole === $role)>
-                        {{ $role }}
-                    </option>
+                    <option value="{{ $role }}" @selected($selectedRole === $role)>{{ $role }}</option>
                 @endforeach
             </select>
 
             @error('rally_role')
-                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                <p class="text-sm text-red-600 mt-1 dark:text-rose-400">{{ $message }}</p>
             @enderror
         </div>
 
-        <x-textarea name="bio" label="About Me" class="mt-4">
+        {{-- Tweak the textarea + label in dark without touching the component internals --}}
+        <x-textarea
+            name="bio"
+            label="About Me"
+            class="mt-4 dark:[&_label]:text-stone-300 dark:[&_textarea]:bg-stone-800 dark:[&_textarea]:text-stone-100 dark:[&_textarea]:border-white/10"
+        >
             {{ old('bio', $user->profile->bio ?? '') }}
         </x-textarea>
 
         <div class="flex items-center gap-4 mt-6">
             <button
                 type="submit"
-                class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700 transition"
+                class="bg-blue-600 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-700"
             >
                 💾 Save
             </button>
@@ -194,7 +182,7 @@
                     x-data="{ show: true }"
                     x-show="show"
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
+                    class="text-sm text-gray-600 dark:text-stone-400"
                 >
                     Saved.
                 </p>

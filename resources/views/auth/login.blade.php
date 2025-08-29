@@ -78,8 +78,7 @@
 
                 <!-- Submit -->
                 <div class="text-center">
-                    <x-primary-button class="w-full justify-center py-3 text-lg">
-                        {{ __('Log in') }}
+                    <x-primary-button class="w-full justify-center py-3 text-lg">Log in
                     </x-primary-button>
                 </div>
             </form>

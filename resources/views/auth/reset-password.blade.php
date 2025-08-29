@@ -3,7 +3,7 @@
         @csrf
 
         <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+        <input type="hidden" name="token" value="{{ $token }}">
 
         <!-- Email Address -->
         <div>
@@ -31,8 +31,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
+            <x-primary-button>Reset Password
             </x-primary-button>
         </div>
     </form>
