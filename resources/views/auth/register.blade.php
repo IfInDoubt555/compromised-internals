@@ -19,10 +19,6 @@
                 bg-white shadow-2xl border border-gray-100
                 dark:bg-stone-900/80 dark:border-white/10 dark:shadow-black/20">
       <div class="text-center mb-6">
-        <div class="p-4 mb-4 rounded-lg border border-yellow-400 bg-yellow-100 text-yellow-900 shadow-md text-sm animate-fade-in
-                    dark:bg-amber-900/30 dark:text-amber-200 dark:border-amber-400/30">
-          ⚠️ <strong>Testing Notice:</strong> You may now register with a real email…
-        </div>
         <h2 class="text-3xl font-bold text-gray-800 dark:text-stone-100">Join Compromised Internals</h2>
         <p class="mt-2 text-sm text-gray-500 dark:text-stone-400">Be part of the rally revolution 💨</p>
       </div>

@@ -62,10 +62,6 @@
                class="inline-flex items-center rounded-lg bg-amber-400/90 text-stone-900 px-3 py-2 text-sm font-semibold hover:bg-amber-400 transition">
               Leave feedback
             </a>
-            <a href="{{ route('security.policy') }}"
-               class="inline-flex items-center rounded-lg bg-sky-400/90 text-stone-900 px-3 py-2 text-sm font-semibold hover:bg-sky-400 transition">
-              Report a security issue
-            </a>
           </div>
         </div>
       </div>
