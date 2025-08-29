@@ -2,28 +2,55 @@
 
 @php
     $seo = [
-        'title'       => 'Rally Blog – Latest Rally News & Articles | Compromised Internals',
-        'description' => 'Dive into the Compromised Internals Rally Blog for the latest news, in-depth articles, event coverage, and expert analysis on drivers, cars, and competitions.',
+        'title'       => 'Rally Blog | News, Articles & Event Coverage – Compromised Internals',
+        'description' => 'Explore the Compromised Internals Rally Blog: news, site updates, and community posts on travel, WRC live threads, sim racing, photography, and more – all in one hub.',
         'url'         => url()->current(),
         'image'       => asset('images/default-post.png'),
+    ];
+
+    $ld = [
+        '@context' => 'https://schema.org',
+        '@type'    => 'CollectionPage',
+        'url'      => $seo['url'],
+        'name'     => 'Rally Blog',
+        'description' => $seo['description'],
+        'isPartOf' => [
+            '@type' => 'WebSite',
+            'name'  => 'Compromised Internals',
+            'url'   => url('/'),
+        ],
     ];
 @endphp
 
 @push('head')
+    {{-- Canonical + robots --}}
+    <link rel="canonical" href="{{ $seo['url'] }}">
+    <meta name="robots" content="index,follow">
+
+    {{-- Basic Meta --}}
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
 
-    <meta property="og:type"        content="website">
-    <meta property="og:url"         content="{{ $seo['url'] }}">
-    <meta property="og:title"       content="{{ $seo['title'] }}">
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compromised Internals">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="{{ $seo['url'] }}">
+    <meta property="og:title" content="{{ $seo['title'] }}">
     <meta property="og:description" content="{{ $seo['description'] }}">
-    <meta property="og:image"       content="{{ $seo['image'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
 
-    <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:url"         content="{{ $seo['url'] }}">
-    <meta name="twitter:title"       content="{{ $seo['title'] }}">
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $seo['url'] }}">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
-    <meta name="twitter:image"       content="{{ $seo['image'] }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
+
+    {{-- Structured Data --}}
+    <script type="application/ld+json">
+        @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+    </script>
 @endpush
 
 @section('content')

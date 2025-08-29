@@ -1,8 +1,33 @@
 @extends('layouts.app')
 
+@php
+$seo = [
+    'title'       => 'Plan Your Rally Trip | Hotels, Flights & Travel Guides – Compromised Internals',
+    'description' => 'Plan your rally adventure with Compromised Internals: find hotels, flights, car rentals, and camping options near WRC, ERC, and ARA events worldwide.',
+    'url'         => url()->current(),
+    'image'       => asset('images/travel-og.png'),
+];
+@endphp
+
 @push('head')
-    <title>Plan Your Trip | Compromised Internals</title>
-    <meta name="description" content="Plan rally trips with hotels, camping, flights, and car rentals in one place.">
+    <link rel="canonical" href="{{ $seo['url'] }}">
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}">
+
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compromised Internals">
+    <meta property="og:url" content="{{ $seo['url'] }}">
+    <meta property="og:title" content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
+
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $seo['url'] }}">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
 @endpush
 
 @section('content')

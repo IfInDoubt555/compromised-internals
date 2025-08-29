@@ -2,8 +2,8 @@
 
 @php
     $seo = [
-        'title'       => 'Rally Events Calendar | Compromised Internals',
-        'description' => 'Explore upcoming and past rally events in our interactive calendar. Find dates, locations & detailed info for every rally.',
+        'title'       => 'Rally Events Calendar | Dates, Stages & Schedule – Compromised Internals',
+        'description' => 'Browse the rally events calendar by year and championship. See dates, stage lists, locations, start times, and add events to your own calendar.',
         'url'         => url()->current(),
         'image'       => asset('images/calendar-og.png'),
     ];
@@ -16,24 +16,57 @@
 
     $webcal     = preg_replace('#^https?://#', 'webcal://', $feedRoute);
     $gcalAddUrl = 'https://calendar.google.com/calendar/r?cid=' . urlencode($feedRoute);
+
+    // JSON-LD: Calendar as a collection of events
+    $ld = [
+        '@context' => 'https://schema.org',
+        '@type'    => 'CollectionPage',
+        'url'      => $seo['url'],
+        'name'     => 'Rally Events Calendar',
+        'isPartOf' => [
+            '@type' => 'WebSite',
+            'name'  => 'Compromised Internals',
+            'url'   => url('/'),
+        ],
+        'description' => $seo['description'],
+        // Optional: site search from the calendar page
+        'potentialAction' => [
+            '@type'       => 'SearchAction',
+            'target'      => url('/calendar') . '?q={search_term_string}',
+            'query-input' => 'required name=search_term_string',
+        ],
+    ];
 @endphp
 
 @push('head')
+    {{-- Canonical + robots --}}
+    <link rel="canonical" href="{{ $seo['url'] }}">
+    <meta name="robots" content="index,follow">
+
+    {{-- Basic Meta --}}
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
 
-    <meta property="og:type"        content="website">
-    <meta property="og:site_name"   content="Compromised Internals">
-    <meta property="og:url"         content="{{ $seo['url'] }}">
-    <meta property="og:title"       content="{{ $seo['title'] }}">
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compromised Internals">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="{{ $seo['url'] }}">
+    <meta property="og:title" content="{{ $seo['title'] }}">
     <meta property="og:description" content="{{ $seo['description'] }}">
-    <meta property="og:image"       content="{{ $seo['image'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
 
-    <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:url"         content="{{ $seo['url'] }}">
-    <meta name="twitter:title"       content="{{ $seo['title'] }}">
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $seo['url'] }}">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
-    <meta name="twitter:image"       content="{{ $seo['image'] }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
+
+    {{-- Structured Data --}}
+    <script type="application/ld+json">
+        @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+    </script>
 
     {{-- Provide URL templates to app.js so it can swap year & champ --}}
     <script>
@@ -43,7 +76,6 @@
         document.body.dataset.downloadTpl = "{{ url('/calendar/download/{year}.ics') }}";
       });
     </script>
-
 @endpush
 
 @section('content')

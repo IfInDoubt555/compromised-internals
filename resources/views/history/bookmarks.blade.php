@@ -3,27 +3,55 @@
 
 @php
     $seo = [
-        'title'       => 'Rally History Archive | Compromised Internals',
-        'description' => 'Explore rally legends, iconic cars, and pivotal events from the 1960s to today in our interactive history archive.',
+        'title'       => 'Rally History Archive | Decades of Events, Drivers & Cars – Compromised Internals',
+        'description' => 'Dive into rally history: explore legendary events, iconic cars, and drivers from the 1960s through today in our interactive archive, organized by decade.',
         'url'         => url()->current(),
         'image'       => asset('images/history-og.png'),
+    ];
+
+    $ld = [
+        '@context' => 'https://schema.org',
+        '@type'    => 'CollectionPage',
+        'url'      => $seo['url'],
+        'name'     => 'Rally History Archive',
+        'description' => $seo['description'],
+        'isPartOf' => [
+            '@type' => 'WebSite',
+            'name'  => 'Compromised Internals',
+            'url'   => url('/'),
+        ],
     ];
 @endphp
 
 @push('head')
+    {{-- Canonical + robots --}}
+    <link rel="canonical" href="{{ $seo['url'] }}">
+    <meta name="robots" content="index,follow">
+
+    {{-- Basic Meta --}}
     <title>{{ $seo['title'] }}</title>
-    <meta name="description" content="{{ $seo['description'] }}" />
-    <meta property="og:type"        content="website" />
-    <meta property="og:site_name"   content="Compromised Internals" />
-    <meta property="og:url"         content="{{ $seo['url'] }}" />
-    <meta property="og:title"       content="{{ $seo['title'] }}" />
-    <meta property="og:description" content="{{ $seo['description'] }}" />
-    <meta property="og:image"       content="{{ $seo['image'] }}" />
-    <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:url"         content="{{ $seo['url'] }}">
-    <meta name="twitter:title"       content="{{ $seo['title'] }}">
+    <meta name="description" content="{{ $seo['description'] }}">
+
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compromised Internals">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="{{ $seo['url'] }}">
+    <meta property="og:title" content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
+
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $seo['url'] }}">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
-    <meta name="twitter:image"       content="{{ $seo['image'] }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
+
+    {{-- Structured Data --}}
+    <script type="application/ld+json">
+        @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+    </script>
 @endpush
 
 @section('content')

@@ -2,46 +2,61 @@
 
 @php
     $seo = [
-        'title'       => 'Compromised Internals | Rally Racing News, History & Events',
-        'description' => 'Your one-stop hub for rally racing: daily news, interactive history, upcoming event calendar, driver & car profiles, and community insights.',
+        'title'       => 'Compromised Internals | Rally Racing News, History, Calendar & Travel Guides',
+        'description' => 'Your rally racing hub: history archive, event calendar, driver & car profiles, plus travel guides to help fans plan trips to WRC, ERC & ARA rallies worldwide.',
         'url'         => url('/'),
         'image'       => asset('images/ci-og.png'),
         'favicon'     => asset('favicon.png'),
     ];
+
+    // JSON-LD WebSite with site search
+    $ld = [
+        '@context' => 'https://schema.org',
+        '@type'    => 'WebSite',
+        'url'      => $seo['url'],
+        'name'     => 'Compromised Internals',
+        'potentialAction' => [
+            '@type'       => 'SearchAction',
+            'target'      => url('/blog') . '?q={search_term_string}',
+            'query-input' => 'required name=search_term_string',
+        ],
+    ];
 @endphp
 
 @push('head')
+    {{-- Favicon --}}
     <link rel="icon" href="{{ $seo['favicon'] }}" type="image/png" />
+
+    {{-- Canonical + robots --}}
+    <link rel="canonical" href="{{ $seo['url'] }}">
+    <meta name="robots" content="index,follow">
+
+    {{-- Basic Meta --}}
     <title>{{ $seo['title'] }}</title>
-    <meta name="description" content="{{ $seo['description'] }}" />
-    <meta property="og:type"        content="website" />
-    <meta property="og:site_name"   content="Compromised Internals" />
-    <meta property="og:url"         content="{{ $seo['url'] }}" />
-    <meta property="og:title"       content="{{ $seo['title'] }}" />
-    <meta property="og:description" content="{{ $seo['description'] }}" />
-    <meta property="og:image"       content="{{ $seo['image'] }}" />
-    <meta name="twitter:card"        content="summary_large_image" />
-    <meta name="twitter:url"         content="{{ $seo['url'] }}" />
-    <meta name="twitter:title"       content="{{ $seo['title'] }}" />
-    <meta name="twitter:description" content="{{ $seo['description'] }}" />
-    <meta name="twitter:image"       content="{{ $seo['image'] }}" />
+    <meta name="description" content="{{ $seo['description'] }}">
 
-    @php
-    $ld = [
-      '@context' => 'https://schema.org',
-      '@type'    => 'WebSite',
-      'url'      => $seo['url'],
-      'name'     => 'Compromised Internals',
-      'potentialAction' => [
-        '@type'        => 'SearchAction',
-        'target'       => url('/blog') . '?q={search_term_string}',
-        'query-input'  => 'required name=search_term_string',
-      ],
-    ];
-    @endphp
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compromised Internals">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="{{ $seo['url'] }}">
+    <meta property="og:title" content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
+    {{-- (Optional) help some scrapers with dimensions if you know them --}}
+    {{-- <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630"> --}}
 
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $seo['url'] }}">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
+
+    {{-- Structured Data --}}
     <script type="application/ld+json">
-    @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+        @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 @endpush
 
