@@ -17,8 +17,13 @@
 
     {{-- Auth card --}}
     <div class="w-full max-w-none sm:max-w-lg lg:max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
-                bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
-                dark:bg-stone-900/80 dark:ring-white/10">
+            bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
+            transition-shadow
+            hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+            focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+            dark:bg-stone-900/80 dark:ring-white/10
+            dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+            dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
       <div class="text-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800 dark:text-stone-100">Join Compromised Internals</h2>
         <p class="mt-2 text-sm text-gray-500 dark:text-stone-400">Be part of the rally revolution 💨</p>

@@ -19,8 +19,12 @@
     {{-- Auth card --}}
     <div class="w-full max-w-none sm:max-w-lg lg:max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
                 bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
-                hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]
-                dark:bg-stone-900/80 dark:ring-white/10 dark:hover:shadow-[0_0_60px_rgba(244,63,94,0.15)]">
+                transition-shadow
+                hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+                focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+                dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+                dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+                ">
       <div class="text-center mb-4">
         <h2 class="text-4xl sm:text-3xl font-bold text-gray-800 dark:text-stone-100">Welcome Back</h2>
         <p class="mt-2 text-base sm:text-sm text-gray-500 dark:text-stone-400">Glad to have you back on the rally stage</p>
