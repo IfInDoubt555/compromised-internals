@@ -27,8 +27,11 @@ use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CalendarExportController;
 use App\Http\Controllers\TravelPageController;
+use App\Http\Controllers\AffiliateRedirectController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/out', AffiliateRedirectController::class)->name('out');
 
 /* ----------------- Boards (public) ----------------- */
 Route::get('/boards', [BoardController::class, 'index'])->name('boards.index');
