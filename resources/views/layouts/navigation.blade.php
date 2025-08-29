@@ -1,12 +1,12 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white/80 border-b border-gray-100 dark:bg-zinc-900/80 dark:border-zinc-800 backdrop-blur">
   <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
 
     {{-- ===================== ROW 1: Logo | Admin Panel | Auth + Theme ===================== --}}
     <div class="grid grid-cols-3 items-center h-16">
       {{-- Left: Logo --}}
       <div class="justify-self-start flex items-center space-x-2 whitespace-nowrap">
-        <a href="{{ route('home') }}" class="text-xl font-bold text-red-600 whitespace-nowrap">
-          Compromised Internals
+        <a href="{{ route('home') }}" class="text-xl font-bold text-red-600 dark:text-red-400 whitespace-nowrap">
+            Compromised Internals
         </a>
       </div>
 
@@ -14,7 +14,7 @@
       <div class="justify-self-center">
         @can('access-admin')
           <a href="{{ route('admin.dashboard') }}"
-             class="inline-block rounded px-2 py-1 text-sm font-semibold text-blue-700 hover:underline">
+             class="inline-block rounded px-2 py-1 text-sm font-semibold text-blue-700 dark:text-blue-400 hover:underline">
             Admin Panel
           </a>
         @endcan
@@ -25,7 +25,7 @@
         @auth
           <x-dropdown align="right" width="48">
             <x-slot name="trigger">
-              <button class="hidden sm:inline-flex items-center px-3 py-2 text-sm lg:text-lg font-semibold text-gray-500 hover:text-gray-700 transition whitespace-nowrap">
+              <button class="hidden sm:inline-flex items-center px-3 py-2 text-sm lg:text-lg font-semibold text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition whitespace-nowrap">
                 {{ Auth::user()->name }}
                 <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.91l3.71-3.7a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
@@ -89,7 +89,7 @@
 
         {{-- Hamburger (mobile only) --}}
         <button @click="open = ! open"
-                class="lg:hidden p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md focus:outline-none">
+                class="lg:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-zinc-800 rounded-md focus:outline-none">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                   stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -110,9 +110,9 @@
     @endphp
 
     {{-- ===================== ROW 2: Primary Nav (desktop) ===================== --}}
-    <div class="hidden lg:block">
+<div class="hidden lg:block text-gray-800 dark:text-gray-200">
       <div class="py-2">
-        <div class="flex items-center justify-center gap-x-6 gap-y-2 text-sm lg:text-base whitespace-nowrap overflow-x-auto no-scrollbar">
+         <div class="flex items-center justify-center gap-x-6 gap-y-2 text-sm lg:text-base whitespace-nowrap overflow-x-auto no-scrollbar">
           <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')" class="whitespace-nowrap">Home</x-nav-link>
 
           <x-nav-link href="{{ $url('calendar.index','/calendar') }}"
@@ -148,10 +148,9 @@
   </div>
 
   {{-- ===================== Mobile Dropdown (unchanged behavior) ===================== --}}
-  <div :class="{ 'block': open, 'hidden': !open }" class="hidden lg:hidden text-sm lg:text-base whitespace-nowrap">
-    <div class="pt-2 pb-3 space-y-1">
+    <div :class="{ 'block': open, 'hidden': !open }" class="hidden lg:hidden text-sm lg:text-base whitespace-nowrap bg-white/95 dark:bg-zinc-900/95 text-gray-800 dark:text-gray-200">    <div class="pt-2 pb-3 space-y-1">
       @auth
-        <div class="px-4 border-t border-gray-200 pt-4 pb-1">
+        <div class="px-4 border-t border-gray-200 dark:border-zinc-800 pt-4 pb-1">
           <div class="font-medium text-base text-gray-800 whitespace-nowrap">{{ Auth::user()->name }}</div>
           <div class="font-medium text-sm text-gray-500 whitespace-nowrap">{{ Auth::user()->email }}</div>
         </div>
