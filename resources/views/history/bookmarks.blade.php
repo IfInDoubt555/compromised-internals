@@ -172,29 +172,27 @@
         </div>
       @endif
 
-      {{-- JS render target (history.js will populate this) --}}
-      <div id="history-content" class="min-h-[200px]"></div>
+      <ul class="space-y-3">
+        @foreach($items as $e)
+          @php
+            $display = $e['title'] ?? $e['name'] ?? $e['model'] ?? $e['driver'] ?? 'Untitled';
+            $blurb   = $e['bio'] ?? $e['summary'] ?? $e['description'] ?? '';
+            $href    = route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $e['id']]);
+          @endphp
 
-      {{-- No-JS fallback (server-rendered list) --}}
-      <noscript>
-        <ul class="space-y-3 mt-4">
-          @foreach($items as $e)
-            @php
-              $display = $e['title'] ?? $e['name'] ?? $e['model'] ?? $e['driver'] ?? 'Untitled';
-              $blurb   = $e['bio'] ?? $e['summary'] ?? $e['description'] ?? '';
-            @endphp
-            <li class="history-card p-4 md:p-5 transition">
-              <a href="{{ route('history.show', ['tab' => $tab, 'decade' => $decade, 'id' => $e['id']]) }}"
-                 class="history-link history-title text-lg md:text-xl hover:underline">
-                {{ $display }}
+          <li class="history-card p-4 md:p-5 transition hover:bg-white/90">
+            <a href="{{ $href }}" class="history-link history-title text-lg md:text-xl hover:underline">
+              {{ $display }}
+            </a>
+            @if($blurb !== '')
+              <p class="history-blurb mt-1 text-sm md:text-base">{{ $blurb }}</p>
+              <a href="{{ $href }}" class="mt-2 inline-flex items-center text-blue-700 hover:underline text-sm">
+                Read More
               </a>
-              @if($blurb !== '')
-                <p class="history-blurb mt-1 text-sm md:text-base">{{ $blurb }}</p>
-              @endif
-            </li>
-          @endforeach
-        </ul>
-      </noscript>
+            @endif
+          </li>
+        @endforeach
+      </ul>
     </section>
   </div>
 </div>
