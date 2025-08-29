@@ -71,18 +71,18 @@
     </div>
 
     {{-- Calendar --}}
-    <div id="calendar" class="bg-white rounded shadow p-4"></div>
+    <div id="calendar" class="ci-card p-4"></div>
 
     {{-- Subscribe / Download (hidden in a drawer) --}}
     <details class="mt-6 group">
-        <summary class="cursor-pointer select-none flex items-center justify-between rounded-lg bg-gray-100 hover:bg-gray-200 px-4 py-3 text-sm font-semibold">
+        <summary class="cursor-pointer select-none flex items-center justify-between rounded-lg ring-1 ring-stone-900/5 dark:ring-white/10 bg-stone-100/70 dark:bg-stone-800/40 hover:bg-stone-100/90 dark:hover:bg-stone-800/60 px-4 py-3 text-sm font-semibold">
             <span>Subscribe / Download calendar options</span>
             <span class="ml-3 text-gray-500 group-open:rotate-180 transition-transform">▾</span>
         </summary>
 
         <div class="mt-4 grid gap-4 md:grid-cols-3">
             {{-- Google --}}
-            <div class="rounded-lg border border-gray-200 bg-white p-4">
+            <div class="ci-card p-4">
                 <h3 class="text-sm font-bold mb-2">Google Calendar (Web / Android / iOS)</h3>
                 <a id="ics-gcal-btn" href="{{ $gcalAddUrl }}" target="_blank" rel="noopener"
                    class="inline-block w-full text-center px-3 py-2 rounded bg-[#1a73e8] text-white text-sm font-semibold">
@@ -133,7 +133,7 @@
                 type="text"
                 readonly
                 value="{{ $feedRoute }}"
-                class="w-[32rem] max-w-full px-3 py-2 rounded border border-gray-300 text-sm bg-white"
+                class="w-[32rem] max-w-full px-3 py-2 rounded border border-stone-300 dark:border-white/10 text-sm bg-white dark:bg-stone-800/60 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500"
                 id="icsFeedUrl"
                 aria-label="ICS feed URL (copy for manual subscribe)">
             <button

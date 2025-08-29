@@ -75,6 +75,38 @@
   .ci-btn-amber    {@apply ci-btn bg-amber-400/90 text-stone-900 hover:bg-amber-400;}
   .ci-btn-sky      {@apply ci-btn bg-sky-400/90 text-stone-900 hover:bg-sky-400;}
 
+  /* --- FullCalendar dark skin ----------------------------------- */
+
+  /* base text */
+  .dark .fc { @apply text-stone-200; }
+  .dark .fc a { @apply text-stone-200; }
+
+  /* grid background + header */
+  .dark .fc-theme-standard .fc-scrollgrid { @apply bg-stone-900/50; }
+  .dark .fc .fc-col-header-cell { @apply bg-stone-900/60; }
+  .dark .fc .fc-col-header-cell-cushion { @apply text-stone-300; }
+
+  /* day cells */
+  .dark .fc .fc-daygrid-day { @apply bg-stone-900/40; }
+  .dark .fc .fc-day-other { @apply bg-stone-900/30; }       /* prev/next month days */
+  .dark .fc .fc-daygrid-day-number { @apply text-stone-400; }
+
+  /* today highlight */
+  .dark .fc .fc-day-today { @apply bg-sky-400/10; }
+
+  /* borders */
+  .dark .fc-theme-standard td,
+  .dark .fc-theme-standard th { @apply border-white/10; }
+
+  /* toolbar */
+  .dark .fc .fc-toolbar-title { @apply text-stone-200; }
+  .dark .fc .fc-button { @apply bg-stone-800 text-stone-100 hover:bg-stone-700; }
+
+  /* list view */
+  .dark .fc .fc-list { @apply text-stone-200; }
+  .dark .fc .fc-list-day-cushion { @apply bg-stone-800/50; }
+  .dark .fc tr.fc-list-event:hover td { @apply bg-stone-800/40; }
+
   /* ===========================
      History section helpers
      =========================== */

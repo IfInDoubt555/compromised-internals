@@ -72,7 +72,7 @@
     <div id="theme-wrapper" class="min-h-screen">
 
         @isset($header)
-        <header class="bg-white dark:bg-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
+        <<header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
