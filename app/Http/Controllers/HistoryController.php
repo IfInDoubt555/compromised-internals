@@ -125,25 +125,30 @@ class HistoryController extends Controller
     ]);
 }
 
-    /**
-     * Index page with experimental layouts.
-     * /history?view=timeline|bookmarks&decade=1960s&year=1963&tab=events
-     */
-    // HistoryController@index
     public function index(Request $request)
     {
-        $decade = $request->query('decade', '1960s');
-        $tab    = $request->query('tab', 'events');
-        $year   = $request->query('year');
-    
-        $decades = $this->allDecades();
-        $items   = $this->listItems($tab, $decade, $year);
-        $years   = $this->yearsFor($decade, $tab);
-    
+        $decadeIn = $request->query('decade', '1960s');
+        $tab      = $request->query('tab', 'events');
+        $year     = $request->query('year');
+
+        // ✅ Normalize decade to canonical "####s"
+        if (preg_match('/^\d{4}$/', $decadeIn)) {
+            $decade = $decadeIn.'s';
+        } elseif (preg_match('/^\d{4}s$/', $decadeIn)) {
+            $decade = $decadeIn;
+        } else {
+            $decade = '1960s'; // or abort(404) if you prefer strict
+        }
+
+        $decades     = $this->allDecades();
+        $items       = $this->listItems($tab, $decade, $year);
+        $years       = $this->yearsFor($decade, $tab);
+        $themeDecade = (int) substr($decade, 0, 4);
+
         return view('history.bookmarks', [
             'decades'     => $decades,
-            'decade'      => $decade,                  // "1990s"
-            'themeDecade' => (int) substr($decade, 0, 4), // 1990  ✅
+            'decade'      => $decade,
+            'themeDecade' => $themeDecade,
             'year'        => $year,
             'tab'         => $tab,
             'items'       => $items,

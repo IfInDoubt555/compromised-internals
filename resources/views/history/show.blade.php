@@ -401,9 +401,12 @@
 
     {{-- Back (center pill) --}}
     <a href="{{ route('history.index', ['tab' => $tab, 'decade' => $decade]) }}"
-      class="justify-self-center rounded-xl bg-stone-900 text-stone-100 shadow ring-1 ring-black/5 hover:bg-stone-800 transition w-44 sm:w-56">
-      <div class="flex h-full flex-col items-center justify-center text-center px-4 py-3 min-h-[64px]">
-        <span>Back</span>
+       class="justify-self-center w-44 sm:w-56 rounded-xl bg-stone-900 text-stone-100 shadow ring-1 ring-black/5
+              hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+              focus-visible:ring-stone-400 dark:focus-visible:ring-white/30 transition"
+       aria-label="Back to {{ ucfirst($tab) }} index">
+      <div class="flex min-h-[64px] flex-col items-center justify-center px-4 py-3 text-center">
+        <span class="font-medium">Back</span>
         <span>to {{ ucfirst($tab) }} Index</span>
       </div>
     </a>
