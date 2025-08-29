@@ -131,37 +131,58 @@ $seo = [
   </div>
 
   {{-- Tips + disclosure --}}
-  @php
-    $tipsLines = [];
-    if (!empty($tips) && $tips->is_active) {
-        $all = collect(preg_split('/\R/', (string) $tips->tips_md))
-              ->map(fn($t) => trim($t))->filter()->values();
-        $selection = $tips->tips_selection;
-        $tipsLines = is_null($selection)
-            ? $all->all()
-            : collect($selection)->map(fn($i) => (int)$i)
-              ->filter(fn($i) => $i >= 0 && $i < $all->count())
-              ->map(fn($i) => $all[$i])->all();
-    }
-  @endphp
+@php
+  $tipsLines = [];
+  if (!empty($tips) && $tips->is_active) {
+      $all = collect(preg_split('/\R/', (string) $tips->tips_md))
+            ->map(fn($t) => trim($t))->filter()->values();
+      $selection = $tips->tips_selection;
+      $tipsLines = is_null($selection)
+          ? $all->all()
+          : collect($selection)->map(fn($i) => (int)$i)
+            ->filter(fn($i) => $i >= 0 && $i < $all->count())
+            ->map(fn($i) => $all[$i])->all();
+  }
+@endphp
 
-  <div class="mt-10 grid md:grid-cols-2 gap-6">
-    @if (!empty($tipsLines))
-      <section>
-        <h2 class="text-xl font-bold mb-3 dark:text-stone-100">Travel Tips for Rally Fans</h2>
-        <ul class="list-disc list-inside text-gray-700 space-y-1 dark:text-stone-300">
+<section class="max-w-5xl mx-auto mt-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    {{-- Tips card (spans 2 cols on md+) --}}
+    <article class="md:col-span-2 rounded-xl border border-white/10 bg-white/70 p-5 shadow-lg dark:bg-stone-900/70 dark:ring-1 dark:ring-white/10 dark:border-white/10">
+      <h2 class="text-xl font-bold mb-3 dark:text-stone-100">Travel Tips for Rally Fans</h2>
+
+      @if (!empty($tipsLines))
+        <ul class="space-y-2">
           @foreach ($tipsLines as $line)
-            <li>{{ $line }}</li>
+            <li class="flex items-start gap-2 text-gray-700 dark:text-stone-300">
+              <svg class="mt-1 h-4 w-4 shrink-0 text-gray-500 dark:text-stone-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16Zm.75-11.5a.75.75 0 10-1.5 0v4a.75.75 0 001.5 0v-4Zm0 7a.75.75 0 10-1.5 0 .75.75 0 001.5 0Z" clip-rule="evenodd"/>
+              </svg>
+              <span>{{ $line }}</span>
+            </li>
           @endforeach
         </ul>
-      </section>
-    @endif
+      @else
+        <p class="text-gray-600 dark:text-stone-400">We’ll add event-specific tips soon. Check back before your rally weekend!</p>
+      @endif
+    </article>
 
-    <section class="text-xs text-gray-500 self-end dark:text-stone-400">
-      <div class="mt-4 p-3 bg-gray-100 dark:bg-zinc-800 rounded text-sm text-gray-700 dark:text-gray-300">
-        <strong>Disclosure:</strong> Some links on this page are affiliate links. If you book through them, we may earn a small commission at no extra cost to you. This helps keep Compromised Internals running. Thanks for the support! ❤️
+    {{-- Disclosure card --}}
+    <aside class="rounded-xl border border-white/10 bg-white/70 p-4 shadow-md self-start
+                   dark:bg-stone-900/70 dark:ring-1 dark:ring-white/10 dark:border-white/10">
+      <div class="text-xs leading-relaxed text-gray-700 dark:text-stone-300">
+        <span class="inline-flex items-center gap-2 font-semibold text-gray-800 dark:text-stone-100">
+          <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10 .5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19Zm0 5a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm1 9H9v-6h2v6Z"/>
+          </svg>
+          Disclosure
+        </span>
+        <p class="mt-2">
+          Some links on this page are affiliate links. If you book through them, we may earn a small commission at no extra cost to you. This helps keep Compromised Internals running. Thanks for the support! ❤️
+        </p>
       </div>
-    </section>
+    </aside>
   </div>
 </section>
 @endsection
