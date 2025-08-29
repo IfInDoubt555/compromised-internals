@@ -28,7 +28,7 @@
         <div class="text-red-600 dark:text-rose-300 text-sm mb-4">
           {{ $errors->first('recaptcha') }}
         </div>
-      @endif>
+      @endif
 
       <form id="register-form" method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
