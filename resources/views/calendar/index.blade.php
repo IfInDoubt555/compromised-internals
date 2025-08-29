@@ -88,42 +88,48 @@
                    class="inline-block w-full text-center px-3 py-2 rounded bg-[#1a73e8] text-white text-sm font-semibold">
                     Open in Google Calendar
                 </a>
-                <p class="mt-2 text-xs text-gray-600">
+                <p class="mt-2 text-xs ci-muted">
                     If that doesn’t open, copy the feed URL below and paste it in
                     <em>Settings → Add calendar → From URL</em>.
                 </p>
             </div>
 
             {{-- Apple --}}
-            <div class="rounded-lg border border-gray-200 bg-white p-4">
-                <h3 class="text-sm font-bold mb-2">Apple Calendar (iPhone / iPad / Mac)</h3>
-                <a id="ics-apple-btn" href="{{ $webcal }}"
-                   class="inline-block w-full text-center px-3 py-2 rounded bg-black text-white text-sm font-semibold">
-                    Subscribe via Apple Calendar
-                </a>
-                <p class="mt-2 text-xs text-gray-600">
-                    Taps the <code>webcal://</code> link and opens the Calendar app to subscribe.
-                </p>
-                <a id="ics-download-btn" href="{{ $dlRoute }}"
-                   class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
-                    Or download {{ $year }} (.ics)
-                </a>
+            <div class="ci-card p-4">
+              <h3 class="text-sm font-bold mb-2">Apple Calendar (iPhone / iPad / Mac)</h3>
+              <a id="ics-apple-btn" href="{{ $webcal }}"
+                 class="inline-block w-full text-center px-3 py-2 rounded bg-stone-900 text-white text-sm font-semibold">
+                Subscribe via Apple Calendar
+              </a>
+              <p class="mt-2 text-xs ci-muted">
+                Taps the <code>webcal://</code> link and opens the Calendar app to subscribe.
+              </p>
+              <a id="ics-download-btn" href="{{ $dlRoute }}"
+                 class="mt-2 inline-block w-full text-center px-3 py-2 rounded
+                        bg-stone-100 dark:bg-stone-800/50
+                        text-stone-900 dark:text-stone-100
+                        ring-1 ring-stone-900/5 dark:ring-white/10 text-sm hover:brightness-110">
+                Or download {{ $year }} (.ics)
+              </a>
             </div>
 
             {{-- Outlook --}}
-            <div class="rounded-lg border border-gray-200 bg-white p-4">
-                <h3 class="text-sm font-bold mb-2">Outlook (Windows / Mac / Web)</h3>
-                <a id="ics-outlook-btn" href="{{ $webcal }}"
-                   class="inline-block w-full text-center px-3 py-2 rounded bg-[#2563eb] text-white text-sm font-semibold">
-                    Subscribe in Outlook
-                </a>
-                <p class="mt-2 text-xs text-gray-600">
-                    On Outlook Web: <em>My Calendars → Add calendar → From Internet</em>, then paste the feed URL.
-                </p>
-                <a href="{{ $dlRoute }}"
-                   class="mt-2 inline-block w-full text-center px-3 py-2 rounded bg-gray-200 text-gray-900 text-sm">
-                    Or download {{ $year }} (.ics)
-                </a>
+            <div class="ci-card p-4">
+              <h3 class="text-sm font-bold mb-2">Outlook (Windows / Mac / Web)</h3>
+              <a id="ics-outlook-btn" href="{{ $webcal }}"
+                 class="inline-block w-full text-center px-3 py-2 rounded bg-[#2563eb] text-white text-sm font-semibold">
+                Subscribe in Outlook
+              </a>
+              <p class="mt-2 text-xs ci-muted">
+                On Outlook Web: <em>My Calendars → Add calendar → From Internet</em>, then paste the feed URL.
+              </p>
+              <a href="{{ $dlRoute }}"
+                 class="mt-2 inline-block w-full text-center px-3 py-2 rounded
+                        bg-stone-100 dark:bg-stone-800/50
+                        text-stone-900 dark:text-stone-100
+                        ring-1 ring-stone-900/5 dark:ring-white/10 text-sm hover:brightness-110">
+                Or download {{ $year }} (.ics)
+              </a>
             </div>
         </div>
 
@@ -144,7 +150,7 @@
             </button>
         </div>
 
-        <p class="mt-2 text-xs text-gray-600">
+        <p class="mt-2 text-xs ci-muted">
             <strong>What to use?</strong>
             Google users: click <em>Open in Google Calendar</em>. Apple/Outlook users: click <em>Subscribe</em> to open your calendar app automatically.
             You can always import a one-time snapshot by downloading the <code>.ics</code> file instead.
