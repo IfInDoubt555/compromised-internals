@@ -36,37 +36,48 @@
 @endphp
 
 {{-- Event header --}}
-<div class="prose max-w-3xl text-slate-800 mt-10 mb-10 text-lg leading-relaxed
-  bg-white/70 dark:bg-stone-900/70 backdrop-blur-md rounded-xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 dark:text-stone-200 p-6 mx-auto">
-    <h1 class="text-3xl font-bold mb-2 text-slate-900 dark:text-stone-100">{{ $event->name }}</h1>
+<div
+  class="prose max-w-3xl mt-10 mb-10 text-lg leading-relaxed
+         bg-white/75 dark:bg-stone-900/75 backdrop-blur-md
+         rounded-xl shadow-xl ring-1 ring-stone-900/5 dark:ring-white/10
+         text-slate-800 dark:text-stone-200 p-6 mx-auto">
 
-    @if ($event->championship)
-        <p class="text-indigo-700 dark:text-indigo-300 font-semibold mb-1">
-            🏆 Part of the {{ strtoupper($event->championship) }} Championship
-        </p>
-    @endif
+  <h1 class="text-3xl font-bold mb-2 text-slate-900 dark:text-stone-100">
+    {{ $event->name }}
+  </h1>
 
-    <p class="text-slate-700 dark:text-stone-300 italic mb-1">📍 {{ $event->location ?? 'Location TBD' }}</p>
-    <p class="text-slate-600 dark:text-stone-400 mb-4">
-        📅 {{ optional($event->start_date)->format('F j, Y') }}
-        @if ($event->end_date) – {{ $event->end_date->format('F j, Y') }} @endif
+  @if ($event->championship)
+    <p class="text-indigo-700 dark:text-indigo-300 font-semibold mb-1">
+      🏆 Part of the {{ strtoupper($event->championship) }} Championship
     </p>
+  @endif
 
-    {{-- Official site link under dates --}}
-    @if($event->official_url)
-      <p class="mt-2">
-        <a href="{{ $event->official_url }}" target="_blank" rel="noopener nofollow"
-           class="inline-flex items-center gap-2 text-blue-500 dark:text-sky-300 hover:underline">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 13.41a1 1 0 0 0 1.41 1.41l4.24-4.24a3 3 0 1 0-4.24-4.24l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06a1 1 0 1 1 1.41 1.41l-4.24 4.24ZM13.41 10.59a1 1 0 0 0-1.41-1.41L7.76 13.41a3 3 0 1 0 4.24 4.24l1.06-1.06a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l4.24-4.24Z"/></svg>
-          Official Website
-        </a>
-      </p>
-    @endif
+  <p class="text-slate-700 dark:text-stone-300 italic mb-1">
+    📍 {{ $event->location ?? 'Location TBD' }}
+  </p>
+  <p class="text-slate-600 dark:text-stone-400 mb-4">
+    📅 {{ optional($event->start_date)->format('F j, Y') }}
+    @if ($event->end_date) – {{ $event->end_date->format('F j, Y') }} @endif
+  </p>
 
-    <section class="text-lg leading-relaxed text-slate-800">
-        {!! nl2br(e($event->description ?? 'No additional information available.')) !!}
-    </section>
+  @if($event->official_url)
+    <p class="mt-2">
+      <a href="{{ $event->official_url }}" target="_blank" rel="noopener nofollow"
+         class="inline-flex items-center gap-2 text-blue-600 dark:text-sky-300 hover:underline">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10.59 13.41a1 1 0 0 0 1.41 1.41l4.24-4.24a3 3 0 1 0-4.24-4.24l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06a1 1 0 1 1 1.41 1.41l-4.24 4.24ZM13.41 10.59a1 1 0 0 0-1.41-1.41L7.76 13.41a3 3 0 1 0 4.24 4.24l1.06-1.06a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l4.24-4.24Z"/>
+        </svg>
+        Official Website
+      </a>
+    </p>
+  @endif
+
+  {{-- Description (force readable color in dark) --}}
+  <section class="mt-3 text-lg leading-relaxed text-slate-800 dark:text-stone-200">
+    {!! nl2br(e($event->description ?? 'No additional information available.')) !!}
+  </section>
 </div>
+
 
 {{-- Stage map carousel --}}
 @if($stages->count())
@@ -75,17 +86,19 @@
   <button type="button" data-embla-prev
           class="absolute left-2 top-1/2 -translate-y-1/2 z-10 rounded-full
                  bg-white/95 hover:bg-white shadow p-2 ring-1 ring-black/5
-                 dark:bg-stone-800 dark:hover:bg-stone-700 dark:text-stone-100 dark:ring-white/10">
+                 dark:bg-stone-800 dark:hover:bg-stone-700 dark:text-stone-100 dark:ring-white/10
+                 focus:outline-none focus:ring-2 focus:ring-sky-400/50"
+          aria-label="Previous stage">
     ←
   </button>
 
   <div class="overflow-hidden rounded-2xl ring-1 ring-black/5 bg-white/60
-              dark:bg-stone-900/60 dark:ring-white/10"
+              dark:bg-stone-900/75 dark:ring-white/10 supports-[backdrop-filter]:backdrop-blur-sm"
        data-embla-viewport>
     <div class="flex">
       @foreach($stages as $ss)
         <div class="min-w-0 flex-[0_0_94%] md:flex-[0_0_66%] px-4 py-5" id="ss-{{ $ss->id }}">
-          <article class="rounded-2xl bg-white dark:bg-stone-900/70 shadow-lg p-4
+          <article class="rounded-2xl bg-white dark:bg-stone-900/55 shadow-lg p-4
                           ring-1 ring-black/5 dark:ring-white/10">
             @if($ss->map_image_src)
               <img
@@ -160,7 +173,9 @@
   <button type="button" data-embla-next
           class="absolute right-2 top-1/2 -translate-y-1/2 z-10 rounded-full
                  bg-white/95 hover:bg-white shadow p-2 ring-1 ring-black/5
-                 dark:bg-stone-800 dark:hover:bg-stone-700 dark:text-stone-100 dark:ring-white/10">
+                 dark:bg-stone-800 dark:hover:bg-stone-700 dark:text-stone-100 dark:ring-white/10
+                 focus:outline-none focus:ring-2 focus:ring-sky-400/50"
+          aria-label="Next stage">
     →
   </button>
 </section>
@@ -169,7 +184,7 @@
 @if(!empty($event->map_embed_url))
   <section id="route-map" class="max-w-6xl mx-auto px-4 mt-8">
     <div class="overflow-hidden rounded-2xl ring-1 ring-black/5 bg-white/80
-                dark:bg-stone-900/70 dark:ring-white/10">
+                dark:bg-stone-900/60 dark:ring-white/10 supports-[backdrop-filter]:backdrop-blur-sm">
       <x-map-embed :src="$event->map_embed_url" />
     </div>
   </section>
