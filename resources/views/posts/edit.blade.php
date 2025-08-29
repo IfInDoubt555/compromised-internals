@@ -4,13 +4,14 @@
 <div class="max-w-4xl mx-auto my-12">
   <div
     class="rounded-2xl p-8 shadow-xl bg-white/90 ring-1 ring-black/5 backdrop-blur
-           transition-shadow
-           hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
-           focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
-           dark:bg-stone-900/80 dark:ring-white/10
-           dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
-           dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]"
-  >
+       transition-shadow
+       hover:shadow-[0_0_60px_rgba(14,165,233,0.18)]
+       focus-within:shadow-[0_0_60px_rgba(14,165,233,0.18)]
+       focus-within:ring-2 focus-within:ring-sky-400/40 focus-within:ring-offset-2 focus-within:ring-offset-white
+       dark:bg-stone-900/80 dark:ring-white/10
+       dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+       dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+       dark:focus-within:ring-2 dark:focus-within:ring-emerald-400/30 dark:focus-within:ring-offset-stone-900">
     <h1 class="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-stone-100">
       Edit Post ✏️
     </h1>
