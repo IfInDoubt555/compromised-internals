@@ -2,83 +2,84 @@
 
 @section('content')
 <h1 class="text-2xl font-bold mb-2">Manage Rally Events</h1>
-<p class="mb-4 text-gray-600">Here you can add, edit, or delete rally events for the calendar system.</p>
+<p class="mb-4 ci-muted">
+  Here you can add, edit, or delete rally events for the calendar system.
+</p>
 
-<a href="{{ route('admin.events.create') }}"
-   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mb-6 inline-block">
-    ➕ Add New Event
+<a href="{{ route('admin.events.create') }}" class="ci-btn-success mb-6 inline-block">
+  ➕ Add New Event
 </a>
 
 @if ($events->count())
-  <div class="overflow-x-auto bg-white rounded-xl shadow ring-1 ring-black/5">
-      <table class="min-w-full text-sm text-left table-fixed">
-          <colgroup>
-              <col class="w-[28%]">   {{-- Event Name --}}
-              <col class="w-[24%]">   {{-- Location --}}
-              <col class="w-[12%]">   {{-- Championship --}}
-              <col class="w-[14%]">   {{-- Start --}}
-              <col class="w-[14%]">   {{-- End --}}
-              <col class="w-[8%]">    {{-- Actions --}}
-          </colgroup>
+  <div class="ci-table-wrap">
+    <table class="ci-table text-left">
+      <colgroup>
+        <col class="w-[28%]">
+        <col class="w-[24%]">
+        <col class="w-[12%]">
+        <col class="w-[14%]">
+        <col class="w-[14%]">
+        <col class="w-[8%]">
+      </colgroup>
 
-          <thead class="bg-gray-100 font-semibold text-gray-800">
-              <tr>
-                  <th class="px-4 py-3 border-b">Event Name</th>
-                  <th class="px-4 py-3 border-b">Location</th>
-                  <th class="px-4 py-3 border-b">Championship</th>
-                  <th class="px-4 py-3 border-b">Start Date</th>
-                  <th class="px-4 py-3 border-b">End Date</th>
-                  <th class="px-4 py-3 border-b text-right">Actions</th>
-              </tr>
-          </thead>
+      <thead class="ci-thead">
+        <tr>
+          <th class="ci-th">Event Name</th>
+          <th class="ci-th">Location</th>
+          <th class="ci-th">Championship</th>
+          <th class="ci-th">Start Date</th>
+          <th class="ci-th">End Date</th>
+          <th class="ci-th text-right">Actions</th>
+        </tr>
+      </thead>
 
-          <tbody>
-              @foreach ($events as $event)
-              <tr class="hover:bg-gray-50">
-                  <td class="px-4 py-3 border-b max-w-[28ch] truncate" title="{{ $event->name }}">
-                      {{ $event->name }}
-                  </td>
+      <tbody>
+        @foreach ($events as $event)
+          <tr class="ci-tr">
+            <td class="ci-td max-w-[28ch] truncate" title="{{ $event->name }}">
+              {{ $event->name }}
+            </td>
 
-                  <td class="px-4 py-3 border-b max-w-[26ch] truncate" title="{{ $event->location }}">
-                      {{ $event->location }}
-                  </td>
+            <td class="ci-td max-w-[26ch] truncate" title="{{ $event->location }}">
+              {{ $event->location }}
+            </td>
 
-                  <td class="px-4 py-3 border-b">
-                      {{ $event->championship ?? '—' }}
-                  </td>
+            <td class="ci-td">
+              {{ $event->championship ?? '—' }}
+            </td>
 
-                  <td class="px-4 py-3 border-b whitespace-nowrap">
-                      {{ optional($event->start_date)->format('M j, Y') }}
-                  </td>
+            <td class="ci-td whitespace-nowrap">
+              {{ optional($event->start_date)->format('M j, Y') }}
+            </td>
 
-                  <td class="px-4 py-3 border-b whitespace-nowrap">
-                      {{ optional($event->end_date)->format('M j, Y') }}
-                  </td>
+            <td class="ci-td whitespace-nowrap">
+              {{ optional($event->end_date)->format('M j, Y') }}
+            </td>
 
-                  <td class="px-4 py-3 border-b text-right whitespace-nowrap">
-                      <a href="{{ route('admin.events.days.index', $event) }}" class="text-blue-600 hover:underline">Days</a>
-                      <span class="text-gray-400">·</span>
-                      <a href="{{ route('admin.events.stages.index', $event) }}" class="text-blue-600 hover:underline">Stages</a>
-                      <span class="text-gray-400">·</span>
-                      <a href="{{ route('admin.events.edit', $event) }}" class="text-blue-600 hover:underline">Edit</a>
-                      <form action="{{ route('admin.events.destroy', $event) }}" method="POST"
-                            class="inline-block ml-2"
-                            onsubmit="return confirm('Are you sure you want to delete this event?')">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" class="text-red-600 hover:underline">Delete</button>
-                      </form>
-                  </td>
-              </tr>
-              @endforeach
-          </tbody>
-      </table>
+            <td class="ci-td text-right whitespace-nowrap">
+              <a href="{{ route('admin.events.days.index', $event) }}" class="ci-link">Days</a>
+              <span class="ci-sep">·</span>
+              <a href="{{ route('admin.events.stages.index', $event) }}" class="ci-link">Stages</a>
+              <span class="ci-sep">·</span>
+              <a href="{{ route('admin.events.edit', $event) }}" class="ci-link">Edit</a>
+              <form action="{{ route('admin.events.destroy', $event) }}" method="POST"
+                    class="inline-block ml-2"
+                    onsubmit="return confirm('Are you sure you want to delete this event?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
+              </form>
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
 
-  <div class="mt-4">
-      {{ $events->links() }}
+  <div class="ci-pagination">
+    {{ $events->links() }}
   </div>
 @else
-  <p class="text-gray-500 mt-6">No rally events found.</p>
+  <p class="ci-muted mt-6">No rally events found.</p>
 @endif
 @endsection

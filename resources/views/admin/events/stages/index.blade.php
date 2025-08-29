@@ -7,150 +7,120 @@
 
 <div class="max-w-7xl mx-auto">
   <div class="mb-6 text-sm">
-    <a href="{{ route('admin.events.index') }}" class="text-blue-600 hover:underline">← Back to Events</a>
-    <span class="text-gray-400 mx-2">•</span>
-    <a href="{{ route('admin.events.days.index', $event) }}" class="text-blue-600 hover:underline">Manage Days</a>
+    <a href="{{ route('admin.events.index') }}" class="ci-link">← Back to Events</a>
+    <span class="ci-sep mx-2">•</span>
+    <a href="{{ route('admin.events.days.index', $event) }}" class="ci-link">Manage Days</a>
   </div>
 
   <h1 class="text-2xl font-bold tracking-tight">Stages — {{ $event->name }}</h1>
-  <p class="text-sm text-gray-500 mt-1 mb-8">
+  <p class="text-sm ci-muted mt-1 mb-8">
     Add stages below. Assign a Day or just set a start time — the Day will auto-select if the date matches.
   </p>
 
   <div class="grid xl:grid-cols-12 gap-8">
     {{-- LEFT: CREATE FORM --}}
-    <div class="xl:col-span-8">
-      <form method="POST" action="{{ route('admin.events.stages.store', $event) }}"
-            class="bg-white rounded-2xl shadow-lg ring-1 ring-black/5 p-6 space-y-8">
+    <div class="xl:col-span-8 ci-admin-card space-y-8">
+      <form method="POST" action="{{ route('admin.events.stages.store', $event) }}" class="space-y-8">
         @csrf
 
         {{-- SECTION: DETAILS --}}
         <section>
-          <h2 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">Details</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-wide mb-3">Details</h2>
           <div class="grid md:grid-cols-6 gap-5">
-            {{-- STAGE TYPE --}}
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Type</label>
-              <select name="stage_type" id="stage_type"
-                      class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
+              <select name="stage_type" id="stage_type" class="ci-select">
                 <option value="SS" {{ old('stage_type','SS')==='SS' ? 'selected' : '' }}>SS</option>
                 <option value="SD" {{ old('stage_type')==='SD' ? 'selected' : '' }}>SD (Shakedown)</option>
               </select>
             </div>
 
-            {{-- SS NUMBER --}}
             <div id="ss_number_wrap" class="md:col-span-1">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">SS #</label>
-              <input name="ss_number" type="number" min="1" value="{{ old('ss_number', $next) }}"
-                     class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/30"
-                     required>
-              @error('ss_number') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+              <input name="ss_number" type="number" min="1" value="{{ old('ss_number', $next) }}" class="ci-input" required>
+              @error('ss_number') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
 
-            {{-- NAME --}}
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Name</label>
-              <input name="name" value="{{ old('name') }}"
-                     class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
-                     placeholder="Cambyretá" required>
-              @error('name') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+              <input name="name" value="{{ old('name') }}" class="ci-input" placeholder="Cambyretá" required>
+              @error('name') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
 
-            {{-- DISTANCE --}}
             <div class="md:col-span-1">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Distance (km)</label>
-              <input name="distance_km" type="number" step="0.1" value="{{ old('distance_km') }}"
-                     class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
-              @error('distance_km') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+              <input name="distance_km" type="number" step="0.1" value="{{ old('distance_km') }}" class="ci-input">
+              @error('distance_km') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
           </div>
         </section>
 
         {{-- SECTION: TIMING --}}
         <section>
-          <h2 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">Timing</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-wide mb-3">Timing</h2>
           <div class="grid md:grid-cols-6 gap-5">
-            {{-- DAY --}}
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Day</label>
-              <select name="rally_event_day_id" id="day_select"
-                      class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
+              <select name="rally_event_day_id" id="day_select" class="ci-select">
                 <option value="">— none —</option>
                 @foreach($event->days as $d)
-                  <option value="{{ $d->id }}"
-                          data-date="{{ $d->date->toDateString() }}"
-                          @selected(old('rally_event_day_id') == $d->id)>
+                  <option value="{{ $d->id }}" data-date="{{ $d->date->toDateString() }}" @selected(old('rally_event_day_id') == $d->id)>
                     {{ $d->label ?? $d->date->format('D j M') }}
                   </option>
                 @endforeach
               </select>
-              <p class="text-[11px] text-gray-500">If not selected, we’ll try to infer from Start date.</p>
-              @error('rally_event_day_id') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+              <p class="ci-help">If not selected, we’ll try to infer from Start date.</p>
+              @error('rally_event_day_id') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
 
-            {{-- START --}}
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Start</label>
               <input type="datetime-local" name="start_time_local" id="start_time_local"
-                     value="{{ old('start_time_local') }}"
-                     class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
-                     placeholder="2025-08-29 08:03">
-              @error('start_time_local') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+                     value="{{ old('start_time_local') }}" class="ci-input" placeholder="2025-08-29 08:03">
+              @error('start_time_local') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
 
-            {{-- SECOND PASS --}}
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Second Pass</label>
               <input type="datetime-local" name="second_pass_time_local" id="second_pass_time_local"
-                     value="{{ old('second_pass_time_local') }}"
-                     class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
-              @error('second_pass_time_local') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+                     value="{{ old('second_pass_time_local') }}" class="ci-input">
+              @error('second_pass_time_local') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
           </div>
         </section>
 
         {{-- SECTION: SECOND RUN --}}
         <section>
-          <h2 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">Second run (optional)</h2>
+          <h2 class="text-sm font-semibold uppercase tracking-wide mb-3">Second run (optional)</h2>
           <div class="grid md:grid-cols-6 gap-5">
-            {{-- SECOND SS # --}}
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Second SS #</label>
-              <input type="number" min="1" name="second_ss_number" value="{{ old('second_ss_number') }}"
-                     class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
-              @error('second_ss_number') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+              <input type="number" min="1" name="second_ss_number" value="{{ old('second_ss_number') }}" class="ci-input">
+              @error('second_ss_number') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
 
-            {{-- SECOND DAY --}}
             <div class="md:col-span-2">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Second Day</label>
-              <select name="second_rally_event_day_id" id="second_day_select"
-                      class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30">
+              <select name="second_rally_event_day_id" id="second_day_select" class="ci-select">
                 <option value="">— auto from time —</option>
                 @foreach($event->days as $d)
-                  <option value="{{ $d->id }}" data-date="{{ $d->date->toDateString() }}"
-                          @selected(old('second_rally_event_day_id') == $d->id)>
+                  <option value="{{ $d->id }}" data-date="{{ $d->date->toDateString() }}" @selected(old('second_rally_event_day_id') == $d->id)>
                     {{ $d->label ?? $d->date->format('D j M') }}
                   </option>
                 @endforeach
               </select>
-              @error('second_rally_event_day_id') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
+              @error('second_rally_event_day_id') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
           </div>
         </section>
 
         {{-- SECTION: MEDIA --}}
         <section>
-          <h2 class="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-3">Media</h2>
-          <div class="grid md:grid-cols-6 gap-5">
-            {{-- MAP IMAGE --}}
-            <div class="md:col-span-6">
-              <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Map image URL</label>
-              <input name="map_image_url" value="{{ old('map_image_url') }}"
-                     class="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30"
-                     placeholder="/images/maps/ss1.jpg">
-              @error('map_image_url') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
+          <h2 class="text-sm font-semibold uppercase tracking-wide mb-3">Media</h2>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Map image URL</label>
+            <input name="map_image_url" value="{{ old('map_image_url') }}" class="ci-input" placeholder="/images/maps/ss1.jpg">
+            @error('map_image_url') <p class="ci-error">{{ $message }}</p> @enderror
           </div>
         </section>
 
@@ -161,22 +131,20 @@
             <span class="text-sm">Super special</span>
           </label>
 
-          <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-            Add Stage
-          </button>
+          <button class="ci-btn-primary">Add Stage</button>
         </div>
       </form>
     </div>
 
-    {{-- RIGHT: EXISTING STAGES (sticky on xl) --}}
+    {{-- RIGHT: EXISTING STAGES --}}
     <aside class="xl:col-span-4">
-      <div class="bg-white rounded-2xl shadow-lg ring-1 ring-black/5 xl:sticky xl:top-6">
-        <div class="px-5 py-4 border-b flex items-center justify-between">
+      <div class="ci-admin-card xl:sticky xl:top-6 p-0">
+        <div class="px-5 py-4 border-b border-gray-200 dark:border-white/10 flex items-center justify-between">
           <h2 class="font-semibold">Existing Stages</h2>
-          <span class="text-xs text-gray-500">{{ $event->stages->count() }} total</span>
+          <span class="text-xs ci-muted">{{ $event->stages->count() }} total</span>
         </div>
 
-        <div class="divide-y">
+        <div class="divide-y divide-gray-200 dark:divide-white/10">
           @forelse($event->stages as $ss)
             <div class="px-5 py-3 flex items-start justify-between gap-4">
               <div>
@@ -190,26 +158,24 @@
                     <span class="ml-1 text-[11px] text-purple-700 font-semibold">/S</span>
                   @endif
                 </div>
-                <div class="text-sm text-gray-700">{{ $ss->name }}</div>
-                <div class="text-xs text-gray-500">
+                <div class="text-sm">{{ $ss->name }}</div>
+                <div class="text-xs ci-muted">
                   {{ optional($ss->day)->label ?? '—' }} ·
                   {{ optional($ss->start_time_local)->format('M d H:i') ?? '—' }} ·
                   {{ $ss->distance_km ? number_format($ss->distance_km,1).' km' : '—' }}
                 </div>
               </div>
               <div class="shrink-0 text-right space-x-3">
-                <a href="{{ route('admin.events.stages.edit', [$event, $ss]) }}" class="text-blue-600 hover:underline text-sm">Edit</a>
-                <form method="POST"
-                      action="{{ route('admin.events.stages.destroy', [$event, $ss]) }}"
-                      class="inline"
-                      onsubmit="return confirm('Delete this stage?')">
+                <a href="{{ route('admin.events.stages.edit', [$event, $ss]) }}" class="ci-link text-sm">Edit</a>
+                <form method="POST" action="{{ route('admin.events.stages.destroy', [$event, $ss]) }}"
+                      class="inline" onsubmit="return confirm('Delete this stage?')">
                   @csrf @method('DELETE')
-                  <button class="text-red-600 hover:underline text-sm">Delete</button>
+                  <button class="ci-btn-danger text-sm">Delete</button>
                 </form>
               </div>
             </div>
           @empty
-            <div class="px-5 py-6 text-center text-gray-500 text-sm">No stages yet. Add your first one.</div>
+            <div class="px-5 py-6 text-center ci-muted text-sm">No stages yet. Add your first one.</div>
           @endforelse
         </div>
       </div>
@@ -217,7 +183,7 @@
   </div>
 </div>
 
-{{-- Small helper script --}}
+{{-- Helper script for auto-selects --}}
 <script>
   (function () {
     const typeSel     = document.getElementById('stage_type');
@@ -228,7 +194,6 @@
     const secondTime  = document.getElementById('second_pass_time_local');
     const secondDay   = document.getElementById('second_day_select');
 
-    // Toggle SS input when Type = SD
     const toggleSS = () => {
       const isSD = typeSel?.value === 'SD';
       if (ssInput) {
@@ -240,7 +205,6 @@
     typeSel?.addEventListener('change', toggleSS);
     toggleSS();
 
-    // Auto-select matching Day when Start changes
     startInput?.addEventListener('change', () => {
       const v = startInput.value;
       if (!v || !daySelect) return;
@@ -249,7 +213,6 @@
       if (opt) daySelect.value = opt.value;
     });
 
-    // If Day chosen and Start empty, seed sensible times
     daySelect?.addEventListener('change', () => {
       const opt = daySelect.options[daySelect.selectedIndex];
       if (!opt?.dataset?.date) return;
@@ -258,7 +221,6 @@
       if (!secondTime.value) secondTime.value = base + 'T13:00';
     });
 
-    // Auto-select Second Day from Second Pass time
     secondTime?.addEventListener('change', () => {
       const v = secondTime.value;
       if (!v || !secondDay) return;

@@ -53,6 +53,114 @@
   .fc tr.fc-list-event:hover td { @apply bg-gray-50; }
 
   /* -------- Light Dark Mode  -------- */
+  /* ===== Admin theming helpers (forms, tables, alerts, pagination) ===== */
+
+  /* --- Inputs --- */
+  .ci-input,
+  .form-input {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+           focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30
+           text-gray-900
+           dark:bg-zinc-900 dark:border-zinc-700 dark:text-gray-100;
+  }
+
+  .ci-select,
+  .form-select {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+           focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30
+           text-gray-900
+           dark:bg-zinc-900 dark:border-zinc-700 dark:text-gray-100;
+  }
+
+  .ci-textarea,
+  .form-textarea {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+           focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/30
+           text-gray-900
+           dark:bg-zinc-900 dark:border-zinc-700 dark:text-gray-100;
+  }
+
+  /* Subtle helper text + error text */
+  .ci-help { @apply text-[11px] text-gray-500 dark:text-gray-400; }
+  .ci-error { @apply text-xs text-red-600 dark:text-red-400; }
+
+  /* --- Cards (use instead of raw bg-white) --- */
+  .ci-admin-card {
+    @apply rounded-xl bg-white p-6 shadow ring-1 ring-black/5
+           dark:bg-zinc-900 dark:ring-white/10;
+  }
+
+  /* --- Links (default + muted separators) --- */
+  .ci-link { @apply text-blue-600 hover:underline dark:text-sky-300 dark:hover:text-sky-200; }
+  .ci-sep  { @apply text-gray-400 dark:text-gray-500; }
+
+  /* --- Buttons --- */
+  .ci-btn        { @apply inline-flex items-center gap-2 rounded px-3 py-2 text-sm font-semibold transition; }
+  .ci-btn-primary{ @apply ci-btn bg-indigo-600 text-white hover:bg-indigo-700; }
+  .ci-btn-success{ @apply ci-btn bg-green-600  text-white hover:bg-green-700; }
+  .ci-btn-danger { @apply ci-btn bg-red-600    text-white hover:bg-red-700; }
+  .ci-btn-ghost  { @apply ci-btn bg-white ring-1 ring-black/5 hover:bg-gray-50
+                           dark:bg-zinc-900 dark:ring-white/10 dark:hover:bg-zinc-800; }
+
+  /* --- Tables --- */
+  .ci-table-wrap {
+    @apply overflow-x-auto rounded-xl shadow ring-1 ring-black/5
+           bg-white dark:bg-zinc-900 dark:ring-white/10;
+  }
+  .ci-table {
+    @apply min-w-full text-sm table-fixed;
+  }
+  .ci-thead {
+    @apply bg-gray-100 text-gray-800 font-semibold
+           dark:bg-zinc-800/70 dark:text-gray-200;
+  }
+  .ci-th {
+    @apply px-4 py-3 border-b border-gray-200 dark:border-zinc-800 text-left;
+  }
+  .ci-td {
+    @apply px-4 py-3 border-b border-gray-200 dark:border-zinc-800;
+  }
+  .ci-tr {
+    @apply hover:bg-gray-50 dark:hover:bg-zinc-800/60;
+  }
+
+  /* --- Alerts --- */
+  .ci-alert {
+    @apply p-4 rounded ring-1 shadow-sm
+           bg-stone-50 text-stone-800 ring-stone-900/5
+           dark:bg-stone-900/60 dark:text-stone-200 dark:ring-white/10;
+  }
+  .ci-alert-warn {
+    @apply border-l-4 border-yellow-400 bg-yellow-50 text-yellow-900
+           dark:border-yellow-700 dark:bg-yellow-950/30 dark:text-yellow-200;
+  }
+
+  /* --- Badges / chips --- */
+  .ci-badge {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium
+           bg-gray-100 text-gray-700 ring-1 ring-black/5
+           dark:bg-zinc-800 dark:text-gray-200 dark:ring-white/10;
+  }
+
+  /* --- Code bits / kbd --- */
+  .ci-code { @apply font-mono text-[12px] px-1.5 py-0.5 rounded bg-black/5 text-gray-800
+                     dark:bg-white/10 dark:text-gray-100; }
+  .ci-kbd  { @apply font-mono text-[11px] px-1.5 py-0.5 rounded ring-1 ring-black/10 bg-white
+                     dark:bg-zinc-900 dark:ring-white/10; }
+
+  /* --- Pagination container (Laravel) --- */
+  .ci-pagination {
+    @apply mt-4;
+  }
+  .ci-pagination a, .ci-pagination span {
+    @apply inline-flex items-center justify-center min-w-9 h-9 mx-0.5 rounded
+           ring-1 ring-black/5 bg-white text-gray-800 hover:bg-gray-50
+           dark:bg-zinc-900 dark:text-gray-100 dark:ring-white/10 dark:hover:bg-zinc-800;
+  }
+  .ci-pagination .active > span {
+    @apply bg-indigo-600 text-white ring-0 dark:bg-indigo-600;
+  }
+
   /* Surfaces */
   .ci-surface      {@apply bg-stone-50/90 ring-1 ring-stone-900/5 shadow-sm
          dark:bg-stone-900/70 dark:ring-white/10;}
