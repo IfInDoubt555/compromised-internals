@@ -28,18 +28,20 @@
 @endpush
 
 @section('content')
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-    <h1 class="text-4xl font-bold mb-6">Rally Shop Coming Soon!</h1>
-    <p class="text-lg text-gray-700 mb-8">
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center
+            dark:bg-stone-900/70 dark:ring-1 dark:ring-white/10 dark:rounded-2xl dark:p-12">
+    <h1 class="text-4xl font-bold mb-6 text-gray-900 dark:text-stone-100">Rally Shop Coming Soon!</h1>
+    <p class="text-lg text-gray-700 dark:text-stone-300 mb-8">
         This project is a labor of love, and I’m focused on growing it steadily.<br>
         Join me on this journey by signing up for updates or supporting the site on Buy Me a Coffee.
     </p>
     <a href="https://buymeacoffee.com/CompromisedInternals" target="_blank" rel="noopener"
-       class="inline-block px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition">
+       class="inline-block px-6 py-3 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition
+              dark:bg-amber-400/90 dark:text-stone-900 dark:hover:bg-amber-400">
         Any support is appreciated!
     </a>
 
-    <div class="mt-12 text-gray-500">
+    <div class="mt-12 text-gray-500 dark:text-stone-400">
         <p>No products are available yet. Check back soon!</p>
     </div>
 </div>
