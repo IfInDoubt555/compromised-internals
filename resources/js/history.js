@@ -79,10 +79,23 @@ function wireTabs() {
 }
 
 function readUrlState() {
-  const url = new URLSearchParams(window.location.search);
-  const startDecade = url.has('decade') ? parseInt(url.get('decade'), 10) : 1960;
-  const startTab = url.get('tab') || 'events';
-  const startYear = url.has('year') ? parseInt(url.get('year'), 10) : null;
+  const qs = new URLSearchParams(window.location.search);
+
+  // Try to parse /history/{tab}/{decade}/{id}
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  let decadeFromPath = null;
+  let tabFromPath = null;
+
+  if (parts[0] === 'history') {
+    tabFromPath = parts[1];                 // events|cars|drivers
+    const decadeSeg = parts[2];             // "1990" or "1990s"
+    const m = /^(\d{4})s?$/.exec(decadeSeg);
+    if (m) decadeFromPath = parseInt(m[1], 10);
+  }
+
+  const startDecade = decadeFromPath ?? (qs.has('decade') ? parseInt(qs.get('decade'), 10) : 1960);
+  const startTab = tabFromPath ?? qs.get('tab') ?? 'events';
+  const startYear = qs.has('year') ? parseInt(qs.get('year'), 10) : null;
 
   currentDecade = Number.isNaN(startDecade) ? 1960 : startDecade;
   activeTab = startTab;

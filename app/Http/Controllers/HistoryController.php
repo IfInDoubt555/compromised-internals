@@ -38,7 +38,7 @@ class HistoryController extends Controller
         if (!in_array($tab, $validTabs, true)) {
             abort(404, 'Invalid tab type.');
         }
-    
+
         // ✅ Normalize decade to the canonical form used by your files: "2000s"
         if (preg_match('/^\d{4}$/', $decade)) {
             // "2000" -> "2000s"
@@ -47,7 +47,7 @@ class HistoryController extends Controller
             // anything else -> invalid
             abort(404, 'Invalid decade segment.');
         }
-    
+
         $filePath = public_path("data/{$tab}-{$decade}.json");
         if (!File::exists($filePath)) {
             abort(404, "Data file not found for {$tab}-{$decade}.");
@@ -112,18 +112,15 @@ class HistoryController extends Controller
     return view('history.show', [
         'item'             => $item,
         'tab'              => $tab,
-        'decade'           => $decade,
+        'decade'           => $decade,                  // "1990s"
+        'themeDecade'      => (int) substr($decade, 0, 4), // 1990  ✅
         'previousItem'     => $previousItem,
         'nextItem'         => $nextItem,
-
-        // Results-related vars
         'winner'           => $winner,
         'second'           => $second,
         'third'            => $third,
         'resultsNarrative' => $resultsNarrative,
         'secResults'       => $secResults,
-
-        // Sections for Blade (NEW)
         'sections'         => $sections,
     ]);
 }
