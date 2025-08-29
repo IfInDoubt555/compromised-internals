@@ -48,7 +48,7 @@
 @section('content')
 {{-- PAGE SHELL: make light the default, dark via `dark:` --}}
 <div
-  class="min-h-screen bg-gradient-to-b from-slate-300 to-slate-400
+  class="min-h-screen bg-gradient-to-b from-stone-300 to-stone-400
          text-stone-800 selection:bg-rose-500/20
          dark:from-stone-950 dark:to-stone-900
          dark:text-stone-200 dark:selection:bg-rose-500/30">
