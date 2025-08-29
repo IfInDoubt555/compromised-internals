@@ -30,7 +30,7 @@ class TravelPageController extends Controller
                 ->get(['id','slug', 'name','location','start_date'])   // keep id in the select
                 ->map(fn ($e) => [
                     'title' => "{$e->name} — Plan Trip",
-                    'url'   => route('travel.plan.event', ['event' => $e->slug]),
+                    'url' => route('travel.plan.event', ['rallyEvent' => $e->slug]),
                 ])
                 ->all();
         }
@@ -41,15 +41,18 @@ class TravelPageController extends Controller
         return view('travel.index', compact('items', 'tips'));
     }
 
-    public function event(RallyEvent $event)
+    public function event(RallyEvent $rallyEvent)
     {
         $seo = [
-            'title'       => "Plan Your Trip – {$event->name}",
-            'description' => "Hotels, camping, flights, and car rentals for {$event->name}" .
-                             ($event->location ? " in {$event->location}" : '') . '.',
-            'url'         => route('travel.plan.event', $event),
+            'title'       => "Plan Your Trip – {$rallyEvent->name}",
+            'description' => "Hotels, camping, flights, and car rentals for {$rallyEvent->name}" .
+                             ($rallyEvent->location ? " in {$rallyEvent->location}" : '') . '.',
+            'url'         => route('travel.plan.event', $rallyEvent),
         ];
-
-        return view('travel.event', compact('event', 'seo'));
+    
+        return view('travel.event', [
+            'event' => $rallyEvent,
+            'seo'   => $seo,
+        ]);
     }
 }
