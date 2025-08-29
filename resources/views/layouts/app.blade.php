@@ -37,7 +37,7 @@
 
 <body
   class="antialiased text-stone-900 dark:text-stone-200
-         bg-gradient-to-b from-stone-50 to-stone-100 dark:from-stone-950 dark:to-stone-900
+         bg-gradient-to-b from-stone-400 to-stone-500 dark:from-stone-950 dark:to-stone-900
          selection:bg-rose-500/30"
   data-events-endpoint="{{ url('/api/events') }}"
   data-feed-tpl="{{ url('/calendar/feed/{year}.ics') }}"
@@ -72,7 +72,7 @@
     <div id="theme-wrapper" class="min-h-screen">
 
         @isset($header)
-        <header class="bg-gradient-to-b from-stone-400 to-stone-500 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
+        <header class="bg-white dark:bg-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
