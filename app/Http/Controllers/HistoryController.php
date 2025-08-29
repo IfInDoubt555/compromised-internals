@@ -33,11 +33,25 @@ class HistoryController extends Controller
      * URL example: /history/events/1960s/123
      */
     public function show(string $tab, string $decade, int $id)
-{
-    $validTabs = ['events', 'cars', 'drivers'];
-    if (!in_array($tab, $validTabs, true)) {
-        abort(404, 'Invalid tab type.');
-    }
+    {
+        $validTabs = ['events', 'cars', 'drivers'];
+        if (!in_array($tab, $validTabs, true)) {
+            abort(404, 'Invalid tab type.');
+        }
+    
+        // ✅ Normalize decade to the canonical form used by your files: "2000s"
+        if (preg_match('/^\d{4}$/', $decade)) {
+            // "2000" -> "2000s"
+            $decade = $decade . 's';
+        } elseif (!preg_match('/^\d{4}s$/', $decade)) {
+            // anything else -> invalid
+            abort(404, 'Invalid decade segment.');
+        }
+    
+        $filePath = public_path("data/{$tab}-{$decade}.json");
+        if (!File::exists($filePath)) {
+            abort(404, "Data file not found for {$tab}-{$decade}.");
+        }
 
     $filePath = public_path("data/{$tab}-{$decade}.json");
     if (!File::exists($filePath)) {

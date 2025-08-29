@@ -119,7 +119,15 @@ Route::prefix('blog')->name('blog.')->group(function () {
 /* ----------------- History ----------------- */
 Route::prefix('history')->name('history.')->group(function () {
     Route::get('/', [HistoryController::class, 'index'])->name('index');
-    Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])->name('show');
+
+    // e.g. /history/events/2000/787  or  /history/events/2000s/787  or slug ids
+    Route::get('/{tab}/{decade}/{id}', [HistoryController::class, 'show'])
+        ->where([
+            'tab'    => '(events|cars|drivers)',
+            'decade' => '\d{4}s?',      // 4 digits with optional trailing "s"
+            'id'     => '[-a-z0-9]+'    // numeric id or kebab-case slug
+        ])
+        ->name('show');
 });
 
 /* ----------------- Travel ----------------- */
