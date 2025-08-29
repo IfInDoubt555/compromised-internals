@@ -13,7 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Models\User;
-use App\Models\RallyEvent; // for legacy redirect binding
+use App\Models\RallyEvent;
 use App\Http\Controllers\AttributionController;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
@@ -53,19 +53,24 @@ Route::middleware(['auth'])->group(function () {
 });
 
 /* ----------------- Calendar ----------------- */
-// Home page for calendar (rename to calendar.index)
+// Calendar home
 Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar.index');
 
-// JSON API feed the calendar uses
+// JSON API used by the calendar UI
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
 
-// Legacy: redirect old numeric ID URLs to slug route
-Route::get('/calendar/events/{event}', function (RallyEvent $event) {
+// Legacy numeric links: /calendar/events/{id}  ->  /calendar/{slug}
+Route::get('/calendar/events/{event:id}', function (RallyEvent $event) {
     return redirect()->route('calendar.show', $event->slug, 301);
 })->whereNumber('event')->name('calendar.events.legacy');
 
-// Canonical calendar event by slug (kept)
-Route::get('/calendar/{slug}', [RallyEventController::class, 'show'])->name('calendar.show');
+// Legacy slug links that used the /calendar/events/ prefix (avoid numbers-only)
+Route::get('/calendar/events/{slug}', function (string $slug) {
+    return redirect()->route('calendar.show', $slug, 301);
+})->where('slug', '^(?!\d+$)[a-z0-9-]+$')->name('calendar.events.legacy.slug');
+
+// Canonical event page (slug-bound model)
+Route::get('/calendar/{rallyEvent:slug}', [RallyEventController::class, 'show'])->name('calendar.show');
 
 // iCal endpoints
 Route::get('/calendar/feed/{year}.ics', [CalendarExportController::class, 'year'])
@@ -135,7 +140,7 @@ Route::prefix('history')->name('history.')->group(function () {
 Route::get('/travel/plan', [TravelPageController::class, 'index'])->name('travel.plan');
 
 // Individual travel page for a rally event (slug binding)
-Route::get('/travel/event/{event:slug}', [TravelPageController::class, 'event'])->name('travel.plan.event');
+Route::get('/travel/event/{rallyEvent:slug}', [TravelPageController::class, 'event'])->name('travel.plan.event');
 
 /* ----------------- Auth-required ----------------- */
 Route::middleware(['auth', 'verified'])->group(function () {

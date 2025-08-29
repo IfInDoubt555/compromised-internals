@@ -28,4 +28,10 @@ class RallyEvent extends Model
     {
         return 'slug';
     }
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('slug', $value)
+                    ->orWhere('id', $value)
+                    ->firstOrFail();
+    }
 }
