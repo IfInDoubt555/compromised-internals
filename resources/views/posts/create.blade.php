@@ -1,109 +1,129 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto mt-12 mb-12">
-    <div class="bg-white shadow-xl rounded-2xl p-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Create a New Rally Post </h1>
+<div class="max-w-4xl mx-auto my-12">
+  <div
+    class="rounded-2xl p-8 shadow-xl bg-white/90 ring-1 ring-black/5 backdrop-blur
+           transition-shadow
+           hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+           focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+           dark:bg-stone-900/80 dark:ring-white/10
+           dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+           dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]"
+  >
+    <h1 class="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-stone-100">
+      Create a New Rally Post
+    </h1>
 
-        {{-- Validation Errors --}}
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
-                <ul class="list-disc pl-6 space-y-1 text-sm">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    {{-- Validation Errors --}}
+    @if ($errors->any())
+      <div class="mb-6 rounded-lg p-4 bg-red-100 text-red-700 dark:bg-rose-900/30 dark:text-rose-200">
+        <ul class="list-disc pl-6 space-y-1 text-sm">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
 
-        {{-- One universal post form --}}
-        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-            @csrf
+    {{-- One universal post form --}}
+    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+      @csrf
 
-            {{-- If a board context is provided (controller passes $board OR ?board=slug), show banner + hidden field --}}
-            @php
-                // If controller passed $board use that; otherwise allow query param fallback
-                $ctxBoard = isset($board) ? $board : \App\Models\Board::where('slug', request('board'))->first();
-            @endphp
+      {{-- If a board context is provided (controller passes $board OR ?board=slug) --}}
+      @php
+        $ctxBoard = isset($board) ? $board : \App\Models\Board::where('slug', request('board'))->first();
+      @endphp
 
-            @if($ctxBoard)
-                <input type="hidden" name="board_id" value="{{ $ctxBoard->id }}">
-                <div class="rounded-lg bg-gray-50 border border-gray-200 p-3 text-sm">
-                    Posting to board:
-                    <a href="{{ route('boards.show', $ctxBoard->slug) }}" class="font-semibold underline">
-                        {{ $ctxBoard->name }}
-                    </a>
-                    <a href="{{ route('posts.create') }}" class="ml-2 text-xs text-gray-500 underline">change</a>
-                </div>
-            @else
-                {{-- Optional board selector (keeps this the only create form you need) --}}
-                <div>
-                    <label for="board_id" class="block text-sm font-medium text-gray-700 mb-1">
-                        Optional: Post to a Board
-                    </label>
-                    <select
-                        id="board_id"
-                        name="board_id"
-                        class="w-full px-4 py-2 rounded-xl border border-gray-300 bg-white focus:ring focus:ring-blue-200 focus:border-blue-400"
-                    >
-                        <option value="">— No board —</option>
-                        @foreach(\App\Models\Board::orderBy('position')->get() as $b)
-                            <option value="{{ $b->id }}" @selected(old('board_id') == $b->id)>{{ $b->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            @endif
+      @if($ctxBoard)
+        <input type="hidden" name="board_id" value="{{ $ctxBoard->id }}">
+        <div class="rounded-lg p-3 text-sm border bg-gray-50 border-gray-200
+                    dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-200">
+          Posting to board:
+          <a href="{{ route('boards.show', $ctxBoard->slug) }}" class="font-semibold underline">
+            {{ $ctxBoard->name }}
+          </a>
+          <a href="{{ route('posts.create') }}" class="ml-2 text-xs text-gray-500 underline dark:text-stone-400">change</a>
+        </div>
+      @else
+        {{-- Optional board selector --}}
+        <div>
+          <label for="board_id" class="block text-sm font-medium mb-1 text-gray-700 dark:text-stone-300">
+            Optional: Post to a Board
+          </label>
+          <select
+            id="board_id"
+            name="board_id"
+            class="w-full px-4 py-2 rounded-xl border bg-white border-gray-300
+                   focus:ring focus:ring-blue-200 focus:border-blue-400
+                   dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10"
+          >
+            <option value="">— No board —</option>
+            @foreach(\App\Models\Board::orderBy('position')->get() as $b)
+              <option value="{{ $b->id }}" @selected(old('board_id') == $b->id)>{{ $b->name }}</option>
+            @endforeach
+          </select>
+        </div>
+      @endif
 
-            {{-- Title --}}
-            <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    value="{{ old('title') }}"
-                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
-                    required
-                >
-            </div>
+      {{-- Title --}}
+      <div>
+        <label for="title" class="block text-sm font-medium mb-1 text-gray-700 dark:text-stone-300">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          value="{{ old('title') }}"
+          required
+          class="w-full px-4 py-2 rounded-xl border bg-white border-gray-300
+                 focus:ring focus:ring-blue-200 focus:border-blue-400
+                 dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10 dark:placeholder-stone-500"
+        >
+      </div>
 
-            {{-- Slug Field (prefill if you like) --}}
-            <x-form.slug-field :value="old('slug')" />
+      {{-- Slug Field --}}
+      <x-form.slug-field :value="old('slug')" />
 
-            {{-- Body --}}
-            <div>
-                <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
-                <textarea
-                    name="body"
-                    id="body"
-                    rows="8"
-                    required
-                    placeholder="Write your full rally story here..."
-                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
-                >{{ old('body') }}</textarea>
-            </div>
+      {{-- Body --}}
+      <div>
+        <label for="body" class="block text-sm font-medium mb-1 text-gray-700 dark:text-stone-300">Body</label>
+        <textarea
+          name="body"
+          id="body"
+          rows="8"
+          required
+          placeholder="Write your full rally story here..."
+          class="w-full px-4 py-2 rounded-xl border bg-white border-gray-300
+                 focus:ring focus:ring-blue-200 focus:border-blue-400
+                 dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10 dark:placeholder-stone-500"
+        >{{ old('body') }}</textarea>
+      </div>
 
-            {{-- Image --}}
-            <div>
-                <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
-                <input
-                    type="file"
-                    name="image_path"
-                    id="image_path"
-                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
-                >
-            </div>
+      {{-- Image --}}
+      <div>
+        <label for="image_path" class="block text-sm font-medium mb-1 text-gray-700 dark:text-stone-300">Upload Image</label>
+        <input
+          type="file"
+          name="image_path"
+          id="image_path"
+          class="w-full px-4 py-2 rounded-xl border bg-white border-gray-300
+                 focus:ring focus:ring-blue-200 focus:border-blue-400
+                 dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10"
+        >
+      </div>
 
-            {{-- Submit --}}
-            <div class="text-center">
-                <button
-                    type="submit"
-                    class="px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition"
-                >
-                    Publish Post 
-                </button>
-            </div>
-        </form>
-    </div>
+      {{-- Submit --}}
+      <div class="text-center">
+        <button
+          type="submit"
+          class="px-6 py-3 font-semibold rounded-xl shadow transition
+                 bg-red-600 text-white hover:bg-red-700
+                 dark:bg-rose-600 dark:hover:bg-rose-500"
+        >
+          Publish Post
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 @endsection
