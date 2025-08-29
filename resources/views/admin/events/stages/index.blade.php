@@ -49,7 +49,7 @@
 
             <div class="md:col-span-1">
               <label class="block text-xs font-semibold uppercase tracking-wide mb-1">Distance (km)</label>
-              <input name="distance_km" type="number" step="0.1" value="{{ old('distance_km') }}" class="ci-input">
+              <input name="distance_km" type="number" step="0.01" value="{{ old('distance_km') }}" class="ci-input">
               @error('distance_km') <p class="ci-error">{{ $message }}</p> @enderror
             </div>
           </div>

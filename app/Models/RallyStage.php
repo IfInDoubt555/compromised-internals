@@ -30,6 +30,7 @@ class RallyStage extends Model
             'start_time_local'       => 'datetime',
             'second_pass_time_local' => 'datetime',
             'spectator_zones'        => 'array',
+            'distance_km'            => 'decimal:2',
         ];
     }
 
