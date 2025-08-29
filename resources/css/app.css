@@ -54,10 +54,12 @@
 
   /* -------- Light Dark Mode  -------- */
   /* Surfaces */
-  .ci-surface      {@apply bg-stone-50/90 ring-1 ring-stone-900/5 shadow-sm dark:bg-stone-900/70 dark:ring-white/10;}
+  .ci-surface      {@apply bg-stone-50/90 ring-1 ring-stone-900/5 shadow-sm
+         dark:bg-stone-900/70 dark:ring-white/10;}
   .ci-surface-hero {@apply bg-stone-900/70 ring-1 ring-white/10 backdrop-blur shadow-xl;}
   .ci-divider      {@apply divide-stone-200 dark:divide-white/10;}
-  .ci-card         {@apply rounded-xl ci-surface p-6;}
+  .ci-card         {@apply rounded-xl bg-stone-50/95 ring-1 ring-stone-200/60
+         shadow-sm dark:bg-stone-900/70 dark:ring-white/10;}
   .ci-card-hero    {@apply rounded-2xl ci-surface-hero p-6 sm:p-8;}
 
   /* Type */
