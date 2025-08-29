@@ -25,9 +25,10 @@ Route::post('/attributions', [AttributionController::class, 'update'])->name('at
 
 /* ---------- Affiliate Clicks ---------- */
 Route::get('/affiliates/clicks', [AffiliateClickController::class, 'index'])
-    ->name('admin.affiliates.clicks');
+    ->name('affiliates.clicks');
+
 Route::get('/affiliates/clicks/export', [AffiliateClickController::class, 'export'])
-    ->name('admin.affiliates.clicks.export');
+    ->name('affiliates.clicks.export');
 
 /* ---------- Admin Rally Events CRUD ---------- */
 Route::prefix('events')->name('events.')->group(function () {
