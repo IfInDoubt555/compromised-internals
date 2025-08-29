@@ -57,11 +57,11 @@
     {{-- HERO: light card by default, dark variant applied in dark mode --}}
     <section class="pt-8">
       <div
-        class="rounded-2xl bg-white/80/90 backdrop-blur ring-1 ring-black/5 p-6 sm:p-8 shadow-xl
+        class="rounded-2xl bg-white/90/90 backdrop-blur ring-1 ring-black/5 p-6 sm:p-8 shadow-xl
                dark:bg-stone-900/70 dark:ring-white/10">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            <div class="rounded-xl bg-white/80/70 dark:bg-stone-900/70 px-4 py-3 shadow-sm">
+            <div class="rounded-xl bg-white/90/70 dark:bg-stone-900/70 px-4 py-3 shadow-sm">
               <h2 class="text-center font-orbitron text-xl font-bold mb-2 text-stone-900 dark:text-stone-200">
                 History Features
               </h2>
@@ -94,7 +94,7 @@
 
         <div class="space-y-6">
           @if($event)
-            <article class="rounded-2xl bg-white/80 dark:bg-stone-800/70 shadow p-6 ring-1 ring-black/5 dark:ring-white/10">
+            <article class="rounded-2xl bg-white/90 dark:bg-stone-800/70 shadow p-6 ring-1 ring-black/5 dark:ring-white/10">
               <h3 class="font-orbitron text-2xl font-bold text-center text-stone-900 dark:text-white">
                 {{ $event['title'] ?? 'Untitled Event' }}
               </h3>
@@ -111,7 +111,7 @@
           @endif
 
           @if($car)
-            <article class="rounded-2xl bg-white/80 dark:bg-stone-800/70 shadow p-6 ring-1 ring-black/5 dark:ring-white/10">
+            <article class="rounded-2xl bg-white/90 dark:bg-stone-800/70 shadow p-6 ring-1 ring-black/5 dark:ring-white/10">
               <h3 class="font-orbitron text-2xl font-bold text-center text-stone-900 dark:text-white">
                 {{ $car['name'] ?? 'Unnamed Car' }}
               </h3>
@@ -128,7 +128,7 @@
           @endif
 
           @if($driver)
-            <article class="rounded-2xl bg-white/80 dark:bg-stone-800/70 shadow p-6 ring-1 ring-black/5 dark:ring-white/10">
+            <article class="rounded-2xl bg-white/90 dark:bg-stone-800/70 shadow p-6 ring-1 ring-black/5 dark:ring-white/10">
               <h3 class="font-orbitron text-2xl font-bold text-center text-stone-900 dark:text-white">
                 {{ $driver['name'] ?? 'Unnamed Driver' }}
               </h3>
@@ -147,7 +147,7 @@
       </div>
 
       {{-- RIGHT: Next rallies --}}
-      <aside class="rounded-2xl bg-white/80 dark:bg-stone-800/70 shadow p-5 ring-1 ring-black/5 dark:ring-white/10">
+      <aside class="rounded-2xl bg-white/90 dark:bg-stone-800/70 shadow p-5 ring-1 ring-black/5 dark:ring-white/10">
         <h3 class="font-orbitron text-lg font-bold text-stone-900 dark:text-white">Next Rallies</h3>
         
         <ul class="mt-3 divide-y divide-stone-200 dark:divide-stone-600">
@@ -199,7 +199,7 @@
               class="h-full w-full object-cover" />
           </a>
 
-          <div class="rounded-2xl bg-white/80/90 ring-1 ring-black/5 p-6
+          <div class="rounded-2xl bg-white/90/90 ring-1 ring-black/5 p-6
                       dark:bg-stone-900/70 dark:ring-white/10">
             <div class="text-xs text-stone-500 dark:text-stone-400">
               <span class="font-medium text-stone-800 dark:text-stone-200">{{ $featured->user?->name ?? 'Unknown' }}</span>
