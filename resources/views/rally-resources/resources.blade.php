@@ -5,7 +5,7 @@
         'title'       => 'Rally Resources | Compromised Internals',
         'description' => 'A curated collection of essential rally racing websites, YouTube channels, and social media communities for fans and enthusiasts.',
         'url'         => url()->current(),
-        'image'       => asset('images/rally-resources-og.png'), // optional
+        'image'       => asset('images/rally-resources-og.png'),
     ];
 
     $resources = [
@@ -101,17 +101,31 @@
     <meta property="og:image"       content="{{ $seo['image'] }}">
 @endpush
 
+@push('head')
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}">
+    <meta property="og:type"        content="website">
+    <meta property="og:site_name"   content="Compromised Internals">
+    <meta property="og:url"         content="{{ $seo['url'] }}">
+    <meta property="og:title"       content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image"       content="{{ $seo['image'] }}">
+@endpush
+
 @section('content')
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl font-extrabold mb-6 text-center tracking-wide text-gray-900">Rally Resources</h1>
-    <p class="text-center mb-12 text-gray-600 max-w-3xl mx-auto leading-relaxed">
+    <h1 class="text-3xl font-extrabold mb-6 text-center tracking-wide text-stone-900 dark:text-stone-100">
+        Rally Resources
+    </h1>
+    <p class="text-center mb-12 max-w-3xl mx-auto leading-relaxed text-stone-600 dark:text-stone-300">
         Explore these curated websites, YouTube channels, and social communities dedicated to rally racing.
     </p>
 
     @foreach ($resources as $category => $links)
     <section
         x-data="{ open: false }"
-        class="mb-6 border border-gray-300 rounded-lg shadow-sm bg-white hover:shadow-md transition-shadow duration-300"
+        class="mb-6 rounded-xl shadow-sm ring-1 ring-black/5 bg-white/85 hover:shadow-md transition-shadow
+               dark:bg-stone-900/70 dark:ring-white/10"
         role="region"
         aria-labelledby="heading-{{ \Illuminate\Support\Str::slug($category) }}"
     >
@@ -120,17 +134,18 @@
             :aria-expanded="open.toString()"
             aria-controls="content-{{ \Illuminate\Support\Str::slug($category) }}"
             id="heading-{{ \Illuminate\Support\Str::slug($category) }}"
-            class="w-full flex justify-between items-center px-6 py-4 text-xl font-semibold bg-gray-50 rounded-t-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            class="w-full flex justify-between items-center px-6 py-4 text-xl font-semibold rounded-t-xl
+                   bg-gray-50 hover:bg-gray-100 text-stone-900
+                   focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                   dark:bg-stone-800/60 dark:hover:bg-stone-800 dark:text-stone-100
+                   dark:focus-visible:ring-rose-300 dark:focus-visible:ring-offset-stone-900"
         >
             {{ $category }}
 
             <svg
                 :class="{ 'rotate-180': open }"
-                class="h-6 w-6 text-red-600 transition-transform duration-300 ease-in-out"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                class="h-6 w-6 text-red-600 dark:text-rose-300 transition-transform duration-300 ease-in-out"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
             >
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
@@ -145,11 +160,12 @@
             x-transition:leave-start="opacity-100 max-h-screen"
             x-transition:leave-end="opacity-0 max-h-0"
             id="content-{{ \Illuminate\Support\Str::slug($category) }}"
-            class="px-8 py-6 text-blue-700 list-disc list-inside space-y-3 overflow-hidden"
+            class="px-8 py-6 list-disc list-inside space-y-3 overflow-hidden
+                   text-blue-700 dark:text-sky-300"
             style="display: none;"
         >
             @foreach ($links as $link)
-            <li class="hover:text-red-600 transition-colors duration-200">
+            <li class="transition-colors duration-200 hover:text-red-600 dark:hover:text-rose-300">
                 <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer" class="underline">
                     {{ $link['name'] }}
                 </a>
