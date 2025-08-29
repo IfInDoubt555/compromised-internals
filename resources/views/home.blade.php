@@ -48,7 +48,7 @@
 @section('content')
 {{-- PAGE SHELL: make light the default, dark via `dark:` --}}
 <div
-  class="min-h-screen bg-gradient-to-b from-stone-50 to-stone-100
+  class="min-h-screen bg-gradient-to-b from-slate-300 to-slate-400
          text-stone-800 selection:bg-rose-500/20
          dark:from-stone-950 dark:to-stone-900
          dark:text-stone-200 dark:selection:bg-rose-500/30">
@@ -147,9 +147,30 @@
       {{-- RIGHT: Next rallies --}}
       <aside class="rounded-2xl bg-white dark:bg-stone-800/70 shadow p-5 ring-1 ring-black/5 dark:ring-white/10">
         <h3 class="font-orbitron text-lg font-bold text-stone-900 dark:text-white">Next Rallies</h3>
+        
         <ul class="mt-3 divide-y divide-stone-200 dark:divide-stone-600">
-          {{-- ...existing loop... --}}
+          @forelse($nextEvents ?? [] as $e)
+            <li class="py-3">
+              <div class="text-sm font-semibold text-stone-900 dark:text-white">{{ $e->title }}</div>
+              <div class="text-xs text-stone-600 dark:text-stone-400">
+                <time datetime="{{ $e->start_date?->toDateString() }}">
+                  {{ optional($e->start_date)->format('M j') }}
+                  @if($e->end_date) – {{ $e->end_date->format('M j') }} @endif
+                </time>
+                @if(!empty($e->location)) • {{ $e->location }} @endif
+              </div>
+              @if(!empty($e->slug))
+                <a href="{{ route('events.show', $e->slug) }}"
+                   class="text-xs font-medium text-blue-600 dark:text-rose-300 hover:underline mt-1 inline-block">
+                  Event details
+                </a>
+              @endif
+            </li>
+          @empty
+            <li class="py-3 text-sm text-stone-600 dark:text-stone-400">No upcoming events found.</li>
+          @endforelse
         </ul>
+        
         <a href="{{ route('calendar.index') }}"
            class="mt-3 inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
           Open full calendar
