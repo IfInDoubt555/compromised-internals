@@ -8,17 +8,19 @@
   <div class="min-h-screen w-full overflow-hidden flex flex-col lg:flex-row items-center justify-center lg:justify-between
               bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300
               dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
+
     {{-- Left image --}}
     <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-      <img src="{{ asset('images/login-left.png') }}" alt="Night Stage Fire"
-           class="h-full w-full object-cover mask-fade-left" />
+      <img src="{{ asset('images/login-left.png') }}"
+           alt="Night Stage Fire"
+           class="h-full w-full object-cover mask-fade-left brightness-90 contrast-110" />
     </div>
 
-    {{-- Box --}}
+    {{-- Auth card --}}
     <div class="w-full max-w-none sm:max-w-lg lg:max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
-                bg-white shadow-2xl border border-gray-100
+                bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
                 hover:shadow-[0_0_60px_rgba(255,0,0,0.15)]
-                dark:bg-stone-900/80 dark:border-white/10 dark:hover:shadow-[0_0_60px_rgba(244,63,94,0.15)]">
+                dark:bg-stone-900/80 dark:ring-white/10 dark:hover:shadow-[0_0_60px_rgba(244,63,94,0.15)]">
       <div class="text-center mb-4">
         <h2 class="text-4xl sm:text-3xl font-bold text-gray-800 dark:text-stone-100">Welcome Back</h2>
         <p class="mt-2 text-base sm:text-sm text-gray-500 dark:text-stone-400">Glad to have you back on the rally stage</p>
@@ -39,23 +41,40 @@
         {{-- Email --}}
         <div>
           <x-input-label for="email" value="Email" />
-          <x-text-input id="email" class="block w-full mt-1 text-base" type="email"
-                        name="email" :value="old('email')" required autofocus style="height:3rem" />
+          <x-text-input
+            id="email"
+            name="email"
+            type="email"
+            :value="old('email')"
+            required
+            autofocus
+            style="height:3rem"
+            class="block w-full mt-1 text-base
+                   bg-white border-gray-300 placeholder-gray-500
+                   dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10 dark:placeholder-stone-500" />
           <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm" />
         </div>
 
         {{-- Password --}}
         <div>
           <x-input-label for="password" value="Password" />
-          <x-text-input id="password" class="block w-full mt-1 text-base" type="password"
-                        name="password" required style="height:3rem" />
+          <x-text-input
+            id="password"
+            name="password"
+            type="password"
+            required
+            style="height:3rem"
+            class="block w-full mt-1 text-base
+                   bg-white border-gray-300 placeholder-gray-500
+                   dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10 dark:placeholder-stone-500" />
           <x-input-error :messages="$errors->get('password')" class="mt-2 text-sm" />
         </div>
 
         <div class="flex items-center justify-between text-sm">
           <label for="remember_me" class="inline-flex items-center">
             <input id="remember_me" type="checkbox" name="remember"
-                   class="rounded border-gray-300 text-red-600 focus:ring-red-500" />
+                   class="rounded border-gray-300 text-red-600 focus:ring-red-500
+                          dark:bg-stone-800 dark:border-white/10" />
             <span class="ml-2 text-gray-700 dark:text-stone-300">Remember me</span>
           </label>
 
@@ -68,9 +87,10 @@
         </div>
 
         <div class="text-center">
-          <x-primary-button class="w-full justify-center py-3 text-lg
-                                  bg-red-600 hover:bg-red-700
-                                  dark:bg-rose-600 dark:hover:bg-rose-500">
+          <x-primary-button
+            class="w-full justify-center py-3 text-lg
+                   bg-red-600 hover:bg-red-700
+                   dark:bg-rose-600 dark:hover:bg-rose-500">
             Log in
           </x-primary-button>
         </div>
@@ -81,7 +101,8 @@
       </noscript>
 
       <div class="mt-6 text-center">
-        <a href="{{ route('home') }}" class="text-blue-600 hover:underline text-sm dark:text-sky-300 dark:hover:text-sky-200">
+        <a href="{{ route('home') }}"
+           class="text-blue-600 hover:underline text-sm dark:text-sky-300 dark:hover:text-sky-200">
           ← Back to Home
         </a>
       </div>
@@ -89,8 +110,9 @@
 
     {{-- Right image --}}
     <div class="hidden lg:block flex-grow basis-[45%] h-[90vh]">
-      <img src="{{ asset('images/login-right.png') }}" alt="Rally Forest Charge"
-           class="h-full w-full object-cover mask-fade-right" />
+      <img src="{{ asset('images/login-right.png') }}"
+           alt="Rally Forest Charge"
+           class="h-full w-full object-cover mask-fade-right brightness-90 contrast-110" />
     </div>
   </div>
 
