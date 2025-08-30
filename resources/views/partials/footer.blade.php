@@ -1,4 +1,4 @@
-<footer class="bg-gray-900 text-white py-12">
+<footer class="relative z-20 bg-gray-900 text-white py-12">
     <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row justify-center gap-x-16 gap-y-10 text-left">
 
         <!-- Column 1: Brand -->
