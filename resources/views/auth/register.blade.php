@@ -16,21 +16,22 @@
         type="image/webp"
         srcset="{{ asset('images/register-bg/register-bg-desktop-1920.webp') }} 1920w,
                 {{ asset('images/register-bg/register-bg-desktop-2560.webp') }} 2560w,
-                {{ asset('images/register-bg/register-bg-desktop-4k.webp') }} 3840w"
+                {{ asset('images/register-bg/register-bg-desktop-3840.webp') }} 3840w"
         sizes="100vw">
-
+    
       {{-- Mobile --}}
       <source
         media="(max-width: 1023px)"
         type="image/webp"
         srcset="{{ asset('images/register-bg/register-bg-mobile-720.webp') }} 720w,
                 {{ asset('images/register-bg/register-bg-mobile-1080.webp') }} 1080w,
-                {{ asset('images/register-bg/register-bg-mobile-4k.webp') }} 2160w"
+                {{ asset('images/register-bg/register-bg-mobile-2160.webp') }} 2160w"
         sizes="100vw">
-
+    
       <img src="{{ asset('images/register-bg/register-bg-desktop-1920.webp') }}"
            alt="Scenic rally road stretching into the horizon — your rally journey begins here"
-           class="h-full w-full object-cover brightness-90 dark:brightness-75" loading="eager" decoding="async">
+           class="h-full w-full object-cover brightness-90 dark:brightness-75"
+           loading="eager" decoding="async" fetchpriority="high">
     </picture>
 
     {{-- Optional subtle overlay to improve contrast over bright backgrounds --}}

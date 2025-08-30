@@ -7,7 +7,8 @@
         "img:bg": "node tools/build-images.mjs --profile bg",
         "img:hero": "node tools/build-images.mjs --profile hero",
         "img:card": "node tools/build-images.mjs --profile card",
-        "img:thumb": "node tools/build-images.mjs --profile thumb"
+        "img:thumb": "node tools/build-images.mjs --profile thumb",
+        "img:make-masters:register": "node tools/make-bg-masters.mjs --src assets/originals/register-road.jpg --base register-bg --out public/images/register-bg --focus attention"
     },
     "overrides": {
         "form-data": "^4.0.4",
