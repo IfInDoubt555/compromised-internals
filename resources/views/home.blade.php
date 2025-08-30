@@ -149,7 +149,6 @@
     </section>
   </div>
 </div>
-@endsection
 
     {{-- BLOG FEATURED + LATEST --}}
     <section class="mt-14">
