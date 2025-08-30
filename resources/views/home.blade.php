@@ -232,7 +232,7 @@
   {{-- ===== /HERO + HISTORY/NEXT ===== --}}
 
   {{-- ===== BLOG FEATURED + LATEST ===== --}}
-  <section class="mt-14 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+  <section class="mt-14 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
     <h2 class="text-center font-orbitron text-2xl font-bold">
       Latest From the Blog
     </h2>
