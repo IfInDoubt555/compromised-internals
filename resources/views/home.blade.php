@@ -68,7 +68,7 @@
          selection:bg-rose-500/30">
 
   {{-- ===== HERO + HISTORY/NEXT (scoped banner behind) ===== --}}
-  <section id="home-hero" class="relative isolate overflow-hidden">
+  <section id="home-hero" class="relative isolate">
 
     {{-- BACKGROUND (Light) --}}
     <picture class="absolute inset-0 -z-10 block dark:hidden pointer-events-none">
@@ -107,7 +107,7 @@
                 dark:from-black/20 dark:via-black/30 dark:to-black/50 pointer-events-none"></div>
 
     {{-- CONTENT (centered container) --}}
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
 
       {{-- HERO CARD --}}
       <section class="pt-8">
