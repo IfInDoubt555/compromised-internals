@@ -5,6 +5,7 @@
         "dev": "vite --config vite.config.js",
         "build": "vite build --config vite.config.js",
         "img:bg": "node tools/build-images.mjs --profile bg",
+        "img:banner": "node tools/build-images.mjs --profile banner",
         "img:hero": "node tools/build-images.mjs --profile hero",
         "img:card": "node tools/build-images.mjs --profile card",
         "img:thumb": "node tools/build-images.mjs --profile thumb",

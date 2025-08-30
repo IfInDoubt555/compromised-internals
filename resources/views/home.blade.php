@@ -91,6 +91,60 @@
         </div>
       </div>
     </section>
+        {{-- Homepage Banner (light/dark) as BACKGROUND layer --}}
+    <section class="relative isolate w-full">
+      {{-- Background layer --}}
+      <div aria-hidden="true" class="absolute inset-0 -z-10 pointer-events-none">
+        <picture class="block w-full h-full">
+          {{-- Dark first (most specific) --}}
+          <source media="(prefers-color-scheme: dark) and (min-width: 1024px)" type="image/webp"
+                  srcset="{{ asset('images/homepage-banner/dark/homepage-banner-dark-desktop-1920.webp') }} 1920w,
+                          {{ asset('images/homepage-banner/dark/homepage-banner-dark-desktop-2560.webp') }} 2560w,
+                          {{ asset('images/homepage-banner/dark/homepage-banner-dark-desktop-3840.webp') }} 3840w"
+                  sizes="100vw">
+          <source media="(prefers-color-scheme: dark) and (max-width: 1023px)" type="image/webp"
+                  srcset="{{ asset('images/homepage-banner/dark/homepage-banner-dark-mobile-720.webp') }} 720w,
+                          {{ asset('images/homepage-banner/dark/homepage-banner-dark-mobile-1080.webp') }} 1080w"
+                  sizes="100vw">
+      
+          {{-- Light --}}
+          <source media="(min-width: 1024px)" type="image/webp"
+                  srcset="{{ asset('images/homepage-banner/light/homepage-banner-light-desktop-1920.webp') }} 1920w,
+                          {{ asset('images/homepage-banner/light/homepage-banner-light-desktop-2560.webp') }} 2560w,
+                          {{ asset('images/homepage-banner/light/homepage-banner-light-desktop-3840.webp') }} 3840w"
+                  sizes="100vw">
+          <source media="(max-width: 1023px)" type="image/webp"
+                  srcset="{{ asset('images/homepage-banner/light/homepage-banner-light-mobile-720.webp') }} 720w,
+                          {{ asset('images/homepage-banner/light/homepage-banner-light-mobile-1080.webp') }} 1080w"
+                  sizes="100vw">
+      
+          <img src="{{ asset('images/homepage-banner/light/homepage-banner-light-desktop-1920.webp') }}"
+               alt="" class="w-full h-full object-cover" loading="eager" decoding="async" fetchpriority="high">
+        </picture>
+      
+        {{-- Optional subtle overlay for contrast --}}
+        <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/10
+                    dark:from-black/10 dark:via-black/20 dark:to-black/40"></div>
+      </div>
+      
+      {{-- Spacer to reserve vertical space for the banner --}}
+      <div class="h-[16rem] sm:h-[20rem] lg:h-[28rem] xl:h-[36rem] 2xl:h-[44rem]"></div>
+      
+      {{-- If you want the “History / Next Rallies” row ON TOP of the banner,
+           move that content INSIDE this section below, with a higher z-index: --}}
+      {{-- <div class="relative z-10 container mx-auto px-4">
+           @include('partials.home.history-and-rallies')
+         </div> --}}
+    </section>
+      
+      {{-- Subtle overlay to ensure text contrast --}}
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/10 dark:from-black/10 dark:via-black/20 dark:to-black/40"></div>
+      
+      {{-- Optional centered copy/CTA (kept minimal here) --}}
+      {{-- <div class="absolute inset-0 grid place-items-center">
+           <div class="text-white text-3xl md:text-4xl font-bold drop-shadow">Dive into rally history</div>
+         </div> --}}
+    </section>
 
     {{-- SPOTLIGHTS + NEXT EVENTS --}}
     <section class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
