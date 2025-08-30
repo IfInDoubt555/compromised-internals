@@ -98,28 +98,31 @@
         <picture class="block w-full h-full">
           {{-- Dark first (most specific) --}}
           <source media="(prefers-color-scheme: dark) and (min-width: 1024px)" type="image/webp"
-                  srcset="{{ asset('images/homepage-banner/dark/homepage-banner-dark-desktop-1920.webp') }} 1920w,
-                          {{ asset('images/homepage-banner/dark/homepage-banner-dark-desktop-2560.webp') }} 2560w,
-                          {{ asset('images/homepage-banner/dark/homepage-banner-dark-desktop-3840.webp') }} 3840w"
+                  srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.webp') }} 1920w,
+                          {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.webp') }} 2560w,
+                          {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.webp') }} 3840w"
                   sizes="100vw">
           <source media="(prefers-color-scheme: dark) and (max-width: 1023px)" type="image/webp"
-                  srcset="{{ asset('images/homepage-banner/dark/homepage-banner-dark-mobile-720.webp') }} 720w,
-                          {{ asset('images/homepage-banner/dark/homepage-banner-dark-mobile-1080.webp') }} 1080w"
+                  srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.webp') }} 720w,
+                          {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.webp') }} 1080w,
+                          {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-2160.webp') }} 2160w"
                   sizes="100vw">
-      
+          
           {{-- Light --}}
           <source media="(min-width: 1024px)" type="image/webp"
-                  srcset="{{ asset('images/homepage-banner/light/homepage-banner-light-desktop-1920.webp') }} 1920w,
-                          {{ asset('images/homepage-banner/light/homepage-banner-light-desktop-2560.webp') }} 2560w,
-                          {{ asset('images/homepage-banner/light/homepage-banner-light-desktop-3840.webp') }} 3840w"
+                  srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.webp') }} 1920w,
+                          {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-2560.webp') }} 2560w,
+                          {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-3840.webp') }} 3840w"
                   sizes="100vw">
           <source media="(max-width: 1023px)" type="image/webp"
-                  srcset="{{ asset('images/homepage-banner/light/homepage-banner-light-mobile-720.webp') }} 720w,
-                          {{ asset('images/homepage-banner/light/homepage-banner-light-mobile-1080.webp') }} 1080w"
+                  srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-mobile-720.webp') }} 720w,
+                          {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-1080.webp') }} 1080w,
+                          {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-2160.webp') }} 2160w"
                   sizes="100vw">
-      
-          <img src="{{ asset('images/homepage-banner/light/homepage-banner-light-desktop-1920.webp') }}"
-               alt="" class="w-full h-full object-cover" loading="eager" decoding="async" fetchpriority="high">
+          
+          <img src="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.webp') }}"
+               alt="Monte Carlo mountainside waterfront"
+               class="w-full h-full object-cover" loading="eager" decoding="async" fetchpriority="high">
         </picture>
       
         {{-- Optional subtle overlay for contrast --}}
