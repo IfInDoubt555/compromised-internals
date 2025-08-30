@@ -53,38 +53,42 @@
 
         {{-- Theme Switch (pill) --}}
         <button
-          x-data
-          @click="$store.theme.toggle()"
-          :aria-pressed="$store.theme.dark"
-          role="switch"
-          aria-label="Toggle dark mode"
-          class="group relative inline-flex items-center justify-center select-none"
-        >
-          <span
-            class="relative w-16 h-9 rounded-full ring-1 transition-all duration-300
+            type="button"
+            @click="$store.theme.toggle()"
+            :aria-pressed="$store.theme.dark.toString()"
+            role="switch"
+            aria-label="Toggle dark mode"
+            class="group relative inline-flex items-center justify-center w-16 h-9 rounded-full ring-1 transition-all duration-300
                    ring-stone-900/10 bg-stone-200
-                   dark:ring-white/10 dark:bg-stone-700"
-          >
+                   dark:ring-white/10 dark:bg-stone-700 select-none"
+        >
+            <!-- Moon (dark) -->
             <span class="absolute inset-y-0 left-1 flex items-center">
-              <span x-cloak class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500"
-                    aria-hidden="true">🌙</span>
+                <span x-cloak class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500" aria-hidden="true">
+                    🌙
+                </span>
             </span>
+        
+            <!-- Sun (light) -->
             <span class="absolute inset-y-0 right-1 flex items-center">
-              <span x-cloak class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400"
-                    aria-hidden="true">☀️</span>
+                <span x-cloak class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400" aria-hidden="true">
+                    ☀️
+                </span>
             </span>
+        
+            <!-- Toggle knob -->
             <span
-              class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 transition-all duration-300
-                     ring-stone-900/10 bg-white
-                     dark:ring-white/10 dark:bg-stone-800
-                     flex items-center justify-center text-base"
-              :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-7'"
+                class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 transition-all duration-300
+                       ring-stone-900/10 bg-white
+                       dark:ring-white/10 dark:bg-stone-800
+                       flex items-center justify-center text-base"
+                :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-7'"
             >
-              <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
-                    :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
-              <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
+                <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
+                      :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'">
+                </span>
+                <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
             </span>
-          </span>
         </button>
 
         {{-- Hamburger (mobile only) --}}

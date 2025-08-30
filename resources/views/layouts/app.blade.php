@@ -14,8 +14,9 @@
     <!-- Set theme BEFORE CSS paints to avoid FOUC -->
     <script>
     (() => {
-      let isDark = false;
-      try { isDark = localStorage.getItem('ci-theme') === 'dark'; } catch {}
+      let v = null;
+      try { v = localStorage.getItem('ci-theme'); } catch {}
+      const isDark = v === 'dark'; // default LIGHT when unset
       document.documentElement.classList.toggle('dark', isDark);
     })();
     </script>

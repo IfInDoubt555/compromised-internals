@@ -5,19 +5,54 @@
     <meta name="robots" content="noindex, nofollow">
   @endpush>
 
-  <div class="min-h-screen w-full overflow-hidden flex items-center justify-center px-4
-              bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300
-              dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
+  <div class="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4">
+
+    {{-- Responsive Background (natural & bright) --}}
+    <picture class="absolute inset-0 -z-10 h-full w-full">
+    {{-- Desktop --}}
+      <source
+        media="(min-width: 1024px)"
+        type="image/webp"
+        srcset="{{ asset('images/login-bg/login-bg-desktop-1920.webp') }} 1920w,
+                {{ asset('images/login-bg/login-bg-desktop-2560.webp') }} 2560w,
+                {{ asset('images/login-bg/login-bg-desktop-4k.webp') }} 3840w"
+        sizes="100vw">
+
+      {{-- Mobile --}}
+      <source
+        media="(max-width: 1023px)"
+        type="image/webp"
+        srcset="{{ asset('images/login-bg/login-bg-mobile-720.webp') }} 720w,
+                {{ asset('images/login-bg/login-bg-mobile-1080.webp') }} 1080w,
+                {{ asset('images/login-bg/login-bg-mobile-4k.webp') }} 2160w"
+        sizes="100vw">
+
+      <img
+        src="{{ asset('images/login-bg/login-bg-desktop-1920.webp') }}"
+        alt=""
+        class="h-full w-full object-cover object-center"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high">
+    </picture>
+    {{-- Dark mode only: subtle vignette for contrast --}}
+    <div class="absolute inset-0 -z-10 hidden dark:block bg-black/30"></div>
 
     {{-- Auth card --}}
-    <div class="w-full max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
-                bg-white/90 ring-1 ring-black/5 shadow-xl backdrop-blur
-                transition-shadow
-                hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
-                focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
-                dark:bg-stone-900/80 dark:ring-white/10
-                dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
-                dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
+    <div
+      class="w-full max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
+             /* Light mode (default) */
+             bg-white/90 ring-1 ring-black/5 shadow-xl
+             supports-[backdrop-filter]:backdrop-blur
+             /* Dark mode only */
+             dark:bg-stone-900/80 dark:ring-white/10
+             dark:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+             /* Focus/hover accents */
+             transition-shadow
+             hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+             focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
+             dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
+             dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
       <div class="text-center mb-4">
         <h2 class="text-4xl sm:text-3xl font-bold text-gray-800 dark:text-stone-100">Welcome Back</h2>
         <p class="mt-2 text-base sm:text-sm text-gray-500 dark:text-stone-400">Glad to have you back on the rally stage</p>
