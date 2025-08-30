@@ -295,7 +295,7 @@
                       <span class="inline-flex items-center h-6 px-2 rounded
                                    bg-sky-50 border border-sky-200 text-sky-800 font-medium
                                    dark:bg-sky-900/30 dark:border-sky-400/30 dark:text-sky-300">
-                        {{ $ss->distance_km_formatted ) }} km
+                        {{ $ss->distance_km_formatted }} km
                       </span>
                     </div>
                   @endif
