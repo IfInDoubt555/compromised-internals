@@ -152,7 +152,7 @@
               @if(!is_null($ss->distance_km))
                 <span class="px-2 py-1 rounded-full bg-sky-50 ring-1 ring-sky-200 text-sky-700
                              dark:bg-sky-900/30 dark:ring-sky-400/30 dark:text-sky-300">
-                  {{ number_format($ss->distance_km, 1) }} km
+                  {{ $ss->distance_km_formatted }} km
                 </span>
               @endif
             </div>
@@ -202,8 +202,8 @@
     @foreach($days->sortBy('date') as $day)
       @php $pal = $dayPalette($day->date); @endphp
 
-      <div class="rounded-2xl bg-white dark:bg-stone-900/70 shadow-lg
-                  ring-1 ring-slate-200 dark:ring-white/10">
+      <div class="self-start rounded-2xl bg-white dark:bg-stone-900/70 shadow-lg
+            ring-1 ring-slate-200 dark:ring-white/10">
         <div class="flex items-center justify-between px-4 pt-4">
           <span class="text-[11px] font-semibold uppercase tracking-wide
                        {{ $pal['t'] }} {{ $pal['bg'] }} border {{ $pal['b'] }}
@@ -295,7 +295,7 @@
                       <span class="inline-flex items-center h-6 px-2 rounded
                                    bg-sky-50 border border-sky-200 text-sky-800 font-medium
                                    dark:bg-sky-900/30 dark:border-sky-400/30 dark:text-sky-300">
-                        {{ number_format($ss->distance_km, 1) }} km
+                        {{ $ss->distance_km_formatted ) }} km
                       </span>
                     </div>
                   @endif

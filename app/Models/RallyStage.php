@@ -34,6 +34,14 @@ class RallyStage extends Model
         ];
     }
 
+    // Consistent 2-decimal presentation for distance.
+    //  Usage: $stage->distance_km_formatted  // "4.90"
+    public function getDistanceKmFormattedAttribute(): ?string
+    {
+        if ($this->distance_km === null) return null;
+        return number_format((float) $this->distance_km, 2, '.', '');
+    }
+
     public function event()
     {
         return $this->belongsTo(RallyEvent::class, 'rally_event_id');
