@@ -71,7 +71,7 @@
   <section id="home-hero" class="relative isolate">
 
     {{-- BACKGROUND (Light) --}}
-    <picture class="absolute inset-0 -z-10 block dark:hidden pointer-events-none">
+    <picture class="fixed inset-0 -z-10 block dark:hidden">
       <source media="(min-width: 1024px)" type="image/webp"
               srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.webp') }} 1920w,
                       {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-2560.webp') }} 2560w,
@@ -87,7 +87,7 @@
     </picture>
 
     {{-- BACKGROUND (Dark) --}}
-    <picture class="absolute inset-0 -z-10 hidden dark:block pointer-events-none">
+    <picture class="fixed inset-0 -z-10 hidden dark:block">
       <source media="(min-width: 1024px)" type="image/webp"
               srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.webp') }} 1920w,
                       {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.webp') }} 2560w,
@@ -103,8 +103,8 @@
     </picture>
 
     {{-- Contrast overlay --}}
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-black/0 via-black/0 to-black/20
-                dark:from-black/20 dark:via-black/30 dark:to-black/50 pointer-events-none"></div>
+    <div class="fixed inset-0 -z-10 bg-gradient-to-b from-black/0 via-black/0 to-black/20
+                dark:from-black/20 dark:via-black/30 dark:to-black/50"></div>
 
     {{-- CONTENT (centered container) --}}
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
