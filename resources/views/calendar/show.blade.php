@@ -223,40 +223,83 @@
                   {{ $ss->name ?? 'Stage' }}
                 </div>
 
-                <div class="mt-1 flex flex-wrap items-center gap-2 text-[11px]
-                            text-slate-700 dark:text-stone-300">
-                  @if(($ss->stage_type ?? 'SS') === 'SD')
-                    <span class="px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-slate-800 font-medium
+                {{-- stacked meta rows --}}
+                <div class="mt-2 space-y-1 text-[11px] text-slate-700 dark:text-stone-300">
+
+                  {{-- Stage id (SS 3 / 7 or Shakedown) --}}
+                  <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center justify-center h-6 min-w-[92px] px-2 rounded
+                                 bg-slate-50 border border-slate-200 text-slate-700
                                  dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-200">
-                      Shakedown
+                      Stage
                     </span>
-                  @else
-                    <span class="px-2 py-0.5 rounded bg-violet-50 border border-violet-200 text-violet-800 font-medium
-                                 dark:bg-violet-900/30 dark:border-violet-400/30 dark:text-violet-300">
-                      SS {{ $ss->ss_number ?? '?' }}@if(!empty($ss->second_ss_number))/{{ $ss->second_ss_number }}@endif
-                    </span>
-                  @endif
 
+                    @if(($ss->stage_type ?? 'SS') === 'SD')
+                      <span class="inline-flex items-center h-6 px-2 rounded
+                                   bg-slate-50 border border-slate-200 text-slate-800 font-medium
+                                   dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-200">
+                        Shakedown
+                      </span>
+                    @else
+                      <span class="inline-flex items-center h-6 px-2 rounded
+                                   bg-violet-50 border border-violet-200 text-violet-800 font-medium
+                                   dark:bg-violet-900/30 dark:border-violet-400/30 dark:text-violet-300">
+                        SS {{ $ss->ss_number ?? '?' }}
+                        @if(!empty($ss->second_ss_number))
+                          / {{ $ss->second_ss_number }}
+                        @endif
+                      </span>
+                    @endif
+                  </div>
+
+                  {{-- 1st pass start time --}}
                   @if($ss->start_time_local)
-                    <span class="px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800
-                                 dark:bg-emerald-900/30 dark:border-emerald-400/30 dark:text-emerald-300">
-                      {{ $ss->start_time_local->format('H:i') }}
-                    </span>
+                    <div class="flex items-center gap-2">
+                      <span class="inline-flex items-center justify-center h-6 min-w-[92px] px-2 rounded
+                                   bg-slate-50 border border-slate-200 text-slate-700
+                                   dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-200">
+                        1st pass
+                      </span>
+                      <span class="inline-flex items-center h-6 px-2 rounded
+                                   bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium
+                                   dark:bg-emerald-900/30 dark:border-emerald-400/30 dark:text-emerald-300">
+                        {{ $ss->start_time_local->format('H:i') }}
+                      </span>
+                    </div>
                   @endif
 
+                  {{-- 2nd pass start time (optional) --}}
                   @if($ss->second_pass_time_local)
-                    <span class="px-2 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-800
-                                 dark:bg-amber-900/30 dark:border-amber-400/30 dark:text-amber-300">
-                      {{ $ss->second_pass_time_local->format('H:i') }}
-                    </span>
+                    <div class="flex items-center gap-2">
+                      <span class="inline-flex items-center justify-center h-6 min-w-[92px] px-2 rounded
+                                   bg-slate-50 border border-slate-200 text-slate-700
+                                   dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-200">
+                        2nd pass
+                      </span>
+                      <span class="inline-flex items-center h-6 px-2 rounded
+                                   bg-amber-50 border border-amber-200 text-amber-800 font-medium
+                                   dark:bg-amber-900/30 dark:border-amber-400/30 dark:text-amber-300">
+                        {{ $ss->second_pass_time_local->format('H:i') }}
+                      </span>
+                    </div>
                   @endif
 
+                  {{-- Distance --}}
                   @if(!is_null($ss->distance_km))
-                    <span class="px-2 py-0.5 rounded bg-sky-50 border border-sky-200 text-sky-800
-                                 dark:bg-sky-900/30 dark:border-sky-400/30 dark:text-sky-300">
-                      {{ number_format($ss->distance_km,1) }} km
-                    </span>
+                    <div class="flex items-center gap-2">
+                      <span class="inline-flex items-center justify-center h-6 min-w-[92px] px-2 rounded
+                                   bg-slate-50 border border-slate-200 text-slate-700
+                                   dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-200">
+                        Distance
+                      </span>
+                      <span class="inline-flex items-center h-6 px-2 rounded
+                                   bg-sky-50 border border-sky-200 text-sky-800 font-medium
+                                   dark:bg-sky-900/30 dark:border-sky-400/30 dark:text-sky-300">
+                        {{ number_format($ss->distance_km, 1) }} km
+                      </span>
+                    </div>
                   @endif
+
                 </div>
               </div>
             </a>
