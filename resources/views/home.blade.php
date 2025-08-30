@@ -247,10 +247,18 @@
         <a href="{{ route('posts.show', $featured->slug) }}"
            class="aspect-[16/9] w-full overflow-hidden rounded-2xl ring-1 ring-black/10 bg-stone-100
                   dark:ring-white/10 dark:bg-stone-800">
+          @php
+            // Resolve a safe URL for the featured image (S3/local agnostic)
+            $featuredImg = $featured->image_url
+              ?? ($featured->image_path ? Storage::url($featured->image_path) : null);
+          @endphp
+
           <img
-            src="{{ $featured->image_path && Storage::disk('public')->exists($featured->image_path) ? Storage::url($featured->image_path) : asset('images/default-post.png') }}"
+            src="{{ $featuredImg ?: asset('images/default-post.png') }}"
             alt="{{ $featured->title }}"
-            class="h-full w-full object-cover" />
+            class="block h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            loading="lazy"
+            decoding="async" />
         </a>
 
         <div class="rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 p-6
@@ -284,8 +292,7 @@
                 <img
                   src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path) ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
                   alt="{{ $post->title }}"
-                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
-              </div>
+                  class="block h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"              </div>
               <div>
                 <div class="text-xs text-stone-600 dark:text-stone-400">
                   <span class="font-medium">{{ $post->user?->name ?? 'Unknown' }}</span>
