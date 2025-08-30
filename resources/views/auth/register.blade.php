@@ -5,9 +5,36 @@
     <meta name="robots" content="noindex, nofollow">
   @endpush>
 
-  <div class="w-screen min-h-screen flex items-center justify-center px-4 overflow-hidden
-              bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300
-              dark:from-stone-950 dark:via-stone-900 dark:to-stone-950">
+  {{-- Full-bleed wrapper with responsive scenic rally background --}}
+  <div class="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4">
+
+    {{-- Responsive Background (Scenic Rally Road) --}}
+    <picture class="absolute inset-0 -z-10 h-full w-full">
+      {{-- Desktop --}}
+      <source
+        media="(min-width: 1024px)"
+        type="image/webp"
+        srcset="{{ asset('images/register-bg/register-bg-desktop-1920.webp') }} 1920w,
+                {{ asset('images/register-bg/register-bg-desktop-2560.webp') }} 2560w,
+                {{ asset('images/register-bg/register-bg-desktop-4k.webp') }} 3840w"
+        sizes="100vw">
+
+      {{-- Mobile --}}
+      <source
+        media="(max-width: 1023px)"
+        type="image/webp"
+        srcset="{{ asset('images/register-bg/register-bg-mobile-720.webp') }} 720w,
+                {{ asset('images/register-bg/register-bg-mobile-1080.webp') }} 1080w,
+                {{ asset('images/register-bg/register-bg-mobile-4k.webp') }} 2160w"
+        sizes="100vw">
+
+      <img src="{{ asset('images/register-bg/register-bg-desktop-1920.webp') }}"
+           alt="Scenic rally road stretching into the horizon — your rally journey begins here"
+           class="h-full w-full object-cover brightness-90 dark:brightness-75" loading="eager" decoding="async">
+    </picture>
+
+    {{-- Optional subtle overlay to improve contrast over bright backgrounds --}}
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-white/0 via-white/0 to-white/10 dark:from-black/0 dark:via-black/20 dark:to-black/40"></div>
 
     {{-- Auth card --}}
     <div class="w-full max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
@@ -19,8 +46,8 @@
                 dark:hover:shadow-[0_0_60px_rgba(52,211,153,0.25)]
                 dark:focus-within:shadow-[0_0_60px_rgba(52,211,153,0.25)]">
       <div class="text-center mb-6">
-        <h2 class="text-3xl font-bold text-gray-800 dark:text-stone-100">Join Compromised Internals</h2>
-        <p class="mt-2 text-sm text-gray-500 dark:text-stone-400">Be part of the rally revolution 💨</p>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-stone-100">Join Compromised Internals</h1>
+        <p class="mt-2 text-sm text-gray-600 dark:text-stone-400">Your rally journey starts here 💨</p>
       </div>
 
       @if ($errors->has('recaptcha'))
@@ -29,7 +56,7 @@
         </div>
       @endif
 
-      <form id="register-form" method="POST" action="{{ route('register') }}" class="space-y-5">
+      <form id="register-form" method="POST" action="{{ route('register') }}" class="space-y-5" autocomplete="on" novalidate>
         @csrf
         <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
@@ -40,6 +67,8 @@
             name="name"
             type="text"
             :value="old('name')"
+            autocomplete="name"
+            spellcheck="false"
             required
             autofocus
             class="block w-full mt-1
@@ -55,6 +84,9 @@
             name="email"
             type="email"
             :value="old('email')"
+            autocomplete="email"
+            spellcheck="false"
+            inputmode="email"
             required
             class="block w-full mt-1
                    bg-white border-gray-300 placeholder-gray-500
@@ -68,6 +100,7 @@
             id="password"
             name="password"
             type="password"
+            autocomplete="new-password"
             required
             class="block w-full mt-1
                    bg-white border-gray-300 placeholder-gray-500
@@ -81,6 +114,7 @@
             id="password_confirmation"
             name="password_confirmation"
             type="password"
+            autocomplete="new-password"
             required
             class="block w-full mt-1
                    bg-white border-gray-300 placeholder-gray-500
@@ -128,6 +162,7 @@
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         if (typeof grecaptcha === 'undefined') return form.submit();
+
         grecaptcha.ready(function () {
           grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'register' })
             .then(function (token) {
