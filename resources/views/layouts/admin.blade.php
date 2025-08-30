@@ -25,11 +25,20 @@
   <div class="min-h-screen flex">
 
     {{-- Sidebar --}}
-    <aside class="w-64 hidden md:flex md:flex-col
-                   bg-white text-gray-900 border-r border-gray-200
-                   dark:bg-stone-900 dark:text-stone-100 dark:border-white/10">
+    <aside id="admin-sidebar"
+           class="fixed inset-y-0 left-0 z-40 w-72 transform -translate-x-full transition-transform duration-200 ease-out
+                  bg-white text-gray-900 border-r border-gray-200
+                  dark:bg-stone-900 dark:text-stone-100 dark:border-white/10
+                  md:relative md:translate-x-0 md:w-64 md:flex md:flex-col">
+
+      {{-- Mobile header inside drawer --}}
+      <div class="flex md:hidden items-center justify-between px-4 h-14 border-b border-gray-200 dark:border-white/10">
+        <span class="font-semibold">Admin Panel</span>
+        <button id="admin-sidebar-close" class="ci-btn-ghost text-sm" aria-label="Close menu">✕</button>
+      </div>
+
       <a href="{{ route('admin.dashboard') }}"
-         class="block p-6 text-xl font-bold border-b border-gray-200 transition
+         class="hidden md:block p-6 text-xl font-bold border-b border-gray-200 transition
                 hover:text-blue-600 dark:border-white/10 dark:hover:text-sky-300">
         Admin Panel
       </a>
@@ -39,61 +48,63 @@
           <a href="{{ route('admin.attributions.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.attributions.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-           📸 Image Attributions
+            📸 Image Attributions
           </a>
-
           <a href="{{ route('admin.users.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.users.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-          👥 Manage Users
+            👥 Manage Users
           </a>
-
           <a href="{{ route('admin.posts.moderation') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.posts.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-           📝 Blog Moderation
+            📝 Blog Moderation
           </a>
-
           <a href="{{ route('admin.events.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.events.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-           🗓️ Rally Events
+            🗓️ Rally Events
           </a>
-
           <a href="{{ route('admin.emails.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.emails.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-           ✉️ Email Inbox
+            ✉️ Email Inbox
           </a>
-
           <a href="{{ route('admin.travel-highlights.index') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.travel-highlights.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-           🧭 Travel Highlights
+            🧭 Travel Highlights
           </a>
-
-          {{-- NEW: Affiliate Clicks report --}}
           <a href="{{ route('admin.affiliates.clicks') }}"
              class="block px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-stone-800
                     {{ request()->routeIs('admin.affiliates.*') ? 'bg-gray-100 dark:bg-stone-800' : '' }}">
-           📈 Affiliate Clicks
+            📈 Affiliate Clicks
           </a>
         @endcan
       </nav>
     </aside>
 
-    {{-- Main --}}
-    <main class="flex-1 p-6">
-      <div class="mb-6 flex items-center justify-between">
-        <a href="/" class="ci-link">← Back to Site</a>
+    {{-- Backdrop for mobile drawer --}}
+    <div id="admin-sidebar-overlay"
+     class="fixed inset-0 z-30 bg-black/40 hidden md:hidden"></div>
 
-        {{-- Theme toggle --}}
-        <button id="theme-toggle" type="button" aria-label="Toggle theme"
-                class="ci-btn-ghost text-sm">
-          <span id="theme-toggle-icon">🌙</span>
-          <span class="hidden sm:inline" id="theme-toggle-text">Dark</span>
-        </button>
+    {{-- Main --}}
+    <div class="mb-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        {{-- Mobile: open sidebar --}}
+        <button id="admin-sidebar-open"
+                class="md:hidden ci-btn-ghost text-sm"
+                aria-controls="admin-sidebar" aria-expanded="false" aria-label="Open menu">☰</button>
+
+        <a href="/" class="ci-link">← Back to Site</a>
       </div>
+
+      {{-- Theme toggle --}}
+      <button id="theme-toggle" type="button" aria-label="Toggle theme" class="ci-btn-ghost text-sm">
+        <span id="theme-toggle-icon">🌙</span>
+        <span class="hidden sm:inline" id="theme-toggle-text">Dark</span>
+      </button>
+    </div>
 
       @yield('content')
     </main>
@@ -119,6 +130,40 @@
         const isDark = r.classList.toggle('dark');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         setLabel();
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const openBtn = document.getElementById('admin-sidebar-open');
+      const closeBtn = document.getElementById('admin-sidebar-close');
+      const sidebar  = document.getElementById('admin-sidebar');
+      const overlay  = document.getElementById('admin-sidebar-overlay');
+    
+      const open = () => {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+        openBtn?.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('overflow-hidden');
+      };
+      const close = () => {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+        openBtn?.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('overflow-hidden');
+      };
+    
+      openBtn?.addEventListener('click', open);
+      closeBtn?.addEventListener('click', close);
+      overlay?.addEventListener('click', close);
+      window.addEventListener('resize', () => {
+        // Ensure correct state when growing past md
+        if (window.innerWidth >= 768) {
+          sidebar.classList.remove('-translate-x-full');
+          overlay.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+        }
       });
     })();
   </script>
