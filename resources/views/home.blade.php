@@ -292,7 +292,8 @@
                 <img
                   src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path) ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
                   alt="{{ $post->title }}"
-                class="block h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]">
+                  class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
+              </div>
               <div>
                 <div class="text-xs text-stone-600 dark:text-stone-400">
                   <span class="font-medium">{{ $post->user?->name ?? 'Unknown' }}</span>
