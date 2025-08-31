@@ -74,12 +74,12 @@ class PostController extends Controller
     {
         $this->authorize('create', Post::class);
         $validated = $request->validated();
-
+    
         // Optional board association
         if ($request->filled('board_id')) {
             $validated['board_id'] = (int) $request->input('board_id');
         }
-
+    
         // Image
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
             $processedPath = ImageService::processAndStore(
@@ -94,30 +94,77 @@ class PostController extends Controller
             }
             $validated['image_path'] = $processedPath;
         }
-
-        // Slug
+    
+        // Slug (post slug, not tags)
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
             ? SlugService::generate($request->slug)
             : SlugService::generate($validated['title']);
-
+    
         $validated['user_id'] = Auth::id();
-
+    
         $post = Post::create($validated);
-
-        // Optional auto-tag by board (if Tag model exists)
-        if (!empty($validated['board_id'])
-            && class_exists(\App\Models\Tag::class)
-            && method_exists($post, 'tags')) {
-            $board = Board::find($validated['board_id']);
-            if ($board) {
-                $tag = \App\Models\Tag::firstOrCreate(
-                    ['slug' => 'board-' . $board->slug],
-                    ['name' => $board->name]
-                );
-                $post->tags()->syncWithoutDetaching([$tag->id]);
+    
+        /**
+         * Tags
+         * - When slug_mode === 'manual', accept user-entered tags.
+         * - Supports both tags[] (array) and legacy comma string 'tags'.
+         * - Always add auto tag for board if present (as before).
+         */
+        if (
+            class_exists(\App\Models\Tag::class) &&
+            method_exists($post, 'tags')
+        ) {
+            $attachIds = [];
+        
+            // Manual/user-defined tags only when manual mode is selected
+            if ($request->string('slug_mode') === 'manual') {
+                // Prefer array payload tags[]
+                $tags = collect($request->input('tags', []));
+            
+                // Fallback: legacy comma-joined 'tags'
+                if ($tags->isEmpty() && $request->filled('tags')) {
+                    $tags = collect(explode(',', (string) $request->input('tags')));
+                }
+            
+                // Normalize -> slug -> unique
+                $tags = $tags
+                    ->map(fn ($t) => Str::of($t)->lower()->trim())
+                    ->filter()
+                    ->map(fn ($t) => Str::slug($t, '-'))
+                    ->filter()
+                    ->unique()
+                    ->values();
+            
+                if ($tags->isNotEmpty()) {
+                    foreach ($tags as $slug) {
+                        // Human-ish name for display, e.g. "rally-winter-blast" -> "Rally Winter Blast"
+                        $name = Str::headline(str_replace('-', ' ', $slug));
+                        $tag  = \App\Models\Tag::firstOrCreate(
+                            ['slug' => $slug],
+                            ['name' => $name]
+                        );
+                        $attachIds[] = $tag->id;
+                    }
+                }
+            }
+        
+            // Auto-tag by board (existing behavior)
+            if (!empty($validated['board_id'])) {
+                $board = Board::find($validated['board_id']);
+                if ($board) {
+                    $boardTag = \App\Models\Tag::firstOrCreate(
+                        ['slug' => 'board-' . $board->slug],
+                        ['name' => $board->name]
+                    );
+                    $attachIds[] = $boardTag->id;
+                }
+            }
+        
+            if (!empty($attachIds)) {
+                $post->tags()->syncWithoutDetaching($attachIds);
             }
         }
-
+    
         return redirect()->route('blog.index')->with('success', 'Post created successfully!');
     }
 
