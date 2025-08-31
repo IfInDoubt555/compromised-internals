@@ -24,6 +24,7 @@ class PostModerationController extends Controller
             'board_id'      => ['nullable','exists:boards,id'],
             'status'        => ['required','in:draft,scheduled,published'],
             'scheduled_for' => ['nullable','date'],
+            'publish_status' => ['required','in:draft,scheduled,published'],
         ]);
 
         // normalize schedule → UTC
@@ -32,15 +33,18 @@ class PostModerationController extends Controller
             $scheduled = Carbon::parse($scheduled, config('app.timezone'))->utc();
         }
 
-        if ($data['status'] === 'published') {
-            $data['published_at']  = now()->utc();
-            $data['scheduled_for'] = null;
-        } elseif ($data['status'] === 'scheduled') {
-            $data['scheduled_for'] = $scheduled;
-            $data['published_at']  = null;
-        } else {
-            $data['scheduled_for'] = null;
-            $data['published_at']  = null;
+        switch ($data['publish_status']) {
+            case 'published':
+                $data['published_at']  = now()->utc();
+                $data['scheduled_for'] = null;
+                break;
+            case 'scheduled':
+                $data['scheduled_for'] = $scheduled;
+                $data['published_at']  = null;
+                break;
+            default: // draft
+                $data['scheduled_for'] = null;
+                $data['published_at']  = null;
         }
 
         $post->fill($data)->save();

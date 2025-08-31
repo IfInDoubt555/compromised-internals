@@ -1,23 +1,23 @@
-@props(['model','namePrefix' => ''])
+@props(['model','namePrefix' => '', 'field' => 'status'])
 
 @php
-  $status = old($namePrefix.'status', $model->status ?? 'draft');
+  $current = old($namePrefix.$field, $model->{$field} ?? 'draft');
   $scheduledFor = old($namePrefix.'scheduled_for', optional($model->scheduled_for)->format('Y-m-d\TH:i'));
 @endphp
 
-<div x-data="{ status: '{{ $status }}' }" class="ci-card p-4">
+<div x-data="{ status: '{{ $current }}' }" class="ci-card p-4">
   <label class="block text-sm font-semibold mb-2">Publish Status</label>
   <div class="flex flex-wrap gap-4">
     <label class="inline-flex items-center gap-2">
-      <input type="radio" name="{{ $namePrefix }}status" value="draft" x-model="status">
+      <input type="radio" name="{{ $namePrefix.$field }}" value="draft" x-model="status">
       <span>Draft</span>
     </label>
     <label class="inline-flex items-center gap-2">
-      <input type="radio" name="{{ $namePrefix }}status" value="scheduled" x-model="status">
+      <input type="radio" name="{{ $namePrefix.$field }}" value="scheduled" x-model="status">
       <span>Scheduled</span>
     </label>
     <label class="inline-flex items-center gap-2">
-      <input type="radio" name="{{ $namePrefix }}status" value="published" x-model="status">
+      <input type="radio" name="{{ $namePrefix.$field }}" value="published" x-model="status">
       <span>Publish now</span>
     </label>
   </div>
