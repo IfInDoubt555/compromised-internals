@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- Theme color (board → Tailwind token) --}}
+@php
+    // prefer $boardColor from controller; otherwise read from the Board model; fallback to 'sky'
+    $c = $boardColor ?? ($post->board?->color_token ?? ($post->board?->tailwindColor() ?? 'sky'));
+@endphp
+
 {{-- Top nav --}}
 <div class="max-w-5xl mx-auto px-4 mt-6 mb-6 grid grid-cols-3 text-sm font-semibold">
   <div>
