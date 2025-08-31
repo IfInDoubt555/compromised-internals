@@ -41,27 +41,71 @@
   </h1>
 </div>
 
-{{-- Meta row --}}
-<div class="max-w-4xl mx-auto px-4 mt-4 flex flex-wrap items-center gap-4 justify-between">
-  <div class="flex items-center gap-3">
-    <a href="{{ route('profile.public', $post->user->id) }}">
-      <x-user-avatar :user="$post->user" size="w-12 h-12" />
-    </a>
-    <div>
-      <p class="font-semibold text-sm text-slate-900 dark:text-stone-100">{{ $post->user->name }}</p>
-      <p class="text-xs text-gray-500 dark:text-stone-400">{{ $post->created_at->format('M j, Y') }}</p>
+{{-- Meta row (author card | actions | board pill) --}}
+<div class="max-w-4xl mx-auto px-4 mt-4">
+  <div class="grid gap-4 sm:grid-cols-[1fr_auto_auto] items-start">
+    {{-- Author card (left) --}}
+    <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow
+                dark:bg-stone-900/70 dark:border-white/10">
+      <h3 class="text-sm font-semibold mb-3 text-gray-900 dark:text-stone-100">About the author</h3>
+      <div class="flex items-center gap-3">
+        <a href="{{ route('profile.public', $post->user->id) }}">
+          <x-user-avatar :user="$post->user" size="w-10 h-10" />
+        </a>
+        <div class="leading-tight">
+          <p class="text-sm font-medium text-gray-900 dark:text-stone-100">
+            {{ $post->user->name }}
+          </p>
+          <p class="text-xs text-gray-500 dark:text-stone-400">
+            {{ $post->created_at->format('M j, Y') }}
+          </p>
+          <a href="{{ route('profile.public', $post->user->id) }}"
+             class="text-xs text-blue-600 hover:underline dark:text-sky-300 dark:hover:text-sky-200">
+            View profile
+          </a>
+        </div>
+      </div>
     </div>
-  </div>
 
-  {{-- Board link + read time (optional) --}}
-  <div class="flex items-center gap-3 text-xs">
-    @if($post->board)
-      <a href="{{ route('boards.show', $post->board->slug) }}"
-         class="px-2 py-1 rounded-md border border-gray-300 bg-white text-gray-700 hover:underline
-                dark:bg-stone-800/60 dark:text-stone-200 dark:border-white/10">
-        {{ $post->board->name }}
-      </a>
-    @endif
+    {{-- Actions (middle) --}}
+    <div class="flex flex-col gap-2 sm:w-44">
+      @php $user = auth()->user(); @endphp
+      <form method="POST" action="{{ route('posts.like', $post) }}">
+        @csrf
+        <button type="submit"
+          class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg
+                 bg-rose-600 text-white hover:bg-rose-500 disabled:opacity-50">
+          ❤️ {{ $post->likes()->count() }}
+          <span>{{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}</span>
+        </button>
+      </form>
+
+      @can('update', $post)
+        <a href="{{ route('posts.edit', $post) }}"
+           class="w-full inline-flex items-center justify-center px-3 py-2 rounded-lg
+                  bg-amber-500 text-white hover:bg-amber-600">✏️ Edit</a>
+
+        <form action="{{ route('posts.destroy', $post) }}" method="POST"
+              onsubmit="return confirm('Are you sure you want to delete this post?');">
+          @csrf @method('DELETE')
+          <button type="submit"
+            class="w-full inline-flex items-center justify-center px-3 py-2 rounded-lg
+                   bg-red-600 text-white hover:bg-red-700">🗑️ Delete</button>
+        </form>
+      @endcan
+    </div>
+
+    {{-- Board pill (right) --}}
+    <div class="sm:justify-self-end">
+      @if($post->board)
+        <a href="{{ route('boards.show', $post->board->slug) }}"
+           class="inline-block px-2 py-1 rounded-md border border-gray-300 bg-white text-gray-700
+                  hover:underline text-xs
+                  dark:bg-stone-800/60 dark:text-stone-200 dark:border-white/10">
+          {{ $post->board->name }}
+        </a>
+      @endif
+    </div>
   </div>
 </div>
 
@@ -77,36 +121,6 @@
 
   {{-- Sidebar --}}
   <aside class="lg:col-span-1 space-y-6">
-    {{-- Like + actions --}}
-    <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow
-                dark:bg-stone-900/70 dark:border-white/10">
-      @php $user = auth()->user(); @endphp
-      <form method="POST" action="{{ route('posts.like', $post) }}" class="mb-3">
-        @csrf
-        <button type="submit"
-          class="w-full justify-center inline-flex items-center gap-2 px-3 py-2 rounded-lg
-                 bg-rose-600 text-white hover:bg-rose-500 disabled:opacity-50">
-          ❤️ {{ $post->likes()->count() }}
-          <span>{{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}</span>
-        </button>
-      </form>
-
-      @can('update', $post)
-        <div class="flex gap-2">
-          <a href="{{ route('posts.edit', $post) }}"
-             class="flex-1 inline-flex items-center justify-center px-3 py-2 rounded-lg
-                    bg-amber-500 text-white hover:bg-amber-600">✏️ Edit</a>
-
-          <form action="{{ route('posts.destroy', $post) }}" method="POST"
-                onsubmit="return confirm('Are you sure you want to delete this post?');" class="flex-1">
-            @csrf @method('DELETE')
-            <button type="submit"
-              class="w-full inline-flex items-center justify-center px-3 py-2 rounded-lg
-                     bg-red-600 text-white hover:bg-red-700">🗑️ Delete</button>
-          </form>
-        </div>
-      @endcan
-    </div>
 
     {{-- Tags --}}
     @if(method_exists($post,'tags') && $post->tags->count())
@@ -125,22 +139,6 @@
         </div>
       </div>
     @endif
-
-    {{-- About author (optional card) --}}
-    <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow
-                dark:bg-stone-900/70 dark:border-white/10">
-      <h3 class="text-sm font-semibold mb-3 text-gray-900 dark:text-stone-100">About the author</h3>
-      <div class="flex items-center gap-3">
-        <x-user-avatar :user="$post->user" size="w-10 h-10" />
-        <div>
-          <p class="text-sm font-medium text-gray-900 dark:text-stone-100">{{ $post->user->name }}</p>
-          <a href="{{ route('profile.public', $post->user->id) }}"
-             class="text-xs text-blue-600 hover:underline dark:text-sky-300 dark:hover:text-sky-200">
-            View profile
-          </a>
-        </div>
-      </div>
-    </div>
   </aside>
 </div>
 
@@ -207,7 +205,7 @@
                 <div class="flex gap-2">
                   <button type="submit"
                           class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600">
-                    ✔️ Update
+                    Update
                   </button>
                   <button type="button" @click="editing = false"
                           class="text-sm text-gray-500 dark:text-stone-400 hover:underline">
@@ -222,7 +220,7 @@
             @can('update', $comment)
               <button @click="editing = !editing"
                       class="text-sm text-amber-600 hover:underline dark:text-amber-300 dark:hover:text-amber-200">
-                ✏️ Edit
+                Edit
               </button>
             @endcan
             @can('delete', $comment)
@@ -231,7 +229,7 @@
                 @csrf @method('DELETE')
                 <button type="submit"
                         class="text-sm text-red-600 hover:underline dark:text-rose-300 dark:hover:text-rose-200">
-                  🗑️ Delete
+                  Delete
                 </button>
               </form>
             @endcan
