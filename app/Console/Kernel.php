@@ -52,10 +52,13 @@ class Kernel extends ConsoleKernel
             ->onOneServer()
             ->environments(['production']);
 
+         // auto-publish anything due (safe to run every minute)
         $schedule->command('content:publish-scheduled')
             ->everyMinute()
-            ->withoutOverlapping();
-    }
+            ->withoutOverlapping()
+            ->onOneServer()                         // if you ever add more servers
+            ->appendOutputTo(storage_path('logs/scheduler.log')); // optional: debug log
+        }
 
     /**
      * Add manually registered Artisan commands here.
