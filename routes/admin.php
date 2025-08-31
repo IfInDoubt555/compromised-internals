@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\StageController;
 use App\Http\Controllers\Admin\TravelHighlightController;
 use App\Http\Controllers\Admin\AffiliateClickController;
 use App\Http\Controllers\Admin\ThreadAdminController;
+use App\Http\Controllers\Admin\PublisherController;
 
 /**
  * NOTE: This file is already wrapped in RouteServiceProvider with:
@@ -83,6 +84,11 @@ Route::get('/scheduled', function () {
         'threads' => \App\Models\Thread::scheduled()->orderBy('scheduled_for')->get(),
     ]);
 })->name('scheduled');
+
+Route::prefix('publish')->name('publish.')->group(function () {
+    Route::get('/',  [PublisherController::class, 'create'])->name('create');
+    Route::post('/', [PublisherController::class, 'store'])->name('store');
+});
 
 /* ---------- Users ---------- */
 Route::prefix('users')->name('users.')->group(function () {

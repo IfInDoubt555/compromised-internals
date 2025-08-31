@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Board;
+
 
 class PostModerationController extends Controller
 {
@@ -33,23 +35,33 @@ class PostModerationController extends Controller
             $scheduled = Carbon::parse($scheduled, config('app.timezone'))->utc();
         }
 
-        switch ($data['publish_status']) {
-            case 'published':
-                $data['published_at']  = now()->utc();
-                $data['scheduled_for'] = null;
-                break;
-            case 'scheduled':
-                $data['scheduled_for'] = $scheduled;
-                $data['published_at']  = null;
-                break;
-            default: // draft
-                $data['scheduled_for'] = null;
-                $data['published_at']  = null;
+        if ($data['publish_status'] === 'published') {
+            $data['published_at']  = now()->utc();
+            $data['scheduled_for'] = null;
+        } elseif ($data['publish_status'] === 'scheduled') {
+            $data['scheduled_for'] = $scheduled;
+            $data['published_at']  = null;
+        } else { // draft
+            $data['scheduled_for'] = null;
+            $data['published_at']  = null;
         }
 
         $post->fill($data)->save();
 
-        return back()->with('status','Post saved');
+        return redirect()
+        ->route('admin.posts.edit', $post)
+        ->with('status', 'Post saved.');
+    }
+
+    public function edit(Post $post)
+    {
+        // Admin-only edit of blog post (scheduling + basics)
+        $boards = Board::orderBy('name')->get();
+
+        return view('admin.posts.edit', [
+            'post'   => $post,
+            'boards' => $boards,
+        ]);
     }
 
     public function approve($post)
