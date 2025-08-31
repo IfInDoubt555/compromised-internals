@@ -17,6 +17,15 @@ class Board extends Model
         'fuchsia','pink','rose',
     ];
 
+    public function accentButtonClasses(): string
+    {
+        $c = $this->color_token;
+        return "border border-{$c}-400 text-{$c}-700 bg-{$c}-100 hover:bg-{$c}-200 ".
+               "ring-1 ring-{$c}-500/20 ".
+               "dark:border-{$c}-600 dark:text-{$c}-300 dark:bg-{$c}-950/40 dark:hover:bg-{$c}-900/50 ".
+               "dark:ring-{$c}-400/20";
+    }
+
     protected $casts = [
         'is_public' => 'boolean',
         'position'  => 'integer',

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- Theme + auth context --}}
 @php
-    $c = $boardColor
-        ?? optional($post->board)->color_token
-        ?? optional($post->board)->tailwindColor()
-        ?? 'sky';
+  // Context: theme + auth
+  $user  = auth()->user();
+  $liked = $user ? $post->isLikedBy($user) : false;
 
-    $user  = auth()->user();
-    $liked = $user ? $post->isLikedBy($user) : false;
+  // Reusable themed button classes from Board model helper
+  // Fallback to a sky accent if the post has no board
+  $btn = $post->board?->accentButtonClasses()
+      ?? 'border border-sky-400 text-sky-700 bg-sky-100 hover:bg-sky-200 ring-1 ring-sky-500/20 dark:border-sky-600 dark:text-sky-300 dark:bg-sky-950/40 dark:hover:bg-sky-900/50 dark:ring-sky-400/20';
 @endphp
 
 {{-- Top nav --}}
@@ -78,11 +78,7 @@
                   {{ !$user ? 'disabled' : '' }}
                   aria-pressed="{{ $liked ? 'true' : 'false' }}"
                   title="{{ $liked ? 'Unlike' : 'Like' }}"
-                  class="inline-flex items-center gap-2 rounded-lg px-3 py-2
-                         border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
-                         hover:bg-{{ $c }}-100
-                         dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40
-                         disabled:opacity-50">
+                  class="inline-flex items-center gap-2 rounded-lg px-3 py-2 {{ $btn }} disabled:opacity-50">
             {{ $post->likes()->count() }}
             <span>{{ $liked ? 'Unlike' : 'Like' }}</span>
           </button>
@@ -91,10 +87,7 @@
         @can('update', $post)
           {{-- Edit --}}
           <a href="{{ route('posts.edit', $post) }}"
-             class="inline-flex items-center rounded-lg px-3 py-2
-                    border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
-                    hover:bg-{{ $c }}-100
-                    dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+             class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
             Edit
           </a>
 
@@ -103,10 +96,7 @@
                 onsubmit="return confirm('Are you sure you want to delete this post?');">
             @csrf @method('DELETE')
             <button type="submit"
-                    class="inline-flex items-center rounded-lg px-3 py-2
-                           border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
-                           hover:bg-{{ $c }}-100
-                           dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+                    class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
               Delete
             </button>
           </form>
