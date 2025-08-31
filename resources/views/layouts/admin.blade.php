@@ -75,6 +75,11 @@
             <span class="text-lg">➕</span><span class="font-medium">Create Content</span>
           </a>
 
+          <a href="{{ route('admin.publish.index') }}"
+             class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.publish.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
+            <span class="text-lg">📌</span><span class="font-medium">Content Queue</span>
+          </a>
+
           <a href="{{ route('admin.events.index') }}"
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.events.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">🗓️</span><span class="font-medium">Rally Events</span>

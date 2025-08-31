@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TravelHighlightController;
 use App\Http\Controllers\Admin\AffiliateClickController;
 use App\Http\Controllers\Admin\ThreadAdminController;
 use App\Http\Controllers\Admin\PublisherController;
+use App\Http\Controllers\Admin\PublishQueueController;
 
 /**
  * NOTE: This file is already wrapped in RouteServiceProvider with:
@@ -84,6 +85,13 @@ Route::get('/scheduled', function () {
         'threads' => \App\Models\Thread::scheduled()->orderBy('scheduled_for')->get(),
     ]);
 })->name('scheduled');
+
+Route::get('/publish', [PublishQueueController::class, 'index'])
+    ->name('admin.publish.index');
+Route::get('/publish/create', [PublishQueueController::class, 'create'])
+    ->name('admin.publish.create');
+
+
 
 Route::prefix('publish')->name('publish.')->group(function () {
     Route::get('/',  [PublisherController::class, 'create'])->name('create');
