@@ -15,8 +15,9 @@ module.exports = {
     'hidden',
     'animate-fade-in',
     {
-      pattern: /(bg|text|border)-(slate|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|300|600|700|900)/,
-    },
+      pattern: /(bg|text|border)-(slate|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|  purple|fuchsia|pink|rose)-(50|100|300|600|700|900|950)/,
+      variants: ['hover','dark'],
+  },
   ],
 
   theme: {

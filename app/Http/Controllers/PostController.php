@@ -179,6 +179,8 @@ class PostController extends Controller
             $post->published_at->lte(now()),
             404
         );
+         // make sure relations are available
+        $post->load(['user', 'board', 'tags']);
 
         $previous = Post::where('status', 'published')
             ->whereNotNull('published_at')
@@ -194,10 +196,13 @@ class PostController extends Controller
             ->orderBy('id')
             ->first();
 
-        return view('posts.show', [
+        $boardColor = optional($post->board)?->tailwindColor() ?? 'sky';
+
+        return view('posts.show', [    
             'post' => $post,
             'previous' => $previous,
             'next' => $next,
+            'boardColor' => $boardColor,
         ]);
     }
 

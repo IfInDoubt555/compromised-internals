@@ -27,6 +27,8 @@
   </div>
 </div>
 
+@php($c = $boardColor ?? 'sky')
+
 {{-- Feature image + title --}}
 <div class="max-w-5xl mx-auto px-4">
   <figure class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl">
@@ -61,37 +63,40 @@
     <div class="order-3 w-full sm:order-none sm:w-auto">
       <div class="flex flex-wrap items-center gap-2">
         @php $user = auth()->user(); @endphp
-
+    
+        {{-- Like --}}
         <form method="POST" action="{{ route('posts.like', $post) }}">
           @csrf
           <button type="submit"
-                  class="inline-flex items-center gap-2 rounded-lg px-3 py-2
-                         border border-rose-300 text-rose-600 bg-rose-50
-                         hover:bg-rose-100
-                         dark:border-rose-700 dark:text-rose-300 dark:bg-rose-950/30 dark:hover:bg-rose-900/40">
-            ❤️ {{ $post->likes()->count() }}
+            class="inline-flex items-center gap-2 rounded-lg px-3 py-2
+                   border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
+                   hover:bg-{{ $c }}-100
+                   dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+            {{ $post->likes()->count() }}
             <span>{{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}</span>
           </button>
         </form>
-
+    
         @can('update', $post)
+          {{-- Edit --}}
           <a href="{{ route('posts.edit', $post) }}"
-             class="inline-flex items-center rounded-lg px-3 py-2
-                    border border-amber-300 text-amber-600 bg-amber-50
-                    hover:bg-amber-100
-                    dark:border-amber-600 dark:text-amber-300 dark:bg-amber-950/30 dark:hover:bg-amber-900/40">
-            ✏️ Edit
+            class="inline-flex items-center rounded-lg px-3 py-2
+                   border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
+                   hover:bg-{{ $c }}-100
+                   dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+            Edit
           </a>
-
+    
+          {{-- Delete (also themed to board color; switch to fixed red if you prefer) --}}
           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                 onsubmit="return confirm('Are you sure you want to delete this post?');">
             @csrf @method('DELETE')
             <button type="submit"
-                    class="inline-flex items-center rounded-lg px-3 py-2
-                           border border-red-300 text-red-600 bg-red-50
-                           hover:bg-red-100
-                           dark:border-red-700 dark:text-red-300 dark:bg-red-950/30 dark:hover:bg-red-900/40">
-              🗑️ Delete
+              class="inline-flex items-center rounded-lg px-3 py-2
+                     border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
+                     hover:bg-{{ $c }}-100
+                     dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+              Delete
             </button>
           </form>
         @endcan
