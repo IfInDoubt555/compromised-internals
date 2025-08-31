@@ -41,71 +41,80 @@
   </h1>
 </div>
 
-{{-- Meta row (author card | actions | board pill) --}}
-<div class="max-w-4xl mx-auto px-4 mt-4">
-  <div class="grid gap-4 sm:grid-cols-[1fr_auto_auto] items-start">
-    {{-- Author card (left) --}}
-    <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow
-                dark:bg-stone-900/70 dark:border-white/10">
-      <h3 class="text-sm font-semibold mb-3 text-gray-900 dark:text-stone-100">About the author</h3>
-      <div class="flex items-center gap-3">
-        <a href="{{ route('profile.public', $post->user->id) }}">
-          <x-user-avatar :user="$post->user" size="w-10 h-10" />
-        </a>
-        <div class="leading-tight">
-          <p class="text-sm font-medium text-gray-900 dark:text-stone-100">
-            {{ $post->user->name }}
-          </p>
-          <p class="text-xs text-gray-500 dark:text-stone-400">
-            {{ $post->created_at->format('M j, Y') }}
-          </p>
-          <a href="{{ route('profile.public', $post->user->id) }}"
-             class="text-xs text-blue-600 hover:underline dark:text-sky-300 dark:hover:text-sky-200">
-            View profile
-          </a>
+{{-- Meta bar (author chip | actions group | board pill) --}}
+<div class="max-w-4xl mx-auto px-4 mt-3">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+
+    {{-- Author chip (name + date + avatar) --}}
+    <a href="{{ route('profile.public', $post->user->id) }}"
+       class="group inline-flex items-center gap-3 rounded-xl border px-3 py-2
+              bg-white/80 text-gray-900 border-gray-200 shadow-sm
+              hover:bg-white hover:shadow
+              dark:bg-stone-900/70 dark:text-stone-100 dark:border-white/10">
+      <x-user-avatar :user="$post->user" size="w-8 h-8" />
+      <div class="leading-tight">
+        <div class="text-sm font-semibold group-hover:underline">
+          {{ $post->user->name }}
+        </div>
+        <div class="text-xs text-gray-500 dark:text-stone-400">
+          {{ $post->created_at->format('M j, Y') }}
         </div>
       </div>
-    </div>
+    </a>
 
-    {{-- Actions (middle) --}}
-    <div class="flex flex-col gap-2 sm:w-44">
-      @php $user = auth()->user(); @endphp
-      <form method="POST" action="{{ route('posts.like', $post) }}">
-        @csrf
+    {{-- Actions (center on desktop, last on mobile) --}}
+    <div class="order-3 w-full sm:order-none sm:w-auto">
+  <div class="flex flex-wrap items-center gap-2">
+    @php $user = auth()->user(); @endphp
+
+    {{-- Like --}}
+    <form method="POST" action="{{ route('posts.like', $post) }}">
+      @csrf
+      <button type="submit"
+              class="inline-flex items-center gap-2 rounded-lg px-3 py-2
+                     border border-rose-300 text-rose-600 bg-rose-50
+                     hover:bg-rose-100 dark:border-rose-700 dark:text-rose-300 dark:bg-rose-950/30 dark:hover:bg-rose-900/40">
+         {{ $post->likes()->count() }}
+        <span>{{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}</span>
+      </button>
+    </form>
+
+    @can('update', $post)
+      {{-- Edit --}}
+      <a href="{{ route('posts.edit', $post) }}"
+         class="inline-flex items-center rounded-lg px-3 py-2
+                border border-amber-300 text-amber-600 bg-amber-50
+                hover:bg-amber-100 dark:border-amber-600 dark:text-amber-300 dark:bg-amber-950/30 dark:hover:bg-amber-900/40">
+        Edit
+      </a>
+
+      {{-- Delete --}}
+      <form action="{{ route('posts.destroy', $post) }}" method="POST"
+            onsubmit="return confirm('Are you sure you want to delete this post?');">
+        @csrf @method('DELETE')
         <button type="submit"
-          class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg
-                 bg-rose-600 text-white hover:bg-rose-500 disabled:opacity-50">
-          ❤️ {{ $post->likes()->count() }}
-          <span>{{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}</span>
+                class="inline-flex items-center rounded-lg px-3 py-2
+                       border border-red-300 text-red-600 bg-red-50
+                       hover:bg-red-100 dark:border-red-700 dark:text-red-300 dark:bg-red-950/30 dark:hover:bg-red-900/40">
+        Delete
         </button>
       </form>
+    @endcan
+  </div>
+</div>
 
-      @can('update', $post)
-        <a href="{{ route('posts.edit', $post) }}"
-           class="w-full inline-flex items-center justify-center px-3 py-2 rounded-lg
-                  bg-amber-500 text-white hover:bg-amber-600">✏️ Edit</a>
-
-        <form action="{{ route('posts.destroy', $post) }}" method="POST"
-              onsubmit="return confirm('Are you sure you want to delete this post?');">
-          @csrf @method('DELETE')
-          <button type="submit"
-            class="w-full inline-flex items-center justify-center px-3 py-2 rounded-lg
-                   bg-red-600 text-white hover:bg-red-700">🗑️ Delete</button>
-        </form>
-      @endcan
-    </div>
-
-    {{-- Board pill (right) --}}
-    <div class="sm:justify-self-end">
+    {{-- Board pill (right on desktop) --}}
+    <div class="sm:ml-auto">
       @if($post->board)
         <a href="{{ route('boards.show', $post->board->slug) }}"
-           class="inline-block px-2 py-1 rounded-md border border-gray-300 bg-white text-gray-700
-                  hover:underline text-xs
+           class="inline-block rounded-md border px-2 py-1 text-xs
+                  bg-white text-gray-700 border-gray-300 hover:underline
                   dark:bg-stone-800/60 dark:text-stone-200 dark:border-white/10">
           {{ $post->board->name }}
         </a>
       @endif
     </div>
+
   </div>
 </div>
 
