@@ -35,6 +35,17 @@ class Board extends Model
         return 'slug';
     }
 
+    public function tailwindColor(): string
+    {
+        $allowed = [
+            'slate','stone','red','orange','amber','yellow','lime','green',
+            'emerald','teal','cyan','sky','blue','indigo','violet','purple',
+            'fuchsia','pink','rose',
+        ];
+        $c = strtolower((string) $this->color);
+        return in_array($c, $allowed, true) ? $c : 'sky';
+    }
+
     protected static function booted(): void
     {
         // Auto-fill slug if missing

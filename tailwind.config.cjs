@@ -3,7 +3,7 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  darkMode: 'class', // ← enable class-based dark mode
+  darkMode: 'class',
 
   content: [
     './resources/views/**/*.blade.php',
@@ -11,12 +11,12 @@ module.exports = {
     './resources/**/*.vue',
   ],
 
-  // Only safelist real Tailwind utilities you build dynamically
   safelist: [
     'hidden',
     'animate-fade-in',
-    // add other real utilities if you truly generate them dynamically
-    // e.g. 'md:grid', 'lg:block', 'bg-red-500'
+    {
+      pattern: /(bg|text|border)-(slate|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|300|600|700|900)/,
+    },
   ],
 
   theme: {
@@ -38,7 +38,6 @@ module.exports = {
 
   plugins: [
     function ({ addBase, theme }) {
-      // Keep Orbitron as the default sans stack
       addBase({
         html: { fontFamily: theme('fontFamily.orbitron') },
       })
