@@ -4,17 +4,18 @@
             supports-[backdrop-filter]:backdrop-blur">
   <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
 
-    {{-- ===================== ROW 1: Logo | Admin Panel | Auth + Theme ===================== --}}
-    <div class="grid grid-cols-3 items-center h-16">
+    {{-- ===================== ROW 1: Logo | (Admin on lg) | Auth/Theme/Hamburger ===================== --}}
+    <div class="flex items-center justify-between h-16 gap-2">
       {{-- Left: Logo --}}
-      <div class="justify-self-start flex items-center space-x-2 whitespace-nowrap">
-        <a href="{{ route('home') }}" class="text-xl font-bold text-red-600 dark:text-red-400 whitespace-nowrap">
-            Compromised Internals
+      <div class="min-w-0 flex items-center space-x-2">
+        <a href="{{ route('home') }}"
+           class="text-xl font-bold text-red-600 dark:text-red-400 truncate">
+          Compromised Internals
         </a>
       </div>
-
-      {{-- Center: Admin Panel (only if allowed) --}}
-      <div class="justify-self-center">
+    
+      {{-- Center: Admin Panel (desktop only) --}}
+      <div class="hidden lg:block">
         @can('access-admin')
           <a href="{{ route('admin.dashboard') }}"
              class="inline-block rounded px-2 py-1 text-sm font-semibold text-blue-700 dark:text-blue-400 hover:underline">
@@ -22,81 +23,74 @@
           </a>
         @endcan
       </div>
-
-      {{-- Right: Auth controls + Theme toggle (+ hamburger on mobile) --}}
-      <div class="justify-self-end flex items-center gap-3 whitespace-nowrap">
+    
+      {{-- Right: Auth (sm+) + Theme (lg only) + Hamburger (mobile) --}}
+      <div class="flex items-center gap-3">
         @auth
+          {{-- username dropdown visible from sm and up --}}
           <x-dropdown align="right" width="48">
             <x-slot name="trigger">
-              <button class="hidden sm:inline-flex items-center px-3 py-2 text-sm lg:text-lg font-semibold text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition whitespace-nowrap">
+              <button class="hidden sm:inline-flex items-center px-3 py-2 text-sm lg:text-lg font-semibold text-gray-600    hover:text-gray-800 dark:text-gray-300 dark:hover:text-white transition">
                 {{ Auth::user()->name }}
                 <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.91l3.71-3.7a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06 0L10 10.91l3.71-3.7a.75.75 0 111.06 1.06l-4.24 4.   24a.75.75 0 01-1.06 0L5.23 8.27a.75.75 0 010-1.06z" clip-rule="evenodd" />
                 </svg>
               </button>
             </x-slot>
-
             <x-slot name="content">
               <x-dropdown-link href="{{ route('dashboard') }}">Dashboard</x-dropdown-link>
               <x-dropdown-link href="{{ route('profile.public', Auth::id()) }}">Profile</x-dropdown-link>
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <x-dropdown-link href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                <x-dropdown-link href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').    submit();">
                   Log Out
                 </x-dropdown-link>
               </form>
             </x-slot>
           </x-dropdown>
         @else
+          {{-- login/register visible from sm and up --}}
           <div class="hidden sm:flex items-center space-x-2 text-sm lg:text-base">
             <x-nav-link href="{{ route('login') }}">Log in</x-nav-link>
             <x-nav-link href="{{ route('register') }}">Register</x-nav-link>
           </div>
         @endauth
-
-        {{-- Theme Switch (pill) --}}
-        <button
+    
+        {{-- Theme pill: desktop only (mobile lives in the drawer already) --}}
+        <div class="hidden lg:inline-flex">
+          {{-- keep your existing toggle button unchanged --}}
+          <button
             type="button"
             @click="$store.theme.toggle()"
             :aria-pressed="$store.theme.dark.toString()"
             role="switch"
             aria-label="Toggle dark mode"
-            class="group relative inline-flex items-center justify-center w-16 h-9 rounded-full ring-1 transition-all duration-300
+            class="group relative inline-flex items-center justify-center w-16 h-9 rounded-full ring-1 transition-all     duration-300
                    ring-stone-900/10 bg-stone-200
-                   dark:ring-white/10 dark:bg-stone-700 select-none"
-        >
-            <!-- Moon (dark) -->
+                   dark:ring-white/10 dark:bg-stone-700 select-none">
+            <!-- … your inner spans exactly as before … -->
             <span class="absolute inset-y-0 left-1 flex items-center">
-                <span x-cloak class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500" aria-hidden="true">
-                    🌙
-                </span>
+              <span x-cloak class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500"    aria-hidden="true">🌙</span>
             </span>
-        
-            <!-- Sun (light) -->
             <span class="absolute inset-y-0 right-1 flex items-center">
-                <span x-cloak class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400" aria-hidden="true">
-                    ☀️
-                </span>
+              <span x-cloak class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400"    aria-hidden="true">☀️</span>
             </span>
-        
-            <!-- Toggle knob -->
             <span
-                class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 transition-all duration-300
-                       ring-stone-900/10 bg-white
-                       dark:ring-white/10 dark:bg-stone-800
-                       flex items-center justify-center text-base"
-                :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-7'"
-            >
-                <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
-                      :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'">
-                </span>
-                <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
+              class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 transition-all duration-300
+                     ring-stone-900/10 bg-white
+                     dark:ring-white/10 dark:bg-stone-800
+                     flex items-center justify-center text-base"
+              :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-7'">
+              <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
+                    :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
+              <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
             </span>
-        </button>
-
-        {{-- Hamburger (mobile only) --}}
+          </button>
+        </div>
+    
+        {{-- Hamburger: always on mobile --}}
         <button @click="open = ! open"
-                class="lg:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-zinc-800 rounded-md focus:outline-none">
+                class="lg:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-300     dark:hover:text-white dark:hover:bg-zinc-800 rounded-md">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                   stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -105,6 +99,7 @@
                   stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M6 18L18 6M6 6l12 12" />
           </svg>
+          <span class="sr-only">Toggle menu</span>
         </button>
       </div>
     </div>
