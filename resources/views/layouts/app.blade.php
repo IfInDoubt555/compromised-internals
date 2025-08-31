@@ -120,6 +120,16 @@
 
     @stack('scripts')
 
+    @php
+      $isStreamingContext = request()->is('travel*') || request()->is('calendar*') || request()->is   ('events*');
+    @endphp
+
+    @if ($isStreamingContext)
+      <x-affiliate.nordvpn-footer-stream-bar />
+    @else
+      <x-affiliate.nordvpn-footer-bar />
+    @endif
+    
     @include('partials.footer')
 
     @if (
