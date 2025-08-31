@@ -12,11 +12,11 @@
       <p class="ci-label mb-2">Publish As</p>
       <div class="flex flex-wrap gap-6">
         <label class="inline-flex items-center gap-2">
-          <input type="radio" name="type" value="post" {{ old('type','post')==='post' ? 'checked' : '' }}>
+          <input type="radio" name="type" value="blog" checked>
           <span>Blog Post</span>
         </label>
         <label class="inline-flex items-center gap-2">
-          <input type="radio" name="type" value="thread" {{ old('type')==='thread' ? 'checked' : '' }}>
+          <input type="radio" name="type" value="thread">
           <span>Board Thread</span>
         </label>
       </div>
