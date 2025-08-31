@@ -24,7 +24,7 @@ class Post extends Model
         'status',          // draft | scheduled | published
         'scheduled_for',   // datetime (UTC)
         'published_at',    // datetime (UTC)
-        'publish_status',
+        /* 'publish_status', */  // legacay for BC
     ];
 
     protected function casts(): array
@@ -36,14 +36,14 @@ class Post extends Model
     }
 
     /** Scopes */
-    public function scopePublished($q) { return $q->where('publish_status', 'published'); }
-    public function scopeScheduled($q) { return $q->where('publish_status', 'scheduled'); }
-    public function scopeDraft($q)     { return $q->where('publish_status', 'draft'); }
+    public function scopePublished($q) { return $q->where('status', 'published'); }
+    public function scopeScheduled($q) { return $q->where('status', 'scheduled'); }
+    public function scopeDraft($q)     { return $q->where('status', 'draft'); }
 
-    public function isPublished(): bool
-    {
-        return $this->status === 'published' && !is_null($this->published_at);
-    }
+    // public function isPublished(): bool
+    // {
+        // return $this->status === 'published' && !is_null($this->published_at);
+    // }
 
     /** Relations */
     public function user()  { return $this->belongsTo(User::class); }

@@ -32,17 +32,18 @@ class PublisherController extends Controller
             'slug'           => ['nullable','string','max:255'],
             'body'           => ['required','string','max:20000'],
 
-            // scheduling (names differ by type; we accept both and map)
-            'publish_status' => ['nullable','in:draft,scheduled,published'], // for blog
-            'status'         => ['nullable','in:draft,scheduled,published'], // for thread
+            // single status input preferred; keep BC for older forms
+            'status'         => ['nullable','in:draft,scheduled,now,published'],
+            'publish_status' => ['nullable','in:draft,scheduled,published'], // legacy
+
             'scheduled_for'  => ['nullable','date'],
 
-            // only for blog posts
-            'board_id'       => ['nullable','exists:boards,id'], // blog can associate to a board if you like
+            // blog-only
+            'board_id'       => ['nullable','exists:boards,id'],
             'image_path'     => ['nullable','image','mimes:jpg,jpeg,png,webp','max:4096'],
 
-            // only for threads
-            'thread_board_id'=> ['nullable','exists:boards,id'], // required when type=thread (validated below)
+            // thread-only
+            'thread_board_id'=> ['nullable','exists:boards,id'],
         ]);
 
         $nowUtc = now()->utc();
@@ -51,21 +52,44 @@ class PublisherController extends Controller
             $scheduledUtc = Carbon::parse($data['scheduled_for'], config('app.timezone'))->utc();
         }
 
+        $isAdmin = Auth::user()?->isAdmin();
+
+        // prefer 'status' from form; fallback to legacy 'publish_status'
+        $intent = $data['status'] ?? $data['publish_status'] ?? 'draft';
+        if ($intent === 'now') {
+            $intent = 'published';
+        }
+
         if ($data['type'] === 'blog') {
-            // determine publish_status for posts
-            $publish = $data['publish_status'] ?? 'draft';
+            $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
 
             $payload = [
-                'title'          => $data['title'],
-                'slug'           => $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']),
-                'excerpt'        => Str::limit(strip_tags($data['body']), 160),
-                'body'           => $data['body'],
-                'user_id'        => Auth::id(),
-                'board_id'       => $data['board_id'] ?? null,   // optional association
-                'publish_status' => $publish,
-                'scheduled_for'  => $publish === 'scheduled' ? $scheduledUtc : null,
-                'published_at'   => $publish === 'published' ? $nowUtc : null,
+                'title'    => $data['title'],
+                'slug'     => $slug,
+                'excerpt'  => Str::limit(strip_tags($data['body']), 160),
+                'body'     => $data['body'],
+                'user_id'  => Auth::id(),
+                'board_id' => $data['board_id'] ?? null,
             ];
+
+            if ($isAdmin) {
+                // BYPASS MODERATION
+                if ($intent === 'published') {
+                    $payload['status']       = 'published';
+                    $payload['published_at'] = $nowUtc;
+                    $payload['scheduled_for'] = null;
+                } elseif ($intent === 'scheduled') {
+                    $payload['status']        = 'scheduled';
+                    $payload['scheduled_for'] = $scheduledUtc;
+                    $payload['published_at']  = null;
+                } else {
+                    $payload['status']        = 'draft';
+                    $payload['scheduled_for'] = null;
+                    $payload['published_at']  = null;
+                }
+            } else {
+                $payload['status'] = 'pending';
+            }
 
             if ($request->hasFile('image_path')) {
                 $payload['image_path'] = $request->file('image_path')->store('posts', 'public');
@@ -73,37 +97,52 @@ class PublisherController extends Controller
 
             $post = Post::create($payload);
 
-            return redirect()
-                ->route('admin.posts.edit', $post)   // go to admin edit for final tweaks if desired
-                ->with('status', 'Blog post created.');
+            return $isAdmin
+                ? redirect()->route('admin.publish.index')->with('status', 'Post saved.')
+                : redirect()->route('admin.posts.moderation')->with('status', 'Submitted for review.');
         }
 
         // THREAD
-        // require a board for threads
         $request->validate([
             'thread_board_id' => ['required','exists:boards,id'],
         ]);
 
-        $status = $data['status'] ?? 'draft';
         $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
         if (Thread::where('slug', $slug)->exists()) {
             $slug .= '-' . Str::lower(Str::random(6));
         }
 
-        $thread = Thread::create([
-            'board_id'        => (int) $data['thread_board_id'],
-            'user_id'         => Auth::id(),
-            'title'           => $data['title'],
-            'slug'            => $slug,
-            'body'            => $data['body'],
-            'last_activity_at'=> $nowUtc,
-            'status'          => $status,
-            'scheduled_for'   => $status === 'scheduled' ? $scheduledUtc : null,
-            'published_at'    => $status === 'published' ? $nowUtc : null,
-        ]);
+        $payload = [
+            'board_id'         => (int) $data['thread_board_id'],
+            'user_id'          => Auth::id(),
+            'title'            => $data['title'],
+            'slug'             => $slug,
+            'body'             => $data['body'],
+            'last_activity_at' => $nowUtc,
+        ];
 
-        return redirect()
-            ->route('admin.threads.edit', $thread)
-            ->with('status', 'Thread created.');
+        if ($isAdmin) {
+            if ($intent === 'published') {
+                $payload['status']        = 'published';
+                $payload['published_at']  = $nowUtc;
+                $payload['scheduled_for'] = null;
+            } elseif ($intent === 'scheduled') {
+                $payload['status']        = 'scheduled';
+                $payload['scheduled_for'] = $scheduledUtc;
+                $payload['published_at']  = null;
+            } else {
+                $payload['status']        = 'draft';
+                $payload['scheduled_for'] = null;
+                $payload['published_at']  = null;
+            }
+        } else {
+            $payload['status'] = 'pending';
+        }
+
+        $thread = Thread::create($payload);
+
+        return $isAdmin
+            ? redirect()->route('admin.publish.index')->with('status', 'Thread saved.')
+            : redirect()->route('admin.threads.index')->with('status', 'Submitted for review.');
     }
 }

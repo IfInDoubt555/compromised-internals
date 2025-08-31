@@ -8,14 +8,29 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Board;
 
-
 class PostModerationController extends Controller
 {
     public function index()
     {
-        $pendingPosts = Post::where('status', 'pending')->with('user')->latest()->get();
+        // Only items that actually need review
+        $pendingPosts = Post::where('status', 'pending')
+            ->with('user')
+            ->latest()
+            ->get();
+
         return view('admin.posts.moderation', compact('pendingPosts'));
     }
+
+    public function edit(Post $post)
+    {
+        $boards = Board::orderBy('name')->get();
+
+        return view('admin.posts.edit', [
+            'post'   => $post,
+            'boards' => $boards,
+        ]);
+    }
+
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
@@ -26,7 +41,6 @@ class PostModerationController extends Controller
             'board_id'      => ['nullable','exists:boards,id'],
             'status'        => ['required','in:draft,scheduled,published'],
             'scheduled_for' => ['nullable','date'],
-            'publish_status' => ['required','in:draft,scheduled,published'],
         ]);
 
         // normalize schedule → UTC
@@ -35,10 +49,11 @@ class PostModerationController extends Controller
             $scheduled = Carbon::parse($scheduled, config('app.timezone'))->utc();
         }
 
-        if ($data['publish_status'] === 'published') {
+        // derive timestamps from status
+        if ($data['status'] === 'published') {
             $data['published_at']  = now()->utc();
             $data['scheduled_for'] = null;
-        } elseif ($data['publish_status'] === 'scheduled') {
+        } elseif ($data['status'] === 'scheduled') {
             $data['scheduled_for'] = $scheduled;
             $data['published_at']  = null;
         } else { // draft
@@ -49,27 +64,30 @@ class PostModerationController extends Controller
         $post->fill($data)->save();
 
         return redirect()
-        ->route('admin.posts.edit', $post)
-        ->with('status', 'Post saved.');
-    }
-
-    public function edit(Post $post)
-    {
-        // Admin-only edit of blog post (scheduling + basics)
-        $boards = Board::orderBy('name')->get();
-
-        return view('admin.posts.edit', [
-            'post'   => $post,
-            'boards' => $boards,
-        ]);
+            ->route('admin.posts.edit', $post)
+            ->with('status', 'Post saved.');
     }
 
     public function approve($post)
     {
         $post = Post::findOrFail($post);
-        $post->update(['status' => 'approved']);
 
-        return redirect()->back()->with('success', 'Post approved.');
+        // Only process pending; otherwise no-op
+        if ($post->status !== 'pending') {
+            return back()->with('info', 'This post is already processed.');
+        }
+
+        if ($post->scheduled_for && $post->scheduled_for->isFuture()) {
+            $post->status = 'scheduled';
+        } else {
+            $post->status       = 'published';
+            $post->published_at = now()->utc();
+            $post->scheduled_for = null;
+        }
+
+        $post->save();
+
+        return back()->with('success', 'Post approved.');
     }
 
     public function reject($post)
@@ -77,6 +95,6 @@ class PostModerationController extends Controller
         $post = Post::findOrFail($post);
         $post->update(['status' => 'rejected']);
 
-        return redirect()->back()->with('success', 'Post rejected.');
+        return back()->with('success', 'Post rejected.');
     }
 }
