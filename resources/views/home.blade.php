@@ -303,7 +303,7 @@
                 <h4 class="mt-1 font-orbitron text-xl font-bold group-hover:underline">
                   {{ $post->title }}
                 </h4>
-                <p class="mt-1 text-stone-700 dark:text-stone-300 line-clamp-2">{{ $post->excerpt }}</p>
+                <p class="mt-1 text-stone-700 dark:text-stone-300 line-clamp-2">{{ $post->excerpt_for_display }}</p>
               </div>
             </a>
           </li>

@@ -125,7 +125,7 @@
                     </h2>
 
                     <p class="mt-2 ci-body line-clamp-3">
-                      {{ $post->excerpt }}
+                      {{ $post->excerpt_for_display }}
                     </p>
 
                     <div class="mt-4 flex items-center justify-between">

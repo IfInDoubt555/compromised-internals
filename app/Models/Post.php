@@ -99,4 +99,15 @@ class Post extends Model
     {
         return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
     }
+
+    public function getExcerptForDisplayAttribute(): string
+    {
+        $raw = $this->excerpt ?: strip_tags((string) $this->body);
+        return Str::limit(Str::of($raw)->squish(), 160);
+    }
+
+     public function getMetaDescriptionAttribute(): string
+    {
+        return $this->excerpt_for_display;
+    }
 }

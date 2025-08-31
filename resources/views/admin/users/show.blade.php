@@ -17,7 +17,7 @@
             Posted on {{ $post->created_at->format('F j, Y') }}
           </p>
           <p class="mt-2">
-            {{ Str::limit(strip_tags($post->excerpt ?? $post->body), 120) }}
+            {{ Str::limit(strip_tags($post->excerpt ?? $post->body), 160) }}
           </p>
         </article>
       @endforeach
