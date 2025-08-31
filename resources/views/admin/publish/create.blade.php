@@ -1,81 +1,98 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
-  <h1 class="text-2xl font-bold">Create Content</h1>
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h1 class="ci-title-lg mb-6">Create Content</h1>
 
-  <form method="POST" action="{{ route('admin.publish.store') }}" enctype="multipart/form-data" x-data="{ type: '{{ old('type','blog') }}' }" class="ci-card p-4 space-y-6">
+  <form action="{{ route('admin.publish.store') }}" method="POST" enctype="multipart/form-data" class="ci-admin-card">
     @csrf
 
-    {{-- Type toggle --}}
-    <div>
-      <label class="block font-semibold mb-2">Publish As</label>
-      <div class="flex gap-6">
+    {{-- Publish As --}}
+    <div class="mb-6">
+      <p class="ci-label mb-2">Publish As</p>
+      <div class="flex flex-wrap gap-6">
         <label class="inline-flex items-center gap-2">
-          <input type="radio" name="type" value="blog" x-model="type">
+          <input type="radio" name="type" value="post" {{ old('type','post')==='post' ? 'checked' : '' }}>
           <span>Blog Post</span>
         </label>
         <label class="inline-flex items-center gap-2">
-          <input type="radio" name="type" value="thread" x-model="type">
+          <input type="radio" name="type" value="thread" {{ old('type')==='thread' ? 'checked' : '' }}>
           <span>Board Thread</span>
         </label>
       </div>
+      @error('type') <p class="ci-error mt-1">{{ $message }}</p> @enderror
     </div>
 
-    {{-- Shared fields --}}
-    <div>
-      <label class="block font-semibold mb-1">Title</label>
-      <input name="title" value="{{ old('title') }}" class="w-full border rounded px-3 py-2" required>
-    </div>
+    {{-- Title --}}
+    <label class="block mb-4">
+      <span class="ci-label mb-1">Title</span>
+      <input name="title" class="ci-input" value="{{ old('title') }}" placeholder="Write a clear, descriptive title" required>
+      @error('title') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+    </label>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div>
-        <label class="block font-semibold mb-1">Slug (optional)</label>
-        <input name="slug" value="{{ old('slug') }}" class="w-full border rounded px-3 py-2">
-      </div>
+    {{-- Slug + Board --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <label class="block">
+        <span class="ci-label mb-1">Slug (optional)</span>
+        <input name="slug" class="ci-input" value="{{ old('slug') }}" placeholder="auto-generated if left blank">
+        @error('slug') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+      </label>
 
-      {{-- Blog: optional board association; Thread: required board --}}
-      <div x-show="type==='blog'">
-        <label class="block font-semibold mb-1">Associate to Board (optional)</label>
-        <select name="board_id" class="w-full border rounded px-3 py-2">
+      <label class="block">
+        <span class="ci-label mb-1">Associate to Board (optional)</span>
+        <select name="board_id" class="ci-select">
           <option value="">— None —</option>
-          @foreach($boards as $b)
-            <option value="{{ $b->id }}" @selected(old('board_id')==$b->id)>{{ $b->name }}</option>
+          @foreach($boards ?? [] as $board)
+            <option value="{{ $board->id }}" @selected(old('board_id')==$board->id)>{{ $board->name }}</option>
           @endforeach
         </select>
+        @error('board_id') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+      </label>
+    </div>
+
+    {{-- Body --}}
+    <label class="block mb-6">
+      <span class="ci-label mb-1">Body</span>
+      <textarea name="body" class="ci-textarea h-56" placeholder="Write your content…">{{ old('body') }}</textarea>
+      @error('body') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+    </label>
+
+    {{-- Feature Image --}}
+    <div class="mb-6">
+      <span class="ci-label mb-2">Feature Image (optional)</span>
+      <input type="file" name="feature_image" class="block">
+      <p class="ci-help mt-2">JPG/PNG/WebP • up to 5 MB</p>
+      @error('feature_image') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+    </div>
+
+    {{-- Publish Status --}}
+    <fieldset class="mb-6">
+      <legend class="ci-label mb-2">Publish Status</legend>
+      <div class="flex flex-wrap gap-6">
+        <label class="inline-flex items-center gap-2">
+          <input type="radio" name="status" value="draft" {{ old('status','draft')==='draft' ? 'checked' : '' }}>
+          <span>Draft</span>
+        </label>
+        <label class="inline-flex items-center gap-2">
+          <input type="radio" name="status" value="scheduled" {{ old('status')==='scheduled' ? 'checked' : '' }}>
+          <span>Scheduled</span>
+        </label>
+        <label class="inline-flex items-center gap-2">
+          <input type="radio" name="status" value="now" {{ old('status')==='now' ? 'checked' : '' }}>
+          <span>Publish now</span>
+        </label>
       </div>
 
-      <div x-show="type==='thread'">
-        <label class="block font-semibold mb-1">Board</label>
-        <select name="thread_board_id" class="w-full border rounded px-3 py-2">
-          @foreach($boards as $b)
-            <option value="{{ $b->id }}" @selected(old('thread_board_id')==$b->id)>{{ $b->name }}</option>
-          @endforeach
-        </select>
+      <div class="mt-4">
+        <label class="ci-label mb-1">Publish at (your local time)</label>
+        <input type="datetime-local" name="publish_at" class="ci-input" value="{{ old('publish_at') }}">
+        <p class="ci-help mt-1">Stored in UTC.</p>
+        @error('publish_at') <p class="ci-error mt-1">{{ $message }}</p> @enderror
       </div>
-    </div>
+    </fieldset>
 
-    <div>
-      <label class="block font-semibold mb-1">Body</label>
-      <textarea name="body" rows="10" class="w-full border rounded px-3 py-2" required>{{ old('body') }}</textarea>
-    </div>
-
-    {{-- Blog-only image upload --}}
-    <div x-show="type==='blog'">
-      <label class="block font-semibold mb-1">Feature Image (optional)</label>
-      <input type="file" name="image_path" accept="image/*" class="w-full border rounded px-3 py-2">
-    </div>
-
-    {{-- Scheduling --}}
-    <div x-show="type==='blog'">
-      @include('admin.partials.scheduling', ['model' => new \App\Models\Post(), 'field' => 'publish_status'])
-    </div>
-    <div x-show="type==='thread'">
-      @include('admin.partials.scheduling', ['model' => new \App\Models\Thread(), 'field' => 'status'])
-    </div>
-
-    <div class="flex justify-end">
-      <button class="btn-primary">Create</button>
+    <div class="text-right">
+      <button class="ci-btn-primary">Create</button>
     </div>
   </form>
 </div>
