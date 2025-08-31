@@ -179,8 +179,11 @@ class PostController extends Controller
             $post->published_at->lte(now()),
             404
         );
-         // make sure relations are available
-        $post->load(['user', 'board', 'tags']);
+        $relations = ['user', 'board'];
+        if (class_exists(\App\Models\Tag::class) && method_exists($post, 'tags')) {
+            $relations[] = 'tags';
+        }
+        $post->load($relations);
 
         $previous = Post::where('status', 'published')
             ->whereNotNull('published_at')

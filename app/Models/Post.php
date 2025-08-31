@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Board;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 class Post extends Model
 {
@@ -91,5 +93,10 @@ class Post extends Model
             return asset('storage/' . $this->image_path);
         }
         return asset('images/default-post.png');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
     }
 }
