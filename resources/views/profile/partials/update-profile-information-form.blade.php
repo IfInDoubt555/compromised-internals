@@ -115,8 +115,16 @@
             <x-input name="location" label="Location"
                      value="{{ old('location', $user->profile->location ?? '') }}" />
 
-            <x-input name="rally_fan_since" label="Rally Fan Since" type="number"
-                     value="{{ old('rally_fan_since', $user->profile->rally_fan_since ?? '') }}" />
+            <x-input
+                name="rally_fan_since"
+                label="Rally Fan Since (Year)"
+                type="text"
+                inputmode="numeric"
+                pattern="\d{4}"
+                maxlength="4"
+                autocomplete="bday-year"
+                value="{{ old('rally_fan_since', is_numeric($user->profile->rally_fan_since ?? null) ? $user->profile->rally_fan_since : '') }}"
+            />
 
             <x-input name="birthday" label="Birthday" type="date"
                      value="{{ old('birthday', $user->profile->birthday ?? '') }}" />

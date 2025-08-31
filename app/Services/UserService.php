@@ -27,7 +27,7 @@ class UserService
             'display_name'    => ['nullable', 'string', 'max:100'],
             'location'        => ['nullable', 'string', 'max:100'],
             'rally_role'      => ['nullable', 'string', 'max:50'],
-            'rally_fan_since' => ['nullable', 'integer', 'min:1900', 'max:' . now()->year],
+            'rally_fan_since' => ['nullable','digits:4','integer','min:1900','max:'.now()->year],
             'birthday'        => ['nullable', 'date', 'before:today'],
             'bio'             => ['nullable', 'string', 'max:1000'],
             'favorite_driver' => ['nullable', 'string', 'max:100'],
