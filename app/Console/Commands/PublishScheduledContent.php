@@ -8,31 +8,46 @@ use App\Models\Thread;
 
 class PublishScheduledContent extends Command
 {
-    protected $signature = 'content:publish-scheduled';
+    protected $signature = 'content:publish-scheduled {--limit=200 : Max items per chunk}';
     protected $description = 'Publish posts/threads whose scheduled_for time has passed';
 
     public function handle(): int
     {
         $now = now()->utc();
+        $limit = (int) $this->option('limit');
 
-        Post::where('status','scheduled')
+        // POSTS
+        Post::where('status', 'scheduled')
             ->whereNotNull('scheduled_for')
-            ->where('scheduled_for','<=',$now)
-            ->chunkById(200, function ($chunk) use ($now) {
+            ->where('scheduled_for', '<=', $now)
+            ->chunkById($limit, function ($chunk) use ($now) {
                 foreach ($chunk as $p) {
-                    $p->forceFill(['status'=>'published','published_at'=>$now,'scheduled_for'=>null])->save();
+                    $p->forceFill([
+                        'status'          => 'published',
+                        'publish_status'  => 'published',   // keep legacy column in sync
+                        'published_at'    => $now,
+                        'scheduled_for'   => null,
+                    ])->save();
+                    $this->line("Published post #{$p->id} {$p->title}");
                 }
             });
 
-        Thread::where('status','scheduled')
+        // THREADS
+        Thread::where('status', 'scheduled')
             ->whereNotNull('scheduled_for')
-            ->where('scheduled_for','<=',$now)
-            ->chunkById(200, function ($chunk) use ($now) {
+            ->where('scheduled_for', '<=', $now)
+            ->chunkById($limit, function ($chunk) use ($now) {
                 foreach ($chunk as $t) {
-                    $t->forceFill(['status'=>'published','published_at'=>$now,'scheduled_for'=>null])->save();
+                    $t->forceFill([
+                        'status'         => 'published',
+                        'published_at'   => $now,
+                        'scheduled_for'  => null,
+                    ])->save();
+                    $this->line("Published thread #{$t->id} {$t->title}");
                 }
             });
 
+        $this->info('Done.');
         return self::SUCCESS;
     }
 }
