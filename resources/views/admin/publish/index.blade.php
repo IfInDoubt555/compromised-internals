@@ -1,8 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 py-8" x-data="{ tab: $persist('posts') }">
-  <div class="flex items-center justify-between mb-4">
+ <div class="max-w-7xl mx-auto px-4 py-8"
+      x-data="{ tab: (localStorage.getItem('queueTab') || 'posts') }"
+      x-init="$watch('tab', t => localStorage.setItem('queueTab', t))">  <div class="flex items-center justify-between mb-4">
     <h1 class="ci-title-lg">Content Queue</h1>
     <a class="ci-btn-sky" href="{{ route('admin.publish.create') }}">Create Content</a>
   </div>
