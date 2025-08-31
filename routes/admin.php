@@ -29,10 +29,8 @@ Route::post('/attributions', [AttributionController::class, 'update'])->name('at
 /* ---------- Affiliate Clicks ---------- */
 Route::get('/affiliates/clicks', [AffiliateClickController::class, 'index'])
     ->name('affiliates.clicks');
-
 Route::get('/affiliates/clicks/export', [AffiliateClickController::class, 'export'])
     ->name('affiliates.clicks.export');
-
 Route::get('/affiliates/clicks/chart-data', [AffiliateClickController::class, 'chartData'])
     ->name('affiliates.clicks.chart');
 
@@ -66,7 +64,7 @@ Route::prefix('posts')->name('posts.')->group(function () {
     Route::post('/{post}/approve',           [PostModerationController::class, 'approve'])->name('approve')->whereNumber('post');
     Route::post('/{post}/reject',            [PostModerationController::class, 'reject'])->name('reject')->whereNumber('post');
 
-    // NEW: admin edit/update to set status/scheduled_for/published_at
+    // Admin edit/update (status/scheduled_for/published_at)
     Route::get('/{post}/edit',               [PostModerationController::class, 'edit'])->name('edit');
     Route::put('/{post}',                    [PostModerationController::class, 'update'])->name('update');
 });
@@ -86,16 +84,14 @@ Route::get('/scheduled', function () {
     ]);
 })->name('scheduled');
 
-Route::get('/publish', [PublishQueueController::class, 'index'])
-    ->name('admin.publish.index');
-Route::get('/publish/create', [PublishQueueController::class, 'create'])
-    ->name('admin.publish.create');
+/* ---------- Content Queue + Composer (no path conflicts) ---------- */
+// Queue at /admin/publish
+Route::get('/publish', [PublishQueueController::class, 'index'])->name('publish.index');
 
-
-
+// Compose form at /admin/publish/create, submit to POST /admin/publish
 Route::prefix('publish')->name('publish.')->group(function () {
-    Route::get('/',  [PublisherController::class, 'create'])->name('create');
-    Route::post('/', [PublisherController::class, 'store'])->name('store');
+    Route::get('/create', [PublisherController::class, 'create'])->name('create');
+    Route::post('/',      [PublisherController::class, 'store'])->name('store');
 });
 
 /* ---------- Users ---------- */
@@ -123,6 +119,5 @@ Route::resource('travel-highlights', TravelHighlightController::class)
 /* Travel Tips (singleton, lives in the same controller) */
 Route::get('travel-highlights/tips', [TravelHighlightController::class, 'editTips'])
     ->name('travel-highlights.tips.edit');   // => admin.travel-highlights.tips.edit
-
 Route::put('travel-highlights/tips', [TravelHighlightController::class, 'updateTips'])
     ->name('travel-highlights.tips.update'); // => admin.travel-highlights.tips.update
