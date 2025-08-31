@@ -10,14 +10,6 @@ class Board extends Model
 {
     protected $fillable = ['name','slug','icon','color','position','is_public','description'];
 
-    protected $casts = [
-        'is_public' => 'boolean',
-        'position'  => 'integer',
-    ];
-
-    // Optional: lets boards.index show counts without extra queries; remove if you prefer
-    protected $withCount = ['threads'];
-
     /** Tailwind palette whitelist used for theming */
     public const TAILWIND_ALLOWED = [
         'slate','stone','red','orange','amber','yellow','lime','green',
@@ -25,18 +17,24 @@ class Board extends Model
         'fuchsia','pink','rose',
     ];
 
+    protected $casts = [
+        'is_public' => 'boolean',
+        'position'  => 'integer',
+    ];
+
+    // Optional: lets boards.index show counts without extra queries
+    protected $withCount = ['threads'];
+
     public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
     }
 
-    // Posts already reference board_id on Post
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    // Use slug in URLs (so Board $board binds by slug)
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -45,8 +43,25 @@ class Board extends Model
     /** Return a valid Tailwind color token from DB color (fallback to 'sky'). */
     public function tailwindColor(): string
     {
-        $c = strtolower((string) $this->color);
-        return in_array($c, self::TAILWIND_ALLOWED, true) ? $c : 'sky';
+        // Trim, lowercase
+        $raw = strtolower(trim((string) $this->color));
+
+        // Strip accidental shade/opacity suffixes like "emerald-600" or "emerald-600/30"
+        if (preg_match('/^(?<base>[a-z]+)(?:-\d{2,3})?(?:\/\d{1,3})?$/', $raw, $m)) {
+            $raw = $m['base'];
+        }
+
+        // Map common human aliases to Tailwind palette names
+        $aliases = [
+            'grey' => 'stone',
+            'gray' => 'slate',
+            'aqua' => 'cyan',
+            'turquoise' => 'teal',
+            'navy' => 'blue',
+        ];
+        $raw = $aliases[$raw] ?? $raw;
+
+        return in_array($raw, self::TAILWIND_ALLOWED, true) ? $raw : 'sky';
     }
 
     /** Convenience accessor: $board->color_token in Blade. */
@@ -55,11 +70,11 @@ class Board extends Model
         return $this->tailwindColor();
     }
 
-    /** Optional helper: soft outlined button classes for this board color. */
+    /** Helper: soft outlined button classes for this board color. */
     public function softButtonClasses(): string
     {
         $c = $this->tailwindColor();
-        return "border border-{$c}-300 text-{$c}-600 bg-{$c}-50 hover:bg-{$c}-100 ".
+        return "border border-{$c}-300 text-{$c}-600 bg-{$c}-50 hover:bg-{$c}-100 " .
                "dark:border-{$c}-700 dark:text-{$c}-300 dark:bg-{$c}-950/30 dark:hover:bg-{$c}-900/40";
     }
 
