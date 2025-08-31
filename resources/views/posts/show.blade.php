@@ -3,13 +3,11 @@
 @section('content')
 {{-- Theme + auth context --}}
 @php
-    // Board color token → Tailwind color; fallback to 'sky'
     $c = $boardColor
         ?? optional($post->board)->color_token
         ?? optional($post->board)->tailwindColor()
         ?? 'sky';
 
-    // Current user + liked state
     $user  = auth()->user();
     $liked = $user ? $post->isLikedBy($user) : false;
 @endphp

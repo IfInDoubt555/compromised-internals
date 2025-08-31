@@ -179,33 +179,36 @@ class PostController extends Controller
             $post->published_at->lte(now()),
             404
         );
+    
+        // Eager-load relations (tags only if the relation exists)
         $relations = ['user', 'board'];
         if (class_exists(\App\Models\Tag::class) && method_exists($post, 'tags')) {
             $relations[] = 'tags';
         }
         $post->load($relations);
-
+    
         $previous = Post::where('status', 'published')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->where('id', '<', $post->id)
             ->orderBy('id', 'desc')
             ->first();
-
+    
         $next = Post::where('status', 'published')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->where('id', '>', $post->id)
             ->orderBy('id')
             ->first();
-
-        $boardColor = optional($post->board)?->tailwindColor() ?? 'sky';
-
-        return view('posts.show', [    
-            'post' => $post,
-            'previous' => $previous,
-            'next' => $next,
-            'boardColor' => $boardColor,
+    
+        // One source of truth for the board theme color
+        $boardColor = optional($post->board)->color_token ?? 'sky';
+    
+        return view('posts.show', [
+            'post'        => $post,
+            'previous'    => $previous,
+            'next'        => $next,
+            'boardColor'  => $boardColor,
         ]);
     }
 
