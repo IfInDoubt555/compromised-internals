@@ -9,14 +9,8 @@
 
   {{-- Tabs --}}
   <div class="mb-6 flex gap-2">
-    <button
-      class="pill pill-hover"
-      :class="tab==='posts' ? 'pill-primary' : ''"
-      @click="tab='posts'">Posts</button>
-    <button
-      class="pill pill-hover"
-      :class="tab==='threads' ? 'pill-primary' : ''"
-      @click="tab='threads'">Board Threads</button>
+    <button class="pill pill-hover" :class="tab==='posts' ? 'pill-primary' : ''" @click="tab='posts'">Posts</button>
+    <button class="pill pill-hover" :class="tab==='threads' ? 'pill-primary' : ''" @click="tab='threads'">Board Threads</button>
   </div>
 
   {{-- POSTS TAB --}}
@@ -66,7 +60,7 @@
           @forelse($postScheduled as $p)
             <tr class="ci-tr">
               <td class="ci-td">{{ $p->title }}</td>
-              <td class="ci-td">{{ optional($p->publish_at)->format('M d, Y H:i') }}</td>
+              <td class="ci-td">{{ optional($p->scheduled_for)->format('M d, Y H:i') }}</td>
               <td class="ci-td">
                 <a class="ci-cta" href="{{ route('admin.posts.edit', $p) }}">Edit</a>
               </td>
@@ -140,7 +134,7 @@
             <tr class="ci-tr">
               <td class="ci-td">{{ $t->title }}</td>
               <td class="ci-td">{{ $t->board->name ?? '—' }}</td>
-              <td class="ci-td">{{ optional($t->publish_at)->format('M d, Y H:i') }}</td>
+              <td class="ci-td">{{ optional($t->scheduled_for)->format('M d, Y H:i') }}</td>
               <td class="ci-td">
                 <a class="ci-cta" href="{{ route('admin.threads.edit', $t) }}">Edit</a>
               </td>

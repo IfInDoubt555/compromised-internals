@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 py-8">
+<div class="max-w-4xl mx-auto px-4 py-8" x-data="{ type: @js(old('type','blog')) }">
   <h1 class="ci-title-lg mb-6">Create Content</h1>
 
   <form action="{{ route('admin.publish.store') }}" method="POST" enctype="multipart/form-data" class="ci-admin-card">
@@ -12,11 +12,11 @@
       <p class="ci-label mb-2">Publish As</p>
       <div class="flex flex-wrap gap-6">
         <label class="inline-flex items-center gap-2">
-          <input type="radio" name="type" value="blog" checked>
+          <input type="radio" name="type" value="blog" x-model="type">
           <span>Blog Post</span>
         </label>
         <label class="inline-flex items-center gap-2">
-          <input type="radio" name="type" value="thread">
+          <input type="radio" name="type" value="thread" x-model="type">
           <span>Board Thread</span>
         </label>
       </div>
@@ -38,15 +38,33 @@
         @error('slug') <p class="ci-error mt-1">{{ $message }}</p> @enderror
       </label>
 
+      {{-- Board selector (blog optional / thread required) --}}
       <label class="block">
-        <span class="ci-label mb-1">Associate to Board (optional)</span>
-        <select name="board_id" class="ci-select">
+        <span class="ci-label mb-1">
+          <span x-show="type==='blog'">Associate to Board (optional)</span>
+          <span x-show="type==='thread'">Select Board (required)</span>
+        </span>
+
+        {{-- For BLOG: name="board_id" --}}
+        <select class="ci-select" name="board_id"
+                x-show="type==='blog'" x-cloak>
           <option value="">— None —</option>
           @foreach($boards ?? [] as $board)
             <option value="{{ $board->id }}" @selected(old('board_id')==$board->id)>{{ $board->name }}</option>
           @endforeach
         </select>
+
+        {{-- For THREAD: name="thread_board_id" --}}
+        <select class="ci-select" name="thread_board_id"
+                x-show="type==='thread'" x-cloak>
+          <option value="">— Choose Board —</option>
+          @foreach($boards ?? [] as $board)
+            <option value="{{ $board->id }}" @selected(old('thread_board_id')==$board->id)>{{ $board->name }}</option>
+          @endforeach
+        </select>
+
         @error('board_id') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+        @error('thread_board_id') <p class="ci-error mt-1">{{ $message }}</p> @enderror
       </label>
     </div>
 
@@ -60,9 +78,10 @@
     {{-- Feature Image --}}
     <div class="mb-6">
       <span class="ci-label mb-2">Feature Image (optional)</span>
-      <input type="file" name="feature_image" class="block">
+      {{-- controller expects image_path --}}
+      <input type="file" name="image_path" class="block">
       <p class="ci-help mt-2">JPG/PNG/WebP • up to 5 MB</p>
-      @error('feature_image') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+      @error('image_path') <p class="ci-error mt-1">{{ $message }}</p> @enderror
     </div>
 
     {{-- Publish Status --}}
@@ -85,9 +104,10 @@
 
       <div class="mt-4">
         <label class="ci-label mb-1">Publish at (your local time)</label>
-        <input type="datetime-local" name="publish_at" class="ci-input" value="{{ old('publish_at') }}">
+        {{-- controller expects scheduled_for --}}
+        <input type="datetime-local" name="scheduled_for" class="ci-input" value="{{ old('scheduled_for') }}">
         <p class="ci-help mt-1">Stored in UTC.</p>
-        @error('publish_at') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+        @error('scheduled_for') <p class="ci-error mt-1">{{ $message }}</p> @enderror
       </div>
     </fieldset>
 

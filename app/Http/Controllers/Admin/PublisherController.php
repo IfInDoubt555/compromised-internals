@@ -25,40 +25,34 @@ class PublisherController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'type'           => ['required','in:blog,thread'],
+            'type'            => ['required','in:blog,thread'],
 
             // shared
-            'title'          => ['required','string','max:255'],
-            'slug'           => ['nullable','string','max:255'],
-            'body'           => ['required','string','max:20000'],
+            'title'           => ['required','string','max:255'],
+            'slug'            => ['nullable','string','max:255'],
+            'body'            => ['required','string','max:20000'],
 
-            // single status input preferred; keep BC for older forms
-            'status'         => ['nullable','in:draft,scheduled,now,published'],
-            'publish_status' => ['nullable','in:draft,scheduled,published'], // legacy
+            // preferred single status; accepts 'now' from UI
+            'status'          => ['nullable','in:draft,scheduled,now,published'],
 
-            'scheduled_for'  => ['nullable','date'],
+            'scheduled_for'   => ['nullable','date'],
 
             // blog-only
-            'board_id'       => ['nullable','exists:boards,id'],
-            'image_path'     => ['nullable','image','mimes:jpg,jpeg,png,webp','max:4096'],
+            'board_id'        => ['nullable','exists:boards,id'],
+            'image_path'      => ['nullable','image','mimes:jpg,jpeg,png,webp','max:4096'],
 
             // thread-only
-            'thread_board_id'=> ['nullable','exists:boards,id'],
+            'thread_board_id' => ['nullable','exists:boards,id'],
         ]);
 
         $nowUtc = now()->utc();
-        $scheduledUtc = null;
-        if (!empty($data['scheduled_for'])) {
-            $scheduledUtc = Carbon::parse($data['scheduled_for'], config('app.timezone'))->utc();
-        }
+        $scheduledUtc = !empty($data['scheduled_for'])
+            ? Carbon::parse($data['scheduled_for'], config('app.timezone'))->utc()
+            : null;
 
         $isAdmin = Auth::user()?->isAdmin();
-
-        // prefer 'status' from form; fallback to legacy 'publish_status'
-        $intent = $data['status'] ?? $data['publish_status'] ?? 'draft';
-        if ($intent === 'now') {
-            $intent = 'published';
-        }
+        $intent  = $data['status'] ?? 'draft';
+        if ($intent === 'now') $intent = 'published';
 
         if ($data['type'] === 'blog') {
             $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
@@ -73,23 +67,26 @@ class PublisherController extends Controller
             ];
 
             if ($isAdmin) {
-                // BYPASS MODERATION
+                // BYPASS moderation: write final status + timestamps
                 if ($intent === 'published') {
-                    $payload['status']       = 'published';
-                    $payload['published_at'] = $nowUtc;
-                    $payload['scheduled_for'] = null;
+                    $payload['status']         = 'published';
+                    $payload['published_at']   = $nowUtc;
+                    $payload['scheduled_for']  = null;
                 } elseif ($intent === 'scheduled') {
-                    $payload['status']        = 'scheduled';
-                    $payload['scheduled_for'] = $scheduledUtc;
-                    $payload['published_at']  = null;
+                    $payload['status']         = 'scheduled';
+                    $payload['scheduled_for']  = $scheduledUtc;
+                    $payload['published_at']   = null;
                 } else {
-                    $payload['status']        = 'draft';
-                    $payload['scheduled_for'] = null;
-                    $payload['published_at']  = null;
+                    $payload['status']         = 'draft';
+                    $payload['scheduled_for']  = null;
+                    $payload['published_at']   = null;
                 }
             } else {
                 $payload['status'] = 'pending';
             }
+
+            // keep legacy column in sync (optional but helpful while you transition)
+            $payload['publish_status'] = $payload['status'];
 
             if ($request->hasFile('image_path')) {
                 $payload['image_path'] = $request->file('image_path')->store('posts', 'public');
