@@ -1,10 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- Theme color (board → Tailwind token) --}}
+{{-- Theme + auth context --}}
 @php
-    // prefer $boardColor from controller; otherwise read from the Board model; fallback to 'sky'
-    $c = $boardColor ?? ($post->board?->color_token ?? ($post->board?->tailwindColor() ?? 'sky'));
+    // Board color token → Tailwind color; fallback to 'sky'
+    $c = $boardColor
+        ?? optional($post->board)->color_token
+        ?? optional($post->board)->tailwindColor()
+        ?? 'sky';
+
+    // Current user + liked state
+    $user  = auth()->user();
+    $liked = $user ? $post->isLikedBy($user) : false;
 @endphp
 
 {{-- Top nav --}}
@@ -32,8 +39,6 @@
     @endif
   </div>
 </div>
-
-@php($c = $boardColor ?? 'sky')
 
 {{-- Feature image + title --}}
 <div class="max-w-5xl mx-auto px-4">
@@ -68,40 +73,42 @@
     {{-- Actions --}}
     <div class="order-3 w-full sm:order-none sm:w-auto">
       <div class="flex flex-wrap items-center gap-2">
-        @php $user = auth()->user(); @endphp
-    
         {{-- Like --}}
         <form method="POST" action="{{ route('posts.like', $post) }}">
           @csrf
           <button type="submit"
-            class="inline-flex items-center gap-2 rounded-lg px-3 py-2
-                   border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
-                   hover:bg-{{ $c }}-100
-                   dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+                  {{ !$user ? 'disabled' : '' }}
+                  aria-pressed="{{ $liked ? 'true' : 'false' }}"
+                  title="{{ $liked ? 'Unlike' : 'Like' }}"
+                  class="inline-flex items-center gap-2 rounded-lg px-3 py-2
+                         border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
+                         hover:bg-{{ $c }}-100
+                         dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40
+                         disabled:opacity-50">
             {{ $post->likes()->count() }}
-            <span>{{ $user && $post->isLikedBy($user) ? 'Unlike' : 'Like' }}</span>
+            <span>{{ $liked ? 'Unlike' : 'Like' }}</span>
           </button>
         </form>
-    
+
         @can('update', $post)
           {{-- Edit --}}
           <a href="{{ route('posts.edit', $post) }}"
-            class="inline-flex items-center rounded-lg px-3 py-2
-                   border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
-                   hover:bg-{{ $c }}-100
-                   dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+             class="inline-flex items-center rounded-lg px-3 py-2
+                    border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
+                    hover:bg-{{ $c }}-100
+                    dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
             Edit
           </a>
-    
-          {{-- Delete (also themed to board color; switch to fixed red if you prefer) --}}
+
+          {{-- Delete (themed to board color; change to fixed red if desired) --}}
           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                 onsubmit="return confirm('Are you sure you want to delete this post?');">
             @csrf @method('DELETE')
             <button type="submit"
-              class="inline-flex items-center rounded-lg px-3 py-2
-                     border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
-                     hover:bg-{{ $c }}-100
-                     dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
+                    class="inline-flex items-center rounded-lg px-3 py-2
+                           border border-{{ $c }}-300 text-{{ $c }}-600 bg-{{ $c }}-50
+                           hover:bg-{{ $c }}-100
+                           dark:border-{{ $c }}-700 dark:text-{{ $c }}-300 dark:bg-{{ $c }}-950/30 dark:hover:bg-{{ $c }}-900/40">
               Delete
             </button>
           </form>
