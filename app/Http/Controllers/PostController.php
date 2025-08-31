@@ -22,26 +22,42 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $q = Post::with('user')
-            ->where('status', 'published')
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->latest('published_at');
-
-        // Optional: filter by board (?board=slug)
+        $q = Post::with(['user', 'board'])
+            ->where(function ($q) {
+                $now = now();
+            
+                // ✅ New publishing flow
+                $q->where(function ($q) use ($now) {
+                    $q->where('status', 'published')
+                      ->whereNotNull('published_at')
+                      ->where('published_at', '<=', $now);
+                })
+            
+                // ✅ Legacy publish_status (older posts before status refactor)
+                ->orWhere(function ($q) {
+                    $q->whereNull('status')
+                      ->where('publish_status', 'published');
+                })
+            
+                // ✅ Legacy "approved" (moderation state from old system)
+                ->orWhere('status', 'approved');
+            })
+            ->orderByRaw('COALESCE(published_at, created_at) DESC');
+        
+        // 🔹 Optional: filter by board (?board=slug)
         if ($request->filled('board')) {
-            if ($board = Board::where('slug', $request->string('board'))->first()) {
+            if ($board = \App\Models\Board::where('slug', $request->string('board'))->first()) {
                 $q->where('board_id', $board->id);
             }
         }
-
-        // Optional: legacy "tag" filter (kept as-is)
+    
+        // 🔹 Optional: legacy "tag" filter
         if ($request->filled('tag')) {
             $q->where('slug', 'like', '%' . $request->tag . '%');
         }
-
+    
         $posts = $q->paginate(9)->appends($request->only(['tag', 'board']));
-
+    
         return view('blog.index', compact('posts'));
     }
 
