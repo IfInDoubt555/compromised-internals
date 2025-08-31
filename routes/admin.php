@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\EventDayController;
 use App\Http\Controllers\Admin\StageController;
 use App\Http\Controllers\Admin\TravelHighlightController;
 use App\Http\Controllers\Admin\AffiliateClickController;
+use App\Http\Controllers\Admin\ThreadAdminController;
 
 /**
  * NOTE: This file is already wrapped in RouteServiceProvider with:
@@ -30,7 +31,7 @@ Route::get('/affiliates/clicks', [AffiliateClickController::class, 'index'])
 Route::get('/affiliates/clicks/export', [AffiliateClickController::class, 'export'])
     ->name('affiliates.clicks.export');
 
-    Route::get('/affiliates/clicks/chart-data', [AffiliateClickController::class, 'chartData'])
+Route::get('/affiliates/clicks/chart-data', [AffiliateClickController::class, 'chartData'])
     ->name('affiliates.clicks.chart');
 
 /* ---------- Admin Rally Events CRUD ---------- */
@@ -56,12 +57,32 @@ Route::prefix('events')->name('events.')->group(function () {
     Route::delete('/{event}/stages/{stage}',       [StageController::class, 'destroy'])->name('stages.destroy');
 });
 
-/* ---------- Posts Moderation ---------- */
+/* ---------- Posts Moderation + Scheduling ---------- */
 Route::prefix('posts')->name('posts.')->group(function () {
+    // Existing moderation actions
     Route::get('/moderation',                [PostModerationController::class, 'index'])->name('moderation');
     Route::post('/{post}/approve',           [PostModerationController::class, 'approve'])->name('approve')->whereNumber('post');
     Route::post('/{post}/reject',            [PostModerationController::class, 'reject'])->name('reject')->whereNumber('post');
+
+    // NEW: admin edit/update to set status/scheduled_for/published_at
+    Route::get('/{post}/edit',               [PostModerationController::class, 'edit'])->name('edit');
+    Route::put('/{post}',                    [PostModerationController::class, 'update'])->name('update');
 });
+
+/* ---------- Threads Admin (Scheduling) ---------- */
+Route::prefix('threads')->name('threads.')->group(function () {
+    Route::get('/',                [ThreadAdminController::class, 'index'])->name('index');
+    Route::get('/{thread}/edit',   [ThreadAdminController::class, 'edit'])->name('edit');
+    Route::put('/{thread}',        [ThreadAdminController::class, 'update'])->name('update');
+});
+
+/* ---------- Optional: Unified Scheduled Overview ---------- */
+Route::get('/scheduled', function () {
+    return view('admin.scheduled', [
+        'posts'   => \App\Models\Post::scheduled()->orderBy('scheduled_for')->get(),
+        'threads' => \App\Models\Thread::scheduled()->orderBy('scheduled_for')->get(),
+    ]);
+})->name('scheduled');
 
 /* ---------- Users ---------- */
 Route::prefix('users')->name('users.')->group(function () {

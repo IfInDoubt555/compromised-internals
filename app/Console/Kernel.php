@@ -51,6 +51,10 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->onOneServer()
             ->environments(['production']);
+
+        $schedule->command('content:publish-scheduled')
+            ->everyMinute()
+            ->withoutOverlapping();
     }
 
     /**

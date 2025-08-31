@@ -19,18 +19,19 @@ class BoardController extends Controller
 
     public function show(Board $board): View
     {
-        // Threads in this board
+        // Threads in this board (public: only published)
         $threads = $board->threads()
-            ->with(['user'])           // eager load author
-            ->withCount('replies')     // show reply counts efficiently
-            ->latest('last_activity_at')
+            ->published()
+            ->latest('published_at')
+            ->with(['user'])        // eager load author
+            ->withCount('replies')  // reply counts
             ->paginate(20);
 
-        // Recent blog posts linked to this board
+        // Recent blog posts linked to this board (public: only published)
         $posts = Post::query()
-            ->where('status', 'approved')
+            ->published()
             ->where('board_id', $board->id)
-            ->latest()
+            ->latest('published_at')
             ->take(6)
             ->get();
 

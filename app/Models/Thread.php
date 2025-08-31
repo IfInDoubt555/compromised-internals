@@ -10,20 +10,49 @@ use Illuminate\Support\Str;
 
 class Thread extends Model
 {
-    protected $fillable = ['board_id','user_id','title','slug','body','last_activity_at'];
+    protected $fillable = [
+        'board_id',
+        'user_id',
+        'title',
+        'slug',
+        'body',
+        'last_activity_at',
+        // scheduling
+        'status',          // draft | scheduled | published
+        'scheduled_for',   // datetime (UTC)
+        'published_at',    // datetime (UTC)
+    ];
 
-    protected $casts = ['last_activity_at' => 'datetime'];
+    protected function casts(): array
+    {
+        return [
+            'last_activity_at' => 'datetime',
+            'scheduled_for'    => 'datetime',
+            'published_at'     => 'datetime',
+        ];
+    }
 
-    public function board(): BelongsTo { return $this->belongsTo(Board::class); }
-    public function user(): BelongsTo  { return $this->belongsTo(User::class); }
-    public function replies(): HasMany  { return $this->hasMany(Reply::class); }
+    /** Scopes */
+    public function scopePublished($q) { return $q->where('status', 'published'); }
+    public function scopeScheduled($q) { return $q->where('status', 'scheduled'); }
+    public function scopeDraft($q)     { return $q->where('status', 'draft'); }
+
+    public function isPublished(): bool
+    {
+        return $this->status === 'published' && !is_null($this->published_at);
+    }
+
+    /** Relations */
+    public function board(): BelongsTo   { return $this->belongsTo(Board::class); }
+    public function user(): BelongsTo    { return $this->belongsTo(User::class); }
+    public function replies(): HasMany   { return $this->hasMany(Reply::class); }
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class); // change table name if your pivot differs
+        return $this->belongsToMany(Tag::class); // update pivot name if different
     }
 
-    // Bind by slug (so Thread $thread resolves from /threads/{slug})
+    /** Route model binding by slug */
     public function getRouteKeyName(): string
     {
         return 'slug';

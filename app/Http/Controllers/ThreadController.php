@@ -9,17 +9,17 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Gate;
 
 class ThreadController extends Controller
 {
-    // If you prefer, rely on route middleware in routes/web.php
-    // public function __construct()
-    // {
-    //     $this->middleware('auth')->only(['create','store','edit','update','destroy']);
-    // }
-
     public function show(Thread $thread): View
     {
+        // Only published are public; allow admins/editors (policy 'update') to preview
+        if (! $thread->isPublished() && Gate::denies('update', $thread)) {
+            abort(404);
+        }
+
         $thread->load(['board','user','replies.user']);
         return view('threads.show', compact('thread'));
     }
@@ -54,6 +54,8 @@ class ThreadController extends Controller
             'slug'             => $slug,
             'body'             => $data['body'],
             'last_activity_at' => now(),
+            // New content created by users should not be publicly visible until published by admin
+            // (status/published_at set via admin UI/automation)
         ]);
 
         // Optional: auto-tag by board
@@ -78,56 +80,54 @@ class ThreadController extends Controller
     }
 
     public function update(Request $request, Thread $thread): RedirectResponse
-{
-    $this->authorize('update', $thread);
+    {
+        $this->authorize('update', $thread);
 
-    $data = $request->validate([
-        'board_id' => ['required','exists:boards,id'],
-        'title'    => ['required','string','max:160'],
-        // slug is optional; validate only if present
-        'slug'     => ['sometimes','nullable','string','max:180', Rule::unique('threads','slug')->ignore($thread->id)],
-        'body'     => ['required','string','max:20000'],
-    ]);
+        $data = $request->validate([
+            'board_id' => ['required','exists:boards,id'],
+            'title'    => ['required','string','max:160'],
+            'slug'     => ['sometimes','nullable','string','max:180', Rule::unique('threads','slug')->ignore($thread->id)],
+            'body'     => ['required','string','max:20000'],
+        ]);
 
-    // Only change the slug if the user submitted one; otherwise keep the current slug
-    if ($request->filled('slug')) {
-        $proposed = Str::slug($request->input('slug'));
-        $newSlug  = $proposed;
+        // Only change the slug if the user submitted one; otherwise keep the current slug
+        if ($request->filled('slug')) {
+            $proposed = Str::slug($request->input('slug'));
+            $newSlug  = $proposed;
 
-        if ($newSlug !== $thread->slug && Thread::where('slug', $newSlug)->exists()) {
-            $newSlug .= '-' . Str::lower(Str::random(6));
+            if ($newSlug !== $thread->slug && Thread::where('slug', $newSlug)->exists()) {
+                $newSlug .= '-' . Str::lower(Str::random(6));
+            }
+        } else {
+            $newSlug = $thread->slug;
         }
-    } else {
-        $newSlug = $thread->slug; // keep existing slug on quick edit / title change
-    }
 
-    $boardChanged = ((int)$data['board_id'] !== (int)$thread->board_id);
+        $boardChanged = ((int)$data['board_id'] !== (int)$thread->board_id);
 
-    $thread->update([
-        'board_id'         => $data['board_id'],
-        'title'            => $data['title'],
-        'slug'             => $newSlug,
-        'body'             => $data['body'],
-        'last_activity_at' => now(),
-    ]);
+        $thread->update([
+            'board_id'         => $data['board_id'],
+            'title'            => $data['title'],
+            'slug'             => $newSlug,
+            'body'             => $data['body'],
+            'last_activity_at' => now(),
+        ]);
 
-    // (Optional) retag if board changed, same as before…
-    if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
-        $newBoard = \App\Models\Board::find($data['board_id']);
-        if ($newBoard) {
-            $newTag = \App\Models\Tag::firstOrCreate(
-                ['slug' => 'board-' . $newBoard->slug],
-                ['name' => $newBoard->name]
-            );
-            $oldBoardTagIds = $thread->tags()->where('slug','like','board-%')->pluck('tags.id')->all();
-            if ($oldBoardTagIds) $thread->tags()->detach($oldBoardTagIds);
-            $thread->tags()->syncWithoutDetaching([$newTag->id]);
+        // (Optional) retag if board changed
+        if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
+            $newBoard = \App\Models\Board::find($data['board_id']);
+            if ($newBoard) {
+                $newTag = \App\Models\Tag::firstOrCreate(
+                    ['slug' => 'board-' . $newBoard->slug],
+                    ['name' => $newBoard->name]
+                );
+                $oldBoardTagIds = $thread->tags()->where('slug','like','board-%')->pluck('tags.id')->all();
+                if ($oldBoardTagIds) $thread->tags()->detach($oldBoardTagIds);
+                $thread->tags()->syncWithoutDetaching([$newTag->id]);
+            }
         }
+
+        return redirect()->route('threads.show', $thread)->with('success', 'Thread updated.');
     }
-
-    return redirect()->route('threads.show', $thread)->with('success', 'Thread updated.');
-}
-
 
     public function destroy(Thread $thread): RedirectResponse
     {
@@ -136,7 +136,6 @@ class ThreadController extends Controller
         $boardSlug = optional($thread->board)->slug;
         $thread->delete();
 
-        // After delete, return to the board page if we have it; otherwise dashboard
         return $boardSlug
             ? redirect()->route('boards.show', $boardSlug)->with('success', 'Thread deleted.')
             : redirect()->route('dashboard')->with('success', 'Thread deleted.');

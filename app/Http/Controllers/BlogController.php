@@ -10,7 +10,11 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->paginate(10);
+        // Public: only show published posts, newest first by published_at
+        $posts = Post::published()
+            ->latest('published_at')
+            ->paginate(10);
+
         return view('blog.index', compact('posts'));
     }
 
@@ -34,7 +38,11 @@ class BlogController extends Controller
 
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        // Public: resolve only published posts by slug
+        $post = Post::published()
+            ->where('slug', $slug)
+            ->firstOrFail();
+
         return view('blog.show', compact('post'));
     }
 }
