@@ -7,17 +7,27 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of published posts (public blog index).
-     */
     public function index(Request $request)
     {
-        $posts = Post::query()
-            ->where('status', 'published')       // only published posts
+        $q = Post::with(['user','board'])
+            ->where('status', 'published')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
-            ->latest('published_at')
-            ->paginate(10);
+            ->latest('published_at');
+
+        if ($term = $request->query('q')) {
+            $q->where(function ($sub) use ($term) {
+                $sub->where('title', 'like', "%{$term}%")
+                   ->orWhere('excerpt', 'like', "%{$term}%")
+                   ->orWhere('body', 'like', "%{$term}%");
+            });
+        }
+
+        if ($board = $request->query('board')) {
+            $q->whereHas('board', fn ($b) => $b->where('slug', $board));
+        }
+
+        $posts = $q->paginate(9)->withQueryString();
 
         return view('blog.index', compact('posts'));
     }
