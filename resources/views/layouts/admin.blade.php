@@ -59,26 +59,50 @@
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.attributions.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">📸</span><span class="font-medium">Image Attributions</span>
           </a>
+
           <a href="{{ route('admin.users.index') }}"
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.users.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">👥</span><span class="font-medium">Manage Users</span>
           </a>
+
           <a href="{{ route('admin.posts.moderation') }}"
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.posts.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">📝</span><span class="font-medium">Blog Moderation</span>
           </a>
+
+          {{-- NEW: Post Scheduling --}}
+          <a href="{{ route('admin.posts.edit', 1) }}" {{-- adjust target as needed for listing --}}
+             class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.posts.edit') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
+            <span class="text-lg">⏳</span><span class="font-medium">Post Scheduling</span>
+          </a>
+
+          {{-- NEW: Thread Admin --}}
+          <a href="{{ route('admin.threads.index') }}"
+             class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.threads.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
+            <span class="text-lg">💬</span><span class="font-medium">Threads Admin</span>
+          </a>
+
+          {{-- NEW: Scheduled Overview --}}
+          <a href="{{ route('admin.scheduled') }}"
+             class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.scheduled') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
+            <span class="text-lg">🕒</span><span class="font-medium">Scheduled Items</span>
+          </a>
+
           <a href="{{ route('admin.events.index') }}"
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.events.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">🗓️</span><span class="font-medium">Rally Events</span>
           </a>
+
           <a href="{{ route('admin.emails.index') }}"
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.emails.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">✉️</span><span class="font-medium">Email Inbox</span>
           </a>
+
           <a href="{{ route('admin.travel-highlights.index') }}"
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.travel-highlights.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">🧭</span><span class="font-medium">Travel Highlights</span>
           </a>
+
           <a href="{{ route('admin.affiliates.clicks') }}"
              class="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100/80 dark:hover:bg-stone-800/80 {{ request()->routeIs('admin.affiliates.*') ? 'bg-gray-100/80 dark:bg-stone-800/80' : '' }}">
             <span class="text-lg">📈</span><span class="font-medium">Affiliate Clicks</span>
