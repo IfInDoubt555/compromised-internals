@@ -128,6 +128,14 @@
 
     @php
       $isStreamingContext = request()->is('travel*') || request()->is('calendar*') || request()->is('events*');
+
+      // Show BMAC on home/history/calendar and blog pages EXCEPT blog.index
+      $showBmac = (
+          request()->is('/') ||
+          request()->is('history*') ||
+          request()->is('calendar*') ||
+          request()->is('blog*')
+      ) && !request()->routeIs('blog.index');
     @endphp
 
     @if ($isStreamingContext)
@@ -138,13 +146,8 @@
 
     @include('partials.footer')
 
-    @if (
-        request()->is('/') ||
-        request()->is('history*') ||
-        request()->is('calendar*') ||
-        request()->is('blog*')
-    )
-        <!-- Buy Me a Coffee Floating Widget (only on Home, History, Blog & Calendar) -->
+    @if ($showBmac)
+        <!-- Buy Me a Coffee Floating Widget -->
         <script data-name="BMC-Widget"
             src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
             data-id="CompromisedInternals"
