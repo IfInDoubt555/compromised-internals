@@ -92,48 +92,64 @@
   data-feed-tpl="{{ url('/calendar/feed/{year}.ics') }}"
   data-download-tpl="{{ url('/calendar/download/{year}.ics') }}"
 >
-    <!-- Alpine theme store (after Alpine loads via your app.js this will initialize) -->
+    <!-- Alpine theme store (robust: works before or after Alpine starts) -->
     <script>
-    document.addEventListener('alpine:init', () => {
-      const store = {
-        // reflect persisted/apply-at-paint value
-        mode: window.CI_THEME?.getMode?.() || (localStorage.getItem('ci-theme') || 'system'),
-      
-        get dark() {
-          return this.mode === 'dark' || (this.mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)'). matches);
-        },
-      
-        // canonical setter used by the UI
-        set(mode) {
-          this.mode = mode;                // update Alpine state
-          window.CI_THEME?.setMode?.(mode); // apply + persist + fire event
-        },
-      
-        // aliases so old calls don't break
-        setMode(mode) { this.set(mode); },
-        toggle() {
-          const next = this.mode === 'light' ? 'dark' : this.mode === 'dark' ? 'system' : 'light';
-          this.set(next);
-        },
-        cycle() { this.toggle(); }
-      };
+    (() => {
+      const prefersDark = () =>
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-      Alpine.store('theme', store);
-    
-      // Keep Alpine in sync if something else changes the theme
-      document.addEventListener('ci-theme:changed', (e) => {
-        Alpine.store('theme').mode = e.detail.mode;
-      });
-    
-      // If OS theme changes and we're in 'system', toggle the class
-      const mq = window.matchMedia('(prefers-color-scheme: dark)');
-      (mq.addEventListener ? mq.addEventListener('change', onOSChange) : mq.addListener(onOSChange));
-      function onOSChange() {
-        if (Alpine.store('theme').mode === 'system') {
-          document.documentElement.classList.toggle('dark', Alpine.store('theme').dark);
-        }
+      function registerThemeStore() {
+        const api = {
+          // seed from CI_THEME (which already applied on paint) or localStorage
+          mode: (window.CI_THEME && window.CI_THEME.getMode && window.CI_THEME.getMode()) ||
+                localStorage.getItem('ci-theme') || 'system',
+        
+          get dark() {
+            return this.mode === 'dark' || (this.mode === 'system' && prefersDark());
+          },
+        
+          // canonical setter used by UI
+          set(mode) {
+            this.mode = mode;                     // reflect in Alpine
+            window.CI_THEME && window.CI_THEME.setMode && window.CI_THEME.setMode(mode); // apply & persist
+          },
+        
+          // legacy aliases (safe to call)
+          setMode(mode) { this.set(mode); },
+          toggle() {
+            const next = this.mode === 'light' ? 'dark'
+                       : this.mode === 'dark'  ? 'system'
+                       :                        'light';
+            this.set(next);
+          },
+          cycle() { this.toggle(); }
+        };
+      
+        Alpine.store('theme', api);
+      
+        // Keep Alpine in sync if something else changes CI_THEME
+        document.addEventListener('ci-theme:changed', (e) => {
+          Alpine.store('theme').mode = e.detail.mode;
+        });
+      
+        // If OS theme changes and we're in 'system', reflect the class
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+        const onOSChange = () => {
+          if (Alpine.store('theme').mode === 'system') {
+            document.documentElement.classList.toggle('dark', Alpine.store('theme').dark);
+          }
+        };
+        mq.addEventListener ? mq.addEventListener('change', onOSChange) : mq.addListener(onOSChange);
       }
-    });
+    
+      if (window.Alpine && window.Alpine.version) {
+        // Alpine already booted; register now
+        registerThemeStore();
+      } else {
+        // Wait for Alpine to boot
+        document.addEventListener('alpine:init', registerThemeStore, { once: true });
+      }
+    })();
     </script>
 
     @auth
