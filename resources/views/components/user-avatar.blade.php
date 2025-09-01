@@ -1,11 +1,20 @@
-@props(['user' => null, 'size' => 'w-20 h-20'])
+@props(['path' => null, 'alt' => '', 'size' => 80, 'class' => ''])
 
 @php
 $user = $user ?? Auth::user();
 @endphp
 
-<img
-    src="{{ $user && $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('images/default-avatar.png') }}"
-    alt="User Avatar"
-    class="{{ $size }} rounded-full object-cover" 
-/>
+@if ($path)
+  <x-img :path="$path"
+         :alt="$alt"
+         :widths="[80,160,320]"
+         sizes="{{ $size }}px"
+         width="{{ $size }}"
+         height="{{ $size }}"
+         class="rounded-full {{ $class }}" />
+@else
+  <img src="{{ asset('images/default-avatar.png') }}"
+       alt="{{ $alt }}"
+       width="{{ $size }}" height="{{ $size }}"
+       class="rounded-full {{ $class }}">
+@endif

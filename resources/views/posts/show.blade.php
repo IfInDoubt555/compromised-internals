@@ -41,10 +41,15 @@
 {{-- Feature image + title --}}
 <div class="max-w-5xl mx-auto px-4">
   <figure class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl">
-    <img
-      src="{{ $post->image_path ? Storage::url($post->image_path) : asset('images/default-post.png') }}"
-      alt="{{ $post->title }}"
-      class="w-full h-auto object-cover">
+    @if ($post->image_path)
+      <x-img
+        :path="$post->image_path"
+        :alt="$post->title"
+        :widths="[640,960,1280]"
+        sizes="(max-width: 768px) 100vw, 960px"
+        class="w-full h-auto rounded-2xl mb-6"
+      />
+    @endif
   </figure>
 
   <h1 class="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-stone-100">

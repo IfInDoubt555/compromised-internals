@@ -12,10 +12,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
+use App\Jobs\GenerateImageVariants;
 
 class PostController extends Controller
 {
     use AuthorizesRequests;
+    /** Sizes & formats for generated variants used across blog cards/hero */
+    private const VARIANT_SIZES   = [160, 320, 640, 960, 1280];
+    private const VARIANT_FORMATS = ['webp','avif'];
 
     /**
      * Public blog index — show only truly published posts.
@@ -93,6 +97,8 @@ class PostController extends Controller
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
             $validated['image_path'] = $processedPath;
+            // generate responsive variants for cards/hero
+            $this->queueImageVariants($processedPath);
         }
     
         // Slug (post slug, not tags)
@@ -240,6 +246,8 @@ class PostController extends Controller
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
             $validated['image_path'] = $processedPath;
+            // generate responsive variants for updated image
+            $this->queueImageVariants($processedPath);
         }
 
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
@@ -284,5 +292,13 @@ class PostController extends Controller
         }
 
         return back()->with('success', 'Toggled like.');
+    }
+    /**
+     * Kick off variant generation for a stored image.
+     */
+    private function queueImageVariants(?string $path): void
+    {
+        if (!$path) return;
+        GenerateImageVariants::dispatch($path, self::VARIANT_SIZES, self::VARIANT_FORMATS);
     }
 }

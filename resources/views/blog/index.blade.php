@@ -109,7 +109,7 @@
                   <div>
                     <div class="flex items-center gap-3 text-xs ci-muted">
                       <a href="{{ route('profile.public', $post->user->id) }}" class="shrink-0">
-                        <x-user-avatar :user="$post->user" size="w-8 h-8" />
+                        <x-user-avatar :path="$user->profile_picture" alt="{{ $user->name }}" :size="80" />
                       </a>
                       <span class="font-medium ci-body">{{ $post->user->name }}</span>
                       <span aria-hidden="true">•</span>
