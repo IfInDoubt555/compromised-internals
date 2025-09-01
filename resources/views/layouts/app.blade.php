@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="color-scheme" content="light dark">
+    <meta name="color-scheme" content="light dark" id="meta-color-scheme">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -17,12 +17,55 @@
 
     <!-- Set theme BEFORE CSS paints to avoid FOUC -->
     <script>
-      (() => {
-        let v = null;
-        try { v = localStorage.getItem('ci-theme'); } catch {}
-        const isDark = v === 'dark'; // default LIGHT when unset
+    (() => {
+      const STORAGE_KEY = 'ci-theme';  // 'light' | 'dark' | 'system'
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    
+      const getStored = () => {
+        try { return localStorage.getItem(STORAGE_KEY); } catch { return null; }
+      };
+    
+      const setMeta = (isDark) => {
+        const el = document.getElementById('meta-color-scheme');
+        if (el) el.content = isDark ? 'dark light' : 'light dark';
+      };
+    
+      const apply = (mode, { notify = false } = {}) => {
+        const isDark = mode === 'dark' || (mode !== 'light' && mql.matches);
         document.documentElement.classList.toggle('dark', isDark);
-      })();
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        setMeta(isDark);
+        if (notify) {
+          document.dispatchEvent(new CustomEvent('ci-theme:changed', { detail: { mode, dark: isDark } }));
+        }
+      };
+    
+      // default to "system" if nothing stored
+      let mode = getStored() || 'system';
+      apply(mode);
+    
+      // keep in sync with OS when mode is "system"
+      (mql.addEventListener ? mql.addEventListener('change', onChange) : mql.addListener(onChange));
+      function onChange() {
+        if ((getStored() || 'system') === 'system') apply('system', { notify: true });
+      }
+    
+      // expose helpers for Alpine / UI
+      window.CI_THEME = {
+        getMode: () => getStored() || 'system',
+        setMode: (newMode) => {
+          try { localStorage.setItem(STORAGE_KEY, newMode); } catch {}
+          apply(newMode, { notify: true });
+        },
+        toggle: () => {
+          const cur = getStored() || 'system';
+          const next = cur === 'light' ? 'dark' : cur === 'dark' ? 'system' : 'light';
+          try { localStorage.setItem(STORAGE_KEY, next); } catch {}
+          apply(next, { notify: true });
+          return next;
+        }
+      };
+    })();
     </script>
 
     <!-- Fonts -->
@@ -51,17 +94,20 @@
 >
     <!-- Alpine theme store (after Alpine loads via your app.js this will initialize) -->
     <script>
-      document.addEventListener('alpine:init', () => {
-        Alpine.store('theme', {
-          dark: document.documentElement.classList.contains('dark'),
-          set(v){
-            this.dark = !!v;
-            document.documentElement.classList.toggle('dark', this.dark);
-            localStorage.setItem('ci-theme', this.dark ? 'dark' : 'light');
-          },
-          toggle(){ this.set(!this.dark); }
-        });
+    document.addEventListener('alpine:init', () => {
+      Alpine.store('theme', {
+        // 'system' | 'light' | 'dark'
+        mode: (window.CI_THEME && window.CI_THEME.getMode()) || 'system',
+        get dark() { return document.documentElement.classList.contains('dark'); },
+        setMode(mode) { this.mode = mode; window.CI_THEME && window.CI_THEME.setMode(mode); },
+        toggle() { this.mode = (window.CI_THEME && window.CI_THEME.toggle()) || this.mode; }
       });
+    
+      // Keep Alpine store in sync if something else changes the theme
+      document.addEventListener('ci-theme:changed', (e) => {
+        Alpine.store('theme').mode = e.detail.mode;
+      });
+    });
     </script>
 
     @auth

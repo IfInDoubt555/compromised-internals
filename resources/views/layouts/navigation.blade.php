@@ -58,32 +58,45 @@
     
         {{-- Theme pill: desktop only (mobile lives in the drawer already) --}}
         <div class="hidden lg:inline-flex">
-          {{-- keep your existing toggle button unchanged --}}
+          <!-- Cycles: System → Light → Dark -->
           <button
             type="button"
             @click="$store.theme.toggle()"
-            :aria-pressed="$store.theme.dark.toString()"
-            role="switch"
-            aria-label="Toggle dark mode"
-            class="group relative inline-flex items-center justify-center w-16 h-9 rounded-full ring-1 transition-all     duration-300
-                   ring-stone-900/10 bg-stone-200
-                   dark:ring-white/10 dark:bg-stone-700 select-none">
-            <!-- … your inner spans exactly as before … -->
-            <span class="absolute inset-y-0 left-1 flex items-center">
-              <span x-cloak class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500"    aria-hidden="true">🌙</span>
-            </span>
-            <span class="absolute inset-y-0 right-1 flex items-center">
-              <span x-cloak class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400"    aria-hidden="true">☀️</span>
-            </span>
+            :aria-label="`Theme: ${$store.theme.mode}`"
+            class="group relative inline-flex items-center justify-center w-24 h-9 rounded-full select-none
+                   ring-1 ring-stone-900/10 bg-stone-200 transition-all duration-300
+                   dark:ring-white/10 dark:bg-stone-700"
+          >
+            <!-- track icons -->
+            <span class="absolute inset-y-0 left-2 flex items-center text-xs font-semibold"
+                  :class="{'opacity-80': $store.theme.mode==='system', 'opacity-40': $store.theme.mode!=='system'}"
+                  aria-hidden="true">A</span>
+            <span class="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center"
+                  :class="{'opacity-80': $store.theme.mode==='light', 'opacity-40': $store.theme.mode!=='light'}"
+                  aria-hidden="true">☀️</span>
+            <span class="absolute inset-y-0 right-2 flex items-center"
+                  :class="{'opacity-80': $store.theme.mode==='dark', 'opacity-40': $store.theme.mode!=='dark'}"
+                  aria-hidden="true">🌙</span>
+
+            <!-- thumb -->
             <span
-              class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 transition-all duration-300
-                     ring-stone-900/10 bg-white
-                     dark:ring-white/10 dark:bg-stone-800
-                     flex items-center justify-center text-base"
-              :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-7'">
-              <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
-                    :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
-              <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
+              class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 flex items-center justify-center text-base
+                     ring-stone-900/10 bg-white dark:ring-white/10 dark:bg-stone-800 transition-transform duration-300"
+              :class="{
+                'translate-x-0' : $store.theme.mode==='system',
+                'translate-x-7' : $store.theme.mode==='light',
+                'translate-x-14': $store.theme.mode==='dark'
+              }"
+            >
+              <span x-cloak
+                    x-text="$store.theme.mode==='system' ? 'A' : ($store.theme.mode==='light' ? '☀️' : '🌙')"
+                    :class="{
+                      'text-stone-700 dark:text-stone-200' : $store.theme.mode==='system',
+                      'text-amber-400'                    : $store.theme.mode==='light',
+                      'text-sky-300'                      : $store.theme.mode==='dark'
+                    }"></span>
+              <span class="sr-only"
+                    x-text="`Theme: ${$store.theme.mode}`"></span>
             </span>
           </button>
         </div>
@@ -200,37 +213,50 @@
         </x-responsive-nav-link>
       @endcan
 
-      {{-- Theme switch (mobile) --}}
+      {{-- Theme switch (mobile) — cycles System → Light → Dark --}}
       <div class="px-4 py-2">
         <button
-          x-data
+          type="button"
           @click="$store.theme.toggle()"
-          :aria-pressed="$store.theme.dark"
-          role="switch"
-          aria-label="Toggle dark mode"
+          :aria-label="`Theme: ${$store.theme.mode}`"
           class="group relative inline-flex items-center justify-center select-none"
         >
           <span
-            class="relative w-14 h-8 rounded-full ring-1 transition-all duration-300
+            class="relative w-20 h-8 rounded-full ring-1 transition-all duration-300
                    ring-stone-900/10 bg-stone-200
                    dark:ring-white/10 dark:bg-stone-700"
           >
-            <span class="absolute inset-y-0 left-1 flex items-center">
-              <span x-cloak class="opacity-0 dark:opacity-60 transition-opacity duration-300 text-sky-500" aria-hidden="true">🌙</span>
-            </span>
-            <span class="absolute inset-y-0 right-1 flex items-center">
-              <span x-cloak class="opacity-60 dark:opacity-0 transition-opacity duration-300 text-amber-400" aria-hidden="true">☀️</span>
-            </span>
+            <!-- track labels -->
+            <span class="absolute inset-y-0 left-2 flex items-center text-[11px] font-semibold"
+                  :class="{'opacity-80': $store.theme.mode==='system', 'opacity-40': $store.theme.mode!=='system'}"
+                  aria-hidden="true">A</span>
+            <span class="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center"
+                  :class="{'opacity-80': $store.theme.mode==='light', 'opacity-40': $store.theme.mode!=='light'}"
+                  aria-hidden="true">☀️</span>
+            <span class="absolute inset-y-0 right-2 flex items-center"
+                  :class="{'opacity-80': $store.theme.mode==='dark', 'opacity-40': $store.theme.mode!=='dark'}"
+                  aria-hidden="true">🌙</span>
+          
+            <!-- thumb -->
             <span
-              class="absolute top-1 left-1 size-6 rounded-full shadow-sm ring-1 transition-all duration-300
+              class="absolute top-1 left-1 size-6 rounded-full shadow-sm ring-1 transition-transform duration-300
                      ring-stone-900/10 bg-white
                      dark:ring-white/10 dark:bg-stone-800
                      flex items-center justify-center text-sm"
-              :class="$store.theme.dark ? 'translate-x-0' : 'translate-x-6'"
+              :class="{
+                'translate-x-0' : $store.theme.mode==='system',
+                'translate-x-6' : $store.theme.mode==='light',
+                'translate-x-12': $store.theme.mode==='dark'
+              }"
             >
-              <span x-cloak x-text="$store.theme.dark ? '🌙' : '☀️'"
-                    :class="$store.theme.dark ? 'text-sky-300' : 'text-amber-400'"></span>
-              <span class="sr-only" x-text="$store.theme.dark ? 'Dark mode on' : 'Light mode on'"></span>
+              <span x-cloak
+                    x-text="$store.theme.mode==='system' ? 'A' : ($store.theme.mode==='light' ? '☀️' : '🌙')"
+                    :class="{
+                      'text-stone-700 dark:text-stone-200' : $store.theme.mode==='system',
+                      'text-amber-400'                    : $store.theme.mode==='light',
+                      'text-sky-300'                      : $store.theme.mode==='dark'
+                    }"></span>
+              <span class="sr-only" x-text="`Theme: ${$store.theme.mode}`"></span>
             </span>
           </span>
         </button>
