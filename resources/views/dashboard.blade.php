@@ -8,7 +8,7 @@
     <div class="bg-white shadow-sm sm:rounded-lg p-4 max-w-xl mx-auto ring-1 ring-black/5
                 dark:bg-stone-900/70 dark:ring-white/10">
       <div class="flex items-center gap-4 justify-center">
-        <x-user-avatar :path="$user->profile_picture" alt="{{ $user->name }}" :size="80" />
+        <x-user-avatar :path="$user->profile_picture" alt="{{ $user->name }}" :size="8" />
         <h2 class="text-xl font-semibold text-gray-900 dark:text-stone-100">
           Welcome back, {{ Auth::user()->name }}!
         </h2>

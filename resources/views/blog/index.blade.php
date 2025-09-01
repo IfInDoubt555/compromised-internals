@@ -96,12 +96,12 @@
                     <div class="aspect-[16/10]">
                       @php
                         $thumb = $post->image_path
-                            ? (\Illuminate\Support\Str::starts_with($post->image_path, ['http://','https://'])
+                            ? (\Illuminate\Support\Str::startsWith($post->image_path, ['http://', 'https://', '//'])
                                   ? $post->image_path
                                   : Storage::url($post->image_path))
                             : asset('images/default-post.png');
                       @endphp
-                      
+                  
                       <img
                         src="{{ $thumb }}"
                         alt="{{ $post->title }}"
