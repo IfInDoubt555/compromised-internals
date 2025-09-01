@@ -95,28 +95,44 @@
     <!-- Alpine theme store (after Alpine loads via your app.js this will initialize) -->
     <script>
     document.addEventListener('alpine:init', () => {
-      // Alpine store proxies CI_THEME so there's a single source of truth
-      Alpine.store('theme', {
-        mode: window.CI_THEME.getMode(),                    // 'light' | 'dark' | 'system'
-        get dark() { return document.documentElement.classList.contains('dark'); },
+      const store = {
+        // reflect persisted/apply-at-paint value
+        mode: window.CI_THEME?.getMode?.() || (localStorage.getItem('ci-theme') || 'system'),
       
-        setMode(v) {                                        // v: 'light' | 'dark' | 'system'
-          window.CI_THEME.setMode(v);                       // apply + dispatch ci-theme:changed
+        get dark() {
+          return this.mode === 'dark' || (this.mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)'). matches);
         },
-        toggle() {                                          // convenience
-          this.mode = window.CI_THEME.toggle();
+      
+        // canonical setter used by the UI
+        set(mode) {
+          this.mode = mode;                // update Alpine state
+          window.CI_THEME?.setMode?.(mode); // apply + persist + fire event
         },
-        cycle() {                                           // light → system → dark → light
-          const cur = this.mode;
-          const next = cur === 'light' ? 'system' : cur === 'system' ? 'dark' : 'light';
-          this.setMode(next);
-        }
+      
+        // aliases so old calls don't break
+        setMode(mode) { this.set(mode); },
+        toggle() {
+          const next = this.mode === 'light' ? 'dark' : this.mode === 'dark' ? 'system' : 'light';
+          this.set(next);
+        },
+        cycle() { this.toggle(); }
+      };
+    
+      Alpine.store('theme', store);
+    
+      // Keep Alpine in sync if something else changes the theme
+      document.addEventListener('ci-theme:changed', (e) => {
+        Alpine.store('theme').mode = e.detail.mode;
       });
     
-      // Keep Alpine's store in sync when CI_THEME fires notifications
-      document.addEventListener('ci-theme:changed', (e) => {
-        Alpine.store('theme').mode = e.detail.mode;        // update active chip highlight
-      });
+      // If OS theme changes and we're in 'system', toggle the class
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      (mq.addEventListener ? mq.addEventListener('change', onOSChange) : mq.addListener(onOSChange));
+      function onOSChange() {
+        if (Alpine.store('theme').mode === 'system') {
+          document.documentElement.classList.toggle('dark', Alpine.store('theme').dark);
+        }
+      }
     });
     </script>
 
