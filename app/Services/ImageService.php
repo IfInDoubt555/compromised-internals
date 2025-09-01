@@ -55,7 +55,9 @@ class ImageService
             }
 
             // fire-and-forget responsive variants
-            GenerateImageVariants::dispatch('public', $relPath, [160,320,640], ['webp','avif'])
+            $variantWidths = str_contains($folder, 'profile') ? [80,160,320] : [160,320,640];
+                    
+            GenerateImageVariants::dispatch('public', $relPath, $variantWidths, ['webp','avif'])
                 ->onQueue('images');
 
             return $relPath;

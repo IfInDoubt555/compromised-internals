@@ -1,20 +1,16 @@
-@props(['path' => null, 'alt' => '', 'size' => 80, 'class' => ''])
-
-@php
-$user = $user ?? Auth::user();
-@endphp
+@props(['path' => null, 'alt' => '', 'size' => 32, 'class' => ''])
 
 @if ($path)
   <x-img :path="$path"
          :alt="$alt"
-         :widths="[80,160,320]"
-         sizes="{{ $size }}px"
-         width="{{ $size }}"
-         height="{{ $size }}"
+         :widths="[160,320]"           {{-- match what we actually generate --}}
+         sizes="{{ (int) $size }}px"
+         width="{{ (int) $size }}"
+         height="{{ (int) $size }}"
          class="rounded-full {{ $class }}" />
 @else
   <img src="{{ asset('images/default-avatar.png') }}"
        alt="{{ $alt }}"
-       width="{{ $size }}" height="{{ $size }}"
+       width="{{ (int) $size }}" height="{{ (int) $size }}"
        class="rounded-full {{ $class }}">
 @endif
