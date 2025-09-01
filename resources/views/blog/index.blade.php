@@ -94,10 +94,16 @@
                   <a href="{{ route('posts.show', $post->slug) }}"
                      class="block overflow-hidden rounded-xl ring-1 ring-stone-900/5 dark:ring-white/10">
                     <div class="aspect-[16/10]">
+                      @php
+                        $thumb = $post->image_path
+                            ? (\Illuminate\Support\Str::starts_with($post->image_path, ['http://','https://'])
+                                  ? $post->image_path
+                                  : Storage::url($post->image_path))
+                            : asset('images/default-post.png');
+                      @endphp
+                      
                       <img
-                        src="{{ $post->image_path && Storage::disk('public')->exists($post->image_path)
-                                ? Storage::url($post->image_path)
-                                : asset('images/default-post.png') }}"
+                        src="{{ $thumb }}"
                         alt="{{ $post->title }}"
                         loading="lazy"
                         class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
@@ -109,7 +115,8 @@
                     @php($author = $post->user)
                     <div class="flex items-center gap-3 text-xs ci-muted">
                       <a href="{{ $author ? route('profile.public', $author->id) : '#' }}" class="shrink-0">
-                        <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="80" />
+                        {{-- keep your component’s expected prop types --}}
+                        <x-user-avatar :path="$author?->profile_picture" alt="{{ $author?->name ?? 'User' }}" size="8" />
                       </a>
                       <span class="font-medium ci-body">{{ $author?->name ?? 'Deleted user' }}</span>
                       <span aria-hidden="true">•</span>
