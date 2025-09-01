@@ -9,21 +9,37 @@ import initCalendar from './calendar';
 window.Alpine = Alpine;          // expose globally for console/tests
 Alpine.plugin(intersect);
 
+const prefersDark = () =>
+  window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 document.addEventListener('alpine:init', () => {
+  // Full-featured theme store (light | dark | system), integrated with CI_THEME
   Alpine.store('theme', {
-    dark: (() => {
-      try { return localStorage.getItem('ci-theme') === 'dark'; } catch { return false; }
-    })(),
+    mode: (window.CI_THEME?.getMode?.()) || localStorage.getItem('ci-theme') || 'system',
+
+    get dark() {
+      return this.mode === 'dark' || (this.mode === 'system' && prefersDark());
+    },
+
+    setMode(mode) {
+      this.mode = mode;                 // reflect in Alpine
+      window.CI_THEME?.setMode?.(mode); // apply + persist + broadcast
+    },
+
+    // aliases for UI calls
+    choose(mode) { this.setMode(mode); },
     toggle() {
-      this.dark = !this.dark;
-      try { localStorage.setItem('ci-theme', this.dark ? 'dark' : 'light'); } catch {}
-      document.documentElement.classList.toggle('dark', this.dark);
-      console.log('[theme] dark:', this.dark);
-    }
+      this.setMode(this.mode === 'light' ? 'dark'
+                 : this.mode === 'dark'  ? 'system'
+                 :                          'light');
+    },
+    cycle() { this.toggle(); }
   });
 
-  // apply immediately after Alpine boots
-  document.documentElement.classList.toggle('dark', Alpine.store('theme').dark);
+  // Keep Alpine store in sync if CI_THEME changes from elsewhere
+  document.addEventListener('ci-theme:changed', (e) => {
+    Alpine.store('theme').mode = e.detail.mode;
+  });
 });
 
 Alpine.start();

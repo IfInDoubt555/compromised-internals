@@ -92,64 +92,6 @@
   data-feed-tpl="{{ url('/calendar/feed/{year}.ics') }}"
   data-download-tpl="{{ url('/calendar/download/{year}.ics') }}"
 >
-    <!-- Alpine theme store (robust & merge-safe) -->
-    <script>
-    (() => {
-      const key = 'ci-theme';
-      const prefersDark = () =>
-        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-      function registerThemeStore() {
-        const store = {
-          // seed from CI_THEME (applied on paint) or localStorage
-          mode: (window.CI_THEME?.getMode?.()) || localStorage.getItem(key) || 'system',
-        
-          get dark() {
-            return this.mode === 'dark' || (this.mode === 'system' && prefersDark());
-          },
-        
-          // canonical setter used by UI
-          setMode(mode) {
-            this.mode = mode;                   // reflect in Alpine
-            window.CI_THEME?.setMode?.(mode);   // apply + persist + emit
-          },
-        
-          toggle() {
-            this.setMode(this.mode === 'light' ? 'dark'
-                      : this.mode === 'dark'  ? 'system'
-                      :                         'light');
-          },
-        
-          cycle() { this.toggle(); }
-        };
-      
-        // Merge with any existing store (don’t clobber)
-        const existing = Alpine.store('theme');
-        Alpine.store('theme', existing ? Object.assign(existing, store) : store);
-      
-        // Keep Alpine in sync if CI_THEME changes elsewhere
-        document.addEventListener('ci-theme:changed', (e) => {
-          Alpine.store('theme').mode = e.detail.mode;
-        });
-      
-        // If OS theme changes and we're in 'system', reflect immediately
-        const mq = window.matchMedia('(prefers-color-scheme: dark)');
-        const onOSChange = () => {
-          if (Alpine.store('theme').mode === 'system') {
-            document.documentElement.classList.toggle('dark', Alpine.store('theme').dark);
-          }
-        };
-        mq.addEventListener ? mq.addEventListener('change', onOSChange) : mq.addListener(onOSChange);
-      }
-    
-      // Register now or when Alpine boots
-      if (window.Alpine?.version) {
-        registerThemeStore();
-      } else {
-        document.addEventListener('alpine:init', registerThemeStore, { once: true });
-      }
-    })();
-    </script>
 
     @auth
       @if (Auth::user()->profile && Auth::user()->profile->isBirthday())
