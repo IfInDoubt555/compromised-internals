@@ -57,48 +57,52 @@
         @endauth
     
         {{-- Theme pill: desktop only (mobile lives in the drawer already) --}}
-        <div class="hidden lg:inline-flex">
-          <!-- Cycles: System → Light → Dark -->
-          <button
-            type="button"
-            @click="$store.theme.toggle()"
-            :aria-label="`Theme: ${$store.theme.mode}`"
-            class="group relative inline-flex items-center justify-center w-24 h-9 rounded-full select-none
-                   ring-1 ring-stone-900/10 bg-stone-200 transition-all duration-300
-                   dark:ring-white/10 dark:bg-stone-700"
-          >
-            <!-- track icons -->
-            <span class="absolute inset-y-0 left-2 flex items-center text-xs font-semibold"
-                  :class="{'opacity-80': $store.theme.mode==='system', 'opacity-40': $store.theme.mode!=='system'}"
-                  aria-hidden="true">A</span>
-            <span class="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center"
-                  :class="{'opacity-80': $store.theme.mode==='light', 'opacity-40': $store.theme.mode!=='light'}"
-                  aria-hidden="true">☀️</span>
-            <span class="absolute inset-y-0 right-2 flex items-center"
-                  :class="{'opacity-80': $store.theme.mode==='dark', 'opacity-40': $store.theme.mode!=='dark'}"
-                  aria-hidden="true">🌙</span>
+        <!-- Desktop theme control -->
+        <div class="hidden lg:flex items-center" x-data>
+          <div role="tablist" aria-label="Color theme"
+               class="inline-flex rounded-xl ring-1 ring-stone-900/10 dark:ring-white/10 bg-stone-200 dark:bg-stone-700 p-1 gap-1">
+            <!-- Light -->
+            <button type="button" role="tab" title="Light"
+                    @click="$store.theme.set('light')"
+                    :aria-selected="($store.theme.mode==='light').toString()"
+                    class="px-2.5 py-1.5 rounded-lg text-sm font-medium inline-flex items-center gap-1.5
+                           transition-all"
+                    :class="$store.theme.mode==='light'
+                      ? 'bg-white text-stone-900 shadow dark:bg-stone-100'
+                      : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white'">
+              <!-- sun icon -->
+              <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.04 1.46l1.79-1.8-1.41-1.41-1.8 1.79 1.42 1.42zM17 13h3v-2h-3v2zm-5 8h2v-3h-2v3zm6.24-1.84l1.8 1.79 1.41-1.41-1.79-1.8-1.42 1.42zM4.96 18.54l-1.79 1.8 1.41 1.41 1.8-1.79-1.42-1.42zM12 6a6 6 0 100 12 6 6 0 000-12z"/></svg>
+              <span class="sr-only">Light</span>
+            </button>
 
-            <!-- thumb -->
-            <span
-              class="absolute top-1 left-1 size-7 rounded-full shadow-sm ring-1 flex items-center justify-center text-base
-                     ring-stone-900/10 bg-white dark:ring-white/10 dark:bg-stone-800 transition-transform duration-300"
-              :class="{
-                'translate-x-0' : $store.theme.mode==='system',
-                'translate-x-7' : $store.theme.mode==='light',
-                'translate-x-14': $store.theme.mode==='dark'
-              }"
-            >
-              <span x-cloak
-                    x-text="$store.theme.mode==='system' ? 'A' : ($store.theme.mode==='light' ? '☀️' : '🌙')"
-                    :class="{
-                      'text-stone-700 dark:text-stone-200' : $store.theme.mode==='system',
-                      'text-amber-400'                    : $store.theme.mode==='light',
-                      'text-sky-300'                      : $store.theme.mode==='dark'
-                    }"></span>
-              <span class="sr-only"
-                    x-text="`Theme: ${$store.theme.mode}`"></span>
-            </span>
-          </button>
+            <!-- System -->
+            <button type="button" role="tab" title="System"
+                    @click="$store.theme.set('system')"
+                    :aria-selected="($store.theme.mode==='system').toString()"
+                    class="px-2.5 py-1.5 rounded-lg text-sm font-medium inline-flex items-center gap-1.5
+                           transition-all"
+                    :class="$store.theme.mode==='system'
+                      ? 'bg-white text-stone-900 shadow dark:bg-stone-100'
+                      : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white'">
+              <!-- monitor icon -->
+              <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M4 5h16a2 2 0 012 2v8a2 2 0 01-2 2h-6v2h3v2H7v-2h3v-2H4a2 2 0 01-2-2V7a2 2 0 012-2zm0 2v8h16V7H4z"/></svg>
+              <span class="sr-only">System</span>
+            </button>
+
+            <!-- Dark -->
+            <button type="button" role="tab" title="Dark"
+                    @click="$store.theme.set('dark')"
+                    :aria-selected="($store.theme.mode==='dark').toString()"
+                    class="px-2.5 py-1.5 rounded-lg text-sm font-medium inline-flex items-center gap-1.5
+                           transition-all"
+                    :class="$store.theme.mode==='dark'
+                      ? 'bg-white text-stone-900 shadow dark:bg-stone-100'
+                      : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white'">
+              <!-- moon icon -->
+              <svg viewBox="0 0 24 24" class="w-4 h-4" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
+              <span class="sr-only">Dark</span>
+            </button>
+          </div>
         </div>
     
         {{-- Hamburger: always on mobile --}}
@@ -213,53 +217,34 @@
         </x-responsive-nav-link>
       @endcan
 
-      {{-- Theme switch (mobile) — cycles System → Light → Dark --}}
-      <div class="px-4 py-2">
-        <button
-          type="button"
-          @click="$store.theme.toggle()"
-          :aria-label="`Theme: ${$store.theme.mode}`"
-          class="group relative inline-flex items-center justify-center select-none"
-        >
-          <span
-            class="relative w-20 h-8 rounded-full ring-1 transition-all duration-300
-                   ring-stone-900/10 bg-stone-200
-                   dark:ring-white/10 dark:bg-stone-700"
-          >
-            <!-- track labels -->
-            <span class="absolute inset-y-0 left-2 flex items-center text-[11px] font-semibold"
-                  :class="{'opacity-80': $store.theme.mode==='system', 'opacity-40': $store.theme.mode!=='system'}"
-                  aria-hidden="true">A</span>
-            <span class="absolute inset-y-0 left-1/2 -translate-x-1/2 flex items-center"
-                  :class="{'opacity-80': $store.theme.mode==='light', 'opacity-40': $store.theme.mode!=='light'}"
-                  aria-hidden="true">☀️</span>
-            <span class="absolute inset-y-0 right-2 flex items-center"
-                  :class="{'opacity-80': $store.theme.mode==='dark', 'opacity-40': $store.theme.mode!=='dark'}"
-                  aria-hidden="true">🌙</span>
-          
-            <!-- thumb -->
-            <span
-              class="absolute top-1 left-1 size-6 rounded-full shadow-sm ring-1 transition-transform duration-300
-                     ring-stone-900/10 bg-white
-                     dark:ring-white/10 dark:bg-stone-800
-                     flex items-center justify-center text-sm"
-              :class="{
-                'translate-x-0' : $store.theme.mode==='system',
-                'translate-x-6' : $store.theme.mode==='light',
-                'translate-x-12': $store.theme.mode==='dark'
-              }"
-            >
-              <span x-cloak
-                    x-text="$store.theme.mode==='system' ? 'A' : ($store.theme.mode==='light' ? '☀️' : '🌙')"
-                    :class="{
-                      'text-stone-700 dark:text-stone-200' : $store.theme.mode==='system',
-                      'text-amber-400'                    : $store.theme.mode==='light',
-                      'text-sky-300'                      : $store.theme.mode==='dark'
-                    }"></span>
-              <span class="sr-only" x-text="`Theme: ${$store.theme.mode}`"></span>
-            </span>
-          </span>
-        </button>
+      <!-- Mobile theme control -->
+      <div class="px-4 py-2" x-data>
+        <div role="tablist" aria-label="Color theme"
+            class="inline-flex rounded-xl ring-1 ring-stone-900/10 dark:ring-white/10 bg-stone-200 dark:bg-stone-700 p-1 gap-1">
+          <button type="button" role="tab" aria-label="Light" @click="$store.theme.set('light')"
+                  :aria-selected="($store.theme.mode==='light').toString()"
+                  class="px-3 py-2 rounded-lg text-base inline-flex items-center gap-2 transition-all"
+                  :class="$store.theme.mode==='light' ? 'bg-white text-stone-900 shadow dark:bg-stone-100'
+                                                : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white'">
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zM1 13h3v-2H1v2zm10-9h2V1h-2v3zm7.04 1.46l1.79-1.8-1.41-1.41-1.8 1.79 1.42 1.42zM17 13h3v-2h-3v2zm-5 8h2v-3h-2v3zm6.24-1.84l1.8 1.79 1.41-1.41-1.79-1.8-1.42 1.42zM4.96 18.54l-1.79 1.8 1.41 1.41 1.8-1.79-1.42-1.42zM12 6a6 6 0 100 12 6 6 0 000-12z"/></svg>
+          </button>
+
+          <button type="button" role="tab" aria-label="System" @click="$store.theme.set('system')"
+                  :aria-selected="($store.theme.mode==='system').toString()"
+                  class="px-3 py-2 rounded-lg text-base inline-flex items-center gap-2 transition-all"
+                  :class="$store.theme.mode==='system' ? 'bg-white text-stone-900 shadow dark:bg-stone-100'
+                                                 : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white'">
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M4 5h16a2 2 0 012 2v8a2 2 0 01-2 2h-6v2h3v2H7v-2h3v-2H4a2 2 0 01-2-2V7a2 2 0 012-2zm0 2v8h16V7H4z"/></svg>
+          </button>
+
+          <button type="button" role="tab" aria-label="Dark" @click="$store.theme.set('dark')"
+                  :aria-selected="($store.theme.mode==='dark').toString()"
+                  class="px-3 py-2 rounded-lg text-base inline-flex items-center gap-2 transition-all"
+                  :class="$store.theme.mode==='dark' ? 'bg-white text-stone-900 shadow dark:bg-stone-100'
+                                               : 'text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-white'">
+            <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>

@@ -95,17 +95,27 @@
     <!-- Alpine theme store (after Alpine loads via your app.js this will initialize) -->
     <script>
     document.addEventListener('alpine:init', () => {
+      const key = 'ci-theme'; // 'light' | 'dark' | 'system'
+      const prefers = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
       Alpine.store('theme', {
-        // 'system' | 'light' | 'dark'
-        mode: (window.CI_THEME && window.CI_THEME.getMode()) || 'system',
-        get dark() { return document.documentElement.classList.contains('dark'); },
-        setMode(mode) { this.mode = mode; window.CI_THEME && window.CI_THEME.setMode(mode); },
-        toggle() { this.mode = (window.CI_THEME && window.CI_THEME.toggle()) || this.mode; }
+        mode: (localStorage.getItem(key) || 'system'),
+        get dark() { return this.mode === 'dark' || (this.mode === 'system' && prefers()); },
+        set(v) {
+          this.mode = v; // 'light'|'dark'|'system'
+          localStorage.setItem(key, v);
+          document.documentElement.classList.toggle('dark', this.dark);
+        },
+        toggle() { this.set(this.dark ? 'light' : 'dark'); },
+        cycle() { this.set(this.mode === 'light' ? 'system' : this.mode === 'system' ? 'dark' : 'light'); }
       });
     
-      // Keep Alpine store in sync if something else changes the theme
-      document.addEventListener('ci-theme:changed', (e) => {
-        Alpine.store('theme').mode = e.detail.mode;
+      // React when OS theme changes and we're in 'system'
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      mq.addEventListener?.('change', () => {
+        if (Alpine.store('theme').mode === 'system') {
+          document.documentElement.classList.toggle('dark', Alpine.store('theme').dark);
+        }
       });
     });
     </script>
