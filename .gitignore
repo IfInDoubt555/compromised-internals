@@ -35,11 +35,18 @@ yarn-error.log
 /.zed
 .phpactor.json
 
-# Dev Scripts and Vite Config
+# Dev scripts & local overrides
 /scripts/fix-manifest.js
--vite.config.cjs
-+vite.config.js
-# generated sitemaps
+# (Note) Vite config should be tracked. If you truly need to ignore it, add:
+# /vite.config.js
+
+# OS cruft (Windows/macOS)
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+
+# Generated sitemaps
 /public/sitemap.xml
 /public/sitemaps/*
 !public/sitemaps/.gitkeep
