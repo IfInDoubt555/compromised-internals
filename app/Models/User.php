@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -18,9 +19,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'profile_picture',   // ← allow if you ever mass‐assign it
+        'profile_picture',
         'title',
         'banned_at',
+        'is_admin',
     ];
 
     /**
@@ -37,7 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
-        'is_admin'          => 'integer',
+        'is_admin'          => 'boolean',
         'banned_at'         => 'datetime',
     ];
 
@@ -48,75 +50,62 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_picture_url',
     ];
 
-    /**
-     * Is the user an administrator?
-     */
+    /** Is the user an administrator? */
     public function isAdmin(): bool
     {
-        return (int) $this->is_admin === 1;
+        return (bool) $this->is_admin;
     }
 
-    /**
-     * A user has many posts.
-     */
+    /** Relations */
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
 
-    /**
-     * A user has many orders.
-     */
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
 
-    /**
-     * A user has one profile.
-     */
     public function profile()
     {
         return $this->hasOne(UserProfile::class);
     }
 
-    /**
-     * Is the user banned?
-     */
+    public function likedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'post_user_likes')->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /** Is the user banned? */
     public function isBanned(): bool
     {
         return ! is_null($this->banned_at);
     }
 
     /**
-     * Liked posts pivot.
-     */
-    public function likedPosts()
-    {
-        return $this->belongsToMany(Post::class, 'post_user_likes')->withTimestamps();
-    }
-
-    /**
-     * A user has many comments.
-     */
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    /**
      * Accessor: full URL for the profile picture.
+     * - Accepts absolute URLs stored in DB
+     * - Otherwise treats value as a 'public' disk path
+     * - Falls back to default avatar
      */
     public function getProfilePictureUrlAttribute(): string
     {
-        // if they’ve got one on disk, return the /storage URL, otherwise the default
-        if (
-            $this->profile_picture
-            && Storage::disk('public')->exists($this->profile_picture)
-        ) {
-            return Storage::url($this->profile_picture);
+        $p = (string) ($this->profile_picture ?? '');
+
+        if ($p === '') {
+            return asset('images/default-avatar.png');
         }
 
-        return asset('images/default-avatar.png');
+        if (Str::startsWith($p, ['http://', 'https://', '//'])) {
+            return $p;
+        }
+
+        return Storage::url($p); // /storage/...
     }
 }

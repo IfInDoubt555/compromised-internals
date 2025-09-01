@@ -104,18 +104,12 @@
 
                   {{-- Text --}}
                   <div>
-                    @php
-                      $author = $post->user;
-                      $avatar = $author?->profile_picture
-                          ? (\Illuminate\Support\Str::startsWith($author->profile_picture, ['http://','https://','//'])
-                                ? $author->profile_picture
-                                : \Illuminate\Support\Facades\Storage::url($author->profile_picture))
-                          : asset('images/default-avatar.png');
-                    @endphp
+                    @php($author = $post->user)
 
                     <div class="flex items-center gap-3 text-xs ci-muted">
                       <a href="{{ $author ? route('profile.public', $author->id) : '#' }}" class="shrink-0">
-                        <x-user-avatar :path="$avatar" alt="{{ $author?->name ?? 'User' }}" size="8" />
+                        {{-- pass the stored path and a pixel size --}}
+                        <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" />
                       </a>
                       <span class="font-medium ci-body">{{ $author?->name ?? 'Deleted user' }}</span>
                       <span aria-hidden="true">•</span>

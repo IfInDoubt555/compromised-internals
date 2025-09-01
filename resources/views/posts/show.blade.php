@@ -45,7 +45,7 @@
   </div>
 </div>
 
-{{-- Feature image + title --}}
+{{-- Feature image --}}
 <div class="max-w-5xl mx-auto px-4">
   <figure class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl">
     <img
@@ -61,16 +61,18 @@
   </h1>
 </div>
 
-{{-- Meta bar (author chip | actions | board pill) --}}
+{{-- Meta bar --}}
+@php($author = $post->user)
 <div class="max-w-5xl mx-auto px-4 mt-3">
   <div class="flex flex-wrap items-center gap-3">
+
     {{-- Author chip --}}
     <a href="{{ $author ? route('profile.public', $author->id) : '#' }}"
        class="group inline-flex items-center gap-3 rounded-xl border px-3 py-2
               bg-white/80 text-gray-900 border-gray-200 shadow-sm
               hover:bg-white hover:shadow
               dark:bg-stone-900/70 dark:text-stone-100 dark:border-white/10">
-      <x-user-avatar :path="$avatar" alt="{{ $author?->name ?? 'User' }}" size="8" />
+      <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" />
       <div class="leading-tight">
         <div class="text-sm font-semibold group-hover:underline">{{ $author?->name ?? 'Deleted user' }}</div>
         <div class="text-xs text-gray-500 dark:text-stone-400">{{ $post->created_at->format('M j, Y') }}</div>
