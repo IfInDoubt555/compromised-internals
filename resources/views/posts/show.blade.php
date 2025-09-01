@@ -6,10 +6,17 @@
   $user  = auth()->user();
   $liked = $user ? $post->isLikedBy($user) : false;
 
-  // Reusable themed button classes from Board model helper
-  // Fallback to a sky accent if the post has no board
+  // Themed button classes from Board helper (fallback accent)
   $btn = $post->board?->accentButtonClasses()
       ?? 'border border-sky-400 text-sky-700 bg-sky-100 hover:bg-sky-200 ring-1 ring-sky-500/20 dark:border-sky-600 dark:text-sky-300 dark:bg-sky-950/40 dark:hover:bg-sky-900/50 dark:ring-sky-400/20';
+
+  // Author + avatar URL (make sure we pass a URL, not a raw path)
+  $author = $post->user;
+  $avatar = $author?->profile_picture
+      ? (\Illuminate\Support\Str::startsWith($author->profile_picture, ['http://','https://','//'])
+            ? $author->profile_picture
+            : \Illuminate\Support\Facades\Storage::url($author->profile_picture))
+      : asset('images/default-avatar.png');
 @endphp
 
 {{-- Top nav --}}
@@ -41,15 +48,12 @@
 {{-- Feature image + title --}}
 <div class="max-w-5xl mx-auto px-4">
   <figure class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl">
-    @if ($post->image_path)
-      <x-img
-        :path="$post->image_path"
-        :alt="$post->title"
-        :widths="[640,960,1280]"
-        sizes="(max-width: 768px) 100vw, 960px"
-        class="w-full h-auto rounded-2xl mb-6"
-      />
-    @endif
+    <img
+      src="{{ $post->image_url }}"
+      alt="{{ $post->title }}"
+      class="w-full h-auto object-cover aspect-[16/9] sm:aspect-[2/1]"
+      loading="lazy"
+    />
   </figure>
 
   <h1 class="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-stone-100">
@@ -61,14 +65,14 @@
 <div class="max-w-5xl mx-auto px-4 mt-3">
   <div class="flex flex-wrap items-center gap-3">
     {{-- Author chip --}}
-    <a href="{{ route('profile.public', $post->user->id) }}"
+    <a href="{{ $author ? route('profile.public', $author->id) : '#' }}"
        class="group inline-flex items-center gap-3 rounded-xl border px-3 py-2
               bg-white/80 text-gray-900 border-gray-200 shadow-sm
               hover:bg-white hover:shadow
               dark:bg-stone-900/70 dark:text-stone-100 dark:border-white/10">
-      <x-user-avatar :user="$post->user" size="w-8 h-8" />
+      <x-user-avatar :path="$avatar" alt="{{ $author?->name ?? 'User' }}" size="8" />
       <div class="leading-tight">
-        <div class="text-sm font-semibold group-hover:underline">{{ $post->user->name }}</div>
+        <div class="text-sm font-semibold group-hover:underline">{{ $author?->name ?? 'Deleted user' }}</div>
         <div class="text-xs text-gray-500 dark:text-stone-400">{{ $post->created_at->format('M j, Y') }}</div>
       </div>
     </a>
@@ -90,18 +94,15 @@
         </form>
 
         @can('update', $post)
-          {{-- Edit --}}
           <a href="{{ route('posts.edit', $post) }}"
              class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
             Edit
           </a>
 
-          {{-- Delete (themed to board color; change to fixed red if desired) --}}
           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                 onsubmit="return confirm('Are you sure you want to delete this post?');">
             @csrf @method('DELETE')
-            <button type="submit"
-                    class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
+            <button type="submit" class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
               Delete
             </button>
           </form>
@@ -109,7 +110,7 @@
       </div>
     </div>
 
-    {{-- Board pill (push to right on desktop) --}}
+    {{-- Board pill --}}
     <div class="sm:ml-auto">
       @if($post->board)
         <a href="{{ route('boards.show', $post->board->slug) }}"
@@ -133,7 +134,7 @@
   </article>
 </div>
 
-{{-- Tags (centered to match article width) --}}
+{{-- Tags --}}
 @if(method_exists($post,'tags') && $post->tags->count())
   <div class="max-w-5xl mx-auto px-4 mb-10">
     <div class="max-w-4xl mx-auto rounded-xl border border-gray-200 bg-white/80 p-4 shadow
@@ -153,7 +154,7 @@
   </div>
 @endif
 
-{{-- Comments (aligned with article width) --}}
+{{-- Comments --}}
 <div class="max-w-5xl mx-auto px-4 mb-12">
   <div class="max-w-4xl mx-auto">
     @if ($errors->has('body'))

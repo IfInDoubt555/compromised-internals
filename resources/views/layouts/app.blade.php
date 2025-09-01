@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="color-scheme" content="light dark">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -16,12 +17,12 @@
 
     <!-- Set theme BEFORE CSS paints to avoid FOUC -->
     <script>
-    (() => {
-      let v = null;
-      try { v = localStorage.getItem('ci-theme'); } catch {}
-      const isDark = v === 'dark'; // default LIGHT when unset
-      document.documentElement.classList.toggle('dark', isDark);
-    })();
+      (() => {
+        let v = null;
+        try { v = localStorage.getItem('ci-theme'); } catch {}
+        const isDark = v === 'dark'; // default LIGHT when unset
+        document.documentElement.classList.toggle('dark', isDark);
+      })();
     </script>
 
     <!-- Fonts -->
@@ -77,7 +78,7 @@
     <div id="theme-wrapper" class="min-h-screen">
 
         @isset($header)
-        <<header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
+        <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
@@ -126,7 +127,7 @@
     @stack('scripts')
 
     @php
-      $isStreamingContext = request()->is('travel*') || request()->is('calendar*') || request()->is   ('events*');
+      $isStreamingContext = request()->is('travel*') || request()->is('calendar*') || request()->is('events*');
     @endphp
 
     @if ($isStreamingContext)
@@ -134,13 +135,14 @@
     @else
       <x-affiliate.nordvpn-footer-bar />
     @endif
-    
+
     @include('partials.footer')
 
     @if (
         request()->is('/') ||
         request()->is('history*') ||
-        request()->is('calendar*')
+        request()->is('calendar*') ||
+        request()->is('blog*')
     )
         <!-- Buy Me a Coffee Floating Widget (only on Home, History, Blog & Calendar) -->
         <script data-name="BMC-Widget"

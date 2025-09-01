@@ -94,16 +94,8 @@
                   <a href="{{ route('posts.show', $post->slug) }}"
                      class="block overflow-hidden rounded-xl ring-1 ring-stone-900/5 dark:ring-white/10">
                     <div class="aspect-[16/10]">
-                      @php
-                        $thumb = $post->image_path
-                            ? (\Illuminate\Support\Str::startsWith($post->image_path, ['http://', 'https://', '//'])
-                                  ? $post->image_path
-                                  : Storage::url($post->image_path))
-                            : asset('images/default-post.png');
-                      @endphp
-                  
                       <img
-                        src="{{ $thumb }}"
+                        src="{{ $post->thumbnail_url }}"
                         alt="{{ $post->title }}"
                         loading="lazy"
                         class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
@@ -112,11 +104,18 @@
 
                   {{-- Text --}}
                   <div>
-                    @php($author = $post->user)
+                    @php
+                      $author = $post->user;
+                      $avatar = $author?->profile_picture
+                          ? (\Illuminate\Support\Str::startsWith($author->profile_picture, ['http://','https://','//'])
+                                ? $author->profile_picture
+                                : \Illuminate\Support\Facades\Storage::url($author->profile_picture))
+                          : asset('images/default-avatar.png');
+                    @endphp
+
                     <div class="flex items-center gap-3 text-xs ci-muted">
                       <a href="{{ $author ? route('profile.public', $author->id) : '#' }}" class="shrink-0">
-                        {{-- keep your component’s expected prop types --}}
-                        <x-user-avatar :path="$author?->profile_picture" alt="{{ $author?->name ?? 'User' }}" size="8" />
+                        <x-user-avatar :path="$avatar" alt="{{ $author?->name ?? 'User' }}" size="8" />
                       </a>
                       <span class="font-medium ci-body">{{ $author?->name ?? 'Deleted user' }}</span>
                       <span aria-hidden="true">•</span>
