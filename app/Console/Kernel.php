@@ -67,5 +67,6 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\ScanImageAttributions::class,
         \App\Console\Commands\PruneSessions::class, // add your prune command here
         \App\Console\Commands\HistoryAddResults::class,
+        \App\Console\Commands\SitemapWarmCommand::class,
     ];
 }

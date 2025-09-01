@@ -28,6 +28,8 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\CalendarExportController;
 use App\Http\Controllers\TravelPageController;
 use App\Http\Controllers\AffiliateRedirectController;
+use App\Http\Controllers\SitemapController;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -185,28 +187,11 @@ Route::view('/terms', 'footer.terms')->name('terms');
 Route::view('/privacy', 'footer.privacy')->name('privacy');
 
 /* ----------------- Sitemap ----------------- */
-Route::get('/sitemap.xml', function () {
-    $sitemap = Sitemap::create()
-        ->add(Url::create('/'))
-        ->add(Url::create('/blog'))
-        ->add(Url::create('/shop'))
-        ->add(Url::create('/history'))
-        ->add(Url::create('/calendar'));
-
-    foreach (\App\Models\Post::all() as $post) {
-        if ($post->slug) {
-            $sitemap->add(Url::create(route('blog.show', $post->slug)));
-        }
-    }
-
-    foreach (RallyEvent::all() as $event) {
-        if ($event->slug) {
-            $sitemap->add(Url::create(route('calendar.show', $event->slug)));
-        }
-    }
-
-    return response($sitemap->render(), 200, ['Content-Type' => 'application/xml']);
-});
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemaps/static.xml', [SitemapController::class, 'static'])->name('sitemap.static');
+Route::get('/sitemaps/blog.xml', [SitemapController::class, 'blog'])->name('sitemap.blog');
+Route::get('/sitemaps/calendar.xml', [SitemapController::class, 'calendar'])->name('sitemap.calendar');
+Route::get('/sitemaps/history.xml', [SitemapController::class, 'history'])->name('sitemap.history');
 
 /* ----------------- Security ----------------- */
 Route::view('/security/policy', 'security.policy')->name('security.policy');
