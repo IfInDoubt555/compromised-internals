@@ -68,10 +68,12 @@
 
   <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
       {{-- Avatar --}}
-      <div class="w-40 h-40 rounded-full overflow-hidden bg-gray-100 border border-gray-200 shadow
-                  dark:bg-stone-800/60 dark:border-white/10 dark:ring-1 dark:ring-white/10">
-        <x-user-avatar :path="$user->profile_picture" :alt="$user->name" :size="128" class="w-40 h-40" />
-      </div>
+      <x-user-avatar
+        :path="$user->profile_picture"   {{-- storage path like 'profile_pics/xyz.png' --}}
+        :alt="$user->name . '\'s avatar'"
+        :size="160"                      {{-- real pixel size; component picks [160,320,640] --}}
+        class="w-40 h-40 object-cover"
+      />
 
       {{-- Header / Summary --}}
       <div class="flex-1 min-w-0">
