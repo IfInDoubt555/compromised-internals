@@ -2,27 +2,21 @@
 
 @section('content')
 @php
-  // Context: theme + auth
-  $user  = auth()->user();
-  $liked = $user ? $post->isLikedBy($user) : false;
+  $user   = auth()->user();
+  $liked  = $user ? $post->isLikedBy($user) : false;
 
-  // Themed button classes from Board helper (fallback accent)
+  // Button theme (fallback if no board)
   $btn = $post->board?->accentButtonClasses()
       ?? 'border border-sky-400 text-sky-700 bg-sky-100 hover:bg-sky-200 ring-1 ring-sky-500/20 dark:border-sky-600 dark:text-sky-300 dark:bg-sky-950/40 dark:hover:bg-sky-900/50 dark:ring-sky-400/20';
 
-  // Author + avatar URL (make sure we pass a URL, not a raw path)
+  // Author once, reuse
   $author = $post->user;
-  $avatar = $author?->profile_picture
-      ? (\Illuminate\Support\Str::startsWith($author->profile_picture, ['http://','https://','//'])
-            ? $author->profile_picture
-            : \Illuminate\Support\Facades\Storage::url($author->profile_picture))
-      : asset('images/default-avatar.png');
 @endphp
 
 {{-- Top nav --}}
 <div class="max-w-5xl mx-auto px-4 mt-6 mb-6 grid grid-cols-3 text-sm font-semibold">
   <div>
-    @if ($next)
+    @if($next)
       <a href="{{ route('blog.show', $next->slug) }}"
          class="text-emerald-800 hover:text-emerald-900 hover:underline dark:text-emerald-300 dark:hover:text-emerald-200">
         ← Next Post
@@ -36,7 +30,7 @@
     </a>
   </div>
   <div class="text-right">
-    @if ($previous)
+    @if($previous)
       <a href="{{ route('blog.show', $previous->slug) }}"
          class="text-rose-800 hover:text-rose-900 hover:underline dark:text-rose-300 dark:hover:text-rose-200">
         Previous Post →
@@ -45,7 +39,7 @@
   </div>
 </div>
 
-{{-- Feature image --}}
+{{-- Feature image + title --}}
 <div class="max-w-5xl mx-auto px-4">
   <figure class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl">
     <img
@@ -62,7 +56,6 @@
 </div>
 
 {{-- Meta bar --}}
-@php($author = $post->user)
 <div class="max-w-5xl mx-auto px-4 mt-3">
   <div class="flex flex-wrap items-center gap-3">
 
@@ -72,6 +65,7 @@
               bg-white/80 text-gray-900 border-gray-200 shadow-sm
               hover:bg-white hover:shadow
               dark:bg-stone-900/70 dark:text-stone-100 dark:border-white/10">
+      {{-- IMPORTANT: make avatar request widths we actually generate (160/320) --}}
       <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" />
       <div class="leading-tight">
         <div class="text-sm font-semibold group-hover:underline">{{ $author?->name ?? 'Deleted user' }}</div>
@@ -86,7 +80,7 @@
         <form method="POST" action="{{ route('posts.like', $post) }}">
           @csrf
           <button type="submit"
-                  {{ !$user ? 'disabled' : '' }}
+                  @if(!$user) disabled @endif
                   aria-pressed="{{ $liked ? 'true' : 'false' }}"
                   title="{{ $liked ? 'Unlike' : 'Like' }}"
                   class="inline-flex items-center gap-2 rounded-lg px-3 py-2 {{ $btn }} disabled:opacity-50">
@@ -103,7 +97,8 @@
 
           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                 onsubmit="return confirm('Are you sure you want to delete this post?');">
-            @csrf @method('DELETE')
+            @csrf
+            @method('DELETE')
             <button type="submit" class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
               Delete
             </button>
@@ -137,7 +132,7 @@
 </div>
 
 {{-- Tags --}}
-@if(method_exists($post,'tags') && $post->tags->count())
+@if(method_exists($post, 'tags') && $post->tags->count())
   <div class="max-w-5xl mx-auto px-4 mb-10">
     <div class="max-w-4xl mx-auto rounded-xl border border-gray-200 bg-white/80 p-4 shadow
                 dark:bg-stone-900/70 dark:border-white/10">
@@ -160,8 +155,7 @@
 <div class="max-w-5xl mx-auto px-4 mb-12">
   <div class="max-w-4xl mx-auto">
     @if ($errors->has('body'))
-      <div
-        class="mt-2 flex items-start gap-2 animate-fade-in rounded-md border border-red-500 bg-red-100 dark:bg-red-900 px-4 py-3 text-sm font-medium text-red-800 dark:text-red-200 shadow-md">
+      <div class="mt-2 flex items-start gap-2 animate-fade-in rounded-md border border-red-500 bg-red-100 dark:bg-red-900 px-4 py-3 text-sm font-medium text-red-800 dark:text-red-200 shadow-md">
         <span class="text-lg">⚠️</span>
         <span>{{ $errors->first('body') }}</span>
       </div>
@@ -193,9 +187,8 @@
         <h2 class="text-xl font-bold text-slate-900 dark:text-stone-100">Comments</h2>
 
         @foreach ($post->comments as $comment)
-          <div class="rounded-lg shadow p-4 border border-gray-200 bg-gray-300
-                      dark:bg-stone-900/60 dark:border-white/10 dark:text-stone-200"
-               x-data="{ editing: false, body: '{{ addslashes($comment->body) }}' }">
+          <div class="rounded-lg shadow p-4 border border-gray-200 bg-gray-300 dark:bg-stone-900/60 dark:border-white/10 dark:text-stone-200"
+               x-data="{ editing: false, body: @js($comment->body) }">
             <div class="flex items-center justify-between mb-2">
               <div class="text-sm font-semibold text-gray-800 dark:text-stone-100">
                 {{ $comment->user->name }}
@@ -241,7 +234,8 @@
               @can('delete', $comment)
                 <form action="{{ route('comments.destroy', $comment) }}" method="POST"
                       onsubmit="return confirm('Delete this comment?')">
-                  @csrf @method('DELETE')
+                  @csrf
+                  @method('DELETE')
                   <button type="submit"
                           class="text-sm text-red-600 hover:underline dark:text-rose-300 dark:hover:text-rose-200">
                     Delete
