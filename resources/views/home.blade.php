@@ -289,13 +289,13 @@
   
           @if($hasLocal)
             {{-- Responsive WebP/AVIF (server-generated variants) --}}
-            <x-img
-              :path="$featured->image_path"
-              :alt="$featured->title"
-              :widths="[640,960,1280]"
-              sizes="(max-width: 768px) 100vw, 640px"
-              class="block h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-            />
+             <x-img
+               :path="$featured->image_path"
+               :alt="$featured->title"
+               :widths="[640,1280]"  {{-- 960 removed to avoid 404 on retina --}}
+               sizes="(max-width: 768px) 100vw, 640px"
+               class="block h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+             />
           @else
             {{-- External URL or legacy asset --}}
             <img
