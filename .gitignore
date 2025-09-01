@@ -39,3 +39,7 @@ yarn-error.log
 /scripts/fix-manifest.js
 -vite.config.cjs
 +vite.config.js
+# generated sitemaps
+/public/sitemap.xml
+/public/sitemaps/*
+!public/sitemaps/.gitkeep
