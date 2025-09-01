@@ -79,7 +79,6 @@
 
     {{-- Sidebar --}}
     <aside class="lg:sticky lg:top-24">
-      {{-- Ensure panels/inputs inside the partial use ci-card/ci-muted and dark: ring classes --}}
       @include('partials.blog-sidebar')
     </aside>
 
@@ -107,11 +106,12 @@
 
                   {{-- Text --}}
                   <div>
+                    @php($author = $post->user)
                     <div class="flex items-center gap-3 text-xs ci-muted">
-                      <a href="{{ route('profile.public', $post->user->id) }}" class="shrink-0">
-                        <x-user-avatar :path="$user->profile_picture" alt="{{ $user->name }}" :size="80" />
+                      <a href="{{ $author ? route('profile.public', $author->id) : '#' }}" class="shrink-0">
+                        <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="80" />
                       </a>
-                      <span class="font-medium ci-body">{{ $post->user->name }}</span>
+                      <span class="font-medium ci-body">{{ $author?->name ?? 'Deleted user' }}</span>
                       <span aria-hidden="true">•</span>
                       <time datetime="{{ $post->created_at->toDateString() }}">
                         {{ $post->created_at->format('M j, Y') }}
