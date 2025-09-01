@@ -66,7 +66,7 @@
               hover:bg-white hover:shadow
               dark:bg-stone-900/70 dark:text-stone-100 dark:border-white/10">
       {{-- IMPORTANT: make avatar request widths we actually generate (160/320) --}}
-      <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" />
+      <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" class="w-8 h-8" />
       <div class="leading-tight">
         <div class="text-sm font-semibold group-hover:underline">{{ $author?->name ?? 'Deleted user' }}</div>
         <div class="text-xs text-gray-500 dark:text-stone-400">{{ $post->created_at->format('M j, Y') }}</div>

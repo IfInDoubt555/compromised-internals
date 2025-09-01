@@ -109,7 +109,7 @@
                     <div class="flex items-center gap-3 text-xs ci-muted">
                       <a href="{{ $author ? route('profile.public', $author->id) : '#' }}" class="shrink-0">
                         {{-- pass the stored path and a pixel size --}}
-                        <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" />
+                        <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" class="w-8 h-8"/>
                       </a>
                       <span class="font-medium ci-body">{{ $author?->name ?? 'Deleted user' }}</span>
                       <span aria-hidden="true">•</span>

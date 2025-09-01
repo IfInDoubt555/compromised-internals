@@ -70,12 +70,7 @@
       {{-- Avatar --}}
       <div class="w-40 h-40 rounded-full overflow-hidden bg-gray-100 border border-gray-200 shadow
                   dark:bg-stone-800/60 dark:border-white/10 dark:ring-1 dark:ring-white/10">
-        <x-user-avatar
-          :path="$user->profile_picture"   {{-- e.g. 'profiles/foo.png' on disk=public --}}
-          alt="{{ $user->name }}'s avatar"
-          :size="160"                      {{-- matches w-40/h-40 (160px) --}}
-          class="object-cover w-full h-full"
-        />
+        <x-user-avatar :path="$user->profile_picture" :alt="$user->name" :size="128" class="w-40 h-40" />
       </div>
 
       {{-- Header / Summary --}}
