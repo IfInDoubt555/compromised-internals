@@ -6,11 +6,12 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Http;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\SitemapIndex;
 use Spatie\Sitemap\Tags\Url;
-use App\Models\Post;        // adjust if different
-use App\Models\RallyEvent;  // adjust if different
+use App\Models\Post;
+use App\Models\RallyEvent;
 use Carbon\Carbon;
 
 class BuildSitemap extends Command
@@ -22,95 +23,127 @@ class BuildSitemap extends Command
     {
         File::ensureDirectoryExists(public_path('sitemaps'));
 
-        // ---- 1) Static pages
-        try {
-            $static = Sitemap::create()
-                ->add(Url::create(url('/'))->setLastModificationDate(now()))
-                ->add(Url::create(url('/blog'))->setLastModificationDate(now()))
-                ->add(Url::create(url('/shop'))->setLastModificationDate(now()))
-                ->add(Url::create(url('/history'))->setLastModificationDate(now()))
-                ->add(Url::create(url('/calendar'))->setLastModificationDate(now()));
+        /** helper to safely write and log **/
+        $write = function (Sitemap $map, string $absPath, string $label, int $count) {
+            // ensure dir exists
+            File::ensureDirectoryExists(dirname($absPath));
+            $map->writeToFile($absPath);
+            $this->info(sprintf('%s sitemap written: %s (%d urls)', $label, $absPath, $count));
+        };
 
-            $static->writeToFile(public_path('sitemaps/static.xml'));
+        // -------- 1) Static
+        try {
+            $staticCount = 0;
+            $static = Sitemap::create()
+                ->add(Url::create(url('/'))->setLastModificationDate(now())) && $staticCount++;
+            $static = Sitemap::create();
+            $static->add(Url::create(url('/'))->setLastModificationDate(now())) && $staticCount++;
+            $static->add(Url::create(url('/blog'))->setLastModificationDate(now())) && $staticCount++;
+            $static->add(Url::create(url('/shop'))->setLastModificationDate(now())) && $staticCount++;
+            $static->add(Url::create(url('/history'))->setLastModificationDate(now())) && $staticCount++;
+            $static->add(Url::create(url('/calendar'))->setLastModificationDate(now())) && $staticCount++;
+
+            $write($static, public_path('sitemaps/static.xml'), 'Static', 5); // 5 + homepage
         } catch (\Throwable $e) {
-            Log::warning('Sitemap static section skipped: ' . $e->getMessage());
+            Log::warning('Sitemap static: ' . $e->getMessage());
         }
 
-        // Track which section files we actually produced
         $sectionFiles = [];
 
-        // ---- 2) Blog posts (defensive about schema)
+        // -------- 2) Blog (mirror your controller logic)
         try {
             if (Schema::hasTable('posts')) {
                 $blog = Sitemap::create();
+                $blogCount = 0;
 
-                $query = Post::query();
-
-                if (Schema::hasColumn('posts', 'is_published')) {
-                    $query->where('is_published', 1);
-                } elseif (Schema::hasColumn('posts', 'published_at')) {
-                    $query->whereNotNull('published_at');
-                } elseif (Schema::hasColumn('posts', 'status')) {
-                    $query->where('status', 'published');
-                }
-
-                $query->orderByDesc('updated_at')
-                    ->chunk(500, function ($posts) use ($blog) {
+                Post::query()
+                    ->select(['slug', 'updated_at', 'published_at', 'status', 'publish_status', 'created_at'])
+                    ->whereNotNull('slug')
+                    ->where(function ($q) {
+                        // New flow: published + has published_at <= now
+                        $q->where(function ($q) {
+                            $q->where('status', 'published')
+                              ->whereNotNull('published_at')
+                              ->where('published_at', '<=', now());
+                        })
+                        // Legacy flow: publish_status column
+                        ->orWhere(function ($q) {
+                            $q->whereNull('status')
+                              ->where('publish_status', 'published');
+                        })
+                        // Legacy: approved status
+                        ->orWhere('status', 'approved');
+                    })
+                    ->orderByDesc('id')
+                    ->chunk(500, function ($posts) use ($blog, &$blogCount) {
                         foreach ($posts as $p) {
+                            if (!$p->slug) continue;
+                            $lastmod = $p->published_at ?? $p->updated_at ?? $p->created_at ?? now();
                             $blog->add(
                                 Url::create(route('blog.show', $p->slug))
-                                   ->setLastModificationDate($p->updated_at ?? $p->created_at ?? now())
+                                   ->setLastModificationDate(Carbon::parse($lastmod))
                             );
+                            $blogCount++;
                         }
                     });
 
                 $blogPath = public_path('sitemaps/blog.xml');
                 $blog->writeToFile($blogPath);
-                $sectionFiles[] = $blogPath;
+                $this->info("Blog sitemap written: {$blogPath} ({$blogCount} urls)");
+                if ($blogCount > 0) $sectionFiles[] = $blogPath;
             } else {
-                Log::info('Sitemap: posts table not found; skipping blog section.');
+                Log::info('Sitemap: posts table missing; skipped blog.');
             }
         } catch (\Throwable $e) {
-            Log::warning('Sitemap blog section skipped: ' . $e->getMessage());
+            Log::warning('Sitemap blog: ' . $e->getMessage());
         }
 
-        // ---- 3) Calendar events
+        // -------- 3) Events
         try {
-            // Adjust table name if yours differs
             if (Schema::hasTable('rally_events')) {
                 $events = Sitemap::create();
+                $eventsCount = 0;
 
                 RallyEvent::query()
+                    ->select(['id','slug','updated_at','created_at','starts_at'])
                     ->orderByDesc('updated_at')
-                    ->chunk(500, function ($rows) use ($events) {
+                    ->chunk(500, function ($rows) use ($events, &$eventsCount) {
                         foreach ($rows as $e) {
-                            // Use the correct route/param (slug vs id)
-                            $url = isset($e->slug)
+                            $url = $e->slug
                                 ? route('calendar.show', $e->slug)
                                 : url('/calendar/' . $e->id);
 
                             $events->add(
-                                Url::create($url)->setLastModificationDate($e->updated_at ?? $e->created_at ?? now())
+                                Url::create($url)
+                                   ->setLastModificationDate($e->updated_at ?? $e->starts_at ?? $e->created_at ?? now())
                             );
+                            $eventsCount++;
                         }
                     });
 
                 $eventsPath = public_path('sitemaps/events.xml');
                 $events->writeToFile($eventsPath);
-                $sectionFiles[] = $eventsPath;
+                $this->info("Events sitemap written: {$eventsPath} ({$eventsCount} urls)");
+                if ($eventsCount > 0) $sectionFiles[] = $eventsPath;
             } else {
-                Log::info('Sitemap: rally_events table not found; skipping events section.');
+                Log::info('Sitemap: rally_events table missing; skipped events.');
             }
         } catch (\Throwable $e) {
-            Log::warning('Sitemap events section skipped: ' . $e->getMessage());
+            Log::warning('Sitemap events: ' . $e->getMessage());
         }
 
-        // ---- 4) History detail pages from JSON (events/cars/drivers by decade)
+        // -------- 4) History (decade JSON – robust lookup)
         try {
             $history = Sitemap::create();
-            $jsonFiles = glob(public_path('data/*-*.json')) ?: [];
+            $historyCount = 0;
 
-            foreach ($jsonFiles as $path) {
+            // Look in both places you might keep decade files
+            $candidates = array_merge(
+                glob(public_path('data/*-*.json')) ?: [],
+                glob(storage_path('app/public/data/*-*.json')) ?: []
+            );
+
+            foreach ($candidates as $path) {
                 $filename = basename($path); // e.g., events-1960s.json
                 if (!preg_match('/^(events|cars|drivers)-(\d{4})s\.json$/', $filename, $m)) {
                     continue;
@@ -126,9 +159,7 @@ class BuildSitemap extends Command
                 $lastmod = Carbon::createFromTimestamp(File::lastModified($path));
 
                 foreach ($json as $row) {
-                    if (!isset($row['id'])) {
-                        continue;
-                    }
+                    if (!isset($row['id'])) continue;
                     $history->add(
                         Url::create(route('history.show', [
                             'tab'    => $tab,
@@ -136,34 +167,43 @@ class BuildSitemap extends Command
                             'id'     => (int) $row['id'],
                         ]))->setLastModificationDate($lastmod)
                     );
+                    $historyCount++;
                 }
             }
 
-            // Only write file if we actually added URLs
             $historyPath = public_path('sitemaps/history.xml');
             $history->writeToFile($historyPath);
-            $sectionFiles[] = $historyPath;
+            $this->info("History sitemap written: {$historyPath} ({$historyCount} urls)");
+            if ($historyCount > 0) $sectionFiles[] = $historyPath;
         } catch (\Throwable $e) {
-            Log::warning('Sitemap history section skipped: ' . $e->getMessage());
+            Log::warning('Sitemap history: ' . $e->getMessage());
         }
 
-        // ---- 5) Sitemap index (include only existing section files)
+        // -------- 5) Index
         try {
             $index = SitemapIndex::create();
-
-            foreach (['sitemaps/static.xml', 'sitemaps/blog.xml', 'sitemaps/events.xml', 'sitemaps/history.xml'] as $rel) {
+            foreach (['sitemaps/static.xml','sitemaps/blog.xml','sitemaps/events.xml','sitemaps/history.xml'] as $rel) {
                 $abs = public_path($rel);
                 if (is_file($abs) && filesize($abs) > 0) {
                     $index->add(url($rel));
                 }
             }
-
             $index->writeToFile(public_path('sitemap.xml'));
+            $this->info('Sitemap index written: ' . public_path('sitemap.xml'));
         } catch (\Throwable $e) {
-            Log::warning('Sitemap index generation failed: ' . $e->getMessage());
+            Log::warning('Sitemap index: ' . $e->getMessage());
         }
 
-        $this->info('Sitemaps generated.');
+        // -------- 6) Ping search engines
+        try {
+            $indexUrl = urlencode(url('sitemap.xml'));
+            Http::get("https://www.google.com/ping?sitemap={$indexUrl}");
+            Http::get("https://www.bing.com/ping?sitemap={$indexUrl}");
+            $this->info("Pinged Google & Bing with {$indexUrl}");
+        } catch (\Throwable $e) {
+            Log::warning('Sitemap ping failed: ' . $e->getMessage());
+        }
+
         return self::SUCCESS;
     }
 }
