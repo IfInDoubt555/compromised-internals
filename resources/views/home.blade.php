@@ -282,11 +282,11 @@
     @endif
     
     <div class="mt-8 rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow
-          dark:bg-stone-900/70 dark:ring-white/10 overflow-hidden">
-      <ul>
+              dark:bg-stone-900/70 dark:ring-white/10 overflow-hidden">
+      <ul class="divide-y divide-stone-200/70 dark:divide-white/10">
         @foreach($rest as $post)
           <li>
-            @include('partials.blog-post-card', ['post' => $post, 'variant' => 'compact'])
+            @include('partials.blog-post-card', ['post' => $post, 'variant' => 'list'])
           </li>
         @endforeach
       </ul>

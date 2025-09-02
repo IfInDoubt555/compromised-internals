@@ -4,21 +4,27 @@
   // 'default' = index card (220px thumb)
   // 'compact' = small list (160px thumb)
   // 'featured' = hero-sized card (fills container)
+  // 'list' = homepage list-row (no inner card)
   'variant' => 'default',
 ])
 
 @php
-  $thumbCol   = $variant === 'compact' ? 'sm:grid-cols-[160px_1fr]' : 'sm:grid-cols-[220px_1fr]';
+  $isFeatured = $variant === 'featured';
+  $isCompact  = $variant === 'compact';
+  $isList     = $variant === 'list';
+
+  $thumbCol   = ($isCompact || $isList) ? 'sm:grid-cols-[160px_1fr]' : 'sm:grid-cols-[220px_1fr]';
   $imgClass   = 'h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]';
-  $articleCls = 'group ci-card p-4 sm:p-5 transition '.($variant === 'featured' ? 'hover:shadow-xl' : 'hover:shadow-lg');
-@endphp
+  $articleCls = $isList
+      ? 'group px-4 sm:px-5 py-4 hover:bg-white/60 dark:hover:bg-stone-800/50 transition'
+      : 'group ci-card p-4 sm:p-5 transition '.($isFeatured ? 'hover:shadow-xl' : 'hover:shadow-lg');
+ @endphp
 
 <article class="{{ $articleCls }}">
   <div class="grid {{ $thumbCol }} gap-5 items-start">
     {{-- Thumbnail --}}
     <a href="{{ route('posts.show', $post->slug) }}"
-       class="block overflow-hidden rounded-xl ring-1 ring-stone-900/5 dark:ring-white/10">
-      <div class="aspect-[16/10]">
+       class="block overflow-hidden rounded-xl {{ $isList ? '' : 'ring-1 ring-stone-900/5 dark:ring-white/10' }}">      <div class="aspect-[16/10]">
         <img
           src="{{ $post->thumbnail_url }}"
           alt="{{ $post->title }}"
@@ -38,11 +44,11 @@
         <span class="font-medium ci-body">{{ $author?->name ?? 'Deleted user' }}</span>
         <span aria-hidden="true">•</span>
             <time datetime="{{ optional($post->published_at ?? $post->created_at)?->toDateString() }}">
-              {{ optional($post->published_at ?? $post->created_at)?->format('M j, Y') }}
-            </time>
+          {{ optional($post->published_at ?? $post->created_at)?->format('M j, Y') }}
+          </time>
       </div>
 
-      <h2 class="mt-2 {{ $variant === 'featured' ? 'ci-title-xl' : 'ci-title-lg' }} leading-snug">
+      <h2 class="mt-2 {{ $isFeatured ? 'ci-title-xl' : 'ci-title-lg' }} leading-snug">
         <a href="{{ route('posts.show', $post->slug) }}" class="underline-offset-4 hover:underline">
           {{ $post->title }}
         </a>
