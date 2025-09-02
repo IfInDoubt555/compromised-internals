@@ -102,7 +102,8 @@
       alt="{{ $post->title }}"
       class="w-full h-auto object-cover aspect-[16/9] sm:aspect-[2/1]"
       loading="lazy"
-    />
+      decoding="async"
+    >
   </figure>
 
   <h1 class="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-stone-100">
@@ -151,7 +152,7 @@
             <span>Log in to like</span>
           </a>
         @endauth
-      
+
         @can('update', $post)
           <a href="{{ route('posts.edit', $post) }}" class="{{ $btn }}">Edit</a>
           <form action="{{ route('posts.destroy', $post) }}" method="POST"
@@ -183,7 +184,7 @@
     class="prose max-w-4xl mx-auto text-gray-800 text-[1rem] leading-relaxed
            bg-white/50 backdrop-blur-md rounded-xl shadow-xl p-8 ring-1 ring-black/5
            dark:prose-invert dark:text-stone-200 dark:bg-stone-900/70 dark:ring-white/10">
-    {!! nl2br(e($post->body)) !!}
+    {!! $post->body_html !!}
   </article>
 </div>
 

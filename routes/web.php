@@ -29,6 +29,8 @@ use App\Http\Controllers\CalendarExportController;
 use App\Http\Controllers\TravelPageController;
 use App\Http\Controllers\AffiliateRedirectController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\Admin\PublisherController;
+use App\Http\Controllers\Admin\PostModerationController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -196,6 +198,29 @@ Route::get('/sitemaps/history.xml', [SitemapController::class, 'history'])->name
 /* ----------------- Security ----------------- */
 Route::view('/security/policy', 'security.policy')->name('security.policy');
 Route::view('/security/hall-of-fame', 'security.hall-of-fame')->name('security.hof');
+
+/* ----------------- Publish Routes ----------------- */
+Route::middleware(['auth' /* , 'verified' , 'can:admin' */])
+    ->prefix('admin')
+    ->as('admin.')
+    ->group(function () {
+        // Publisher (queue + create + preview)
+        Route::get('/publish',                    [PublisherController::class, 'index'])->name('publish.index');
+        Route::get('/publish/create',             [PublisherController::class, 'create'])->name('publish.create');
+        Route::post('/publish',                   [PublisherController::class, 'store'])->name('publish.store');
+        Route::get('/publish/preview/{post:slug}',[PublisherController::class, 'preview'])->name('publish.preview');
+
+        // Quick actions used by the preview page
+        Route::post('/publish/{post:slug}/publish-now', [PublisherController::class, 'publishNow'])
+            ->name('publish.publishNow');
+        Route::post('/publish/{post:slug}/schedule',    [PublisherController::class, 'schedule'])
+            ->name('publish.schedule');
+
+        // Moderation (edit/update existing posts in admin)
+        Route::get('/posts/moderation', [PostModerationController::class, 'index'])->name('posts.moderation');
+        Route::get('/posts/{post}/edit', [PostModerationController::class, 'edit'])->name('posts.edit');
+        Route::put('/posts/{post}',      [PostModerationController::class, 'update'])->name('posts.update');
+    });
 
 require __DIR__ . '/auth.php';
 

@@ -1,43 +1,44 @@
 @extends('layouts.app')
 
-@section('head')
+@push('head')
+  {{-- prevent indexing of preview --}}
   <meta name="robots" content="noindex,nofollow">
-@endsection
+@endpush
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <div class="mb-4 flex items-center justify-between">
-    <span class="px-2 py-1 text-xs rounded bg-amber-500/10 text-amber-400 border border-amber-400/30">
-      Draft Preview
-    </span>
-    <div class="flex gap-2">
-      <a class="btn btn-sm" href="{{ route('admin.posts.edit', $post) }}">Edit</a>
-      <form method="POST" action="{{ route('admin.publish.now', $post) }}">
-        @csrf <button class="btn btn-sm">Publish now</button>
+<div class="max-w-6xl mx-auto px-4 mt-6" x-data="{ tab: 'article' }">
+  <div class="mb-4 flex items-center gap-2">
+    <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='article' }" @click="tab='article'">Article</button>
+    <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='card' }"    @click="tab='card'">List Card</button>
+    <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='featured' }" @click="tab='featured'">Featured Card</button>
+
+    <div class="ml-auto flex items-center gap-2">
+      <a href="{{ route('admin.posts.edit', $post) }}" class="ci-btn-secondary">Edit</a>
+
+      <form method="POST" action="{{ route('admin.publish.publishNow', $post) }}">
+        @csrf
+        <button class="ci-btn-primary">Publish now</button>
       </form>
     </div>
   </div>
 
-  {{-- Two-up: Full article + List Card --}}
-  <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
-    {{-- Full Article Preview --}}
-    <section>
-      <h1 class="text-3xl font-bold mb-2">{{ $post->title }}</h1>
+  {{-- Article preview (identical to public) --}}
+  <div x-show="tab==='article'" x-cloak>
+    @include('posts.partials.article-preview', [
+      'post'        => $post,
+      'isPreview'   => true,
+      'showActions' => false,
+    ])
+  </div>
 
-      @if($post->image_path ?? false)
-        <img src="{{ asset('storage/'.$post->image_path) }}" alt="" class="rounded-lg mb-6">
-      @endif
+  {{-- List-card preview --}}
+  <div x-show="tab==='card'" x-cloak class="max-w-5xl mx-auto">
+    @include('partials.blog-post-card', ['post' => $post, 'variant' => 'compact'])
+  </div>
 
-      <article class="prose dark:prose-invert">
-        {!! $post->body_html !!}
-      </article>
-    </section>
-
-    {{-- List Card Preview (same as blog.index) --}}
-    <aside class="lg:sticky lg:top-20 h-fit">
-      <h2 class="ci-title-md mb-3">List Card Preview</h2>
-      @include('partials.blog-post-card', ['post' => $post])
-    </aside>
+  {{-- Featured-card preview --}}
+  <div x-show="tab==='featured'" x-cloak class="max-w-5xl mx-auto">
+    @include('partials.blog-post-card', ['post' => $post, 'variant' => 'featured'])
   </div>
 </div>
 @endsection
