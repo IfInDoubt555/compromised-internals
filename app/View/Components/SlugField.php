@@ -2,11 +2,11 @@
 
 namespace App\View\Components;
 
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Closure;
 
-class slug-field extends Component
+class SlugField extends Component
 {
     /**
      * Create a new component instance.

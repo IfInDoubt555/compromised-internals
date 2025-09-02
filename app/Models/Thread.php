@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class Thread extends Model
 {
@@ -32,32 +33,60 @@ class Thread extends Model
         ];
     }
 
-    /** Scopes */
-    public function scopePublished($q) { return $q->where('status', 'published'); }
-    public function scopeScheduled($q) { return $q->where('status', 'scheduled'); }
-    public function scopeDraft($q)     { return $q->where('status', 'draft'); }
+    /** ---------- Scopes ---------- */
+    public function scopePublished(Builder $q): Builder
+    {
+        return $q->where('status', 'published')
+                 ->whereNotNull('published_at')
+                 ->where('published_at', '<=', now());
+    }
+
+    public function scopeScheduled(Builder $q): Builder
+    {
+        return $q->where('status', 'scheduled')
+                 ->whereNotNull('published_at')
+                 ->where('published_at', '>', now());
+    }
+
+    public function scopeDrafts(Builder $q): Builder
+    {
+        return $q->where('status', 'draft');
+    }
+
+    /** ---------- Status helpers ---------- */
+    public function isDraft(): bool
+    {
+        return $this->status === 'draft';
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->status === 'scheduled' && $this->published_at && $this->published_at->isFuture();
+    }
 
     public function isPublished(): bool
     {
-        return $this->status === 'published' && !is_null($this->published_at);
+        return $this->status === 'published' && $this->published_at && $this->published_at->isPast();
     }
 
-    /** Relations */
+    /** ---------- Relations ---------- */
     public function board(): BelongsTo   { return $this->belongsTo(Board::class); }
     public function user(): BelongsTo    { return $this->belongsTo(User::class); }
     public function replies(): HasMany   { return $this->hasMany(Reply::class); }
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class); // update pivot name if different
+        // ensure your pivot table is correct (likely 'thread_tag')
+        return $this->belongsToMany(Tag::class, 'thread_tag')->withTimestamps();
     }
 
-    /** Route model binding by slug */
+    /** ---------- Routing ---------- */
     public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
+    /** ---------- Boot ---------- */
     protected static function booted(): void
     {
         static::saving(function (Thread $t) {

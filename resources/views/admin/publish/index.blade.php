@@ -1,9 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
- <div class="max-w-7xl mx-auto px-4 py-8"
-      x-data="{ tab: (localStorage.getItem('queueTab') || 'posts') }"
-      x-init="$watch('tab', t => localStorage.setItem('queueTab', t))">  <div class="flex items-center justify-between mb-4">
+<div class="max-w-7xl mx-auto px-4 py-8"
+     x-data="{ tab: (localStorage.getItem('queueTab') || 'posts') }"
+     x-init="$watch('tab', t => localStorage.setItem('queueTab', t))">
+
+  <div class="flex items-center justify-between mb-4">
     <h1 class="ci-title-lg">Content Queue</h1>
     <a class="ci-btn-sky" href="{{ route('admin.publish.create') }}">Create Content</a>
   </div>
@@ -24,18 +26,25 @@
           <tr>
             <th class="ci-th">Title</th>
             <th class="ci-th">Updated</th>
-            <th class="ci-th w-40">Actions</th>
+            <th class="ci-th w-56">Actions</th>
           </tr>
         </thead>
         <tbody>
           @forelse($postDrafts as $p)
             <tr class="ci-tr">
               <td class="ci-td">
-                <a class="ci-link" href="{{ route('blog.show', $p->slug) }}">{{ $p->title }}</a>
+                {{-- Admin preview (NOT public blog route) --}}
+                <a class="ci-link" href="{{ route('admin.publish.preview', $p) }}">{{ $p->title }}</a>
               </td>
               <td class="ci-td">{{ $p->updated_at?->diffForHumans() }}</td>
               <td class="ci-td">
                 <a class="ci-cta" href="{{ route('admin.posts.edit', $p) }}">Edit</a>
+
+                {{-- Quick publish now --}}
+                <form method="POST" action="{{ route('admin.publish.now', $p) }}" class="inline">
+                  @csrf
+                  <button class="ci-cta ml-2">Publish now</button>
+                </form>
               </td>
             </tr>
           @empty
@@ -44,7 +53,9 @@
         </tbody>
       </table>
     </div>
-    <div class="ci-pagination">{{ $postDrafts->withQueryString()->links() }}</div>
+    @if(method_exists($postDrafts, 'links'))
+      <div class="ci-pagination">{{ $postDrafts->withQueryString()->links() }}</div>
+    @endif
 
     {{-- Scheduled --}}
     <h2 class="ci-title-md mt-8 mb-2">Scheduled</h2>
@@ -54,14 +65,17 @@
           <tr>
             <th class="ci-th">Title</th>
             <th class="ci-th">Publish At</th>
-            <th class="ci-th w-40">Actions</th>
+            <th class="ci-th w-56">Actions</th>
           </tr>
         </thead>
         <tbody>
           @forelse($postScheduled as $p)
             <tr class="ci-tr">
-              <td class="ci-td">{{ $p->title }}</td>
-              <td class="ci-td">{{ optional($p->scheduled_for)->format('M d, Y H:i') }}</td>
+              <td class="ci-td">
+                <a class="ci-link" href="{{ route('admin.publish.preview', $p) }}">{{ $p->title }}</a>
+              </td>
+              {{-- Use published_at as the canonical schedule time --}}
+              <td class="ci-td">{{ optional($p->published_at)->timezone(config('app.timezone'))->format('M d, Y H:i') }}</td>
               <td class="ci-td">
                 <a class="ci-cta" href="{{ route('admin.posts.edit', $p) }}">Edit</a>
               </td>
@@ -72,9 +86,11 @@
         </tbody>
       </table>
     </div>
-    <div class="ci-pagination">{{ $postScheduled->withQueryString()->links() }}</div>
+    @if(method_exists($postScheduled, 'links'))
+      <div class="ci-pagination">{{ $postScheduled->withQueryString()->links() }}</div>
+    @endif
 
-    {{-- Recently Published --}}
+    {{-- Recently Published (public links OK) --}}
     <h2 class="ci-title-md mt-8 mb-2">Recently Published</h2>
     <ul class="space-y-2">
       @foreach($postPublished as $p)
@@ -116,7 +132,9 @@
         </tbody>
       </table>
     </div>
-    <div class="ci-pagination">{{ $threadDrafts->withQueryString()->links() }}</div>
+    @if(method_exists($threadDrafts, 'links'))
+      <div class="ci-pagination">{{ $threadDrafts->withQueryString()->links() }}</div>
+    @endif
 
     {{-- Scheduled --}}
     <h2 class="ci-title-md mt-8 mb-2">Scheduled</h2>
@@ -135,7 +153,7 @@
             <tr class="ci-tr">
               <td class="ci-td">{{ $t->title }}</td>
               <td class="ci-td">{{ $t->board->name ?? '—' }}</td>
-              <td class="ci-td">{{ optional($t->scheduled_for)->format('M d, Y H:i') }}</td>
+              <td class="ci-td">{{ optional($t->published_at)->timezone(config('app.timezone'))->format('M d, Y H:i') }}</td>
               <td class="ci-td">
                 <a class="ci-cta" href="{{ route('admin.threads.edit', $t) }}">Edit</a>
               </td>
@@ -146,7 +164,9 @@
         </tbody>
       </table>
     </div>
-    <div class="ci-pagination">{{ $threadScheduled->withQueryString()->links() }}</div>
+    @if(method_exists($threadScheduled, 'links'))
+      <div class="ci-pagination">{{ $threadScheduled->withQueryString()->links() }}</div>
+    @endif
 
     {{-- Recently Published --}}
     <h2 class="ci-title-md mt-8 mb-2">Recently Published</h2>

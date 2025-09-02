@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 use App\Models\User;
 use App\Models\Board;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Tag;
 
 class Post extends Model
 {
@@ -23,10 +26,10 @@ class Post extends Model
         'user_id',
         'board_id',
         // scheduling
-        'status',          // draft | scheduled | published
-        'scheduled_for',   // datetime (UTC)
+        'status',          // draft | scheduled | published | approved (legacy)
+        'scheduled_for',   // datetime (UTC) - legacy helper
         'published_at',    // datetime (UTC)
-        /* 'publish_status', */  // legacy for BC
+        // 'publish_status',   // legacy BC; still read in helpers
     ];
 
     protected function casts(): array
@@ -37,12 +40,7 @@ class Post extends Model
         ];
     }
 
-    /** Scopes */
-    public function scopePublished($q) { return $q->where('status', 'published'); }
-    public function scopeScheduled($q) { return $q->where('status', 'scheduled'); }
-    public function scopeDraft($q)     { return $q->where('status', 'draft'); }
-
-    /** Relations */
+    /** ---------- Relations ---------- */
     public function user()  { return $this->belongsTo(User::class); }
     public function board() { return $this->belongsTo(Board::class); }
 
@@ -51,24 +49,114 @@ class Post extends Model
         return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
     }
 
-    public function isLikedBy(?User $user)
-    {
-        if (!$user) return false;
-        return $this->likes()->where('user_id', $user->id)->exists();
-    }
-
     public function comments()
     {
         return $this->hasMany(\App\Models\Comment::class)->latest();
     }
 
-    /** Route model binding by slug */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
+    }
+
+    /** ---------- Status helpers ---------- */
+    public function isDraft(): bool
+    {
+        return ($this->status === 'draft')
+            || (is_null($this->status) && ($this->publish_status ?? null) === 'draft'); // legacy
+    }
+
+    public function isScheduled(): bool
+    {
+        // New flow uses published_at as the schedule time
+        return ($this->status === 'scheduled') && $this->published_at && $this->published_at->isFuture();
+    }
+
+    public function isPublished(): bool
+    {
+        // New flow
+        if ($this->status === 'published' && $this->published_at && $this->published_at->isPast()) {
+            return true;
+        }
+        // Legacy fallbacks
+        if (is_null($this->status) && ($this->publish_status ?? null) === 'published') return true;
+        if ($this->status === 'approved') return true;
+        return false;
+    }
+
+    /** ---------- Scopes ---------- */
+    // KEEP this robust one; REMOVE the simple status-only version
+    public function scopePublished(Builder $q): Builder
+    {
+        return $q->where(function ($q) {
+            // New flow: published + published_at <= now
+            $q->where(function ($q) {
+                $q->where('status', 'published')
+                  ->whereNotNull('published_at')
+                  ->where('published_at', '<=', now());
+            })
+            // Legacy flow: publish_status column
+            ->orWhere(function ($q) {
+                $q->whereNull('status')->where('publish_status', 'published');
+            })
+            // Legacy: approved status
+            ->orWhere('status', 'approved');
+        });
+    }
+
+    public function scopeDrafts(Builder $q): Builder
+    {
+        return $q->where(function ($q) {
+            $q->where('status', 'draft')
+              ->orWhere(function ($q) {
+                  $q->whereNull('status')->where('publish_status', 'draft'); // legacy
+              });
+        });
+    }
+
+    public function scopeScheduled(Builder $q): Builder
+    {
+        // New flow schedules via future published_at + status 'scheduled'
+        return $q->where('status', 'scheduled');
+    }
+
+    /** ---------- Routing ---------- */
     public function getRouteKeyName()
     {
         return 'slug';
     }
 
-    /** Auto slug/excerpt */
+    /** ---------- Accessors ---------- */
+    public function getImageUrlAttribute(): string
+    {
+        $p = (string) $this->image_path;
+
+        if ($p !== '' && Str::startsWith($p, ['http://', 'https://', '//'])) {
+            return $p;
+        }
+        if ($p !== '') {
+            return Storage::url($p); // e.g. /storage/xyz.jpg
+        }
+        return asset('images/default-post.png');
+    }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        return $this->image_url;
+    }
+
+    public function getExcerptForDisplayAttribute(): string
+    {
+        $raw = $this->excerpt ?: strip_tags((string) $this->body);
+        return Str::limit(Str::of($raw)->squish(), 160);
+    }
+
+    public function getMetaDescriptionAttribute(): string
+    {
+        return $this->excerpt_for_display;
+    }
+
+    /** ---------- Model events ---------- */
     protected static function booted()
     {
         static::saving(function ($post) {
@@ -81,46 +169,10 @@ class Post extends Model
         });
     }
 
-    /**
-     * Robust image URL:
-     * - If image_path is an absolute URL, return it.
-     * - Else if set, return Storage::url(image_path) (works with 'public' disk + symlink).
-     * - Else return default placeholder.
-     */
-    public function getImageUrlAttribute(): string
+    /** ---------- Convenience ---------- */
+    public function isLikedBy(?User $user)
     {
-        $p = (string) $this->image_path;
-
-        if ($p !== '' && Str::startsWith($p, ['http://', 'https://', '//'])) {
-            return $p;
-        }
-
-        if ($p !== '') {
-            return Storage::url($p); // e.g. /storage/xyz.jpg
-        }
-
-        return asset('images/default-post.png');
-    }
-
-    /** Alias so blades can use $post->thumbnail_url interchangeably */
-    public function getThumbnailUrlAttribute(): string
-    {
-        return $this->image_url;
-    }
-
-    public function tags(): BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
-    }
-
-    public function getExcerptForDisplayAttribute(): string
-    {
-        $raw = $this->excerpt ?: strip_tags((string) $this->body);
-        return Str::limit(Str::of($raw)->squish(), 160);
-    }
-
-    public function getMetaDescriptionAttribute(): string
-    {
-        return $this->excerpt_for_display;
+        if (!$user) return false;
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
 }

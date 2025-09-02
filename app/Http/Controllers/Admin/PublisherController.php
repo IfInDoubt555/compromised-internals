@@ -10,9 +10,84 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class PublisherController extends Controller
 {
+    // NEW: queue page (drafts + scheduled)
+    public function index()
+    {
+        $drafts = Post::with(['user','board'])
+            ->where(function ($q) {
+                $q->where('status','draft')
+                  ->orWhere(function ($q) {
+                      $q->whereNull('status')->where('publish_status','draft'); // legacy
+                  });
+            })
+            ->latest('updated_at')
+            ->get();
+
+        $scheduled = Post::where('status','scheduled')
+            ->orderBy('published_at')
+            ->get();
+
+        return view('admin.publish.index', compact('drafts','scheduled'));
+    }
+
+    // (create/store exist already)
+
+    // NEW: admin-only preview for draft/scheduled
+    public function preview(Post $post)
+    {
+        // only allow preview if not public yet
+        $isPreviewable = ($post->status === 'draft')
+            || ($post->status === 'scheduled')
+            || (is_null($post->status) && in_array($post->publish_status, ['draft','scheduled']));
+
+        abort_unless($isPreviewable, 404);
+
+        return view('admin.publish.preview', [
+            'post' => $post,
+            'isPreview' => true,
+        ]);
+    }
+
+    // NEW: quick publish now
+    public function publishNow(Post $post)
+    {
+        $this->authorize('update', $post);
+
+        $post->forceFill([
+            'status'        => 'published',
+            'publish_status'=> 'published', // keep legacy in sync
+            'published_at'  => now()->utc(),
+            'scheduled_for' => null,
+        ])->save();
+
+        return redirect()->route('admin.publish.index')->with('status', 'Post published.');
+    }
+
+    // NEW: quick schedule
+    public function schedule(Request $request, Post $post)
+    {
+        $this->authorize('update', $post);
+
+        $data = $request->validate([
+            'published_at' => ['required','date'],
+        ]);
+
+        $post->forceFill([
+            'status'        => 'scheduled',
+            'publish_status'=> 'scheduled',
+            'published_at'  => Carbon::parse($data['published_at'], config('app.timezone'))->utc(),
+            'scheduled_for' => Carbon::parse($data['published_at'], config('app.timezone'))->utc(),
+        ])->save();
+
+        return redirect()->route('admin.publish.index')->with('status', 'Post scheduled.');
+    }
+
+
     public function create()
     {
         $boards = Board::orderBy('name')->get();
