@@ -24,15 +24,17 @@
   class="relative"
 >
   {{-- Track --}}
-  <div class="overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
-    <div
-      x-ref="track"
-      class="flex transition-transform duration-500 ease-in-out"
-      :style="`transform: translateX(-${index * 100}%)`"
-      @transitionend="onTransitionEnd()"
-      @mouseenter="pause()" @mouseleave="play()"
-      @touchstart.passive="touchStart($event)" @touchmove.passive="touchMove($event)" @touchend.passive="touchEnd()"
-    >
+<div class="overflow-hidden rounded-2xl ring-1 ring-black/5 dark:ring-white/10"
+     x-ref="viewport"
+     :style="viewportStyle">
+  <div
+    x-ref="track"
+    class="flex transition-transform duration-500 ease-in-out will-change-transform"
+    :style="`transform: translateX(-${index * 100}%)`"
+    @transitionend="onTransitionEnd()"
+    @mouseenter="pause()" @mouseleave="play()"
+    @touchstart.passive="touchStart($event)" @touchmove.passive="touchMove($event)" @touchend.passive="touchEnd()"
+  >
       {{-- Clone: last --}}
       <div class="w-full shrink-0">
         @include('partials.blog-post-card', ['post' => $items->last(), 'variant' => $variant])
@@ -95,9 +97,12 @@
       timer: null,
       startX: 0,
       deltaX: 0,
+      viewportStyle: '',
 
       init() {
         this.play();
+        this.$nextTick(() => this.updateHeight());
+        window.addEventListener('resize', () => this.updateHeight(), { passive: true });
       },
       play() {
         if (!this.playing || this.count <= 1) return;
@@ -107,8 +112,8 @@
       pause() { this.stop(); },
       stop() { if (this.timer) clearInterval(this.timer); this.timer = null; },
 
-      next() { this.index++; },
-      prev() { this.index--; },
+      next() { this.index++; this.$nextTick(() => this.updateHeight()); },
+      prev() { this.index--; this.$nextTick(() => this.updateHeight()); },
 
       onTransitionEnd() {
         // Jump without animation at the edges to keep it infinite
@@ -117,7 +122,10 @@
         if (this.index === this.count + 1) this.index = 1;     // from cloned first -> real first
         if (this.index === 0) this.index = this.count;         // from cloned last -> real last
         // Force style update then restore transition for subsequent moves
-        requestAnimationFrame(() => requestAnimationFrame(() => track.classList.add('transition-transform')));
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+               track.classList.add('transition-transform');
+               this.updateHeight();
+             }));
       },
 
       goTo(i) { this.index = i + 1; },
@@ -135,6 +143,18 @@
       touchEnd() {
         if (Math.abs(this.deltaX) > 50) this.deltaX < 0 ? this.next() : this.prev();
         this.play();
+      },
+
+      updateHeight() {
+        // Current slide element (account for the leading clone)
+        const slideIdx = this.index; // 0 = last clone, 1..count = real, count+1 = first clone
+        const track = this.$refs.track;
+        if (!track) return;
+        const slides = track.children;
+        const el = slides?.[slideIdx];
+        if (!el) return;
+        const h = el.offsetHeight;
+        if (h > 0) this.viewportStyle = `height:${h}px`;
       }
     }
   }

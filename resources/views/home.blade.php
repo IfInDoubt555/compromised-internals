@@ -266,7 +266,7 @@
   {{-- ===== /HERO + HISTORY/NEXT ===== --}}
 
   {{-- Home: Latest From the Blog --}}
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 mt-8 mb-16">
     @includeWhen(($latestPosts ?? collect())->count(), 'partials.blog-carousel', [
       'posts'    => $latestPosts,
       'variant'  => 'featured',
