@@ -131,17 +131,23 @@
     {{-- Actions --}}
     <div class="order-3 w-full sm:order-none sm:w-auto">
       <div class="flex flex-wrap items-center gap-2">
-        <form method="POST" action="{{ route('posts.like', $post) }}">
-          @csrf
-          <button type="submit"
-                  @if(!$user) disabled @endif
-                  aria-pressed="{{ $liked ? 'true' : 'false' }}"
-                  title="{{ $liked ? 'Unlike' : 'Like' }}"
-                  class="inline-flex items-center gap-2 rounded-lg px-3 py-2 {{ $btn }} disabled:opacity-50">
+        @auth
+          <form method="POST" action="{{ route('posts.like', $post) }}">
+            @csrf
+            <button type="submit"
+                    aria-pressed="{{ $liked ? 'true' : 'false' }}"
+                    title="{{ $liked ? 'Unlike' : 'Like' }}"
+                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 {{ $btn }}">
+              {{ $post->likes()->count() }}
+              <span>{{ $liked ? 'Unlike' : 'Like' }}</span>
+            </button>
+          </form>
+        @else
+          <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-lg px-3 py-2 {{ $btn }}">
             {{ $post->likes()->count() }}
-            <span>{{ $liked ? 'Unlike' : 'Like' }}</span>
-          </button>
-        </form>
+            <span>Log in to like</span>
+          </a>
+        @endauth
 
         @can('update', $post)
           <a href="{{ route('posts.edit', $post) }}" class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
