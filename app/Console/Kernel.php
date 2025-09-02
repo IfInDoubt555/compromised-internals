@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         // Birthday offer
         $schedule->command('offers:send-birthday')
@@ -40,32 +40,35 @@ class Kernel extends ConsoleKernel
                 ->whereNull('user_agent')
                 ->orWhere('user_agent', '')
                 ->delete();
-        })->hourly()
-          ->withoutOverlapping()
-          ->onOneServer()
-          ->environments(['production']);
+        })
+            ->hourly()
+            ->withoutOverlapping()
+            ->onOneServer()
+            ->environments(['production']);
 
-        // Built‑in sessions prune (plural)
+        // Built-in sessions prune (plural)
         $schedule->command('sessions:prune')
             ->everyThirtyMinutes()
             ->withoutOverlapping()
             ->onOneServer()
             ->environments(['production']);
 
-         // auto-publish anything due (safe to run every minute)
+        // Auto-publish anything due (safe to run every minute)
         $schedule->command('content:publish-scheduled')
             ->everyMinute()
             ->withoutOverlapping()
-            ->onOneServer()                         // if you ever add more servers
-            ->appendOutputTo(storage_path('logs/scheduler.log')); // optional: debug log
-        }
+            ->onOneServer()
+            ->runInBackground()
+            ->appendOutputTo(storage_path('logs/schedule.log'))
+            ->environments(['production']);
+    }
 
     /**
      * Add manually registered Artisan commands here.
      */
     protected $commands = [
         \App\Console\Commands\ScanImageAttributions::class,
-        \App\Console\Commands\PruneSessions::class, // add your prune command here
+        \App\Console\Commands\PruneSessions::class,
         \App\Console\Commands\HistoryAddResults::class,
         \App\Console\Commands\SitemapWarmCommand::class,
         \App\Console\Commands\GenerateImageVariants::class,
