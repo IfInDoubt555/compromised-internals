@@ -8,6 +8,7 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostModerationController extends Controller
 {
@@ -39,41 +40,44 @@ class PostModerationController extends Controller
             'board_id'     => ['nullable', 'exists:boards,id'],
             'status'       => ['required', 'in:draft,scheduled,published'],
             'published_at' => ['nullable', 'date'], // local time from datetime-local
-            'image_path'   => ['nullable','image','mimes:jpg,jpeg,png,webp,avif','max:5120'],
+            'image_path'   => ['nullable','file','image','mimes:jpg,jpeg,png,webp,avif','max:5120'],
         ]);
-    
+
         // Slug: prefer provided, else from title
         $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
-    
-        // Optional image upload
-        $imagePath = null;
+
+        // Handle optional image upload (delete old file if replacing)
+        $imagePath = $post->image_path;
         if ($request->hasFile('image_path')) {
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
             $imagePath = $request->file('image_path')->store('posts', 'public');
         }
-    
-        // Normalize published_at to UTC if present
+
+        // Determine final status + timestamps (normalize to UTC)
+        $finalStatus    = $data['status'];
         $publishedAtUtc = null;
-        if (!empty($data['published_at'])) {
-            $publishedAtUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
-        }
-    
-        // Derive timestamps from status
-        $finalStatus = $data['status'];
+
         if ($finalStatus === 'published') {
-            // Publish now if no date provided
-            $publishedAtUtc = $publishedAtUtc ?: now()->utc();
+            // Publish now (ignore any provided date)
+            $publishedAtUtc = now()->utc();
         } elseif ($finalStatus === 'scheduled') {
-            // Require a date; if it's in the past, promote to published
+            // Require a future datetime; if past/now, promote to published
             $request->validate(['published_at' => ['required', 'date']]);
-            $publishedAtUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
-        
-            if ($publishedAtUtc->lte(now()->utc())) {
-                $finalStatus = 'published';
+            $scheduledUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
+
+            if ($scheduledUtc->lte(now()->utc())) {
+                $finalStatus    = 'published';
+                $publishedAtUtc = now()->utc();
+            } else {
+                // Store the future time in published_at (canonical schedule time)
+                $publishedAtUtc = $scheduledUtc;
             }
         } else { // draft
             $publishedAtUtc = null;
         }
-    
+
         // Persist (mirror legacy columns for BC)
         $post->forceFill([
             'title'         => $data['title'],
@@ -83,12 +87,11 @@ class PostModerationController extends Controller
             'board_id'      => $data['board_id'] ?? null,
             'status'        => $finalStatus,
             'published_at'  => $finalStatus === 'draft' ? null : $publishedAtUtc,
-            // Legacy mirror only when scheduled
-            'scheduled_for' => $finalStatus === 'scheduled' ? $publishedAtUtc : null,
+            'scheduled_for' => $finalStatus === 'scheduled' ? $publishedAtUtc : null, // legacy mirror
             'publish_status'=> $finalStatus, // legacy mirror
-            'image_path'    => $imagePath ?? $post->image_path,
+            'image_path'    => $imagePath,
         ])->save();
-        
+
         return redirect()
             ->route('admin.publish.index')
             ->with('status', 'Post saved.');

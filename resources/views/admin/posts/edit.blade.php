@@ -4,8 +4,11 @@
 <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
   <h1 class="ci-title-lg">Edit Post</h1>
 
-  <form method="POST" action="{{ route('admin.posts.update', $post) }}" class="ci-admin-card p-6 space-y-6"
-        x-data="{ bodyCount: {{ strlen(old('excerpt', $post->excerpt ?? '')) }} }">
+  <form method="POST"
+      action="{{ route('admin.posts.update', $post) }}"
+      enctype="multipart/form-data"
+      class="ci-admin-card p-6 space-y-6"
+      x-data="{ bodyCount: {{ strlen(old('excerpt', $post->excerpt ?? '')) }} }">
     @csrf @method('PUT')
 
     {{-- Title --}}
@@ -63,7 +66,7 @@
     <div class="mb-6">
       <span class="ci-label mb-2">Feature Image (optional)</span>
       {{-- controller expects image_path --}}
-      <input type="file" name="image_path" class="block">
+        <input type="file" name="image_path" accept="image/*" class="block">
       <p class="ci-help mt-2">JPG/PNG/WebP • up to 5 MB</p>
       @error('image_path') <p class="ci-error mt-1">{{ $message }}</p> @enderror
     </div>
