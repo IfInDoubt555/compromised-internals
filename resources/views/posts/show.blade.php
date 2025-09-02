@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @php
-    // Derive common fields
+    // add this line (so $author exists everywhere in the view)
+    $author = $post->user;
+
     $title   = $post->title;
     $url     = route('posts.show', $post->slug);
     $image   = $post->thumbnail_url ?? asset('images/default-post.png');
     $desc    = trim((string)($post->excerpt_for_display ?? \Illuminate\Support\Str::limit(strip_tags($post->body_html ?? ''), 160)));
 
-    // SEO package
     $seo = [
         'title'       => "{$title} | Rally Blog – Compromised Internals",
         'description' => $desc,
@@ -69,7 +70,7 @@
     </script>
 @endpush
 
-@section(section: 'content')
+@section('content')
 
 {{-- Top nav --}}
 <div class="max-w-5xl mx-auto px-4 mt-6 mb-6 grid grid-cols-3 text-sm font-semibold">
@@ -118,16 +119,26 @@
   <div class="flex flex-wrap items-center gap-3">
 
     {{-- Author chip --}}
+    @php($author = $post->user)
+
     <a href="{{ $author ? route('profile.public', $author->id) : '#' }}"
        class="group inline-flex items-center gap-3 rounded-xl border px-3 py-2
               bg-white/80 text-gray-900 border-gray-200 shadow-sm
               hover:bg-white hover:shadow
               dark:bg-stone-900/70 dark:text-stone-100 dark:border-white/10">
       {{-- IMPORTANT: make avatar request widths we actually generate (160/320) --}}
-      <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" class="w-8 h-8" />
+      <x-user-avatar 
+          :path="$author?->profile_picture" 
+          :alt="$author?->name ?? 'User'" 
+          :size="32" 
+          class="w-8 h-8" />
       <div class="leading-tight">
-        <div class="text-sm font-semibold group-hover:underline">{{ $author?->name ?? 'Deleted user' }}</div>
-        <div class="text-xs text-gray-500 dark:text-stone-400">{{ $post->created_at->format('M j, Y') }}</div>
+        <div class="text-sm font-semibold group-hover:underline">
+          {{ $author?->name ?? 'Deleted user' }}
+        </div>
+        <div class="text-xs text-gray-500 dark:text-stone-400">
+          {{ optional($post->published_at ?? $post->created_at)?->format('M j, Y') }}
+        </div>
       </div>
     </a>
 

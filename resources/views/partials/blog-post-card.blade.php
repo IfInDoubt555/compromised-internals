@@ -37,9 +37,9 @@
         </a>
         <span class="font-medium ci-body">{{ $author?->name ?? 'Deleted user' }}</span>
         <span aria-hidden="true">•</span>
-        <time datetime="{{ $post->created_at->toDateString() }}">
-          {{ $post->created_at->format('M j, Y') }}
-        </time>
+            <time datetime="{{ optional($post->published_at ?? $post->created_at)?->toDateString() }}">
+              {{ optional($post->published_at ?? $post->created_at)?->format('M j, Y') }}
+            </time>
       </div>
 
       <h2 class="mt-2 {{ $variant === 'featured' ? 'ci-title-xl' : 'ci-title-lg' }} leading-snug">

@@ -13,9 +13,9 @@
               {{ $post->title }}
             </a>
           </h2>
-          <p class="text-sm ci-muted">
-            Posted on {{ $post->created_at->format('F j, Y') }}
-          </p>
+            <p class="text-sm ci-muted">
+              Posted on {{ optional($post->published_at ?? $post->created_at)->format('F j, Y') }}
+            </p>
           <p class="mt-2">
             {{ Str::limit(strip_tags($post->excerpt ?? $post->body), 160) }}
           </p>
