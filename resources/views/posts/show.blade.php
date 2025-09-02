@@ -1,17 +1,75 @@
 @extends('layouts.app')
 
-@section('content')
 @php
-  $user   = auth()->user();
-  $liked  = $user ? $post->isLikedBy($user) : false;
+    $isPaginated = method_exists($posts, 'currentPage');
+    $pageNum     = $isPaginated ? (int) $posts->currentPage() : 1;
 
-  // Button theme (fallback if no board)
-  $btn = $post->board?->accentButtonClasses()
-      ?? 'border border-sky-400 text-sky-700 bg-sky-100 hover:bg-sky-200 ring-1 ring-sky-500/20 dark:border-sky-600 dark:text-sky-300 dark:bg-sky-950/40 dark:hover:bg-sky-900/50 dark:ring-sky-400/20';
+    $seo = [
+        'title'       => 'Rally Blog | News, Articles & Event Coverage – Compromised Internals',
+        'description' => 'Explore the Compromised Internals Rally Blog: news, site updates, and community posts on travel, WRC live threads, sim racing, photography, and more – all in one hub.',
+        'url'         => $pageNum > 1
+                         ? route('blog.index', ['page' => $pageNum])
+                         : route('blog.index'),
+        'image'       => asset('images/default-post.png'),
+        'index'       => $pageNum === 1 ? 'index,follow' : 'noindex,follow',
+    ];
 
-  // Author once, reuse
-  $author = $post->user;
+    $ld = [
+        '@context'    => 'https://schema.org',
+        '@type'       => 'CollectionPage',
+        'url'         => $seo['url'],
+        'name'        => 'Rally Blog',
+        'description' => $seo['description'],
+        'isPartOf'    => [
+            '@type' => 'WebSite',
+            'name'  => 'Compromised Internals',
+            'url'   => url('/'),
+        ],
+    ];
 @endphp
+
+@push('head')
+    {{-- Canonical + robots --}}
+    <link rel="canonical" href="{{ route('blog.index') }}">
+    <meta name="robots" content="{{ $seo['index'] }}">
+
+    {{-- Rel prev/next for pagination --}}
+    @if($isPaginated)
+        @if($posts->previousPageUrl())
+            <link rel="prev" href="{{ $posts->previousPageUrl() }}">
+        @endif
+        @if($posts->nextPageUrl())
+            <link rel="next" href="{{ $posts->nextPageUrl() }}">
+        @endif
+    @endif
+
+    {{-- Basic Meta --}}
+    <title>{{ $seo['title'] }}</title>
+    <meta name="description" content="{{ $seo['description'] }}">
+
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compromised Internals">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:url" content="{{ $seo['url'] }}">
+    <meta property="og:title" content="{{ $seo['title'] }}">
+    <meta property="og:description" content="{{ $seo['description'] }}">
+    <meta property="og:image" content="{{ $seo['image'] }}">
+
+    {{-- Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $seo['url'] }}">
+    <meta name="twitter:title" content="{{ $seo['title'] }}">
+    <meta name="twitter:description" content="{{ $seo['description'] }}">
+    <meta name="twitter:image" content="{{ $seo['image'] }}">
+
+    {{-- Structured Data --}}
+    <script type="application/ld+json">
+        @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
+    </script>
+@endpush
+
+@section(section: 'content')
 
 {{-- Top nav --}}
 <div class="max-w-5xl mx-auto px-4 mt-6 mb-6 grid grid-cols-3 text-sm font-semibold">

@@ -59,6 +59,15 @@
       @error('body') <p class="ci-error">{{ $message }}</p> @enderror
     </div>
 
+    {{-- Feature Image --}}
+    <div class="mb-6">
+      <span class="ci-label mb-2">Feature Image (optional)</span>
+      {{-- controller expects image_path --}}
+      <input type="file" name="image_path" class="block">
+      <p class="ci-help mt-2">JPG/PNG/WebP • up to 5 MB</p>
+      @error('image_path') <p class="ci-error mt-1">{{ $message }}</p> @enderror
+    </div>
+
     {{-- Scheduling (status + published_at) --}}
     @include('admin.partials.scheduling', ['model' => $post])
 
