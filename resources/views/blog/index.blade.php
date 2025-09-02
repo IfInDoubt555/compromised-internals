@@ -75,7 +75,7 @@
   @endauth
 
   {{-- MOBILE: sticky tools (Search + Discussion Boards) under the nav --}}
-  <div class="lg:hidden sticky top-16 z-40">
+  <div class="lg:hidden sticky top-0 z-40">
     <div class="ci-card px-4 py-3 ring-1 ring-black/5 dark:ring-white/10
                 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-stone-900/60">
       @include('partials.blog-sidebar')
