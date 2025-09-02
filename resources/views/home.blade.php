@@ -267,8 +267,12 @@
 
   {{-- ===== BLOG FEATURED + LATEST ===== --}}
   <section class="mt-14 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-    <h2 class="text-center font-orbitron text-2xl font-bold">
-      Latest From the Blog
+    <h2 class="text-center font-orbitron text-2xl font-bold mb-6">
+      <span class="inline-block rounded-lg px-3 py-1.5
+                   bg-white/70 dark:bg-stone-900/60
+                   backdrop-blur-sm ring-1 ring-black/5 dark:ring-white/10">
+        Latest From the Blog
+      </span>
     </h2>
     
     @php
