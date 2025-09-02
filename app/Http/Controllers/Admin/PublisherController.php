@@ -18,21 +18,44 @@ class PublisherController extends Controller
     // NEW: queue page (drafts + scheduled)
     public function index()
     {
-        $drafts = Post::with(['user','board'])
-            ->where(function ($q) {
-                $q->where('status','draft')
-                  ->orWhere(function ($q) {
-                      $q->whereNull('status')->where('publish_status','draft'); // legacy
-                  });
-            })
+        // POSTS
+        $postDrafts = \App\Models\Post::with(['user','board'])
+            ->drafts()
             ->latest('updated_at')
+            ->paginate(10, ['*'], 'postDrafts');
+    
+        $postScheduled = \App\Models\Post::with(['user','board'])
+            ->scheduled()
+            ->orderBy('published_at')   // canonical schedule time
+            ->paginate(10, ['*'], 'postScheduled');
+    
+        $postPublished = \App\Models\Post::with(['user','board'])
+            ->published()
+            ->latest('published_at')
+            ->limit(10)
             ->get();
-
-        $scheduled = Post::where('status','scheduled')
+    
+        // THREADS
+        $threadDrafts = \App\Models\Thread::with(['user','board'])
+            ->drafts()
+            ->latest('updated_at')
+            ->paginate(10, ['*'], 'threadDrafts');
+    
+        $threadScheduled = \App\Models\Thread::with(['user','board'])
+            ->scheduled()
             ->orderBy('published_at')
+            ->paginate(10, ['*'], 'threadScheduled');
+    
+        $threadPublished = \App\Models\Thread::with(['user','board'])
+            ->published()
+            ->latest('published_at')
+            ->limit(10)
             ->get();
-
-        return view('admin.publish.index', compact('drafts','scheduled'));
+    
+        return view('admin.publish.index', compact(
+            'postDrafts', 'postScheduled', 'postPublished',
+            'threadDrafts', 'threadScheduled', 'threadPublished'
+        ));
     }
 
     // (create/store exist already)
