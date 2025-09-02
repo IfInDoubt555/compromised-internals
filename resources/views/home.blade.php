@@ -277,99 +277,16 @@
     @endphp
   
     @if($featured)
-      <article class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-        <a href="{{ route('posts.show', $featured->slug) }}"
-           class="aspect-[16/9] w-full overflow-hidden rounded-2xl ring-1 ring-black/10 bg-stone-100
-                  dark:ring-white/10 dark:bg-stone-800 group">
-    
-          @php
-            $hasLocal = $featured->image_path && \Storage::disk('public')->exists($featured->image_path);
-            $fallback = asset('images/default-post.png');
-          @endphp
-  
-          @if($hasLocal)
-            {{-- Responsive WebP/AVIF (server-generated variants) --}}
-             <x-img
-               :path="$featured->image_path"
-               :alt="$featured->title"
-               :widths="[640,1280]"  {{-- 960 removed to avoid 404 on retina --}}
-               sizes="(max-width: 768px) 100vw, 640px"
-               class="block h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-             />
-          @else
-            {{-- External URL or legacy asset --}}
-            <img
-              src="{{ $featured->image_url ?: $fallback }}"
-              alt="{{ $featured->title }}"
-              class="block h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-              loading="lazy" decoding="async">
-          @endif
-        </a>
-    
-        <div class="rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 p-6
-                    dark:bg-stone-900/70 dark:ring-white/10">
-          <div class="text-xs text-stone-600 dark:text-stone-400">
-            <span class="font-medium">{{ $featured->user?->name ?? 'Unknown' }}</span>
-            <span>•</span>
-            <time datetime="{{ $featured->created_at->toDateString() }}">{{ $featured->created_at->format('M j, Y') }}</  time>
-          </div>
-          <h3 class="mt-2 font-orbitron text-2xl font-bold">
-            <a href="{{ route('posts.show', $featured->slug) }}" class="hover:underline">{{   $featured->title }}</a>
-          </h3>
-          <p class="mt-2 text-stone-700 dark:text-stone-300 line-clamp-3">{{ $featured->excerpt }}</p>
-          <a href="{{ route('posts.show', $featured->slug) }}"
-             class="mt-4 inline-flex items-center font-semibold text-blue-600 hover:text-blue-500
-                    dark:text-rose-300 dark:hover:text-rose-200">
-            Read post
-          </a>
-        </div>
-      </article>
+      {{-- Featured (reuse card, larger heading via variant) --}}
+      @include('partials.blog-post-card', ['post' => $featured, 'variant' => 'featured'])
     @endif
     
     <div class="mt-8 rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow
           dark:bg-stone-900/70 dark:ring-white/10 overflow-hidden">
-      <ul class="divide-y divide-stone-200/70 dark:divide-white/10">
+      <ul>
         @foreach($rest as $post)
-          <li class="p-5">
-            <a href="{{ route('posts.show', $post->slug) }}" class="grid sm:grid-cols-[160px_1fr] gap-5   items-center group">
-              <div class="aspect-[16/10] w-full sm:w-40 overflow-hidden rounded-lg ring-1 ring-black/10 bg-stone-100
-                          dark:ring-white/10 dark:bg-stone-800">
-    
-                @php
-                  $hasLocal = $post->image_path && \Storage::disk('public')->exists($post->image_path);
-                  $fallback = asset('images/default-post.png');
-                @endphp
-  
-                @if($hasLocal)
-                  <x-img
-                    :path="$post->image_path"
-                    :alt="$post->title"
-                    :widths="[160,320,640]"
-                    sizes="160px"
-                    width="160" height="128"
-                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                  />
-                @else
-                  <img
-                    src="{{ $post->image_url ?: $fallback }}"
-                    alt="{{ $post->title }}"
-                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                    loading="lazy" decoding="async">
-                @endif
-              </div>
-    
-              <div>
-                <div class="text-xs text-stone-600 dark:text-stone-400">
-                  <span class="font-medium">{{ $post->user?->name ?? 'Unknown' }}</span>
-                  <span>•</span>
-                  <time datetime="{{ $post->created_at->toDateString() }}">{{ $post->created_at->format('M j, Y') }}</  time>
-                </div>
-                <h4 class="mt-1 font-orbitron text-xl font-bold group-hover:underline">
-                  {{ $post->title }}
-                </h4>
-                <p class="mt-1 text-stone-700 dark:text-stone-300 line-clamp-2">{{ $post->excerpt_for_display }}</p>
-              </div>
-            </a>
+          <li>
+            @include('partials.blog-post-card', ['post' => $post, 'variant' => 'compact'])
           </li>
         @endforeach
       </ul>

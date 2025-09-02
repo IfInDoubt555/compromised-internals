@@ -68,6 +68,21 @@
       </label>
     </div>
 
+  {{-- Excerpt --}}
+    <div>
+      <label for="excerpt" class="block text-sm font-medium mb-1 text-gray-700 dark:text-stone-300">Excerpt</label>
+      <textarea
+        name="excerpt"
+        id="excerpt"
+        class="w-full px-4 py-2 rounded-xl border bg-white border-gray-300
+               focus:ring focus:ring-blue-200 focus:border-blue-400
+               dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10 dark:placeholder-stone-500"
+      >{{ old('excerpt', $post->excerpt) }}</textarea>
+      <p class="mt-1 text-xs text-gray-500 dark:text-stone-400">
+        Max 160 characters.
+      </p>
+    </div>
+
     {{-- Body --}}
     <label class="block mb-6">
       <span class="ci-label mb-1">Body</span>
