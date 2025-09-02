@@ -17,7 +17,7 @@ class PublishQueueController extends Controller
             ->paginate(15, ['*'], 'postDrafts');
 
         $postScheduled = Post::where('status', 'scheduled')
-            ->orderBy('scheduled_for')   // <- was publish_at
+            ->orderBy('published_at')   // canonical schedule moment
             ->paginate(15, ['*'], 'postScheduled');
 
         $postPublished = Post::where('status', 'published')

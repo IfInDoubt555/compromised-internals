@@ -39,31 +39,41 @@ class PostModerationController extends Controller
             'board_id'     => ['nullable', 'exists:boards,id'],
             'status'       => ['required', 'in:draft,scheduled,published'],
             'published_at' => ['nullable', 'date'], // local time from datetime-local
+            'image_path'   => ['nullable','image','mimes:jpg,jpeg,png,webp,avif','max:5120'],
         ]);
-
+    
         // Slug: prefer provided, else from title
         $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
-
+    
+        // Optional image upload
+        $imagePath = null;
+        if ($request->hasFile('image_path')) {
+            $imagePath = $request->file('image_path')->store('posts', 'public');
+        }
+    
         // Normalize published_at to UTC if present
         $publishedAtUtc = null;
         if (!empty($data['published_at'])) {
             $publishedAtUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
         }
-
+    
         // Derive timestamps from status
-        if ($data['status'] === 'published') {
-            // If no date provided, publish immediately
+        $finalStatus = $data['status'];
+        if ($finalStatus === 'published') {
+            // Publish now if no date provided
             $publishedAtUtc = $publishedAtUtc ?: now()->utc();
-        } elseif ($data['status'] === 'scheduled') {
-            // Require a future datetime
-            $request->validate([
-                'published_at' => ['required', 'date'],
-            ]);
+        } elseif ($finalStatus === 'scheduled') {
+            // Require a date; if it's in the past, promote to published
+            $request->validate(['published_at' => ['required', 'date']]);
             $publishedAtUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
+        
+            if ($publishedAtUtc->lte(now()->utc())) {
+                $finalStatus = 'published';
+            }
         } else { // draft
             $publishedAtUtc = null;
         }
-
+    
         // Persist (mirror legacy columns for BC)
         $post->forceFill([
             'title'         => $data['title'],
@@ -71,12 +81,14 @@ class PostModerationController extends Controller
             'excerpt'       => $data['excerpt'] ?? null,
             'body'          => $data['body'],
             'board_id'      => $data['board_id'] ?? null,
-            'status'        => $data['status'],
-            'published_at'  => $publishedAtUtc,
-            'scheduled_for' => $publishedAtUtc, // legacy mirror
-            'publish_status'=> $data['status'], // legacy mirror
+            'status'        => $finalStatus,
+            'published_at'  => $finalStatus === 'draft' ? null : $publishedAtUtc,
+            // Legacy mirror only when scheduled
+            'scheduled_for' => $finalStatus === 'scheduled' ? $publishedAtUtc : null,
+            'publish_status'=> $finalStatus, // legacy mirror
+            'image_path'    => $imagePath ?? $post->image_path,
         ])->save();
-
+        
         return redirect()
             ->route('admin.publish.index')
             ->with('status', 'Post saved.');

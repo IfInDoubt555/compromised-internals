@@ -19,34 +19,34 @@ class PublisherController extends Controller
     public function index()
     {
         // POSTS
-        $postDrafts = \App\Models\Post::with(['user','board'])
+        $postDrafts = Post::with(['user','board'])
             ->drafts()
             ->latest('updated_at')
             ->paginate(10, ['*'], 'postDrafts');
     
-        $postScheduled = \App\Models\Post::with(['user','board'])
+        $postScheduled = Post::with(['user','board'])
             ->scheduled()
             ->orderBy('published_at')   // canonical schedule time
             ->paginate(10, ['*'], 'postScheduled');
     
-        $postPublished = \App\Models\Post::with(['user','board'])
+        $postPublished = Post::with(['user','board'])
             ->published()
             ->latest('published_at')
             ->limit(10)
             ->get();
     
         // THREADS
-        $threadDrafts = \App\Models\Thread::with(['user','board'])
+        $threadDrafts = Thread::with(['user','board'])
             ->drafts()
             ->latest('updated_at')
             ->paginate(10, ['*'], 'threadDrafts');
     
-        $threadScheduled = \App\Models\Thread::with(['user','board'])
+        $threadScheduled = Thread::with(['user','board'])
             ->scheduled()
             ->orderBy('published_at')
             ->paginate(10, ['*'], 'threadScheduled');
     
-        $threadPublished = \App\Models\Thread::with(['user','board'])
+        $threadPublished = Thread::with(['user','board'])
             ->published()
             ->latest('published_at')
             ->limit(10)
@@ -172,8 +172,8 @@ class PublisherController extends Controller
                     $payload['scheduled_for']  = null;
                 } elseif ($intent === 'scheduled') {
                     $payload['status']         = 'scheduled';
-                    $payload['scheduled_for']  = $scheduledUtc;
-                    $payload['published_at']   = null;
+                    $payload['published_at']   = $scheduledUtc ?: $nowUtc;
+                    $payload['scheduled_for']  = $payload['published_at']; // legacy mirror
                 } else {
                     $payload['status']         = 'draft';
                     $payload['scheduled_for']  = null;

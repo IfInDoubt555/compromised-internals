@@ -38,25 +38,22 @@
         @error('slug') <p class="ci-error mt-1">{{ $message }}</p> @enderror
       </label>
 
-      {{-- Board selector (blog optional / thread required) --}}
       <label class="block">
         <span class="ci-label mb-1">
           <span x-show="type==='blog'">Associate to Board (optional)</span>
           <span x-show="type==='thread'">Select Board (required)</span>
         </span>
 
-        {{-- For BLOG: name="board_id" --}}
-        <select class="ci-select" name="board_id"
-                x-show="type==='blog'" x-cloak>
+        {{-- BLOG --}}
+        <select class="ci-select" name="board_id" x-show="type==='blog'" x-cloak>
           <option value="">— None —</option>
           @foreach($boards ?? [] as $board)
             <option value="{{ $board->id }}" @selected(old('board_id')==$board->id)>{{ $board->name }}</option>
           @endforeach
         </select>
 
-        {{-- For THREAD: name="thread_board_id" --}}
-        <select class="ci-select" name="thread_board_id"
-                x-show="type==='thread'" x-cloak>
+        {{-- THREAD --}}
+        <select class="ci-select" name="thread_board_id" x-show="type==='thread'" x-cloak>
           <option value="">— Choose Board —</option>
           @foreach($boards ?? [] as $board)
             <option value="{{ $board->id }}" @selected(old('thread_board_id')==$board->id)>{{ $board->name }}</option>
@@ -68,7 +65,7 @@
       </label>
     </div>
 
-  {{-- Excerpt --}}
+    {{-- Excerpt --}}
     <div>
       <label for="excerpt" class="block text-sm font-medium mb-1 text-gray-700 dark:text-stone-300">Excerpt</label>
       <textarea
@@ -78,9 +75,7 @@
                focus:ring focus:ring-blue-200 focus:border-blue-400
                dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10 dark:placeholder-stone-500"
       >{{ old('excerpt') }}</textarea>
-      <p class="mt-1 text-xs text-gray-500 dark:text-stone-400">
-        Max 160 characters.
-      </p>
+      <p class="mt-1 text-xs text-gray-500 dark:text-stone-400">Max 160 characters.</p>
     </div>
 
     {{-- Body --}}
@@ -93,40 +88,20 @@
     {{-- Feature Image --}}
     <div class="mb-6">
       <span class="ci-label mb-2">Feature Image (optional)</span>
-      {{-- controller expects image_path --}}
       <input type="file" name="image_path" class="block">
       <p class="ci-help mt-2">JPG/PNG/WebP • up to 5 MB</p>
       @error('image_path') <p class="ci-error mt-1">{{ $message }}</p> @enderror
     </div>
 
-    {{-- Publish Status --}}
-    <fieldset class="mb-6">
-      <legend class="ci-label mb-2">Publish Status</legend>
-      <div class="flex flex-wrap gap-6">
-        <label class="inline-flex items-center gap-2">
-          <input type="radio" name="status" value="draft" {{ old('status','draft')==='draft' ? 'checked' : '' }}>
-          <span>Draft</span>
-        </label>
-        <label class="inline-flex items-center gap-2">
-          <input type="radio" name="status" value="scheduled" {{ old('status')==='scheduled' ? 'checked' : '' }}>
-          <span>Scheduled</span>
-        </label>
-        <label class="inline-flex items-center gap-2">
-          <input type="radio" name="status" value="now" {{ old('status')==='now' ? 'checked' : '' }}>
-          <span>Publish now</span>
-        </label>
-      </div>
+    {{-- Publish Status + (scheduled) time --}}
+    @include('admin.partials.scheduling', [
+      'model'      => null,
+      'namePrefix' => '',
+      'field'      => 'status',
+      'dateField'  => 'scheduled_for',  // <-- matches your current store() validation
+    ])
 
-      <div class="mt-4">
-        <label class="ci-label mb-1">Publish at (your local time)</label>
-        {{-- controller expects scheduled_for --}}
-        <input type="datetime-local" name="scheduled_for" class="ci-input" value="{{ old('scheduled_for') }}">
-        <p class="ci-help mt-1">Stored in UTC.</p>
-        @error('scheduled_for') <p class="ci-error mt-1">{{ $message }}</p> @enderror
-      </div>
-    </fieldset>
-
-    <div class="text-right">
+    <div class="text-right mt-6">
       <button class="ci-btn-primary">Create</button>
     </div>
   </form>
