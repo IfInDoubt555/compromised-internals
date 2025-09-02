@@ -265,43 +265,11 @@
   </section>
   {{-- ===== /HERO + HISTORY/NEXT ===== --}}
 
-  {{-- ===== BLOG FEATURED + LATEST ===== --}}
-  <section class="mt-14 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-    <h2 class="text-center font-orbitron text-2xl font-bold mb-6">
-      <span class="inline-block rounded-lg px-3 py-1.5
-                   bg-white/70 dark:bg-stone-900/60
-                   backdrop-blur-sm ring-1 ring-black/5 dark:ring-white/10">
-        Latest From the Blog
-      </span>
-    </h2>
-    
-    @php
-      $featured = $posts->first();
-      $rest     = $posts->slice(1);
-    @endphp
-  
-    @if($featured)
-      {{-- Featured (reuse card, larger heading via variant) --}}
-      @include('partials.blog-post-card', ['post' => $featured, 'variant' => 'featured'])
-    @endif
-    
-    <div class="mt-8 rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow
-              dark:bg-stone-900/70 dark:ring-white/10 overflow-hidden">
-      <ul class="divide-y divide-stone-200/70 dark:divide-white/10">
-        @foreach($rest as $post)
-          <li>
-            @include('partials.blog-post-card', ['post' => $post, 'variant' => 'list'])
-          </li>
-        @endforeach
-      </ul>
-    </div>
-    
-    @if(method_exists($posts, 'links'))
-      <div class="mt-6">{{ $posts->links() }}</div>
-    @endif
-    
-    <div class="py-10"></div>
-  </section>
-  {{-- ===== /BLOG FEATURED + LATEST ===== --}}
+  {{-- Home: Latest From the Blog --}}
+  @include('partials.blog-carousel', [
+    'posts' => $latestPosts,   // adjust to your variable (e.g., $posts)
+    'variant' => 'featured',   // same visual as your big card
+    'interval' => 6            // seconds between slides
+  ])
 </div>
 @endsection
