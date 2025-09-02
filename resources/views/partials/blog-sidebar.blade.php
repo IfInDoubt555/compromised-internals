@@ -1,4 +1,4 @@
-<aside class="space-y-6">
+<div class="space-y-6">
 
   {{-- Search --}}
   <form action="{{ route('blog.index') }}" method="GET" class="ci-card p-3">
@@ -130,4 +130,4 @@
       @endif
     </ul>
   </section>
-</aside>
+    </div>

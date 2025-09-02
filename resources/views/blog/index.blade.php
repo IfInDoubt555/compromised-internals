@@ -77,7 +77,7 @@
   {{-- Layout: sidebar + main --}}
   <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8 items-start">
 
-    {{-- Sidebar (sticky with its own scroll when taller than viewport) --}}
+    {{-- Sidebar (sticky) --}}
     <aside class="lg:sticky lg:top-24 self-start">
       <div class="max-h-[calc(100vh-8rem)] overflow-auto">
         @include('partials.blog-sidebar')
