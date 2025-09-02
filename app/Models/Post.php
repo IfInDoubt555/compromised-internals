@@ -128,6 +128,15 @@ class Post extends Model
         });
     }
 
+    public function scopeHot(Builder $q, int $days = 14): Builder
+    {
+        return $q->withCount(['likes', 'comments'])
+            ->when($days > 0, fn ($qq) => $qq->where('created_at', '>=', now()->subDays($days)))
+            ->selectRaw('(COALESCE(likes_count,0)*3 + COALESCE(comments_count,0)*2) as hot_score')
+            ->orderByDesc('hot_score')
+            ->orderByDesc('created_at');
+    }
+
     public function scopeDrafts(Builder $q): Builder
     {
         return $q->where(function ($q) {

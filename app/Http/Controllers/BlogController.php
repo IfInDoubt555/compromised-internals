@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class BlogController extends Controller
 {
@@ -35,12 +36,13 @@ class BlogController extends Controller
             })
             ->orderByRaw('COALESCE(published_at, created_at) DESC');
 
-        // Optional search
-        if ($term = $request->query('q')) {
+        // Optional search (?q=… or ?tag=…)
+        if ($term = $request->query('q', $request->query('tag'))) {
             $q->where(function ($sub) use ($term) {
-                $sub->where('title', 'like', "%{$term}%")
-                    ->orWhere('excerpt', 'like', "%{$term}%")
-                    ->orWhere('body', 'like', "%{$term}%");
+                $like = '%' . $term . '%';
+                $sub->where('title', 'like', $like)
+                    ->orWhere('excerpt', 'like', $like)
+                    ->orWhere('body', 'like', $like);
             });
         }
 
@@ -51,6 +53,11 @@ class BlogController extends Controller
 
         $posts = $q->paginate(9)->withQueryString();
 
-        return view('blog.index', compact('posts'));
+        // Feed "Hot Right Now" (cached 10 minutes). Requires Post::scopeHot().
+        $hotPosts = Cache::remember('hot-posts:v1', 600, function () {
+            return Post::query()->hot(14)->limit(5)->get();
+        });
+
+        return view('blog.index', compact('posts', 'hotPosts'));
     }
 }
