@@ -1,56 +1,56 @@
 @extends('layouts.app')
 
 @php
-    $isPaginated = method_exists($posts, 'currentPage');
-    $pageNum     = $isPaginated ? (int) $posts->currentPage() : 1;
+    // Derive common fields
+    $title   = $post->title;
+    $url     = route('posts.show', $post->slug);
+    $image   = $post->thumbnail_url ?? asset('images/default-post.png');
+    $desc    = trim((string)($post->excerpt_for_display ?? \Illuminate\Support\Str::limit(strip_tags($post->body_html ?? ''), 160)));
 
+    // SEO package
     $seo = [
-        'title'       => 'Rally Blog | News, Articles & Event Coverage – Compromised Internals',
-        'description' => 'Explore the Compromised Internals Rally Blog: news, site updates, and community posts on travel, WRC live threads, sim racing, photography, and more – all in one hub.',
-        'url'         => $pageNum > 1
-                         ? route('blog.index', ['page' => $pageNum])
-                         : route('blog.index'),
-        'image'       => asset('images/default-post.png'),
-        'index'       => $pageNum === 1 ? 'index,follow' : 'noindex,follow',
+        'title'       => "{$title} | Rally Blog – Compromised Internals",
+        'description' => $desc,
+        'url'         => $url,
+        'image'       => $image,
+        'index'       => 'index,follow',
     ];
 
+    // JSON-LD Article
     $ld = [
-        '@context'    => 'https://schema.org',
-        '@type'       => 'CollectionPage',
-        'url'         => $seo['url'],
-        'name'        => 'Rally Blog',
-        'description' => $seo['description'],
-        'isPartOf'    => [
-            '@type' => 'WebSite',
-            'name'  => 'Compromised Internals',
-            'url'   => url('/'),
+        '@context'       => 'https://schema.org',
+        '@type'          => 'Article',
+        'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $url],
+        'headline'       => $title,
+        'image'          => [$image],
+        'datePublished'  => optional($post->published_at ?? $post->created_at)->toIso8601String(),
+        'dateModified'   => optional($post->updated_at)->toIso8601String(),
+        'author'         => [
+            '@type' => 'Person',
+            'name'  => $post->user?->name ?? 'Unknown',
+            'url'   => $post->user ? route('profile.public', $post->user->id) : null,
         ],
+        'publisher'      => [
+            '@type' => 'Organization',
+            'name'  => 'Compromised Internals',
+            'logo'  => ['@type' => 'ImageObject', 'url' => asset('images/ci-og.png')],
+        ],
+        'description'    => $desc,
     ];
 @endphp
 
 @push('head')
-    {{-- Canonical + robots --}}
-    <link rel="canonical" href="{{ route('blog.index') }}">
+    {{-- robots + canonical --}}
     <meta name="robots" content="{{ $seo['index'] }}">
+    <link rel="canonical" href="{{ $seo['url'] }}">
 
-    {{-- Rel prev/next for pagination --}}
-    @if($isPaginated)
-        @if($posts->previousPageUrl())
-            <link rel="prev" href="{{ $posts->previousPageUrl() }}">
-        @endif
-        @if($posts->nextPageUrl())
-            <link rel="next" href="{{ $posts->nextPageUrl() }}">
-        @endif
-    @endif
-
-    {{-- Basic Meta --}}
+    {{-- Basic --}}
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
 
     {{-- Open Graph --}}
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
     <meta property="og:site_name" content="Compromised Internals">
-    <meta property="og:locale" content="en_US">
     <meta property="og:url" content="{{ $seo['url'] }}">
     <meta property="og:title" content="{{ $seo['title'] }}">
     <meta property="og:description" content="{{ $seo['description'] }}">
@@ -63,7 +63,7 @@
     <meta name="twitter:description" content="{{ $seo['description'] }}">
     <meta name="twitter:image" content="{{ $seo['image'] }}">
 
-    {{-- Structured Data --}}
+    {{-- JSON-LD --}}
     <script type="application/ld+json">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
