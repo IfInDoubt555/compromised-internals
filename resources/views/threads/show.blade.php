@@ -83,12 +83,11 @@
         </div>
     </div>
 
-    {{-- Thread body --}}
+    {{-- Thread body (READ MODE) --}}
     <article class="prose max-w-none rounded-xl border border-gray-200 bg-white/80 p-6 shadow
-                    dark:bg-stone-900/70 dark:border-white/10">
-        {{-- Read mode --}}
+                    dark:prose-invert dark:bg-stone-900/70 dark:border-white/10">
         <div x-show="!editing" x-cloak>
-            <div class="text-gray-800 dark:text-stone-200 whitespace-pre-line" x-text="body"></div>
+            {!! $thread->body_html !!} {{-- uses Thread::getBodyHtmlAttribute() --}}
         </div>
 
         {{-- Edit mode: body textarea --}}
@@ -98,7 +97,7 @@
                       class="w-full rounded border border-gray-300 bg-white p-3 focus:outline-none focus:ring
                              dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-100 dark:placeholder-stone-500"></textarea>
             <p class="mt-2 text-xs text-gray-500 dark:text-stone-500">
-                Tip: Use <code>Shift+Enter</code> for new lines.
+                Markdown supported. Tip: <code>Shift+Enter</code> for new lines.
             </p>
         </div>
         @endcan
@@ -140,7 +139,7 @@
             @forelse($thread->replies as $reply)
                 <div class="rounded-xl border border-gray-200 bg-white/80 p-4 shadow
                             dark:bg-stone-900/70 dark:border-white/10"
-                     x-data="{ editing:false, body:`{{ addslashes($reply->body) }}` }">
+                     x-data="{ editing:false, body:@js($reply->body) }">
                     <div class="flex items-center justify-between">
                         <p class="text-xs text-gray-500 dark:text-stone-500">
                             <span class="font-semibold text-gray-700 dark:text-stone-300">
@@ -164,10 +163,12 @@
 
                     {{-- Body / edit field --}}
                     <div class="mt-2">
-                        <p x-show="!editing"
-                           class="text-sm text-gray-800 dark:text-stone-200 whitespace-pre-line"
-                           x-text="body"></p>
+                        {{-- READ mode (Markdown-rendered) --}}
+                        <div x-show="!editing" x-cloak class="prose dark:prose-invert">
+                            {!! $reply->body_html !!} {{-- requires Reply::getBodyHtmlAttribute() --}}
+                        </div>
 
+                        {{-- EDIT mode --}}
                         @if(auth()->check() && auth()->id() === $reply->user_id)
                         <form x-show="editing" method="POST" action="{{ route('replies.update', $reply) }}" class="mt-2 space-y-2">
                             @csrf
@@ -175,6 +176,7 @@
                             <textarea name="body" x-model="body" rows="4"
                                       class="w-full rounded border border-gray-300 bg-white p-2
                                              dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-100" required></textarea>
+                            <p class="text-xs text-gray-500 dark:text-stone-500">Markdown supported.</p>
                             <div class="flex gap-2">
                                 <button class="rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600">✔️ Update</button>
                                 <button type="button" @click="editing=false"

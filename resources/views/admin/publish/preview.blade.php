@@ -26,7 +26,7 @@
 
   <article class="prose dark:prose-invert">
     {{-- If you convert Markdown to HTML elsewhere, render that here. Otherwise fallback to escaped text. --}}
-    {!! $post->body_html ?? nl2br(e($post->body)) !!}
+    {!! $post->body_html !!}
   </article>
 </div>
 @endsection

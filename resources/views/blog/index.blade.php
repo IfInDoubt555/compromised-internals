@@ -140,11 +140,11 @@
 
                       @can('update', $post)
                         <div class="flex items-center gap-4 text-xs sm:text-sm">
-                          <a href="{{ route('posts.edit', $post) }}" class="font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">✏️ Edit</a>
+                          <a href="{{ route('posts.edit', $post) }}" class="font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">Edit</a>
                           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this post?');">
                             @csrf @method('DELETE')
-                            <button type="submit" class="font-semibold text-red-600 dark:text-red-400 hover:underline">🗑️ Delete</button>
+                            <button type="submit" class="font-semibold text-red-600 dark:text-red-400 hover:underline">Delete</button>
                           </form>
                         </div>
                       @endcan

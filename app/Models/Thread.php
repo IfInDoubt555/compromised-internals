@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\MarkdownConverter;
+
 class Thread extends Model
 {
     protected $fillable = [
@@ -31,6 +35,22 @@ class Thread extends Model
             'scheduled_for'    => 'datetime',
             'published_at'     => 'datetime',
         ];
+    }
+
+    public function getBodyHtmlAttribute(): string
+    {
+        static $converter = null;
+    
+        if ($converter === null) {
+            $env = new Environment([
+                'html_input'         => 'allow',
+                'allow_unsafe_links' => false,
+            ]);
+            $env->addExtension(new CommonMarkCoreExtension());
+            $converter = new MarkdownConverter($env);
+        }
+    
+        return $converter->convert((string) $this->body)->getContent();
     }
 
     /** ---------- Scopes ---------- */

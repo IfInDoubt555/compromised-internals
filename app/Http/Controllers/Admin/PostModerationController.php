@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Post;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 use App\Models\Board;
+use App\Models\Post;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostModerationController extends Controller
 {
@@ -25,75 +26,92 @@ class PostModerationController extends Controller
     {
         $boards = Board::orderBy('name')->get();
 
-        return view('admin.posts.edit', [
-            'post'   => $post,
-            'boards' => $boards,
-        ]);
+        return view('admin.posts.edit', compact('post', 'boards'));
     }
 
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
-            'title'         => ['required','string','max:255'],
-            'slug'          => ['nullable','string','max:255'],
-            'excerpt'       => ['nullable','string'],
-            'body'          => ['required','string'],
-            'board_id'      => ['nullable','exists:boards,id'],
-            'status'        => ['required','in:draft,scheduled,published'],
-            'scheduled_for' => ['nullable','date'],
+            'title'        => ['required', 'string', 'max:255'],
+            'slug'         => ['nullable', 'string', 'max:255'],
+            'excerpt'      => ['nullable', 'string', 'max:160'],
+            'body'         => ['required', 'string', 'max:20000'],
+            'board_id'     => ['nullable', 'exists:boards,id'],
+            'status'       => ['required', 'in:draft,scheduled,published'],
+            'published_at' => ['nullable', 'date'], // local time from datetime-local
         ]);
 
-        // normalize schedule → UTC
-        $scheduled = $data['scheduled_for'] ?? null;
-        if ($scheduled) {
-            $scheduled = Carbon::parse($scheduled, config('app.timezone'))->utc();
+        // Slug: prefer provided, else from title
+        $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
+
+        // Normalize published_at to UTC if present
+        $publishedAtUtc = null;
+        if (!empty($data['published_at'])) {
+            $publishedAtUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
         }
 
-        // derive timestamps from status
+        // Derive timestamps from status
         if ($data['status'] === 'published') {
-            $data['published_at']  = now()->utc();
-            $data['scheduled_for'] = null;
+            // If no date provided, publish immediately
+            $publishedAtUtc = $publishedAtUtc ?: now()->utc();
         } elseif ($data['status'] === 'scheduled') {
-            $data['scheduled_for'] = $scheduled;
-            $data['published_at']  = null;
+            // Require a future datetime
+            $request->validate([
+                'published_at' => ['required', 'date'],
+            ]);
+            $publishedAtUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
         } else { // draft
-            $data['scheduled_for'] = null;
-            $data['published_at']  = null;
+            $publishedAtUtc = null;
         }
 
-        $post->fill($data)->save();
+        // Persist (mirror legacy columns for BC)
+        $post->forceFill([
+            'title'         => $data['title'],
+            'slug'          => $slug,
+            'excerpt'       => $data['excerpt'] ?? null,
+            'body'          => $data['body'],
+            'board_id'      => $data['board_id'] ?? null,
+            'status'        => $data['status'],
+            'published_at'  => $publishedAtUtc,
+            'scheduled_for' => $publishedAtUtc, // legacy mirror
+            'publish_status'=> $data['status'], // legacy mirror
+        ])->save();
 
         return redirect()
-            ->route('admin.posts.edit', $post)
+            ->route('admin.publish.index')
             ->with('status', 'Post saved.');
     }
 
-    public function approve($post)
+    public function approve(Post $post)
     {
-        $post = Post::findOrFail($post);
-
         // Only process pending; otherwise no-op
         if ($post->status !== 'pending') {
             return back()->with('info', 'This post is already processed.');
         }
 
-        if ($post->scheduled_for && $post->scheduled_for->isFuture()) {
+        // If a future publish_at exists -> scheduled; else publish now
+        if ($post->published_at && $post->published_at->isFuture()) {
             $post->status = 'scheduled';
         } else {
-            $post->status       = 'published';
-            $post->published_at = now()->utc();
-            $post->scheduled_for = null;
+            $post->status        = 'published';
+            $post->published_at  = now()->utc();
         }
+
+        // Legacy mirrors
+        $post->scheduled_for  = $post->published_at;
+        $post->publish_status = $post->status;
 
         $post->save();
 
         return back()->with('success', 'Post approved.');
     }
 
-    public function reject($post)
+    public function reject(Post $post)
     {
-        $post = Post::findOrFail($post);
-        $post->update(['status' => 'rejected']);
+        $post->forceFill([
+            'status'         => 'rejected',
+            'publish_status' => 'rejected', // legacy mirror
+        ])->save();
 
         return back()->with('success', 'Post rejected.');
     }

@@ -13,6 +13,10 @@ use App\Models\User;
 use App\Models\Board;
 use App\Models\Tag;
 
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\MarkdownConverter;
+
 class Post extends Model
 {
     use HasFactory;
@@ -43,6 +47,26 @@ class Post extends Model
     /** ---------- Relations ---------- */
     public function user()  { return $this->belongsTo(User::class); }
     public function board() { return $this->belongsTo(Board::class); }
+
+    public function getBodyHtmlAttribute(): string
+    {
+        /** @var MarkdownConverter|null $converter */
+        static $converter = null;
+    
+        if ($converter === null) {
+            $config = [
+                'html_input'         => 'allow', // allow <u>, <a>, etc.
+                'allow_unsafe_links' => false,
+            ];
+        
+            $environment = new Environment($config);
+            $environment->addExtension(new CommonMarkCoreExtension());
+        
+            $converter = new MarkdownConverter($environment);
+        }
+    
+        return $converter->convert((string) $this->body)->getContent();
+    }
 
     public function likes()
     {

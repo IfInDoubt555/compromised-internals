@@ -4,50 +4,66 @@
 <div class="max-w-4xl mx-auto px-4 py-8 space-y-6">
   <h1 class="ci-title-lg">Edit Post</h1>
 
-  <form method="POST" action="{{ route('admin.posts.update', $post) }}" class="ci-admin-card p-6 space-y-6">
+  <form method="POST" action="{{ route('admin.posts.update', $post) }}" class="ci-admin-card p-6 space-y-6"
+        x-data="{ bodyCount: {{ strlen(old('excerpt', $post->excerpt ?? '')) }} }">
     @csrf @method('PUT')
 
     {{-- Title --}}
     <div>
-      <label class="ci-label mb-1">Title</label>
-      <input name="title" class="ci-input"
-             value="{{ old('title', $post->title) }}" required>
+      <label for="title" class="ci-label mb-1">Title</label>
+      <input id="title" name="title" class="ci-input" value="{{ old('title', $post->title) }}" required>
+      @error('title') <p class="ci-error">{{ $message }}</p> @enderror
     </div>
 
     {{-- Slug + Board --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
-        <label class="ci-label mb-1">Slug (optional)</label>
-        <input name="slug" class="ci-input"
-               value="{{ old('slug', $post->slug) }}">
+        <label for="slug" class="ci-label mb-1">Slug (optional)</label>
+        <input id="slug" name="slug" class="ci-input" value="{{ old('slug', $post->slug) }}">
+        @error('slug') <p class="ci-error">{{ $message }}</p> @enderror
       </div>
       <div>
-        <label class="ci-label mb-1">Board (optional)</label>
-        <select name="board_id" class="ci-select">
+        <label for="board_id" class="ci-label mb-1">Board (optional)</label>
+        <select id="board_id" name="board_id" class="ci-select">
           <option value="">— None —</option>
           @foreach($boards as $b)
             <option value="{{ $b->id }}" @selected(old('board_id',$post->board_id)===$b->id)>{{ $b->name }}</option>
           @endforeach
         </select>
+        @error('board_id') <p class="ci-error">{{ $message }}</p> @enderror
       </div>
     </div>
 
-    {{-- Excerpt --}}
+    {{-- Excerpt (matches posts.edit) --}}
     <div>
-      <label class="ci-label mb-1">Excerpt</label>
-      <textarea name="excerpt" rows="2" class="ci-textarea">{{ old('excerpt',$post->excerpt) }}</textarea>
+      <label for="excerpt" class="ci-label mb-1">Excerpt</label>
+      <textarea
+        id="excerpt"
+        name="excerpt"
+        rows="2"
+        maxlength="160"
+        class="ci-textarea"
+        x-on:input="bodyCount = $event.target.value.length"
+      >{{ old('excerpt', $post->excerpt) }}</textarea>
+      <div class="mt-1 flex items-center justify-between">
+        <p class="text-xs text-gray-500 dark:text-stone-400">Max 160 characters.</p>
+        <p class="text-xs text-gray-500 dark:text-stone-400" x-text="`${bodyCount}/160`"></p>
+      </div>
+      @error('excerpt') <p class="ci-error">{{ $message }}</p> @enderror
     </div>
 
     {{-- Body --}}
     <div>
-      <label class="ci-label mb-1">Body</label>
-      <textarea name="body" rows="10" class="ci-textarea" required>{{ old('body',$post->body) }}</textarea>
+      <label for="body" class="ci-label mb-1">Body</label>
+      <textarea id="body" name="body" rows="12" class="ci-textarea" required>{{ old('body',$post->body) }}</textarea>
+      @error('body') <p class="ci-error">{{ $message }}</p> @enderror
     </div>
 
-    {{-- Scheduling UI --}}
-    @include('admin.partials.scheduling', ['model' => $post, 'field' => 'publish_status'])
+    {{-- Scheduling (status + published_at) --}}
+    @include('admin.partials.scheduling', ['model' => $post])
 
-    <div class="flex justify-end">
+    <div class="flex justify-end gap-3">
+      <a href="{{ url()->previous() }}" class="ci-btn-secondary">Cancel</a>
       <button class="ci-btn-primary">Save</button>
     </div>
   </form>
