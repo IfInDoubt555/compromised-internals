@@ -32,7 +32,11 @@
   {{-- Discussion Boards --}}
   <section class="ci-card p-4">
     @php
-      $boards = \App\Models\Board::orderBy('position')->withCount('threads')->get();
+      /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Board> $boards */
+      $boards = \App\Models\Board::query()
+          ->withCount('threads')
+          ->orderBy('position')
+          ->get();      
       $palette = [
           'slate'=>'bg-slate-500','red'=>'bg-red-500','amber'=>'bg-amber-500','green'=>'bg-green-500',
           'indigo'=>'bg-indigo-500','orange'=>'bg-orange-500','cyan'=>'bg-cyan-500','purple'=>'bg-purple-500',

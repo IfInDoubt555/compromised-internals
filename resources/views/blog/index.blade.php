@@ -75,12 +75,16 @@
   @endauth
 
   {{-- MOBILE: sticky tools (Search + Discussion Boards) under the nav --}}
-  {{-- Assumes nav height ~64px; adjust top- value if your nav differs --}}
   <div class="lg:hidden sticky top-16 z-40">
     <div class="ci-card px-4 py-3 ring-1 ring-black/5 dark:ring-white/10
                 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-stone-900/60">
-      @include('partials.blog-sidebar') {{-- renders search + boards; keep this minimal in the partial --}}
+      @include('partials.blog-sidebar')
     </div>
+  </div>
+
+  {{-- MOBILE: Hot Right Now (separate, NOT sticky) --}}
+  <div class="lg:hidden mt-4">
+    @include('partials.blog-hot-right-now', ['items' => $hotPosts ?? [], 'limit' => 3])
   </div>
 
   {{-- DESKTOP layout: sidebar + main --}}
@@ -89,6 +93,11 @@
     <aside class="hidden lg:block sticky top-[110px] self-start">
       <div class="max-h-[calc(100vh-110px-24px)] overflow-y-auto pr-2">
         @include('partials.blog-sidebar')
+
+        {{-- Desktop: Hot Right Now inside the sidebar (scrolls within the sidebar) --}}
+        <div class="mt-4">
+          @include('partials.blog-hot-right-now', ['items' => $hotPosts ?? [], 'limit' => 3])
+        </div>
       </div>
     </aside>
 
