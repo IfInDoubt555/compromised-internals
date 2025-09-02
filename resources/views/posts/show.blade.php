@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 @php
-    // add this line (so $author exists everywhere in the view)
     $author = $post->user;
 
-    $title   = $post->title;
-    $url     = route('posts.show', $post->slug);
-    $image   = $post->thumbnail_url ?? asset('images/default-post.png');
-    $desc    = trim((string)($post->excerpt_for_display ?? \Illuminate\Support\Str::limit(strip_tags($post->body_html ?? ''), 160)));
+    $title = $post->title;
+    $url   = route('posts.show', $post->slug);
+    $image = $post->thumbnail_url ?? asset('images/default-post.png');
+    $desc  = trim((string)($post->excerpt_for_display ?? \Illuminate\Support\Str::limit(strip_tags($post->body_html ?? ''), 160)));
 
     $seo = [
         'title'       => "{$title} | Rally Blog – Compromised Internals",
@@ -17,39 +16,35 @@
         'index'       => 'index,follow',
     ];
 
-    // JSON-LD Article
     $ld = [
-        '@context'       => 'https://schema.org',
-        '@type'          => 'Article',
+        '@context' => 'https://schema.org',
+        '@type'    => 'Article',
         'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => $url],
-        'headline'       => $title,
-        'image'          => [$image],
-        'datePublished'  => optional($post->published_at ?? $post->created_at)->toIso8601String(),
-        'dateModified'   => optional($post->updated_at)->toIso8601String(),
-        'author'         => [
+        'headline'  => $title,
+        'image'     => [$image],
+        'datePublished' => optional($post->published_at ?? $post->created_at)->toIso8601String(),
+        'dateModified'  => optional($post->updated_at)->toIso8601String(),
+        'author'    => [
             '@type' => 'Person',
             'name'  => $post->user?->name ?? 'Unknown',
             'url'   => $post->user ? route('profile.public', $post->user->id) : null,
         ],
-        'publisher'      => [
+        'publisher' => [
             '@type' => 'Organization',
             'name'  => 'Compromised Internals',
             'logo'  => ['@type' => 'ImageObject', 'url' => asset('images/ci-og.png')],
         ],
-        'description'    => $desc,
+        'description' => $desc,
     ];
 @endphp
 
 @push('head')
-    {{-- robots + canonical --}}
     <meta name="robots" content="{{ $seo['index'] }}">
     <link rel="canonical" href="{{ $seo['url'] }}">
 
-    {{-- Basic --}}
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
 
-    {{-- Open Graph --}}
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Compromised Internals">
     <meta property="og:url" content="{{ $seo['url'] }}">
@@ -57,14 +52,12 @@
     <meta property="og:description" content="{{ $seo['description'] }}">
     <meta property="og:image" content="{{ $seo['image'] }}">
 
-    {{-- Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ $seo['url'] }}">
     <meta name="twitter:title" content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
     <meta name="twitter:image" content="{{ $seo['image'] }}">
 
-    {{-- JSON-LD --}}
     <script type="application/ld+json">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
@@ -119,19 +112,12 @@
   <div class="flex flex-wrap items-center gap-3">
 
     {{-- Author chip --}}
-    @php($author = $post->user)
-
     <a href="{{ $author ? route('profile.public', $author->id) : '#' }}"
        class="group inline-flex items-center gap-3 rounded-xl border px-3 py-2
               bg-white/80 text-gray-900 border-gray-200 shadow-sm
               hover:bg-white hover:shadow
               dark:bg-stone-900/70 dark:text-stone-100 dark:border-white/10">
-      {{-- IMPORTANT: make avatar request widths we actually generate (160/320) --}}
-      <x-user-avatar 
-          :path="$author?->profile_picture" 
-          :alt="$author?->name ?? 'User'" 
-          :size="32" 
-          class="w-8 h-8" />
+      <x-user-avatar :path="$author?->profile_picture" :alt="$author?->name ?? 'User'" :size="32" class="w-8 h-8" />
       <div class="leading-tight">
         <div class="text-sm font-semibold group-hover:underline">
           {{ $author?->name ?? 'Deleted user' }}
@@ -145,7 +131,6 @@
     {{-- Actions --}}
     <div class="order-3 w-full sm:order-none sm:w-auto">
       <div class="flex flex-wrap items-center gap-2">
-        {{-- Like --}}
         <form method="POST" action="{{ route('posts.like', $post) }}">
           @csrf
           <button type="submit"
@@ -159,11 +144,9 @@
         </form>
 
         @can('update', $post)
-          <a href="{{ route('posts.edit', $post) }}"
-             class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
+          <a href="{{ route('posts.edit', $post) }}" class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
             Edit
           </a>
-
           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                 onsubmit="return confirm('Are you sure you want to delete this post?');">
             @csrf
@@ -201,13 +184,13 @@
 </div>
 
 {{-- Tags --}}
-@if(method_exists($post, 'tags') && $post->tags->count())
+@if (method_exists($post, 'tags') && $post->tags->count())
   <div class="max-w-5xl mx-auto px-4 mb-10">
     <div class="max-w-4xl mx-auto rounded-xl border border-gray-200 bg-white/80 p-4 shadow
                 dark:bg-stone-900/70 dark:border-white/10">
       <h3 class="text-sm font-semibold mb-3 text-gray-900 dark:text-stone-100">Tags</h3>
       <div class="flex flex-wrap gap-2">
-        @foreach($post->tags as $tag)
+        @foreach ($post->tags as $tag)
           <a href="{{ route('blog.index', ['tag' => $tag->slug]) }}"
              class="text-xs px-2 py-1 rounded-lg border bg-gray-100 border-gray-300 text-gray-800
                     hover:underline
@@ -223,7 +206,6 @@
 {{-- Comments --}}
 <div class="max-w-5xl mx-auto px-4 mb-12">
   <div class="max-w-4xl mx-auto">
-
     @if ($errors->has('body'))
       <div class="mt-2 flex items-start gap-2 animate-fade-in rounded-md border border-red-500 bg-red-100 dark:bg-red-900 px-4 py-3 text-sm font-medium text-red-800 dark:text-red-200 shadow-md">
         <span class="text-lg">⚠️</span>
@@ -259,7 +241,6 @@
         @foreach ($post->comments as $comment)
           <div class="rounded-lg shadow p-4 border border-gray-200 bg-gray-300 dark:bg-stone-900/60 dark:border-white/10 dark:text-stone-200"
                x-data="{ editing: false, body: @js($comment->body) }">
-
             <div class="flex items-center justify-between mb-2">
               <div class="text-sm font-semibold text-gray-800 dark:text-stone-100">
                 {{ $comment->user->name }}
@@ -302,7 +283,6 @@
                   Edit
                 </button>
               @endcan
-
               @can('delete', $comment)
                 <form action="{{ route('comments.destroy', $comment) }}" method="POST"
                       onsubmit="return confirm('Delete this comment?')">
