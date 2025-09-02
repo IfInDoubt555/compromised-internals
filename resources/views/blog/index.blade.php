@@ -78,8 +78,8 @@
   <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8 items-start">
 
     {{-- Sidebar column (sticky on inner wrapper) --}}
-    <aside class="self-start">
-      <div class="lg:sticky lg:top-[110px] max-h-[calc(100vh-110px-24px)] overflow-auto">
+    <aside class="sticky top-[110px] self-start">
+      <div class="max-h-[calc(100vh-110px-24px)] overflow-y-auto pr-2">
         @include('partials.blog-sidebar')
       </div>
     </aside>
