@@ -1,18 +1,18 @@
 @props(['model','namePrefix' => '', 'field' => 'status'])
 
 @php
-  // Current status value (defaults to draft)
+  // Current status (fallback to draft)
   $current = old($namePrefix.$field, $model->{$field} ?? 'draft');
 
-  // Localized datetime-local value for scheduling (uses published_at as the canonical time)
-  $publishAtLocal = old(
-      $namePrefix.'published_at',
-      optional($model->published_at)
+  // Build the datetime-local value safely
+  $publishAtLocal = old($namePrefix.'published_at');
+  if (!$publishAtLocal && ($model->published_at ?? null)) {
+      $publishAtLocal = $model->published_at
           ? $model->published_at->timezone(config('app.timezone'))->format('Y-m-d\TH:i')
-          : null
-  );
+          : null;
+  }
 
-  // For convenience, "now" in app timezone (optional min attr)
+  // For the min attribute
   $nowLocal = now()->timezone(config('app.timezone'))->format('Y-m-d\TH:i');
 @endphp
 
@@ -31,7 +31,6 @@
     </label>
 
     <label class="inline-flex items-center gap-2">
-      {{-- keep value "published" to match controller validation --}}
       <input type="radio" name="{{ $namePrefix.$field }}" value="published" x-model="status">
       <span>Publish now</span>
     </label>
@@ -44,15 +43,15 @@
       id="{{ $namePrefix }}published_at"
       type="datetime-local"
       name="{{ $namePrefix }}published_at"
-      class="ci-input"
+      class="ci-input w-64"
       value="{{ $publishAtLocal }}"
       min="{{ $nowLocal }}"
       x-bind:required="status === 'scheduled'"
     >
-    <p class="ci-help mt-1">This will be saved in UTC ({{ config('app.timezone') }} → UTC).</p>
+    <p class="ci-help mt-1">Saved in UTC ({{ config('app.timezone') }} → UTC).</p>
   </div>
 
-  @if(!empty($model->published_at))
+  @if($model->published_at)
     <p class="ci-help">
       Currently set publish time:
       {{ $model->published_at->timezone(config('app.timezone'))->format('Y-m-d H:i') }}
