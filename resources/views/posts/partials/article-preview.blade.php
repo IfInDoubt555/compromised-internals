@@ -20,8 +20,9 @@
     <img
       src="{{ $post->image_url }}"
       alt="{{ $post->title }}"
-      class="w-full h-auto object-cover aspect-[16/9] sm:aspect-[2/1]"
+      class="w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]"
       loading="lazy"
+      decoding="async"
     />
   </figure>
 
@@ -30,7 +31,7 @@
     @if($isPreview && $post->status !== 'published')
       <span class="ml-2 align-middle text-xs font-semibold px-2 py-1 rounded-md
                    bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
-        {{ Str::title($post->status ?? 'draft') }} preview
+        {{ \Illuminate\Support\Str::title($post->status ?? 'draft') }} preview
       </span>
     @endif
   </h1>

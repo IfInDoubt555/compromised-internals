@@ -9,29 +9,29 @@
 ])
 
 @php
-  $isFeatured = $variant === 'featured';
-  $isCompact  = $variant === 'compact';
-  $isList     = $variant === 'list';
+  $variant = $variant ?? 'compact';
 
-  $thumbCol   = ($isCompact || $isList) ? 'sm:grid-cols-[160px_1fr]' : 'sm:grid-cols-[220px_1fr]';
-  $imgClass   = 'h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]';
-  $articleCls = $isList
-      ? 'group px-4 sm:px-5 py-4 hover:bg-white/60 dark:hover:bg-stone-800/50 transition'
-      : 'group ci-card p-4 sm:p-5 transition '.($isFeatured ? 'hover:shadow-xl' : 'hover:shadow-lg');
- @endphp
+  // wider banner for featured, boxier for list
+  $thumbAspect = match($variant) {
+      'featured' => 'aspect-[2/1] xl:aspect-[21/9]',   // WIDER
+      'compact'  => 'aspect-[16/10]',                  // LIST CARD
+      default    => 'aspect-[16/10]',
+  };
 
-<article class="{{ $articleCls }}">
-  <div class="grid {{ $thumbCol }} gap-5 items-start">
-    {{-- Thumbnail --}}
-    <a href="{{ route('posts.show', $post->slug) }}"
-       class="block overflow-hidden rounded-xl {{ $isList ? '' : 'ring-1 ring-stone-900/5 dark:ring-white/10' }}">      <div class="aspect-[16/10]">
-        <img
-          src="{{ $post->thumbnail_url }}"
-          alt="{{ $post->title }}"
-          loading="lazy"
-          class="{{ $imgClass }}" />
-      </div>
-    </a>
+  // shared image classes
+  $imgClass = 'w-full h-full object-cover';
+@endphp
+
+<article {{ $attributes->class([
+  'rounded-2xl overflow-hidden ring-1 ring-black/5 shadow dark:ring-white/10 bg-white/90 dark:bg-stone-900/70'
+]) }}>
+  {{-- Thumb --}}
+  <div class="{{ $thumbAspect }}">
+    <img src="{{ $post->thumbnail_url ?? asset('images/default-post.png') }}"
+         alt="{{ $post->title }}"
+         class="{{ $imgClass }}"
+         loading="lazy">
+  </div>
 
     {{-- Text --}}
     <div>
