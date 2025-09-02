@@ -73,5 +73,5 @@
         </ul>
     @else
         <p class="text-sm ci-muted">Nothing trending right now.</p>
-    @endif>
+    @endif
 </div>
