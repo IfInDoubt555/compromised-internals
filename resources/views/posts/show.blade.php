@@ -223,6 +223,7 @@
 {{-- Comments --}}
 <div class="max-w-5xl mx-auto px-4 mb-12">
   <div class="max-w-4xl mx-auto">
+
     @if ($errors->has('body'))
       <div class="mt-2 flex items-start gap-2 animate-fade-in rounded-md border border-red-500 bg-red-100 dark:bg-red-900 px-4 py-3 text-sm font-medium text-red-800 dark:text-red-200 shadow-md">
         <span class="text-lg">⚠️</span>
@@ -258,6 +259,7 @@
         @foreach ($post->comments as $comment)
           <div class="rounded-lg shadow p-4 border border-gray-200 bg-gray-300 dark:bg-stone-900/60 dark:border-white/10 dark:text-stone-200"
                x-data="{ editing: false, body: @js($comment->body) }">
+
             <div class="flex items-center justify-between mb-2">
               <div class="text-sm font-semibold text-gray-800 dark:text-stone-100">
                 {{ $comment->user->name }}
@@ -300,6 +302,7 @@
                   Edit
                 </button>
               @endcan
+
               @can('delete', $comment)
                 <form action="{{ route('comments.destroy', $comment) }}" method="POST"
                       onsubmit="return confirm('Delete this comment?')">
@@ -318,6 +321,8 @@
     @else
       <p class="mt-6 mb-6 text-gray-500 italic dark:text-stone-400">No comments yet. Be the first to chime in!</p>
     @endif
+
   </div>
 </div>
+
 @endsection
