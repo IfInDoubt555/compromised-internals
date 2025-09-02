@@ -9,18 +9,17 @@
 ])
 
 @php
-  // Safe defaults so includes never explode
-  $variant     = $variant ?? 'default';
-  $isFeatured  = ($variant === 'featured');
+  /** @var \App\Models\Post $post */
+  $variant    = $variant ?? 'default';
+  $isFeatured = ($variant === 'featured');
 
-  // Wider banner for featured, boxier for list/default
+  // Wider banner for featured, boxier for others
   $thumbAspect = match ($variant) {
-      'featured' => 'aspect-[2/1] xl:aspect-[21/9]', // wider
-      'compact'  => 'aspect-[16/10]',                // small list
+      'featured' => 'aspect-[2/1] xl:aspect-[21/9]',
+      'compact'  => 'aspect-[16/10]',
       default    => 'aspect-[16/10]',
   };
 
-  // Shared image classes
   $imgClass = 'w-full h-full object-cover';
 @endphp
 
@@ -29,12 +28,31 @@
 ]) }}>
   {{-- Thumb --}}
   <div class="{{ $thumbAspect }}">
-    <img
-      src="{{ $post->thumbnail_url ?? asset('images/default-post.png') }}"
-      alt="{{ $post->title }}"
-      class="{{ $imgClass }}"
-      loading="lazy"
-    >
+    @php
+      $raw  = $post->thumbnail_url ?? asset('images/default-post.png');
+      $host = parse_url($raw, PHP_URL_HOST);
+      $sameHost = !$host || $host === request()->getHost();
+      // Cloudflare Image Resizing (only for same-host URLs)
+      $cf = function (int $w) use ($raw, $sameHost) {
+        return $sameHost
+          ? "/cdn-cgi/image/width={$w},quality=75,format=auto,fit=cover{$raw}"
+          : $raw; // fallback: leave as-is for external hosts
+      };
+      // Intrinsic size (helps CLS)
+      $intrinsicW = 1280; $intrinsicH = 800;
+    @endphp
+
+    <picture>
+      <source
+        srcset="{{ $cf(1600) }} 1600w, {{ $cf(1280) }} 1280w, {{ $cf(1024) }} 1024w, {{ $cf(768) }} 768w, {{ $cf(480) }} 480w"
+        sizes="(min-width:1024px) 768px, (min-width:640px) 600px, 100vw">
+      <img
+        src="{{ $cf(1024) }}"
+        alt="{{ $post->title }}"
+        width="{{ $intrinsicW }}" height="{{ $intrinsicH }}"
+        class="{{ $imgClass }}"
+        loading="lazy" decoding="async" fetchpriority="low">
+    </picture>
   </div>
 
   {{-- Text --}}
@@ -52,7 +70,8 @@
       </time>
     </div>
 
-    <h2 class="mt-2 {{ $isFeatured ? 'ci-title-xl' : 'ci-title-lg' }} leading-snug">
+    {{-- (3) Clamp title in featured to keep carousel/card height consistent --}}
+    <h2 class="mt-2 {{ $isFeatured ? 'ci-title-xl' : 'ci-title-lg' }} leading-snug {{ $variant === 'featured' ? 'line-clamp-2' : '' }}">
       <a href="{{ route('posts.show', $post->slug) }}" class="underline-offset-4 hover:underline">
         {{ $post->title }}
       </a>
@@ -68,7 +87,7 @@
         Read article
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
           <path d="M13.5 4.5 21 12l-7.5 7.5-1.06-1.06L18.88 12l-6.44-6.44 1.06-1.06Z"/>
-          <path d="M3 12h15v1.5H3z"/>
+          <path d="M3 12h15v1.5H3z" />
         </svg>
       </a>
 
