@@ -2,6 +2,9 @@
 
 @php
     $author = $post->user;
+    // SAFE defaults so the view never explodes
+    $liked = $liked ?? (auth()->check() && $post->likes()->where('user_id', auth()->id())->exists());
+    $btn   = $btn   ?? 'inline-flex items-center gap-2 rounded-lg px-3 py-2 ring-1 ring-black/5 dark:ring-white/10 bg-white/80 dark:bg-stone-800/60 text-sm font-semibold text-stone-800 dark:text-stone-100 hover:bg-white hover:shadow';
 
     $title = $post->title;
     $url   = route('posts.show', $post->slug);
@@ -128,7 +131,7 @@
       </div>
     </a>
 
-    {{-- Actions --}}
+    {{-- Actions (Like / Edit / Delete) --}}
     <div class="order-3 w-full sm:order-none sm:w-auto">
       <div class="flex flex-wrap items-center gap-2">
         @auth
@@ -137,29 +140,24 @@
             <button type="submit"
                     aria-pressed="{{ $liked ? 'true' : 'false' }}"
                     title="{{ $liked ? 'Unlike' : 'Like' }}"
-                    class="inline-flex items-center gap-2 rounded-lg px-3 py-2 {{ $btn }}">
+                    class="{{ $btn }}">
               {{ $post->likes()->count() }}
               <span>{{ $liked ? 'Unlike' : 'Like' }}</span>
             </button>
           </form>
         @else
-          <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-lg px-3 py-2 {{ $btn }}">
+          <a href="{{ route('login') }}" class="{{ $btn }}">
             {{ $post->likes()->count() }}
             <span>Log in to like</span>
           </a>
         @endauth
-
+      
         @can('update', $post)
-          <a href="{{ route('posts.edit', $post) }}" class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
-            Edit
-          </a>
+          <a href="{{ route('posts.edit', $post) }}" class="{{ $btn }}">Edit</a>
           <form action="{{ route('posts.destroy', $post) }}" method="POST"
                 onsubmit="return confirm('Are you sure you want to delete this post?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="inline-flex items-center rounded-lg px-3 py-2 {{ $btn }}">
-              Delete
-            </button>
+            @csrf @method('DELETE')
+            <button type="submit" class="{{ $btn }}">Delete</button>
           </form>
         @endcan
       </div>
