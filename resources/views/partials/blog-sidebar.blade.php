@@ -1,3 +1,16 @@
+@props([
+    // When true, render ONLY Search + Discussion Boards (used for the mobile sticky tools bar)
+    'compact' => false,
+
+    // Render the Hot section from the extracted partial (OFF by default; we include it from index.blade.php)
+    'includeHot' => false,
+
+    // Data/config for the Hot partial when includeHot=true
+    'hotItems'  => [],
+    'hotLimit'  => 3,
+    'hotHeading'=> 'Hot Right Now',
+])
+
 <div class="space-y-6">
 
   {{-- Search --}}
@@ -22,8 +35,7 @@
                  outline-none focus:ring-2 focus:ring-sky-400/50 focus:border-sky-400"
         />
       </div>
-      <button
-        class="ci-btn-sky ring-1 ring-stone-900/5 dark:ring-white/10">
+      <button class="ci-btn-sky ring-1 ring-stone-900/5 dark:ring-white/10">
         Search
       </button>
     </div>
@@ -36,7 +48,8 @@
       $boards = \App\Models\Board::query()
           ->withCount('threads')
           ->orderBy('position')
-          ->get();      
+          ->get();
+
       $palette = [
           'slate'=>'bg-slate-500','red'=>'bg-red-500','amber'=>'bg-amber-500','green'=>'bg-green-500',
           'indigo'=>'bg-indigo-500','orange'=>'bg-orange-500','cyan'=>'bg-cyan-500','purple'=>'bg-purple-500',
@@ -112,26 +125,16 @@
     </div>
   </section>
 
-  {{-- Recent threads --}}
-  <section class="ci-card p-4">
-    <h3 class="mb-3 text-base font-semibold ci-body">Hot Right Now</h3>
-    <ul class="space-y-3">
-      @foreach(\App\Models\Thread::latest('last_activity_at')->take(5)->get() as $t)
-        <li>
-          <a href="{{ route('threads.show', $t->slug) }}"
-             class="block rounded-xl p-3 transition
-                    bg-white/70 dark:bg-stone-800/60
-                    ring-1 ring-stone-900/5 dark:ring-white/10 hover:brightness-110">
-            <p class="line-clamp-2 text-sm font-medium ci-body">{{ $t->title }}</p>
-            <p class="mt-1 text-[11px] ci-muted">
-              {{ $t->board->name }} • {{ $t->last_activity_at?->diffForHumans() }}
-            </p>
-          </a>
-        </li>
-      @endforeach
-      @if(!\App\Models\Thread::exists())
-        <li class="text-sm ci-muted">No active threads yet.</li>
-      @endif
-    </ul>
-  </section>
+  {{-- Hot Right Now (rendered ONLY when explicitly requested; otherwise handled by index.blade.php) --}}
+  @unless($compact)
+    @if($includeHot)
+      <section class="ci-card p-4">
+        @include('partials.blog-hot-right-now', [
+            'items'   => $hotItems,
+            'limit'   => $hotLimit,
+            'heading' => $hotHeading,
+        ])
+      </section>
+    @endif
+  @endunless
 </div>
