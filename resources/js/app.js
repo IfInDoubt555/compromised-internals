@@ -1,6 +1,8 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
 import intersect from '@alpinejs/intersect';
+import focus from '@alpinejs/focus';
+
 
 import './stages';
 import initScrollControls from './scrollControls';
@@ -8,6 +10,7 @@ import initCalendar from './calendar';
 
 window.Alpine = Alpine;          // expose globally for console/tests
 Alpine.plugin(intersect);
+Alpine.plugin(focus);
 
 const prefersDark = () =>
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;

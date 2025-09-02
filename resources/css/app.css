@@ -12,6 +12,7 @@
   html {
     font-family: 'Orbitron', sans-serif;
     font-size: 16px;
+    [x-cloak]{ display:none !important; }
   }
 
   /* prevent any horizontal overflow globally */
