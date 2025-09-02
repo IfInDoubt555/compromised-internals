@@ -15,8 +15,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->take(6)->get();
-
+        $posts = Post::published()
+                ->with(['user:id,name,profile_picture', 'board:id,name,slug'])
+                ->orderByRaw('COALESCE(published_at, created_at) DESC')
+                ->limit(6)
+                ->get();
         // History spotlights (guaranteed non-null via placeholders)
         // Cache a bit so the home page isn't picking a new random on every hit
         $event  = Cache::remember('home.random_event',  now()->addMinutes(15), fn() => $this->pickRandomFromDecadeFiles('events'));

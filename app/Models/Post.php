@@ -193,6 +193,12 @@ class Post extends Model
         });
     }
 
+    public function scopeOrderForFeed(Builder $q): Builder
+    {
+        return $q->orderByRaw('COALESCE(published_at, created_at) DESC');
+    }
+
+
     /** ---------- Convenience ---------- */
     public function isLikedBy(?User $user)
     {
