@@ -76,8 +76,7 @@
 
   {{-- Layout: sidebar + main --}}
   <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8 items-start">
-
-    {{-- Sidebar column (sticky on inner wrapper) --}}
+    {{-- Sidebar (sticky; list scrolls inside) --}}
     <aside class="sticky top-[110px] self-start">
       <div class="max-h-[calc(100vh-110px-24px)] overflow-y-auto pr-2">
         @include('partials.blog-sidebar')
@@ -85,7 +84,7 @@
     </aside>
 
     {{-- Main --}}
-    <main>
+    <main class="min-w-0">
       @if($posts->count())
         <ul class="space-y-5">
           @foreach($posts as $post)

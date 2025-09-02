@@ -15,9 +15,14 @@
     [x-cloak]{ display:none !important; }
   }
 
-  /* prevent any horizontal overflow globally */
-  html, body {
-    overflow-x: hidden;
+  /* sticky-safe: never hide overflow on root */
+  @layer base {
+    html, body { overflow-x: visible; }
+  }
+  
+  /* use this on specific content wrappers that misbehave */
+  @layer utilities {
+    .no-x-scroll { overflow-x: clip; }
   }
 }
 
