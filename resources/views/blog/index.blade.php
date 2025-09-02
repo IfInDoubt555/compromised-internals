@@ -74,10 +74,19 @@
   </a>
   @endauth
 
-  {{-- Layout: sidebar + main --}}
-  <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8 items-start">
-    {{-- Sidebar (sticky; list scrolls inside) --}}
-    <aside class="sticky top-[110px] self-start">
+  {{-- MOBILE: sticky tools (Search + Discussion Boards) under the nav --}}
+  {{-- Assumes nav height ~64px; adjust top- value if your nav differs --}}
+  <div class="lg:hidden sticky top-16 z-40">
+    <div class="ci-card px-4 py-3 ring-1 ring-black/5 dark:ring-white/10
+                backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-stone-900/60">
+      @include('partials.blog-sidebar') {{-- renders search + boards; keep this minimal in the partial --}}
+    </div>
+  </div>
+
+  {{-- DESKTOP layout: sidebar + main --}}
+  <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8 items-start mt-6">
+    {{-- Sidebar (desktop only) --}}
+    <aside class="hidden lg:block sticky top-[110px] self-start">
       <div class="max-h-[calc(100vh-110px-24px)] overflow-y-auto pr-2">
         @include('partials.blog-sidebar')
       </div>
@@ -88,9 +97,7 @@
       @if($posts->count())
         <ul class="space-y-5">
           @foreach($posts as $post)
-            <li>
-              @include('partials.blog-post-card', ['post' => $post])
-            </li>
+            <li>@include('partials.blog-post-card', ['post' => $post])</li>
           @endforeach
         </ul>
       @else
