@@ -189,72 +189,65 @@
 
       {{-- HISTORY + NEXT RALLIES --}}
       <section class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-
         {{-- LEFT: History features --}}
         <div class="relative lg:col-span-2">
-          <!-- Light-only soft fade behind the heading -->
+          {{-- Light-only soft fade behind the heading (scoped to left col) --}}
           <div aria-hidden="true"
                class="pointer-events-none absolute inset-x-0 -top-2 h-12
                       rounded-t-2xl bg-gradient-to-b from-white/85 via-white/50 to-transparent
                       dark:from-transparent"></div>
-          
-          <h2 class="text-center font-orbitron tracking-wide
-                     text-xl sm:text-2xl lg:text-3xl font-semibold mb-2">
-            <span class="rounded-xl px-3 py-1
-                         bg-white/80 ring-1 ring-black/5 backdrop-blur-md text-stone-900
-                         dark:bg-transparent dark:ring-0 dark:text-stone-100">
-              History Features
-            </span>
-          </h2>
-          
-          <p class="mt-1 text-center">
-            <span class="text-sm rounded-full px-3 py-1
-                         bg-white/70 ring-1 ring-black/5 backdrop-blur-md text-stone-700
-                         dark:bg-transparent dark:ring-0 dark:text-stone-400">
-              Iconic events, machines, and drivers that shaped rally
-            </span>
-          </p>
-        </div>
-
+        
+          <header class="mb-4">
+            <h2 class="text-center font-orbitron tracking-wide text-xl sm:text-2xl lg:text-3xl font-semibold">
+              <span class="rounded-xl px-3 py-1 bg-white/80 ring-1 ring-black/5 backdrop-blur-md text-stone-900
+                           dark:bg-transparent dark:ring-0 dark:text-stone-100">
+                History Features
+              </span>
+            </h2>
+            <p class="mt-1 text-center">
+              <span class="text-sm rounded-full px-3 py-1 bg-white/70 ring-1 ring-black/5 backdrop-blur-md text-stone-700
+                           dark:bg-transparent dark:ring-0 dark:text-stone-400">
+                Iconic events, machines, and drivers that shaped rally
+              </span>
+            </p>
+          </header>
+        
           <div class="space-y-6">
             @if($event)
-              <article class="rounded-2xl bg-white/90 backdrop-blur shadow p-6 ring-1 ring-black/5 dark:bg-stone-800/70 dark:ring-white/10">
+              <article class="rounded-2xl bg-white/90 backdrop-blur shadow p-6 ring-1 ring-black/5
+                              dark:bg-stone-800/70 dark:ring-white/10">
                 <h3 class="font-orbitron text-2xl font-bold text-center">{{ $event['title'] ?? 'Untitled Event' }}</h3>
-                <p class="mt-3 text-center text-stone-700 dark:text-stone-300">
-                  {{ $event['bio'] ?? 'No description available.' }}
-                </p>
+                <p class="mt-3 text-center text-stone-700 dark:text-stone-300">{{ $event['bio'] ?? '' }}</p>
                 <div class="mt-4 text-center">
-                  <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $event['decade'], 'id' => $event['id']]) }}"
+                  <a href="{{ route('history.show', ['tab'=>'events','decade'=>$event['decade'],'id'=>$event       ['id']]) }}"
                      class="inline-flex items-center font-semibold text-blue-600 dark:text-rose-300 hover:underline">
                     Read more
                   </a>
                 </div>
               </article>
             @endif
-
+        
             @if($car)
-              <article class="rounded-2xl bg-white/90 backdrop-blur shadow p-6 ring-1 ring-black/5 dark:bg-stone-800/70 dark:ring-white/10">
+              <article class="rounded-2xl bg-white/90 backdrop-blur shadow p-6 ring-1 ring-black/5
+                              dark:bg-stone-800/70 dark:ring-white/10">
                 <h3 class="font-orbitron text-2xl font-bold text-center">{{ $car['name'] ?? 'Unnamed Car' }}</h3>
-                <p class="mt-3 text-center text-stone-700 dark:text-stone-300">
-                  {{ $car['bio'] ?? 'No description available.' }}
-                </p>
+                <p class="mt-3 text-center text-stone-700 dark:text-stone-300">{{ $car['bio'] ?? '' }}</p>
                 <div class="mt-4 text-center">
-                  <a href="{{ route('history.show', ['tab' => 'cars', 'decade' => $car['decade'], 'id' => $car['id']]) }}"
+                  <a href="{{ route('history.show', ['tab'=>'cars','decade'=>$car['decade'],'id'=>$car       ['id']]) }}"
                      class="inline-flex items-center font-semibold text-blue-600 dark:text-rose-300 hover:underline">
                     Read more
                   </a>
                 </div>
               </article>
             @endif
-
+        
             @if($driver)
-              <article class="rounded-2xl bg-white/90 backdrop-blur shadow p-6 ring-1 ring-black/5 dark:bg-stone-800/70 dark:ring-white/10">
+              <article class="rounded-2xl bg-white/90 backdrop-blur shadow p-6 ring-1 ring-black/5
+                              dark:bg-stone-800/70 dark:ring-white/10">
                 <h3 class="font-orbitron text-2xl font-bold text-center">{{ $driver['name'] ?? 'Unnamed Driver' }}</h3>
-                <p class="mt-3 text-center text-stone-700 dark:text-stone-300">
-                  {{ $driver['bio'] ?? 'No description available.' }}
-                </p>
+                <p class="mt-3 text-center text-stone-700 dark:text-stone-300">{{ $driver['bio'] ?? '' }}</p>
                 <div class="mt-4 text-center">
-                  <a href="{{ route('history.show', ['tab' => 'drivers', 'decade' => $driver['decade'], 'id' => $driver['id']]) }}"
+                  <a href="{{ route('history.show', ['tab'=>'drivers','decade'=>$driver['decade'],       'id'=>$driver['id']]) }}"
                      class="inline-flex items-center font-semibold text-blue-600 dark:text-rose-300 hover:underline">
                     Read more
                   </a>
@@ -263,9 +256,10 @@
             @endif
           </div>
         </div>
-
+        
         {{-- RIGHT: Next rallies --}}
-        <aside class="rounded-2xl bg-white/90 backdrop-blur shadow p-5 ring-1 ring-black/5 dark:bg-stone-800/70 dark:ring-white/10">
+        <aside class="rounded-2xl bg-white/90 backdrop-blur shadow p-5 ring-1 ring-black/5
+                       dark:bg-stone-800/70 dark:ring-white/10">
           <h3 class="font-orbitron text-lg font-bold">Next Rallies</h3>
           <ul class="mt-3 divide-y divide-stone-200 dark:divide-stone-600">
             @forelse($nextEvents ?? [] as $e)
@@ -273,8 +267,7 @@
                 <div class="text-sm font-semibold">{{ $e->title }}</div>
                 <div class="text-xs text-stone-700 dark:text-stone-400">
                   <time datetime="{{ $e->start_date?->toDateString() }}">
-                    {{ optional($e->start_date)->format('M j') }}
-                    @if($e->end_date) – {{ $e->end_date->format('M j') }} @endif
+                    {{ optional($e->start_date)->format('M j') }}@if($e->end_date) – {{ $e->end_date->format('M j') }}       @endif
                   </time>
                   @if(!empty($e->location)) • {{ $e->location }} @endif
                 </div>
