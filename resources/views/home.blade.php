@@ -287,23 +287,33 @@
 
   {{-- Home: Latest From the Blog --}}
   <section id="home-blog"
-           class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 mt-8 mb-16">
+           class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-8 mb-16">
+    
+    {{-- light-only soft fade so text doesn’t sit directly on the photo --}}
+    <div aria-hidden="true"
+         class="pointer-events-none absolute inset-x-4 sm:inset-x-6 lg:inset-x-8 -top-4 h-14
+                rounded-t-2xl bg-gradient-to-b from-white/85 via-white/50 to-transparent
+                dark:from-transparent"></div>
+    
     @if(($latestPosts ?? collect())->count())
-      <div class="mb-4 sm:mb-6 flex items-center justify-between gap-3">
-        <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-wide
-                   text-stone-900 dark:text-stone-100">
-          Latest from the Blog
+      <div class="relative mb-4 sm:mb-6 flex items-center justify-between gap-3">
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-wide">
+          <span class="rounded-xl px-3 py-1
+                       bg-white/80 ring-1 ring-black/5 backdrop-blur-md
+                       text-stone-900
+                       dark:bg-transparent dark:ring-0 dark:text-stone-100">
+            Latest from the Blog
+          </span>
         </h2>
     
         <a href="{{ route('blog.index') }}"
-           class="hidden sm:inline-flex items-center gap-1 text-sm font-medium
-                  text-blue-700 hover:text-blue-800 underline
-                  dark:text-sky-300 dark:hover:text-sky-200">
+           class="hidden sm:inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium
+                  bg-white/75 ring-1 ring-black/10 backdrop-blur-md text-stone-900 hover:text-stone-700
+                  dark:bg-stone-800/60 dark:ring-white/10 dark:text-sky-300 dark:hover:text-sky-200">
           View all
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M9 5l7 7-7 7" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </a>
       </div>
@@ -317,9 +327,9 @@
       {{-- Mobile “view all” link under the carousel --}}
       <div class="mt-4 sm:hidden">
         <a href="{{ route('blog.index') }}"
-           class="inline-flex items-center gap-1 text-sm font-medium
-                  text-blue-700 hover:text-blue-800 underline
-                  dark:text-sky-300 dark:hover:text-sky-200">
+           class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium
+                  bg-white/75 ring-1 ring-black/10 backdrop-blur-md text-stone-900 hover:text-stone-700
+                  dark:bg-stone-800/60 dark:ring-white/10 dark:text-sky-300 dark:hover:text-sky-200">
           View all posts
         </a>
       </div>
