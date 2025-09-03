@@ -1,0 +1,6 @@
+/* Minimal FullCalendar styles scoped as a Vite entry */
+@import "@fullcalendar/core/index.css";
+@import "@fullcalendar/daygrid/index.css";
+/* Add more if you actually use them: */
+@import "@fullcalendar/timegrid/index.css";
+@import "@fullcalendar/list/index.css"; 

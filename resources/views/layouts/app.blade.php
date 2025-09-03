@@ -28,21 +28,22 @@
         }
       })();
     </script>
+
     <!-- Set theme BEFORE CSS paints to avoid FOUC -->
     <script>
     (() => {
       const STORAGE_KEY = 'ci-theme';  // 'light' | 'dark' | 'system'
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
       const getStored = () => {
         try { return localStorage.getItem(STORAGE_KEY); } catch { return null; }
       };
-    
+
       const setMeta = (isDark) => {
         const el = document.getElementById('meta-color-scheme');
         if (el) el.content = isDark ? 'dark light' : 'light dark';
       };
-    
+
       const apply = (mode, { notify = false } = {}) => {
         const isDark = mode === 'dark' || (mode !== 'light' && mql.matches);
         document.documentElement.classList.toggle('dark', isDark);
@@ -52,17 +53,17 @@
           document.dispatchEvent(new CustomEvent('ci-theme:changed', { detail: { mode, dark: isDark } }));
         }
       };
-    
+
       // default to "system" if nothing stored
       let mode = getStored() || 'system';
       apply(mode);
-    
+
       // keep in sync with OS when mode is "system"
       (mql.addEventListener ? mql.addEventListener('change', onChange) : mql.addListener(onChange));
       function onChange() {
         if ((getStored() || 'system') === 'system') apply('system', { notify: true });
       }
-    
+
       // expose helpers for Alpine / UI
       window.CI_THEME = {
         getMode: () => getStored() || 'system',
@@ -89,10 +90,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
-    <!-- Vite Build -->
+    <!-- Vite Build (global) -->
     @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
+
+    {{-- Page-scoped CSS (e.g., calendar) --}}
     @stack('page-css')
 
+    {{-- Anything else pages push into <head> --}}
     @stack('head')
 </head>
 
@@ -104,6 +108,8 @@
   data-feed-tpl="{{ url('/calendar/feed/{year}.ics') }}"
   data-download-tpl="{{ url('/calendar/download/{year}.ics') }}"
 >
+    {{-- Anchor target for back-to-top and scroll controls --}}
+    <div id="top"></div>
 
     @auth
       @if (Auth::user()->profile && Auth::user()->profile->isBirthday())
@@ -113,11 +119,11 @@
       @endif
     @endauth
 
+    {{-- Main site navigation --}}
     @include('layouts.navigation')
 
-    <!-- Global page wrapper (no hard-coded gray background anymore) -->
+    <!-- Global page wrapper -->
     <div id="theme-wrapper" class="min-h-screen">
-
         @isset($header)
         <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -165,6 +171,7 @@
       </div>
     @endif
 
+    {{-- Scripts pushed by views --}}
     @stack('scripts')
 
     @php
@@ -200,5 +207,8 @@
             data-y_margin="18">
         </script>
     @endif
+
+    {{-- Page-tail injections (fixed UI, modals, lazy UI like scroll controls) --}}
+    @stack('after-body')
 </body>
 </html>
