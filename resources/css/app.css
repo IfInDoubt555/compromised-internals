@@ -11,18 +11,26 @@
    Base
 --------------------------*/
 @layer base {
-  :root { --nav-h: 64px; }          /* mobile fallback */
-  @media (min-width: 2650px) {
-    :root { --nav-h: 80px; }        /* desktop fallback */
-  }  html {
+  /* Nav height fallback (updated breakpoint) */
+  :root { --nav-h: 64px; }                 /* mobile */
+  @media (min-width: 1024px) {
+    :root { --nav-h: 80px; }               /* desktop */
+  }
+
+  html {
     font-family: 'Orbitron', sans-serif;
     font-size: 16px;
-    scroll-padding-top: calc(var(--nav-h) + 8px); /* keep anchors out from under sticky nav */
+    /* keep anchor targets from hiding under the fixed nav */
+    scroll-padding-top: calc(var(--nav-h) + 12px);
   }
+
   [x-cloak] { display: none !important; }
 
   /* sticky-safe: never hide overflow on root */
   html, body { overflow-x: visible; }
+
+  /* prevent first-child margin collapse creating extra top gap */
+  #app-main > *:first-child { margin-top: 14 !important; }
 }
 
 /* -------------------------

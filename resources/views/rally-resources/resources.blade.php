@@ -93,17 +93,7 @@
 @push('head')
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
-    <meta property="og:type"        content="website">
-    <meta property="og:site_name"   content="Compromised Internals">
-    <meta property="og:url"         content="{{ $seo['url'] }}">
-    <meta property="og:title"       content="{{ $seo['title'] }}">
-    <meta property="og:description" content="{{ $seo['description'] }}">
-    <meta property="og:image"       content="{{ $seo['image'] }}">
-@endpush
-
-@push('head')
-    <title>{{ $seo['title'] }}</title>
-    <meta name="description" content="{{ $seo['description'] }}">
+    <link rel="canonical" href="{{ $seo['url'] }}">
     <meta property="og:type"        content="website">
     <meta property="og:site_name"   content="Compromised Internals">
     <meta property="og:url"         content="{{ $seo['url'] }}">
@@ -113,7 +103,7 @@
 @endpush
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <h1 class="text-3xl font-extrabold mb-6 text-center tracking-wide text-stone-900 dark:text-stone-100">
         Rally Resources
     </h1>
@@ -122,57 +112,62 @@
     </p>
 
     @foreach ($resources as $category => $links)
-    <section
-        x-data="{ open: false }"
-        class="mb-6 rounded-xl shadow-sm ring-1 ring-black/5 bg-white/85 hover:shadow-md transition-shadow
-               dark:bg-stone-900/70 dark:ring-white/10"
-        role="region"
-        aria-labelledby="heading-{{ \Illuminate\Support\Str::slug($category) }}"
-    >
-        <button
-            @click="open = !open"
-            :aria-expanded="open.toString()"
-            aria-controls="content-{{ \Illuminate\Support\Str::slug($category) }}"
-            id="heading-{{ \Illuminate\Support\Str::slug($category) }}"
-            class="w-full flex justify-between items-center px-6 py-4 text-xl font-semibold rounded-t-xl
-                   bg-gray-50 hover:bg-gray-100 text-stone-900
-                   focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white
-                   dark:bg-stone-800/60 dark:hover:bg-stone-800 dark:text-stone-100
-                   dark:focus-visible:ring-rose-300 dark:focus-visible:ring-offset-stone-900"
-        >
-            {{ $category }}
+        @php
+            $slug = \Illuminate\Support\Str::slug($category);
+            $uid  = $slug.'-'.$loop->index;
+        @endphp
 
-            <svg
-                :class="{ 'rotate-180': open }"
-                class="h-6 w-6 text-red-600 dark:text-rose-300 transition-transform duration-300 ease-in-out"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        <section
+            x-data="{ open: false }"
+            class="mb-6 rounded-xl shadow-sm ring-1 ring-black/5 bg-white/85 hover:shadow-md transition-shadow
+                   dark:bg-stone-900/70 dark:ring-white/10"
+            role="region"
+            aria-labelledby="heading-{{ $uid }}"
+        >
+            <button
+                @click="open = !open"
+                :aria-expanded="open.toString()"
+                aria-controls="content-{{ $uid }}"
+                id="heading-{{ $uid }}"
+                class="w-full flex justify-between items-center px-6 py-4 text-xl font-semibold rounded-t-xl
+                       bg-gray-50 hover:bg-gray-100 text-stone-900
+                       focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                       dark:bg-stone-800/60 dark:hover:bg-stone-800 dark:text-stone-100
+                       dark:focus-visible:ring-rose-300 dark:focus-visible:ring-offset-stone-900"
             >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </button>
+                {{ $category }}
 
-        <ul
-            x-show="open"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 max-h-0"
-            x-transition:enter-end="opacity-100 max-h-screen"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 max-h-screen"
-            x-transition:leave-end="opacity-0 max-h-0"
-            id="content-{{ \Illuminate\Support\Str::slug($category) }}"
-            class="px-8 py-6 list-disc list-inside space-y-3 overflow-hidden
-                   text-blue-700 dark:text-sky-300"
-            style="display: none;"
-        >
-            @foreach ($links as $link)
-            <li class="transition-colors duration-200 hover:text-red-600 dark:hover:text-rose-300">
-                <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer" class="underline">
-                    {{ $link['name'] }}
-                </a>
-            </li>
-            @endforeach
-        </ul>
-    </section>
+                <svg
+                    :class="{ 'rotate-180': open }"
+                    class="h-6 w-6 text-red-600 dark:text-rose-300 transition-transform duration-300 ease-in-out"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <ul
+                x-cloak
+                x-show="open"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 max-h-0"
+                x-transition:enter-end="opacity-100 max-h-screen"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 max-h-screen"
+                x-transition:leave-end="opacity-0 max-h-0"
+                id="content-{{ $uid }}"
+                class="px-8 py-6 list-disc list-inside space-y-3 overflow-hidden
+                       text-blue-700 dark:text-sky-300"
+            >
+                @foreach ($links as $link)
+                    <li class="transition-colors duration-200 hover:text-red-600 dark:hover:text-rose-300">
+                        <a href="{{ $link['url'] }}" target="_blank" rel="noopener noreferrer" class="underline">
+                            {{ $link['name'] }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
     @endforeach
 </div>
 @endsection
