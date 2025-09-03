@@ -15,17 +15,14 @@ export default defineConfig(({ command }) => {
         refresh: true,
       }),
     ],
-       resolve: {
-     alias: {
-       // FullCalendar CSS subpaths (map to real files to bypass package "exports")
-       '@fullcalendar/daygrid/index.css': path.resolve(__dirname, 'node_modules/@fullcalendar/daygrid/index.css'),
-       // (optional future-proofers—safe to include)
-       '@fullcalendar/daygrid/main.css':  path.resolve(__dirname, 'node_modules/@fullcalendar/daygrid/main.css'),
-       '@fullcalendar/core/index.css':    path.resolve(__dirname, 'node_modules/@fullcalendar/core/index.css'),
-       '@fullcalendar/core/main.css':     path.resolve(__dirname, 'node_modules/@fullcalendar/core/main.css'),
-     },
-   },
-  }
+    resolve: {
+      alias: {
+        // Pin the CSS imports to real files (bypass package "exports")
+        '@fullcalendar/daygrid/index.css': path.resolve(__dirname, 'node_modules/@fullcalendar/daygrid/index.css'),
+        '@fullcalendar/list/index.css'   : path.resolve(__dirname, 'node_modules/@fullcalendar/list/index.css'),
+      },
+    },
+ }
 
   if (command === 'serve') {
     cfg.server = {

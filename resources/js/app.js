@@ -58,8 +58,10 @@ const idle = (fn) => ('requestIdleCallback' in window) ? requestIdleCallback(fn)
 document.addEventListener('DOMContentLoaded', () => {
   // Scroll controls
   if (document.querySelector('[data-has-scroll-controls]')) {
-    const boot = () => import('./scrollControls').then(m => (m.default || m).default?.() ?? (m.default || m)());
-    isMobile() ? idle(boot) : boot();
+    const boot = () => import('./scrollControls').then(m => {
+      const fn = m.default || m.initScrollControls;
+      if (typeof fn === 'function') fn();
+    });    isMobile() ? idle(boot) : boot();
   }
 
   // Calendar (expects same signature as before: initCalendar('calendar'))

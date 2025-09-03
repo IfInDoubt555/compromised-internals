@@ -1,9 +1,10 @@
+import '@fullcalendar/daygrid/index.css';
+import '@fullcalendar/list/index.css';
+
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
-import '@fullcalendar/daygrid/main.css';
-
 
 const mq = window.matchMedia('(max-width: 768px)');
 const isMobile = () => mq.matches;
