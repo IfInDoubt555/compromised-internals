@@ -12,7 +12,7 @@ const PROFILES = {
   // Backgrounds with desktop + mobile masters (width-only)
   bg: {
     desktop: [3840, 2560, 1920, 1280],
-    mobile:  [2160, 1080, 720, 400],
+    mobile:  [1080, 720, 400],
     format:  'webp',
     quality: 78,
     fit:     'cover',
@@ -20,7 +20,7 @@ const PROFILES = {
   // Homepage banner under the nav (explicit WxH crops)
   banner: {
     desktop: [{ w: 3840, h: 1500 }, { w: 2560, h: 1000 }, { w: 1920, h: 750 }],
-    mobile:  [{ w: 1080, h: 900 },  { w: 720,  h: 600 }],
+    mobile:  [{ w: 1080, h: 900 },  { w: 720,  h: 600 }, { w: 480, h: 400}],
     format:  'webp',
     quality: 80,
     fit:     'cover',

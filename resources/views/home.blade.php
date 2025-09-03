@@ -117,28 +117,38 @@
     @endpush
 
     <picture class="fixed inset-0 -z-10 hidden dark:block" aria-hidden="true">
+      {{-- Desktop (>=1024px) --}}
       <source media="(min-width: 1024px)" type="image/avif"
-              srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.avif') }} 1280w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }} 1920w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.avif') }} 2560w"
+              srcset="
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.avif') }} 1280w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }} 1920w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.avif') }} 2560w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.avif') }} 3840w"
               sizes="100vw">
-      <source media="(max-width: 1023px)" type="image/webp"
-              srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1280.webp') }} 1280w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1920.webp') }} 1920w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-2560.webp') }} 2560w"
+      <source media="(min-width: 1024px)" type="image/webp"
+              srcset="
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.webp') }} 1280w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.webp') }} 1920w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.webp') }} 2560w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.webp') }} 3840w"
               sizes="100vw">
+
+      {{-- Mobile (<=1023px) --}}
       <source media="(max-width: 1023px)" type="image/avif"
-              srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-480.avif') }} 480w,
-                     {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.avif') }} 720w,
-                     {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.avif') }} 1080w"
-             sizes="100vw">
+              srcset="
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-400.avif') }} 400w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.avif') }} 720w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.avif') }} 1080w"
+              sizes="100vw">
       <source media="(max-width: 1023px)" type="image/webp"
-             srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-480.webp') }} 480w,
-                     {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.webp') }} 720w,
-                     {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.webp') }} 1080w"
-             sizes="100vw">
+              srcset="
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-400.webp') }} 400w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.webp') }} 720w,
+                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.webp') }} 1080w"
+              sizes="100vw">
+
       <img
-        src="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.jpg') }}"
+        src="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-master.png') }}"
         alt=""
         class="w-full h-full object-cover"
         loading="eager"
