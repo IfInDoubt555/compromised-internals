@@ -93,9 +93,11 @@
 
       {{-- Body (read or edit) --}}
       <article x-show="!editing" x-cloak
-               class="prose max-w-none rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow p-5
-                      dark:prose-invert dark:bg-stone-900/70 dark:ring-white/10">
-        {!! $thread->body_html !!}
+               class="prose dark:prose-invert max-w-none rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow p-5
+                      prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
+                      prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1
+                      dark:bg-stone-900/70 dark:ring-white/10">
+        {!! Str::markdown($thread->body) !!}
       </article>
 
       @can('update', $thread)
@@ -144,7 +146,7 @@
             <div class="flex items-center justify-between gap-3">
               <p class="text-xs text-stone-500 dark:text-stone-400">
                 <span class="font-semibold text-stone-800 dark:text-stone-300">
-                  {{ $reply->user->display_name ?? $reply->user->name ?? 'Unknown' }}
+                  {{ $reply->user->display_name ?? 'Unknown' }}
                 </span>
                 • {{ optional($reply->created_at)->diffForHumans() }}
               </p>
@@ -163,8 +165,11 @@
             </div>
 
             <div class="mt-2">
-              <div x-show="!editing" x-cloak class="prose max-w-none dark:prose-invert">
-                {!! $reply->body_html !!}
+              <div x-show="!editing" x-cloak
+                   class="prose dark:prose-invert max-w-none
+                          prose-headings:font-semibold prose-h3:text-lg
+                          prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1">
+                          {!! $reply->body_html !!}
               </div>
 
               @if(auth()->check() && auth()->id() === $reply->user_id)
