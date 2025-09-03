@@ -71,13 +71,10 @@ function wireTabs() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  EL.wrapper = document.getElementById('theme-wrapper');
+  EL.wrapper = document.getElementById('history-root');
   EL.yearSelect = document.getElementById('year-filter'); // optional; SSR chips handle year
 
   readUrlState();
   updateDecadeTheme(currentDecade);
   wireTabs();
-
-  // Always enable scroll assist
-  initScrollControls();
 });

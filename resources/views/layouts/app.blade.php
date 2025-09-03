@@ -119,11 +119,10 @@
       @endif
     @endauth
 
-    {{-- Main site navigation --}}
-    @include('layouts.navigation')
-
     <!-- Global page wrapper -->
     <div id="theme-wrapper" class="min-h-screen">
+              {{-- Main site navigation (kept sticky within page wrapper) --}}
+        @include('layouts.navigation')
         @isset($header)
         <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -176,11 +175,9 @@
 
     @php
       $isStreamingContext = request()->is('travel*') || request()->is('calendar*') || request()->is('events*');
-
-      // Show BMAC on home/history/calendar and blog pages EXCEPT blog.index
+      // Show BMAC on home, calendar, and blog pages (NOT on history), except blog.index
       $showBmac = (
           request()->is('/') ||
-          request()->is('history*') ||
           request()->is('calendar*') ||
           request()->is('blog*')
       ) && !request()->routeIs('blog.index');

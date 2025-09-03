@@ -1,4 +1,4 @@
-#theme-wrapper.decade-1960 {
+#history-root.decade-1960 {
   background: radial-gradient(circle, #9c9445, #dcd2b8, #b89f7a); /* dusty white to aged beige */
   background-size: 180% 180%;
   animation: shiftBg 20s ease-in-out infinite;
@@ -6,7 +6,7 @@
   font-family: 'Georgia', serif;
 }
 
-#theme-wrapper.decade-1970 {
+#history-root.decade-1970 {
   background: radial-gradient(circle, #394049, #798083, #c1a064); /* steel gray to golden RAC brown */
   background-size: 200% 200%;
   animation: shiftBg 15s ease-in-out infinite;
@@ -14,7 +14,7 @@
   font-family: 'Courier New', monospace;
 }
 
-#theme-wrapper.decade-1980 {
+#history-root.decade-1980 {
   background: radial-gradient(circle, #fff03a, #bb1e10, #111111); /* Group B yellow to Lancia red to dark asphalt */
   background-size: 250% 250%;
   animation: shiftBg 12s ease-in-out infinite;
@@ -22,7 +22,7 @@
   font-family: 'Orbitron', sans-serif;
 }
 
-#theme-wrapper.decade-1990 {
+#history-root.decade-1990 {
   background: radial-gradient(circle, #947902, #264b8b, #7eb3e1); /* Subaru blue fade */
   background-size: 180% 180%;
   animation: shiftBg 25s ease-in-out infinite;
@@ -30,7 +30,7 @@
   font-family: 'Tahoma', sans-serif;
 }
 
-#theme-wrapper.decade-2000 {
+#history-root.decade-2000 {
   background: radial-gradient(circle, #ce0000, #202020, #fffaf4); /* Citroën red to stage dark to white noise */
   background-size: 200% 200%;
   animation: shiftBg 20s ease infinite;
@@ -38,7 +38,7 @@
   font-family: 'Verdana', sans-serif;
 }
 
-#theme-wrapper.decade-2010 {
+#history-root.decade-2010 {
   background: radial-gradient(circle, #003049, #1a1a1a, #e0e0e0); /* VW & Hyundai era: cool modern palette */
   background-size: 220% 220%;
   animation: shiftBg 30s ease-in-out infinite;
@@ -46,7 +46,7 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
-#theme-wrapper.decade-2020 {
+#history-root.decade-2020 {
   background: radial-gradient(circle, #9c27b0, #1f1f1f, #121212); /* Hybrid era, purple + carbon fiber dark */
   background-size: 250% 250%;
   animation: shiftBg 30s ease-in-out infinite;
@@ -94,24 +94,24 @@
 }
 
 /* 1970s theme fix (dark gradient) */
-#theme-wrapper.decade-1970 #year-filter {
+#history-root.decade-1970 #year-filter {
   background-color: #f9f9f9;
   color: #111;
   border-color: #888;
 }
 
 /* 1980s theme fix (dark Group B tones) */
-#theme-wrapper.decade-1980 #year-filter {
+#history-root.decade-1980 #year-filter {
   background-color: #eeeeee;
   color: #111;
   border-color: #777;
 }
 
 /* 1990s and beyond (blues, reds, darks) */
-#theme-wrapper.decade-1990 #year-filter,
-#theme-wrapper.decade-2000 #year-filter,
-#theme-wrapper.decade-2010 #year-filter,
-#theme-wrapper.decade-2020 #year-filter {
+#history-root.decade-1990 #year-filter,
+#history-root.decade-2000 #year-filter,
+#history-root.decade-2010 #year-filter,
+#history-root.decade-2020 #year-filter {
   background-color: #e6e6e6;
   color: #111;
   border-color: #666;
