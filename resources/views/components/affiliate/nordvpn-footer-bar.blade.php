@@ -1,23 +1,24 @@
-{{-- resources/views/components/affiliate/nordvpn-footer-bar.blade.php --}}
 @php
-  $ctaText = 'Save up to 77% + 3 Extra Months';
-  $subid   = 'vpn-footer';
+  // Copy + tracking (feel free to tweak)
+  $headline = 'Watch rallies anywhere — bypass region blocks with NordVPN.';
+  $ctaText  = 'Unblock coverage — Save up to 77% + 3 months free';
+  $subid    = 'vpn-footer-stream';
 @endphp
 
 <div class="w-full bg-stone-100/95 dark:bg-stone-800/95 border-t border-stone-300 dark:border-stone-700 relative z-40">
   <div class="max-w-7xl mx-auto flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-4 py-3 text-sm">
 
-    {{-- Left: Headline + value points --}}
+    {{-- Left: value props (same clean layout as the regular footer) --}}
     <div class="text-center sm:text-left leading-tight">
       <p class="font-medium text-stone-900 dark:text-stone-100">
-        Save up to 77% on NordVPN — with 3 months free included.
+        {{ $headline }}
       </p>
       <p class="mt-0.5 text-stone-700 dark:text-stone-300">
-        <span class="whitespace-nowrap">Secure up to 10 devices</span>
-        <span aria-hidden="true" class="mx-2">•</span>
-        <span class="whitespace-nowrap">30-day money-back guarantee</span>
+        <span class="whitespace-nowrap">Fast servers for HD streams</span>
         <span aria-hidden="true" class="mx-2">•</span>
         <span class="whitespace-nowrap">Servers in 60+ countries</span>
+        <span aria-hidden="true" class="mx-2">•</span>
+        <span class="whitespace-nowrap">30-day money-back</span>
       </p>
     </div>
 
@@ -25,7 +26,7 @@
     <div class="flex items-center justify-center">
       <x-affiliate-link
         brand="nordvpn"
-        href="https://nordvpn.tpx.lt/0EfeqBU0"
+        href="https://nordvpn.tpx.lt/wqCztrC5"
         subid="{{ $subid }}"
         class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-sky-600 text-white font-medium
                hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-400">
