@@ -11,8 +11,8 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const PROFILES = {
   // Backgrounds with desktop + mobile masters (width-only)
   bg: {
-    desktop: [3840, 2560, 1920],
-    mobile:  [2160, 1080, 720],
+    desktop: [3840, 2560, 1920, 1280],
+    mobile:  [2160, 1080, 720, 400],
     format:  'webp',
     quality: 78,
     fit:     'cover',

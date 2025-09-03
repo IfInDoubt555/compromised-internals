@@ -3,12 +3,12 @@ import Alpine from 'alpinejs';
 import intersect from '@alpinejs/intersect';
 import focus from '@alpinejs/focus';
 
+// ⛔️ Remove eager imports of heavy modules
+// import './stages';
+// import initScrollControls from './scrollControls';
+// import initCalendar from './calendar';
 
-import './stages';
-import initScrollControls from './scrollControls';
-import initCalendar from './calendar';
-
-window.Alpine = Alpine;          // expose globally for console/tests
+window.Alpine = Alpine;
 Alpine.plugin(intersect);
 Alpine.plugin(focus);
 
@@ -47,7 +47,33 @@ document.addEventListener('alpine:init', () => {
 
 Alpine.start();
 
+/**
+ * Lazy/conditional boot
+ * - Only load modules if the page actually uses them (data-* hooks)
+ * - On mobile, delay to idle so LCP stays clean
+ */
+const isMobile = () => window.matchMedia && matchMedia('(max-width: 768px)').matches;
+const idle = (fn) => ('requestIdleCallback' in window) ? requestIdleCallback(fn) : setTimeout(fn, 200);
+
 document.addEventListener('DOMContentLoaded', () => {
-  initScrollControls();
-  initCalendar('calendar');
+  // Scroll controls
+  if (document.querySelector('[data-has-scroll-controls]')) {
+    const boot = () => import('./scrollControls').then(m => (m.default || m).default?.() ?? (m.default || m)());
+    isMobile() ? idle(boot) : boot();
+  }
+
+  // Calendar (expects same signature as before: initCalendar('calendar'))
+  if (document.querySelector('[data-calendar]')) {
+    const boot = () => import('./calendar').then(m => {
+      const initCalendar = m.default || m.initCalendar;
+      if (typeof initCalendar === 'function') initCalendar('calendar');
+    });
+    isMobile() ? idle(boot) : boot();
+  }
+
+  // Stages module (side effects only)
+  if (document.querySelector('[data-stages]')) {
+    const boot = () => import('./stages');
+    isMobile() ? idle(boot) : boot();
+  }
 });

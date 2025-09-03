@@ -78,6 +78,11 @@
     </script>
 @endpush
 
+@push('page-css')
+    {{-- Only the calendar page ships FullCalendar styles --}}
+    @vite('resources/css/fullcalendar.css')
+@endpush
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-4">Rally Calendar</h1>
@@ -103,7 +108,7 @@
     </div>
 
     {{-- Calendar --}}
-    <div id="calendar" class="ci-card p-4"></div>
+    <div id="calendar" data-calendar class="ci-card p-4"></div>
 
     {{-- Subscribe / Download (hidden in a drawer) --}}
     <details class="mt-6 group">

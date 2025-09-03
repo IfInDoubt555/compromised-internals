@@ -12,9 +12,22 @@
     {{-- View-specific preloads (e.g., hero image) --}}
     @stack('preload')
 
-    <!-- Consent / vendor -->
-    <script defer src="https://cmp.osano.com/QSYKFTgmsG/68c885bf-d384-489c-a092-2092f351097c/osano.js"></script>
-
+    <!-- Consent / vendor - load at idle to avoid blocking FCP/LCP -->
+    <script>
+      (function loadOsanoWhenIdle() {
+        var boot = function () {
+          var s = document.createElement('script');
+          s.src = 'https://cmp.osano.com/QSYKFTgmsG/68c885bf-d384-489c-a092-2092f351097c/osano.js';
+          s.defer = true;
+          document.head.appendChild(s);
+        };
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(boot, { timeout: 2000 });
+        } else {
+          window.addEventListener('load', function () { setTimeout(boot, 0); }, { once: true });
+        }
+      })();
+    </script>
     <!-- Set theme BEFORE CSS paints to avoid FOUC -->
     <script>
     (() => {
@@ -69,17 +82,16 @@
     </script>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
     <!-- Vite Build -->
     @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
+    @stack('page-css')
 
     @stack('head')
 </head>

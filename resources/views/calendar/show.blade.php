@@ -81,7 +81,7 @@
 
 {{-- Stage map carousel --}}
 @if($stages->count())
-<section class="relative mt-8 max-w-6xl mx-auto px-4" data-stage-carousel>
+<section class="relative mt-8 max-w-6xl mx-auto px-4" data-stage-carousel data-stages>
   {{-- Prev --}}
   <button type="button" data-embla-prev
           class="absolute left-2 top-1/2 -translate-y-1/2 z-10 rounded-full

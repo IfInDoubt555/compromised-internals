@@ -225,43 +225,10 @@
   </div>
 </div>
 
-{{-- Scroll Assist (outside theme wrapper to avoid any clipping) --}}
-<a href="#top"
-   id="back-to-top"
-   class="hidden fixed bottom-40 right-4 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none z-50"
-   aria-label="Back to top">
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-  </svg>
-</a>
-
-<a href="#"
-   id="scroll-middle"
-   class="hidden fixed bottom-32 right-4 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none z-50"
-   aria-label="Scroll to middle">
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5 9l7 7 7-7" />
-  </svg>
-</a>
-
-<a href="#"
-   id="scroll-bottom"
-   class="hidden fixed bottom-24 right-4 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 focus:outline-none z-50"
-   aria-label="Scroll to bottom">
-  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform rotate-180" fill="none"
-    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
-  </svg>
-</a>
-
-<div id="back-to-top-tooltip"
-     class="hidden pointer-events-none fixed bottom-32 right-4 bg-gray-800 text-white text-sm px-3 py-1 rounded z-50">
-  Click me to return to the top of the page.
-</div>
-@endsection
+@push('after-body')
+  {{-- Lazy-load scroll controls only on history pages --}}
+  <x-scroll-controls />
+@endpush
 
 @push('scripts')
 <script>
