@@ -35,7 +35,7 @@
   $funFact        = $item['fun_fact']        ?? null;
 @endphp
 
-<div id="theme-wrapper" class="decade-{{ $themeDecade }}">
+<div id="history-root" class="decade-{{ $themeDecade }}">
 
   {{-- ====================== HERO ====================== --}}
   <section class="relative">
