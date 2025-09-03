@@ -33,12 +33,13 @@ class BoardController extends Controller
             ->paginate(20)
             ->withQueryString();
 
-        // Recent blog posts linked to this board (assuming many-to-many posts<->boards)
+        // Recent blog posts linked to this board (Post belongsTo Board)
         $posts = Post::query()
             ->published()
-            ->whereHas('boards', fn ($q) => $q->whereKey($board->id))
+            ->whereHas('board', fn ($q) => $q->whereKey($board->getKey()))
+            // alternatively: ->where('board_id', $board->getKey())
             ->latest('published_at')
-            ->take(6)
+            ->limit(6)
             ->get();
 
         return view('boards.show', compact('board', 'threads', 'posts'));
