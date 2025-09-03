@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
@@ -40,7 +40,7 @@ class Thread extends Model
     public function getBodyHtmlAttribute(): string
     {
         static $converter = null;
-    
+
         if ($converter === null) {
             $env = new Environment([
                 'html_input'         => 'allow',
@@ -49,23 +49,34 @@ class Thread extends Model
             $env->addExtension(new CommonMarkCoreExtension());
             $converter = new MarkdownConverter($env);
         }
-    
+
         return $converter->convert((string) $this->body)->getContent();
     }
 
     /** ---------- Scopes ---------- */
-    public function scopePublished(Builder $q): Builder
+
+    /**
+     * Threads that should appear publicly in lists.
+     * Use this everywhere you count or list threads so results match.
+     */
+    public function scopeVisibleForList(Builder $q): Builder
     {
         return $q->where('status', 'published')
                  ->whereNotNull('published_at')
                  ->where('published_at', '<=', now());
     }
 
+    public function scopePublished(Builder $q): Builder
+    {
+        return $this->scopeVisibleForList($q);
+    }
+
     public function scopeScheduled(Builder $q): Builder
     {
+        // ✅ scheduled_for (not published_at)
         return $q->where('status', 'scheduled')
-                 ->whereNotNull('published_at')
-                 ->where('published_at', '>', now());
+                 ->whereNotNull('scheduled_for')
+                 ->where('scheduled_for', '>', now());
     }
 
     public function scopeDrafts(Builder $q): Builder
@@ -81,12 +92,17 @@ class Thread extends Model
 
     public function isScheduled(): bool
     {
-        return $this->status === 'scheduled' && $this->published_at && $this->published_at->isFuture();
+        // ✅ scheduled_for (not published_at)
+        return $this->status === 'scheduled'
+            && $this->scheduled_for
+            && $this->scheduled_for->isFuture();
     }
 
     public function isPublished(): bool
     {
-        return $this->status === 'published' && $this->published_at && $this->published_at->isPast();
+        return $this->status === 'published'
+            && $this->published_at
+            && $this->published_at->isPast();
     }
 
     /** ---------- Relations ---------- */
@@ -96,7 +112,7 @@ class Thread extends Model
 
     public function tags(): BelongsToMany
     {
-        // ensure your pivot table is correct (likely 'thread_tag')
+        // ensure your pivot table name matches your schema (e.g., 'thread_tag')
         return $this->belongsToMany(Tag::class, 'thread_tag')->withTimestamps();
     }
 
@@ -112,6 +128,9 @@ class Thread extends Model
         static::saving(function (Thread $t) {
             if (empty($t->slug) && !empty($t->title)) {
                 $t->slug = Str::slug($t->title);
+            }
+            if (empty($t->last_activity_at)) {
+                $t->last_activity_at = now();
             }
         });
     }

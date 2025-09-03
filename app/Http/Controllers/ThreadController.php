@@ -15,7 +15,7 @@ class ThreadController extends Controller
 {
     public function show(Thread $thread): View
     {
-        // Only published are public; allow admins/editors (policy 'update') to preview
+        // Only published are public; allow editors to preview
         if (! $thread->isPublished() && Gate::denies('update', $thread)) {
             abort(404);
         }
@@ -54,8 +54,7 @@ class ThreadController extends Controller
             'slug'             => $slug,
             'body'             => $data['body'],
             'last_activity_at' => now(),
-            // New content created by users should not be publicly visible until published by admin
-            // (status/published_at set via admin UI/automation)
+            // status/published_at set later by moderation workflow
         ]);
 
         // Optional: auto-tag by board
@@ -90,11 +89,10 @@ class ThreadController extends Controller
             'body'     => ['required','string','max:20000'],
         ]);
 
-        // Only change the slug if the user submitted one; otherwise keep the current slug
+        // Only change slug if provided
         if ($request->filled('slug')) {
             $proposed = Str::slug($request->input('slug'));
             $newSlug  = $proposed;
-
             if ($newSlug !== $thread->slug && Thread::where('slug', $newSlug)->exists()) {
                 $newSlug .= '-' . Str::lower(Str::random(6));
             }
