@@ -78,4 +78,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const boot = () => import('./stages');
     isMobile() ? idle(boot) : boot();
   }
+
+  // ---- Keep a CSS var with the current nav height
+(function setNavHeightVar() {
+  const nav = document.getElementById('site-nav');
+  if (!nav) return;
+
+  const apply = () => {
+    const h = nav.offsetHeight || 64; // fallback if not rendered yet
+    document.documentElement.style.setProperty('--nav-h', `${h}px`);
+  };
+
+  // run now and keep it fresh on resize or font swap
+  document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('resize', apply, { passive: true });
+
+  // fonts can shift height after load
+  window.addEventListener('load', () => setTimeout(apply, 0), { once: true });
+  apply();
+})();
 });
