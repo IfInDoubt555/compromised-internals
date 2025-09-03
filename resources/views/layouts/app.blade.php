@@ -120,8 +120,9 @@
   @endauth
 
   {{-- GRID LAYOUT: header(nav) | content | footer --}}
-  <div id="theme-wrapper" class="min-h-svh grid grid-rows-[auto_1fr_auto]">
-
+  <div id="theme-wrapper"
+       class="min-h-screen supports-[min-height:100svh]:min-h-svh
+              grid grid-rows-[auto_auto_1fr_auto]">
     {{-- Row 1: Sticky nav (your component handles position:sticky/fixed) --}}
     @include('layouts.navigation')
 
