@@ -1,25 +1,24 @@
 {{-- resources/views/components/affiliate/nordvpn-footer-stream-bar.blade.php --}}
 @php
-  // Tailor copy/cta as needed
-  $headline = 'Watch rallies anywhere — bypass region blocks with NordVPN.';
-  $subid    = 'vpn-footer-stream';
-  $ctaText  = 'Unblock coverage — Save up to 77% + 3 months free';
+  // Match the clean/general style & copy
+  $ctaText = 'Save up to 77% + 3 Extra Months';
+  $subid   = 'vpn-footer-stream'; // keep a distinct subid for tracking
 @endphp
 
 <div class="w-full bg-stone-100/95 dark:bg-stone-800/95 border-t border-stone-300 dark:border-stone-700 relative z-40">
   <div class="max-w-7xl mx-auto flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-4 py-3 text-sm">
 
-    {{-- Left: streaming value props --}}
+    {{-- Left: headline + value points (same as general bar) --}}
     <div class="text-center sm:text-left leading-tight">
       <p class="font-medium text-stone-900 dark:text-stone-100">
-        {{ $headline }}
+        Save up to 77% on NordVPN — with 3 months free included.
       </p>
       <p class="mt-0.5 text-stone-700 dark:text-stone-300">
-        <span class="whitespace-nowrap">Fast servers for HD streams</span>
+        <span class="whitespace-nowrap">Secure up to 10 devices</span>
+        <span aria-hidden="true" class="mx-2">•</span>
+        <span class="whitespace-nowrap">30-day money-back guarantee</span>
         <span aria-hidden="true" class="mx-2">•</span>
         <span class="whitespace-nowrap">Servers in 60+ countries</span>
-        <span aria-hidden="true" class="mx-2">•</span>
-        <span class="whitespace-nowrap">30-day money-back</span>
       </p>
     </div>
 
@@ -39,7 +38,7 @@
     </div>
   </div>
 
-  {{-- disclosure --}}
+  {{-- Disclosure --}}
   <div class="max-w-7xl mx-auto px-4 pb-2">
     <p class="text-[11px] text-stone-500 dark:text-stone-400 text-center sm:text-left">
       Sponsored link. Using our partner links helps support Compromised Internals at no extra cost to you.
