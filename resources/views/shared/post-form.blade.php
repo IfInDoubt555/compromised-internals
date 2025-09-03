@@ -1,83 +1,94 @@
+{{-- resources/views/components/post-form.blade.php --}}
 @props([
-    'action',                 // route to submit to
-    'title' => 'Create Post', // heading
-    'submitLabel' => 'Publish',
-    'board' => null,          // optional \App\Models\Board
-    'model' => null,          // optional editing model (Post/Thread)
+  'action',
+  'title' => 'Create Post',
+  'submitLabel' => 'Publish',
+  'board' => null,        // \App\Models\Board when posting inside a board
+  'model' => null,        // Post model when editing
+  'method' => 'POST',     // 'POST' | 'PATCH' | 'PUT'
+  'boards' => null,       // Collection of boards for the selector (when no $board)
 ])
 
-@extends('layouts.app')
+@php $verb = strtoupper($method ?? 'POST'); @endphp
 
-@section('content')
-<div class="max-w-4xl mx-auto mt-12 mb-12">
-    <div class="bg-white shadow-xl rounded-2xl p-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">{{ $title }}</h1>
+<div class="max-w-4xl mx-auto px-4 pt-6 pb-16">
+  <div class="ci-admin-card">
+    <h1 class="ci-title-lg text-center mb-6">{{ $title }}</h1>
 
-        {{-- Validation Errors --}}
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
-                <ul class="list-disc pl-6 space-y-1 text-sm">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    @if ($errors->any())
+      <div class="ci-alert ci-alert-warn mb-6">
+        <ul class="list-disc pl-5 space-y-1 text-sm">
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
 
-        <form action="{{ $action }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-            @csrf
+    <form action="{{ $action }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+      @csrf
+      @if ($verb !== 'POST')
+        @method($verb)
+      @endif
 
-            {{-- If we’re inside a board, carry that context along --}}
-            @if($board)
-                <input type="hidden" name="board_id" value="{{ $board->id }}">
-                <div class="rounded-lg bg-gray-50 border border-gray-200 p-3 text-sm">
-                    Posting to board: <span class="font-semibold">{{ $board->name }}</span>
-                </div>
-            @endif
+      {{-- Fixed board context (hidden) --}}
+      @if ($board)
+        <input type="hidden" name="board_id" value="{{ $board->id }}">
+        <div class="ci-badge mb-2">
+          Posting to: <span class="ml-1 font-semibold">{{ $board->name }}</span>
+        </div>
+      @endif
 
-            {{-- Title --}}
-            <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    value="{{ old('title', optional($model)->title) }}"
-                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
-                    required
-                >
-            </div>
+      {{-- Optional board selector when no board is pre-set --}}
+      @if (!$board && $boards)
+        <div>
+          <label for="board_id" class="block text-sm font-medium mb-1">Post to a board (optional)</label>
+          <select id="board_id" name="board_id" class="ci-select">
+            <option value="">— No board —</option>
+            @foreach ($boards as $b)
+              <option value="{{ $b->id }}"
+                @selected(old('board_id', optional($model)->board_id) == $b->id)>
+                {{ $b->name }}
+              </option>
+            @endforeach
+          </select>
+          @error('board_id')
+            <p class="ci-error mt-1">{{ $message }}</p>
+          @enderror
+        </div>
+      @endif
 
-            {{-- Slug (reuse your component) --}}
-            <x-form.slug-field :value="old('slug', optional($model)->slug)" />
+      {{-- Title --}}
+      <div>
+        <label for="title" class="block text-sm font-medium mb-1">Title</label>
+        <input id="title" name="title" type="text" required
+               value="{{ old('title', optional($model)->title) }}"
+               class="ci-input">
+      </div>
 
-            {{-- Body --}}
-            <div>
-                <label for="body" class="block text-sm font-medium text-gray-700 mb-1">Body</label>
-                <textarea
-                    name="body" id="body" rows="8" required
-                    placeholder="Write your post..."
-                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
-                >{{ old('body', optional($model)->body) }}</textarea>
-            </div>
+      {{-- Slug (your existing component) --}}
+      <x-form.slug-field :value="old('slug', optional($model)->slug)" />
 
-            {{-- Image (optional) --}}
-            <div>
-                <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Upload Image</label>
-                <input
-                    type="file"
-                    name="image_path" id="image_path"
-                    class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring focus:ring-blue-200 focus:border-blue-400 bg-white"
-                >
-            </div>
+      {{-- Body --}}
+      <div>
+        <label for="body" class="block text-sm font-medium mb-1">Body</label>
+        <textarea id="body" name="body" rows="8" required
+                  placeholder="Write your post..."
+                  class="ci-textarea">{{ old('body', optional($model)->body) }}</textarea>
+      </div>
 
-            <div class="text-center">
-                <button type="submit"
-                    class="px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow hover:bg-red-700 transition">
-                    {{ $submitLabel }}
-                </button>
-            </div>
-        </form>
-    </div>
+      {{-- Image (optional) --}}
+      <div>
+        <label for="image_path" class="block text-sm font-medium mb-1">Upload image</label>
+        <input id="image_path" name="image_path" type="file" class="ci-input">
+        @error('image_path')
+          <p class="ci-error mt-1">{{ $message }}</p>
+        @enderror
+      </div>
+
+      <div class="text-center pt-2">
+        <button type="submit" class="ci-btn-primary">{{ $submitLabel }}</button>
+      </div>
+    </form>
+  </div>
 </div>
-@endsection
