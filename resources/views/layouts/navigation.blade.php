@@ -1,8 +1,9 @@
-<<nav id="site-nav" x-data="{ open: false }"
-     class="fixed top-0 z-50 bg-white/80 border-b border-black/5
+<nav x-data="{ open: false }" 
+    data-sticky-nav
+    class="fixed inset-x-0 top-0 z-50 bg-white/80 border-b border-black/5
             dark:bg-stone-950/70 dark:border-white/10
             supports-[backdrop-filter]:backdrop-blur">
-  <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
+  <div class="w-full relative top-0 mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
 
     {{-- ===== Row 1: Logo | Admin | Auth + Theme + Hamburger ===== --}}
     <div class="flex items-center justify-between h-16 gap-2">

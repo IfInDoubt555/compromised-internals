@@ -53,13 +53,16 @@
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 @endpush
+@push('main-classes')
+  !flex-none   {{-- stop <main> from growing on history pages --}}
+@endpush
 
 @section('content')
 <div id="top"></div>
 
 <div
   id="history-root"
-  class="min-h-screen history-body overflow-x-hidden decade-{{ $themeDecade }}pt-[var(--nav-h)]"
+  class="history-body overflow-x-hidden decade-{{ $themeDecade }} pt-16 lg:pt-24"
   data-decade="{{ $themeDecade }}"
   data-tab="{{ $tab }}"
   x-data="historyDrawerOnly('{{ $tab }}', '{{ $decade }}', '{{ $year ?? '' }}')"
@@ -167,8 +170,8 @@
   </header>
 
   {{-- DESKTOP grid --}}
-  <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-[160px_1fr] gap-6">
-    {{-- Decade rail --}}
+  <div class="w-full max-w-screen-2xl mx-auto px-4 md:px-6 lg:px-8
+              grid md:grid-cols-[200px_minmax(0,1fr)] gap-6">    {{-- Decade rail --}}
     <nav class="hidden md:block">
       <ul class="flex md:flex-col gap-2">
         @foreach($decades as $d)

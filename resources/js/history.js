@@ -1,6 +1,3 @@
-// resources/js/history.js
-import initScrollControls from './scrollControls';
-
 let currentDecade = 1960;
 let activeTab = 'events';
 

@@ -79,8 +79,8 @@
 @endpush
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-4 pt-18 lg:pt-18">Rally Calendar</h1>
+<div class="max-w-4xl mx-auto pt-32">
+    <h1 class="text-3xl font-bold mb-4">Rally Calendar</h1>
 
     {{-- Legend + Filters (wired by app.js via #cal-controls [data-champ]) --}}
     <div id="cal-controls" class="mb-4 flex flex-wrap items-center gap-3 text-sm">
@@ -106,7 +106,7 @@
     <div id="calendar" data-calendar class="ci-card p-4"></div>
 
     {{-- Subscribe / Download (hidden in a drawer) --}}
-    <details class="mt-6 group">
+    <details class="mt-6 mb-8 group">
         <summary class="cursor-pointer select-none flex items-center justify-between rounded-lg ring-1 ring-stone-900/5 dark:ring-white/10 bg-stone-100/70 dark:bg-stone-800/40 hover:bg-stone-100/90 dark:hover:bg-stone-800/60 px-4 py-3 text-sm font-semibold">
             <span>Subscribe / Download calendar options</span>
             <span class="ml-3 text-gray-500 group-open:rotate-180 transition-transform">▾</span>

@@ -119,9 +119,8 @@
       @endif
     @endauth
 
-    @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
-
-    <div id="theme-wrapper" class="min-h-screen flex flex-col pt-16 lg:pt-20">
+    <div id="theme-wrapper">        
+        @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
 
         @isset($header)
         <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
@@ -131,7 +130,8 @@
         </header>
         @endisset
 
-          <main id="app-main" class="flex-1">            @if (session('success'))
+          <main id="app-main">            
+            @if (session('success'))
             <div
                 x-data="{ show: true }"
                 x-init="setTimeout(() => show = false, 3000)"

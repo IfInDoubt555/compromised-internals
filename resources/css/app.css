@@ -11,8 +11,10 @@
    Base
 --------------------------*/
 @layer base {
-  :root { --nav-h: 64px; }          /* default, JS will overwrite */
-  html {
+  :root { --nav-h: 64px; }          /* mobile fallback */
+  @media (min-width: 2650px) {
+    :root { --nav-h: 80px; }        /* desktop fallback */
+  }  html {
     font-family: 'Orbitron', sans-serif;
     font-size: 16px;
     scroll-padding-top: calc(var(--nav-h) + 8px); /* keep anchors out from under sticky nav */
@@ -304,6 +306,9 @@
    Utilities
 --------------------------*/
 @layer utilities {
+  :root { --nav-h: 64px; }                 /* sensible default */
+  .pt-nav { padding-top: var(--nav-h); }   /* opt-in page offset */
+  .scroll-mt-nav { scroll-margin-top: var(--nav-h); } /* handy for in-page anchors */
   .fade-in { @apply animate-fade-in; }
   .font-orbitron { font-family: 'Orbitron', sans-serif; }
 
