@@ -67,94 +67,78 @@ class PostController extends Controller
 
     public function create(Request $request)
     {
+        // Optional board context (?board=slug) – when present, form hides selector and posts to that board.
         $board = null;
         if ($request->filled('board')) {
             $board = Board::where('slug', $request->string('board'))->first();
         }
-        return view('posts.create', compact('board'));
+
+        // Provide all boards for the selector when no fixed board is set
+        $boards = Board::orderBy('position')->get();
+
+        return view('posts.create', compact('board', 'boards'));
     }
 
     public function store(StorePostRequest $request)
     {
         $this->authorize('create', Post::class);
         $validated = $request->validated();
-    
+
         // Optional board association
         if ($request->filled('board_id')) {
             $validated['board_id'] = (int) $request->input('board_id');
         }
-    
+
         // Image
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
             $processedPath = ImageService::processAndStore(
                 $request->file('image_path'),
-                'posts',
-                'post_',
-                1280,
-                null
+                'posts', 'post_', 1280, null
             );
             if (!$processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
             $validated['image_path'] = $processedPath;
-            // generate responsive variants for cards/hero
             $this->queueImageVariants($processedPath);
         }
-    
-        // Slug (post slug, not tags)
+
+        // Slug
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
             ? SlugService::generate($request->slug)
             : SlugService::generate($validated['title']);
-    
+
+        // Ensure new posts are visible under the new scheme
+        $validated['status']       = $validated['status']       ?? 'published';
+        $validated['published_at'] = $validated['published_at'] ?? now();
+
         $validated['user_id'] = Auth::id();
-    
+
         $post = Post::create($validated);
-    
-        /**
-         * Tags
-         * - When slug_mode === 'manual', accept user-entered tags.
-         * - Supports both tags[] (array) and legacy comma string 'tags'.
-         * - Always add auto tag for board if present (as before).
-         */
-        if (
-            class_exists(\App\Models\Tag::class) &&
-            method_exists($post, 'tags')
-        ) {
+
+        // --- tags (unchanged from your version) ---
+        if (class_exists(\App\Models\Tag::class) && method_exists($post, 'tags')) {
             $attachIds = [];
-        
-            // Manual/user-defined tags only when manual mode is selected
+
             if ($request->string('slug_mode') === 'manual') {
-                // Prefer array payload tags[]
                 $tags = collect($request->input('tags', []));
-            
-                // Fallback: legacy comma-joined 'tags'
                 if ($tags->isEmpty() && $request->filled('tags')) {
                     $tags = collect(explode(',', (string) $request->input('tags')));
                 }
-            
-                // Normalize -> slug -> unique
-                $tags = $tags
-                    ->map(fn ($t) => Str::of($t)->lower()->trim())
-                    ->filter()
-                    ->map(fn ($t) => Str::slug($t, '-'))
-                    ->filter()
-                    ->unique()
-                    ->values();
-            
-                if ($tags->isNotEmpty()) {
-                    foreach ($tags as $slug) {
-                        // Human-ish name for display, e.g. "rally-winter-blast" -> "Rally Winter Blast"
-                        $name = Str::headline(str_replace('-', ' ', $slug));
-                        $tag  = \App\Models\Tag::firstOrCreate(
-                            ['slug' => $slug],
-                            ['name' => $name]
-                        );
-                        $attachIds[] = $tag->id;
-                    }
+
+                $tags = $tags->map(fn ($t) => \Illuminate\Support\Str::of($t)->lower()  ->trim())
+                             ->filter()
+                             ->map(fn ($t) => \Illuminate\Support\Str::slug($t,     '-'))
+                             ->filter()
+                             ->unique()
+                             ->values();
+
+                foreach ($tags as $slug) {
+                    $name = \Illuminate\Support\Str::headline(str_replace('-', ' ',     $slug));
+                    $tag  = \App\Models\Tag::firstOrCreate(['slug' => $slug], ['name' => $name]);
+                    $attachIds[] = $tag->id;
                 }
             }
-        
-            // Auto-tag by board (existing behavior)
+
             if (!empty($validated['board_id'])) {
                 $board = Board::find($validated['board_id']);
                 if ($board) {
@@ -165,12 +149,12 @@ class PostController extends Controller
                     $attachIds[] = $boardTag->id;
                 }
             }
-        
-            if (!empty($attachIds)) {
+
+            if ($attachIds) {
                 $post->tags()->syncWithoutDetaching($attachIds);
             }
         }
-    
+
         return redirect()->route('blog.index')->with('success', 'Post created successfully!');
     }
 
@@ -179,83 +163,93 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        abort_unless(
-            $post->status === 'published' &&
-            !is_null($post->published_at) &&
-            $post->published_at->lte(now()),
-            404
-        );
-    
-        // Eager-load relations (tags only if the relation exists)
+        $now = now();
+
+        // Accept: new published posts, legacy publish_status, or legacy approved
+        $isPublic =
+            (($post->status === 'published') && $post->published_at && $post->published_at->lte($now))
+            || (is_null($post->status) && $post->publish_status === 'published')
+            || ($post->status === 'approved');
+
+        abort_unless($isPublic, 404);
+
         $relations = ['user', 'board'];
         if (class_exists(\App\Models\Tag::class) && method_exists($post, 'tags')) {
             $relations[] = 'tags';
         }
         $post->load($relations);
-    
-        $previous = Post::where('status', 'published')
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->where('id', '<', $post->id)
-            ->orderBy('id', 'desc')
-            ->first();
-    
-        $next = Post::where('status', 'published')
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->where('id', '>', $post->id)
-            ->orderBy('id')
-            ->first();
-    
-        // One source of truth for the board theme color
+
+        // Prev/next using the same visibility rules
+        $visibility = function ($q) use ($now) {
+            $q->where(function ($q) use ($now) {
+                $q->where(function ($q) use ($now) {
+                    $q->where('status', 'published')
+                      ->whereNotNull('published_at')
+                      ->where('published_at', '<=', $now);
+                })
+                ->orWhere(function ($q) {
+                    $q->whereNull('status')->where('publish_status', 'published');
+                })
+                ->orWhere('status', 'approved');
+            });
+        };
+
+        $previous = Post::where('id', '<', $post->id)
+                        ->where($visibility)
+                        ->orderBy('id', 'desc')
+                        ->first();
+
+        $next = Post::where('id', '>', $post->id)
+                    ->where($visibility)
+                    ->orderBy('id')
+                    ->first();
+
         $boardColor = optional($post->board)->color_token ?? 'sky';
-    
-        return view('posts.show', [
-            'post'        => $post,
-            'previous'    => $previous,
-            'next'        => $next,
-            'boardColor'  => $boardColor,
-        ]);
+
+        return view('posts.show', compact('post', 'previous', 'next', 'boardColor'));
     }
 
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+        // Provide boards for the selector (to change board association)
+        $boards = Board::orderBy('position')->get();
+
+        return view('posts.edit', compact('post', 'boards'));
     }
 
     public function update(StorePostRequest $request, Post $post)
     {
         $validated = $request->validated();
-
+    
         if ($request->filled('board_id')) {
             $validated['board_id'] = (int) $request->input('board_id');
         }
-
+    
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
             if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
                 Storage::disk('public')->delete($post->image_path);
             }
             $processedPath = ImageService::processAndStore(
                 $request->file('image_path'),
-                'posts',
-                'post_',
-                1280,
-                null
+                'posts', 'post_', 1280, null
             );
             if (!$processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
             $validated['image_path'] = $processedPath;
-            // generate responsive variants for updated image
             $this->queueImageVariants($processedPath);
         }
-
+    
         $validated['slug'] = $request->slug_mode === 'manual' && $request->filled('slug')
             ? SlugService::generate($request->slug, $post->id)
             : SlugService::generate($validated['title'], $post->id);
-
+    
+        // Keep published fields intact unless you’re changing scheduling elsewhere
+        $validated['status']       = $validated['status']       ?? $post->status ?? 'published';
+        $validated['published_at'] = $validated['published_at'] ?? $post->published_at ?? now();
+    
         $post->update($validated);
-
+    
         return redirect()->route('blog.index')->with('success', 'Post updated successfully!');
     }
 

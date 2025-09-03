@@ -3,10 +3,10 @@
   'action',
   'title' => 'Create Post',
   'submitLabel' => 'Publish',
-  'board' => null,        // \App\Models\Board when posting inside a board
-  'model' => null,        // Post model when editing
+  'board' => null,        // fixed board context (hidden)
+  'model' => null,        // Post when editing
   'method' => 'POST',     // 'POST' | 'PATCH' | 'PUT'
-  'boards' => null,       // Collection of boards for the selector (when no $board)
+  'boards' => collect(),  // optional list for selector
 ])
 
 @php $verb = strtoupper($method ?? 'POST'); @endphp
@@ -25,22 +25,19 @@
       </div>
     @endif
 
-    <form action="{{ $action }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+    <form action="{{ $action }}" method="POST" enctype="multipart/form-data"
+          class="space-y-5"
+          x-data="{ exCount: 0 }"
+          x-init="exCount = $refs.excerpt?.value.length || 0">
       @csrf
-      @if ($verb !== 'POST')
-        @method($verb)
-      @endif
+      @if ($verb !== 'POST') @method($verb) @endif
 
-      {{-- Fixed board context (hidden) --}}
+      {{-- Fixed board (hidden) --}}
       @if ($board)
         <input type="hidden" name="board_id" value="{{ $board->id }}">
-        <div class="ci-badge mb-2">
-          Posting to: <span class="ml-1 font-semibold">{{ $board->name }}</span>
-        </div>
-      @endif
-
-      {{-- Optional board selector when no board is pre-set --}}
-      @if (!$board && $boards)
+        <div class="ci-badge mb-2">Posting to: <span class="ml-1 font-semibold">{{ $board->name }}</span></div>
+      @elseif($boards->count())
+        {{-- Optional board selector --}}
         <div>
           <label for="board_id" class="block text-sm font-medium mb-1">Post to a board (optional)</label>
           <select id="board_id" name="board_id" class="ci-select">
@@ -52,9 +49,7 @@
               </option>
             @endforeach
           </select>
-          @error('board_id')
-            <p class="ci-error mt-1">{{ $message }}</p>
-          @enderror
+          @error('board_id') <p class="ci-error mt-1">{{ $message }}</p> @enderror
         </div>
       @endif
 
@@ -66,8 +61,21 @@
                class="ci-input">
       </div>
 
-      {{-- Slug (your existing component) --}}
+      {{-- Slug (existing component) --}}
       <x-form.slug-field :value="old('slug', optional($model)->slug)" />
+
+      {{-- Excerpt (with live counter) --}}
+      <div>
+        <label for="excerpt" class="block text-sm font-medium mb-1">Excerpt</label>
+        <textarea id="excerpt" x-ref="excerpt" name="excerpt" rows="2" maxlength="160"
+                  class="ci-textarea"
+                  x-on:input="exCount = $event.target.value.length">{{ old('excerpt', optional($model)->excerpt) }}</textarea>
+        <div class="mt-1 flex items-center justify-between">
+          <p class="text-xs ci-muted">Max 160 characters.</p>
+          <p class="text-xs ci-muted"><span x-text="exCount"></span>/160</p>
+        </div>
+        @error('excerpt') <p class="ci-error">{{ $message }}</p> @enderror
+      </div>
 
       {{-- Body --}}
       <div>
@@ -75,15 +83,14 @@
         <textarea id="body" name="body" rows="8" required
                   placeholder="Write your post..."
                   class="ci-textarea">{{ old('body', optional($model)->body) }}</textarea>
+        @error('body') <p class="ci-error">{{ $message }}</p> @enderror
       </div>
 
-      {{-- Image (optional) --}}
+      {{-- Feature image --}}
       <div>
-        <label for="image_path" class="block text-sm font-medium mb-1">Upload image</label>
-        <input id="image_path" name="image_path" type="file" class="ci-input">
-        @error('image_path')
-          <p class="ci-error mt-1">{{ $message }}</p>
-        @enderror
+        <label for="image_path" class="block text-sm font-medium mb-1">Feature image (optional)</label>
+        <input id="image_path" name="image_path" type="file" accept="image/*" class="ci-input">
+        @error('image_path') <p class="ci-error mt-1">{{ $message }}</p> @enderror
       </div>
 
       <div class="text-center pt-2">
