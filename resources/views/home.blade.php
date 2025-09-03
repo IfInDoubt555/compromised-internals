@@ -286,12 +286,44 @@
   {{-- ===== /HERO + HISTORY/NEXT ===== --}}
 
   {{-- Home: Latest From the Blog --}}
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 mt-8 mb-16">
-    @includeWhen(($latestPosts ?? collect())->count(), 'partials.blog-carousel', [
-      'posts'    => $latestPosts,
-      'variant'  => 'featured',
-      'interval' => 6,
-    ])
-  </div>
+  <section id="home-blog"
+           class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 mt-8 mb-16">
+    @if(($latestPosts ?? collect())->count())
+      <div class="mb-4 sm:mb-6 flex items-center justify-between gap-3">
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold tracking-wide
+                   text-stone-900 dark:text-stone-100">
+          Latest from the Blog
+        </h2>
+    
+        <a href="{{ route('blog.index') }}"
+           class="hidden sm:inline-flex items-center gap-1 text-sm font-medium
+                  text-blue-700 hover:text-blue-800 underline
+                  dark:text-sky-300 dark:hover:text-sky-200">
+          View all
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    
+      @include('partials.blog-carousel', [
+        'posts'    => $latestPosts,
+        'variant'  => 'featured',
+        'interval' => 6,
+      ])
+      
+      {{-- Mobile “view all” link under the carousel --}}
+      <div class="mt-4 sm:hidden">
+        <a href="{{ route('blog.index') }}"
+           class="inline-flex items-center gap-1 text-sm font-medium
+                  text-blue-700 hover:text-blue-800 underline
+                  dark:text-sky-300 dark:hover:text-sky-200">
+          View all posts
+        </a>
+      </div>
+    @endif
+  </section>
 </div>
 @endsection
