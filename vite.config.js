@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 
@@ -14,6 +15,16 @@ export default defineConfig(({ command }) => {
         refresh: true,
       }),
     ],
+       resolve: {
+     alias: {
+       // FullCalendar CSS subpaths (map to real files to bypass package "exports")
+       '@fullcalendar/daygrid/index.css': path.resolve(__dirname, 'node_modules/@fullcalendar/daygrid/index.css'),
+       // (optional future-proofers—safe to include)
+       '@fullcalendar/daygrid/main.css':  path.resolve(__dirname, 'node_modules/@fullcalendar/daygrid/main.css'),
+       '@fullcalendar/core/index.css':    path.resolve(__dirname, 'node_modules/@fullcalendar/core/index.css'),
+       '@fullcalendar/core/main.css':     path.resolve(__dirname, 'node_modules/@fullcalendar/core/main.css'),
+     },
+   },
   }
 
   if (command === 'serve') {
