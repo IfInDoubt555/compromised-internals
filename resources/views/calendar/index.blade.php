@@ -79,7 +79,7 @@
 @endpush
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 py-8">
+<div class="max-w-4xl mx-auto px-4 py-8 pt-16 lg:pt-18">
     <h1 class="text-3xl font-bold mb-4">Rally Calendar</h1>
 
     {{-- Legend + Filters (wired by app.js via #cal-controls [data-champ]) --}}

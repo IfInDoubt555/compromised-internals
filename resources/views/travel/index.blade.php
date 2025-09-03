@@ -32,7 +32,7 @@ $seo = [
 
 @section('content')
 {{-- Hero --}}
-<section class="max-w-5xl mx-auto px-4 pt-8">
+<section class="max-w-5xl mx-auto px-4 pt-14 lg:pt-18">
   <div
     class="relative scrim rounded-2xl px-6 py-8 mb-6
            bg-gradient-to-r from-slate-900/80 via-slate-800/75 to-slate-900/80
