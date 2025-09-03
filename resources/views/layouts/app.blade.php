@@ -158,8 +158,7 @@
       {{-- Affiliate strip lives INSIDE <main> so it never creates a dangling page gap --}}
       @php
         // Pages where the streaming-oriented copy/link should be used
-        $isStreamingContext = request()->routeIs('travel*', 'calendar*', 'events*');
-        
+        $isStreamingContext = request()->is('calendar*') || request()->is('events*') || request()->is('travel*');        
         // Show BMAC on home, calendar, and blog pages (NOT on history), except blog.index
         $showBmac = (
             request()->is('/') ||
@@ -168,7 +167,7 @@
         ) && !request()->routeIs('blog.index');
       @endphp
       
-      <div data-affiliate-strip class="mt-6">
+      <div class="mt-10 -mx-4 sm:-mx-6 lg:-mx-8" data-affiliate-strip>
         @if ($isStreamingContext)
           <x-affiliate.nordvpn-footer-stream-bar />
         @else
