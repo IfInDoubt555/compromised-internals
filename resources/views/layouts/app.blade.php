@@ -119,10 +119,10 @@
       @endif
     @endauth
 
-    <!-- Global page wrapper -->
-    <div id="theme-wrapper" class="min-h-screen">
-              {{-- Main site navigation (kept sticky within page wrapper) --}}
-        @include('layouts.navigation')
+    <div id="theme-wrapper" class="min-h-screen flex flex-col">
+      @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
+
+
         @isset($header)
         <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -131,8 +131,7 @@
         </header>
         @endisset
 
-        <main>
-            @if (session('success'))
+          <main id="app-main" class="flex-1">            @if (session('success'))
             <div
                 x-data="{ show: true }"
                 x-init="setTimeout(() => show = false, 3000)"
