@@ -108,4 +108,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return Storage::url($p); // /storage/...
     }
+
+        /**
+     * Accessor: display_name
+     * Prefer the profile's display_name; fallback to the account name.
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        // If relation is loaded, use it without another query.
+        if ($this->relationLoaded('profile') && $this->profile) {
+            return $this->profile->display_name ?: $this->name;
+        }
+        // Lazy fallback (single query if not preloaded)
+        return optional($this->profile)->display_name ?: $this->name;
+    }
 }

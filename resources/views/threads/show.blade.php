@@ -42,7 +42,7 @@
 
         <div class="mt-1 text-xs text-stone-600 dark:text-stone-400">
           <span class="font-medium text-stone-800 dark:text-stone-300">
-            {{ $thread->user->display_name ?? $thread->user->name ?? 'Unknown' }}
+            {{ $thread->user->display_name ?? 'Unknown' }}
           </span>
           • {{ optional($thread->created_at)->format('M j, Y') }}
           • last activity {{ optional($thread->last_activity_at)->diffForHumans() }}

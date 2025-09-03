@@ -26,7 +26,12 @@ class BoardController extends Controller
         // Threads visible for list pages, scoped to this board
         $threads = $board->threads()
             ->visibleForList()
-            ->with(['user:id,name,display_name'])
+            // Load user and just the profile fields we need for display_name
+            ->with([
+                'user:id,name',
+                'user.profile:id,user_id,display_name',
+            ])
+            ->with(['user:id,name'])
             ->withCount('replies')
             ->orderByRaw('COALESCE(last_activity_at, published_at, created_at) DESC')
             ->paginate(20)

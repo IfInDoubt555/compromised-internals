@@ -19,8 +19,12 @@ class ThreadController extends Controller
         if (! $thread->isPublished() && Gate::denies('update', $thread)) {
             abort(404);
         }
-
-        $thread->load(['board','user','replies.user']);
+        
+        $thread->load([
+            'board',
+            'user.profile',
+            'replies.user.profile',
+        ]);
         return view('threads.show', compact('thread'));
     }
 
