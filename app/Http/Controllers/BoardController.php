@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Board;
 use App\Models\Post;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class BoardController extends Controller
@@ -13,7 +12,7 @@ class BoardController extends Controller
     {
         $boards = Board::query()
             ->withCount([
-                // ✅ count only what we actually show
+                // count only threads that are visible on list pages
                 'threads as threads_count' => fn ($q) => $q->visibleForList(),
             ])
             ->orderBy('position')
@@ -24,16 +23,16 @@ class BoardController extends Controller
 
     public function show(Board $board): View
     {
-        // ✅ list using the same visibility scope as index
+        // Threads visible for list pages, scoped to this board
         $threads = $board->threads()
             ->visibleForList()
             ->with(['user:id,name,display_name'])
             ->withCount('replies')
-            ->orderByDesc(DB::raw('COALESCE(last_activity_at, published_at, created_at)'))
+            ->orderByRaw('COALESCE(last_activity_at, published_at, created_at) DESC')
             ->paginate(20)
             ->withQueryString();
 
-        // Recent blog posts linked to this board (Post belongsTo Board)
+        // Recent published blog posts linked to this board
         $posts = Post::query()
             ->published()
             ->whereHas('board', fn ($q) => $q->whereKey($board->getKey()))

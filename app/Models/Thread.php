@@ -28,6 +28,21 @@ class Thread extends Model
         'published_at',    // datetime (UTC)
     ];
 
+       /** Thread belongs to one Board */
+    public function board(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Board::class);
+    }
+
+    /** Only visible threads */
+    public function scopePublished(Builder $q): Builder
+    {
+        return $q->where('status', 'published')
+                 ->whereNotNull('published_at')
+                 ->where('published_at', '<=', now());
+    }
+
+
     protected function casts(): array
     {
         return [
@@ -66,11 +81,6 @@ class Thread extends Model
                  ->where('published_at', '<=', now());
     }
 
-    public function scopePublished(Builder $q): Builder
-    {
-        return $this->scopeVisibleForList($q);
-    }
-
     public function scopeScheduled(Builder $q): Builder
     {
         // ✅ scheduled_for (not published_at)
@@ -106,7 +116,6 @@ class Thread extends Model
     }
 
     /** ---------- Relations ---------- */
-    public function board(): BelongsTo   { return $this->belongsTo(Board::class); }
     public function user(): BelongsTo    { return $this->belongsTo(User::class); }
     public function replies(): HasMany   { return $this->hasMany(Reply::class); }
 

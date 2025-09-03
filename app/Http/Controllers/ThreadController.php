@@ -54,7 +54,9 @@ class ThreadController extends Controller
             'slug'             => $slug,
             'body'             => $data['body'],
             'last_activity_at' => now(),
-            // status/published_at set later by moderation workflow
+            // Make threads immediately visible on board pages
+            'status'           => 'published',
+            'published_at'     => now(),
         ]);
 
         // Optional: auto-tag by board
@@ -102,13 +104,22 @@ class ThreadController extends Controller
 
         $boardChanged = ((int)$data['board_id'] !== (int)$thread->board_id);
 
-        $thread->update([
+        // Update core fields
+        $thread->fill([
             'board_id'         => $data['board_id'],
             'title'            => $data['title'],
             'slug'             => $newSlug,
             'body'             => $data['body'],
             'last_activity_at' => now(),
         ]);
+
+        // Keep visibility consistent (unless you later add a scheduler flow)
+        if ($thread->status !== 'scheduled') {
+            $thread->status = 'published';
+            $thread->published_at = $thread->published_at ?: now();
+        }
+
+        $thread->save();
 
         // (Optional) retag if board changed
         if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
