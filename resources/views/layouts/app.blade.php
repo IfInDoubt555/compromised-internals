@@ -98,7 +98,6 @@
 
     {{-- Anything else pages push into <head> --}}
     @stack('head')
-    @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
 </head>
 
 <body
@@ -119,6 +118,8 @@
         </div>
       @endif
     @endauth
+    
+    @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
 
     <div id="theme-wrapper" class="min-h-screen flex flex-col">
 
