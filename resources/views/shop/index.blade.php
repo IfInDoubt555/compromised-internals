@@ -28,8 +28,9 @@
 @endpush
 
 @section('content')
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center
-            dark:bg-stone-900/70 dark:ring-1 dark:ring-white/10 dark:rounded-2xl dark:p-12">
+<div class="max-w-4xl mx-auto mt-6 px-4 py-12 text-center rounded-2xl shadow
+            ring-1 ring-black/5 bg-white/85
+            dark:bg-stone-900/70 dark:ring-white/10">
     <h1 class="text-4xl font-bold mb-6 text-gray-900 dark:text-stone-100">Rally Shop Coming Soon!</h1>
     <p class="text-lg text-gray-700 dark:text-stone-300 mb-8">
         This project is a labor of love, and I’m focused on growing it steadily.<br>

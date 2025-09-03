@@ -103,7 +103,9 @@
 @endpush
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="max-w-6xl mx-auto mt-6 px-4 py-12 text-center rounded-2xl shadow
+            ring-1 ring-black/5 bg-white/85
+            dark:bg-stone-900/70 dark:ring-white/10">
     <h1 class="text-3xl font-extrabold mb-6 text-center tracking-wide text-stone-900 dark:text-stone-100">
         Rally Resources
     </h1>

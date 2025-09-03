@@ -1,41 +1,67 @@
+{{-- resources/views/security/policy.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
-<div class="prose max-w-4xl mx-auto text-gray-800 mt-10 mb-10 text-lg leading-relaxed bg-white/45 backdrop-blur-md rounded-xl shadow-xl p-6">
-    <h1 class="text-3xl font-bold mb-6">Responsible Disclosure Policy</h1>
+<div class="max-w-3xl mx-auto px-4 pt-6 pb-12">
 
-    <p class="mb-4">
-        At Compromised Internals, we take security seriously. If you discover a vulnerability in our site or services, we ask that you responsibly disclose it to us so we can take appropriate action to fix it quickly.
-    </p>
+  {{-- Page title chip: light = soft white card, dark = hero surface --}}
+  <div
+    class="rounded-2xl px-6 py-5 mb-6 text-center font-orbitron text-2xl sm:text-3xl font-extrabold tracking-tight
+           bg-white/85 ring-1 ring-stone-900/10 shadow-xl
+           dark:bg-stone-900/70 dark:ring-white/10">
+    Responsible Disclosure Policy
+  </div>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Reporting a Vulnerability</h2>
-    <p class="mb-4">
-        Please send an email to <a href="mailto:no-reply@compromisedinternals.com" class="text-blue-600 underline">
-            security@compromisedinternals.com
-        </a>
-        with detailed information including:
-    </p>
-    <ul class="list-disc list-inside mb-4">
-        <li>A description of the vulnerability</li>
-        <li>Steps to reproduce it (including URLs or sample payloads)</li>
-        <li>Any potential impact</li>
-    </ul>
+  {{-- Subheader blurb --}}
+  <p class="text-center mb-8 text-stone-700 dark:text-stone-300">
+    We take security seriously. If you discover a vulnerability in our site or services,
+    please report it responsibly so we can fix it quickly and keep users safe.
+  </p>
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">What You Should NOT Do</h2>
-    <ul class="list-disc list-inside mb-4">
-        <li>Do not perform denial-of-service attacks</li>
-        <li>Do not access or modify data that isn't yours</li>
-        <li>Do not share details of the vulnerability publicly before we’ve fixed it</li>
-    </ul>
+  {{-- Main card --}}
+  <div class="rounded-2xl bg-white/90 ring-1 ring-stone-900/10 shadow-sm
+              dark:bg-stone-900/70 dark:ring-white/10">
 
-    <h2 class="text-xl font-semibold mt-6 mb-2">Acknowledgments</h2>
-    <p class="mb-4">
-        If you report a valid issue and follow this policy, we’ll credit you on our Hall of Fame page (if desired).
-    </p>
+    <div class="px-6 py-5 border-b border-stone-200/70 dark:border-white/10">
+      <h2 class="font-orbitron text-xl font-semibold">Reporting a Vulnerability</h2>
+      <p class="mt-3 text-stone-700 dark:text-stone-300">
+        Email our security team at
+        <a class="ci-link" href="mailto:security@compromisedinternals.com">security@compromisedinternals.com</a>
+        with as much detail as possible:
+      </p>
+      <ul class="mt-3 list-disc list-inside space-y-1 text-stone-700 dark:text-stone-300">
+        <li>A clear description of the vulnerability</li>
+        <li>Steps to reproduce (URLs, payloads, account state, etc.)</li>
+        <li>Observed and potential impact</li>
+        <li>Any logs, screenshots, or PoC that helps us verify quickly</li>
+      </ul>
+      <p class="mt-2 text-[11px] text-stone-500 dark:text-stone-400">
+        Please avoid including sensitive personal data in reports.
+      </p>
+    </div>
 
-    <p class="mt-6 text-sm text-gray-500">
-        Last updated: {{ now()->format('F j, Y') }}<br>
-        See our <a href="{{ route('security.hof') }}" class="text-blue-600 hover:underline">Security Hall of Fame</a>.
-    </p>
+    <div class="px-6 py-5 border-b border-stone-200/70 dark:border-white/10">
+      <h2 class="font-orbitron text-xl font-semibold">Please Don’t</h2>
+      <ul class="mt-3 list-disc list-inside space-y-1 text-stone-700 dark:text-stone-300">
+        <li>Perform denial-of-service or resource-exhaustion attacks</li>
+        <li>Access, modify, or exfiltrate data that isn’t yours</li>
+        <li>Impact availability of the service or other users</li>
+        <li>Publicly disclose details before we’ve remediated</li>
+      </ul>
+    </div>
+
+    <div class="px-6 py-5">
+      <h2 class="font-orbitron text-xl font-semibold">Acknowledgments</h2>
+      <p class="mt-3 text-stone-700 dark:text-stone-300">
+        If you report a valid issue and follow this policy, we’re happy to credit you on our
+        <a class="ci-link" href="{{ route('security.hof') }}">Security Hall of Fame</a> (if you’d like).
+      </p>
+
+      <p class="mt-4 text-[12px] text-stone-500 dark:text-stone-400">
+        Last updated: {{ now()->format('F j, Y') }}
+      </p>
+    </div>
+
+  </div>
 </div>
 @endsection

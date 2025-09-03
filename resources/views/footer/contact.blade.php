@@ -3,131 +3,142 @@
 @push('head')
     <script
         src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"
-        async
-        defer>
+        async defer>
     </script>
 @endpush
 
 @section('content')
-<div class="max-w-2xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold text-center mb-6">📬 Contact</h1>
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    {{-- Header --}}
+    <div class="ci-card py-4 mb-6 text-center">
+        <h1 class="ci-title-xl">Contact</h1>
+        <p class="ci-body mt-2">
+            Questions, ideas, or bug reports? Send a quick note below.
+        </p>
+    </div>
+
+    {{-- Alerts --}}
+    @if (session('success'))
+        <div class="ci-alert mb-6" role="status">
+            ✅ {{ session('success') }}
+        </div>
+    @endif
 
     @if ($errors->has('recaptcha'))
-        <div class="mt-4 mb-6 rounded bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-3 text-sm text-red-800 dark:text-red-100 font-semibold shadow animate-fade-in">
+        <div class="ci-alert ci-alert-warn mb-6" role="alert">
             ⚠️ {{ $errors->first('recaptcha') }}
         </div>
     @endif
 
-    <form id="contact-form"
-          action="{{ route('contact.submit') }}"
-          method="POST"
-          class="space-y-6 bg-white dark:bg-gray-500 p-6 rounded-xl shadow">
+    {{-- Form --}}
+    <form
+        id="contact-form"
+        action="{{ route('contact.submit') }}"
+        method="POST"
+        class="ci-card p-6 sm:p-8 space-y-6"
+        novalidate
+    >
         @csrf
         <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
-        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-4 mb-6 rounded shadow-md text-sm">
-            <strong>Heads up!</strong> This site is in early testing. If you spot any bugs or have suggestions, feel free to use this form—even test@test.com is fine for the email.
+        {{-- Name + Email side-by-side on desktop --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="name" class="block font-semibold mb-1">Name</label>
+                <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    value="{{ old('name') }}"
+                    required
+                    class="ci-input"
+                    placeholder="Your name"
+                    autocomplete="name"
+                    autofocus
+                    @error('name') aria-invalid="true" aria-describedby="name-error" @enderror
+                >
+                @error('name')
+                    <p id="name-error" class="ci-error mt-1">⚠️ {{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label for="email" class="block font-semibold mb-1">Email</label>
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value="{{ old('email') }}"
+                    required
+                    class="ci-input"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    inputmode="email"
+                    @error('email') aria-invalid="true" aria-describedby="email-error" @enderror
+                >
+                @error('email')
+                    <p id="email-error" class="ci-error mt-1">⚠️ {{ $message }}</p>
+                @enderror
+            </div>
         </div>
 
-        <div>
-            <label for="name" class="block font-semibold mb-1">Name</label>
-            <input
-                id="name"
-                name="name"
-                type="text"
-                value="{{ old('name') }}"
-                required
-                class="w-full border border-gray-300 dark:border-gray-700 rounded px-4 py-2 dark:bg-gray-300"
-            >
-            @error('name')
-                <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
-                    ⚠️ {{ $message }}
-                </div>
-            @enderror
-        </div>
-
-        <div>
-            <label for="email" class="block font-semibold mb-1">Email</label>
-            <input
-                id="email"
-                name="email"
-                type="email"
-                value="{{ old('email') }}"
-                required
-                class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300"
-            >
-            @error('email')
-                <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
-                    ⚠️ {{ $message }}
-                </div>
-            @enderror
-        </div>
-
+        {{-- Message --}}
         <div>
             <label for="message" class="block font-semibold mb-1">Message</label>
             <textarea
                 id="message"
                 name="message"
-                rows="6"
+                rows="7"
                 required
-                class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-2 dark:bg-gray-300"
+                class="ci-textarea"
+                placeholder="Tell me what’s up…"
+                @error('message') aria-invalid="true" aria-describedby="message-error" @enderror
             >{{ old('message') }}</textarea>
             @error('message')
-                <div class="mt-2 rounded-md bg-red-100 dark:bg-red-900 border border-red-500 px-4 py-2 text-sm font-semibold text-red-800 dark:text-red-100 shadow animate-fade-in">
-                    ⚠️ {{ $message }}
-                </div>
+                <p id="message-error" class="ci-error mt-1">⚠️ {{ $message }}</p>
             @enderror
         </div>
 
-        <div class="text-center">
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+        <div class="flex items-center justify-between gap-4 pt-2">
+            <p class="ci-help">
+                This site is protected by reCAPTCHA and the Google
+                <a class="ci-link" href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+                and
+                <a class="ci-link" href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a>
+                apply.
+            </p>
+
+            <button type="submit" class="ci-btn-primary">
                 Send Message
             </button>
         </div>
     </form>
-
-    <noscript class="mt-6 text-center text-red-600">
-        ⚠️ Please enable JavaScript to submit this form.
-    </noscript>
 </div>
 @endsection
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('contact-form');
-    const tokenInput = document.getElementById('recaptcha_token');
+  const form = document.getElementById('contact-form');
+  const tokenInput = document.getElementById('recaptcha_token');
+  if (!form) return;
 
-    if (!form) {
-        console.error('⚠️ Contact form not found');
-        return;
+  form.addEventListener('submit', function (event) {
+    if (tokenInput.value) return;     // already have a token
+
+    event.preventDefault();           // get a token first
+    if (typeof grecaptcha === 'undefined') {
+      console.warn('grecaptcha not loaded; submitting anyway');
+      return form.submit();
     }
 
-    form.addEventListener('submit', function (event) {
-        // if we already have a token, let it submit normally
-        if (tokenInput.value) {
-            return;
-        }
-
-        // otherwise, block default and fetch a recaptcha token
-        event.preventDefault();
-
-        if (typeof grecaptcha === 'undefined') {
-            console.error('⚠️ grecaptcha not loaded');
-            return form.submit();
-        }
-
-        grecaptcha.ready(() => {
-            grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'contact' })
-                .then(token => {
-                    tokenInput.value = token;
-                    form.submit();  // native .submit() bypasses this listener
-                })
-                .catch(err => {
-                    console.error('❌ reCAPTCHA error:', err);
-                });
-        });
+    grecaptcha.ready(() => {
+      grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'contact' })
+        .then(token => { tokenInput.value = token; form.submit(); })
+        .catch(() => { form.submit(); }); // fail-open so users aren’t blocked
     });
+  });
 });
 </script>
 @endpush
