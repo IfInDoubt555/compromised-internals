@@ -57,7 +57,7 @@ const idle = (fn) => ('requestIdleCallback' in window) ? requestIdleCallback(fn)
 
 document.addEventListener('DOMContentLoaded', () => {
   // Scroll controls
-  if (document.querySelector('[data-has-scroll-controls]')) {
+  if (document.getElementsById('back-to-top')) {
     const boot = () => import('./scrollControls').then(m => {
       const fn = m.default || m.initScrollControls;
       if (typeof fn === 'function') fn();

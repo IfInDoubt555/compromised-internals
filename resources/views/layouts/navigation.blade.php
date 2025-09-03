@@ -1,5 +1,5 @@
 <nav x-data="{ open: false }"
-     class="sticky top-0 z-50 bg-white/80 border-b border-black/5
+     class="fixed top-0 inset-x-0 z-[70] bg-white/80 border-b border-black/5
             dark:bg-stone-950/70 dark:border-white/10
             supports-[backdrop-filter]:backdrop-blur">
   <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-full">

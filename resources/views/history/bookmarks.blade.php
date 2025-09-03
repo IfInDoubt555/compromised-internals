@@ -59,7 +59,7 @@
 
 <div
   id="history-root"
-  class="min-h-screen history-body overflow-x-hidden decade-{{ $themeDecade }} pt-16 lg:pt-24"
+  class="min-h-screen history-body overflow-x-hidden decade-{{ $themeDecade }}"
   data-decade="{{ $themeDecade }}"
   data-tab="{{ $tab }}"
   x-data="historyDrawerOnly('{{ $tab }}', '{{ $decade }}', '{{ $year ?? '' }}')"

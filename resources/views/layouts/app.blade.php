@@ -118,10 +118,10 @@
         </div>
       @endif
     @endauth
-    
+
     @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
 
-    <div id="theme-wrapper" class="min-h-screen flex flex-col">
+    <div id="theme-wrapper" class="min-h-screen flex flex-col pt-16 lg:pt-20">
 
         @isset($header)
         <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
