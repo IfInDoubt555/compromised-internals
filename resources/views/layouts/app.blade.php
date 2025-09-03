@@ -98,6 +98,7 @@
 
     {{-- Anything else pages push into <head> --}}
     @stack('head')
+    @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
 </head>
 
 <body
@@ -120,8 +121,6 @@
     @endauth
 
     <div id="theme-wrapper" class="min-h-screen flex flex-col">
-      @include('layouts.navigation')   {{-- ✅ nav FIRST, inside the wrapper --}}
-
 
         @isset($header)
         <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
