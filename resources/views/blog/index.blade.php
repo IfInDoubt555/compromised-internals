@@ -23,15 +23,10 @@
 @endphp
 
 @push('head')
-    {{-- Canonical + robots --}}
     <link rel="canonical" href="{{ $seo['url'] }}">
     <meta name="robots" content="index,follow">
-
-    {{-- Basic Meta --}}
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
-
-    {{-- Open Graph --}}
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Compromised Internals">
     <meta property="og:locale" content="en_US">
@@ -39,22 +34,20 @@
     <meta property="og:title" content="{{ $seo['title'] }}">
     <meta property="og:description" content="{{ $seo['description'] }}">
     <meta property="og:image" content="{{ $seo['image'] }}">
-
-    {{-- Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ $seo['url'] }}">
     <meta name="twitter:title" content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
     <meta name="twitter:image" content="{{ $seo['image'] }}">
-
-    {{-- Structured Data --}}
     <script type="application/ld+json">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 @endpush
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+{{-- Offset the whole page from the sticky nav on small screens --}}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
+            pt-[calc(var(--nav-h)+10px)] pb-8 lg:pt-10">
 
   {{-- Hero --}}
   <header class="mb-8 text-center">
@@ -75,8 +68,8 @@
   @endauth
 
   {{-- MOBILE: sticky tools (Search + Discussion Boards) under the nav --}}
-  <div class="lg:hidden sticky top-0 z-40">
-    <div class="ci-card px-4 py-3 ring-1 ring-black/5 dark:ring-white/10
+  <div class="lg:hidden sticky top-[calc(var(--nav-h)+6px)] z-40">
+    <div class="ci-card px-4 py-3 ring-1 ring-black/5 dark:ring-white/10 shadow-sm
                 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-stone-900/60">
       @include('partials.blog-sidebar')
     </div>
@@ -90,11 +83,11 @@
   {{-- DESKTOP layout: sidebar + main --}}
   <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8 items-start mt-6">
     {{-- Sidebar (desktop only) --}}
-    <aside class="hidden lg:block sticky top-[110px] self-start">
-      <div class="max-h-[calc(100vh-110px-24px)] overflow-y-auto pr-2">
+    <aside class="hidden lg:block sticky top-[calc(var(--nav-h)+24px)] self-start">
+      <div class="max-h-[calc(100vh-(var(--nav-h)+24px))] overflow-y-auto pr-2">
         @include('partials.blog-sidebar')
 
-        {{-- Desktop: Hot Right Now inside the sidebar (scrolls within the sidebar) --}}
+        {{-- Desktop: Hot Right Now inside the sidebar --}}
         <div class="mt-4">
           @include('partials.blog-hot-right-now', ['items' => $hotPosts ?? [], 'limit' => 3])
         </div>
