@@ -19,18 +19,6 @@
 
   $threadsCount = method_exists($board, 'threads') ? ($board->threads_count ?? $board->threads()->count()) : ($threads->total() ?? $threads->count());
 @endphp
-{{-- Breadcrumb back to Boards --}}
-<div class="mb-4 text-sm">
-  <a href="{{ route('boards.index') }}"
-     class="inline-flex items-center gap-1 text-blue-700 hover:underline dark:text-sky-300">
-    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-    </svg>
-    Boards
-  </a>
-  <span class="text-stone-400">/</span>
-  <span class="text-stone-700 dark:text-stone-300">{{ $board->name }}</span>
-</div>
 
 <section class="relative isolate">
   {{-- Light-only soft fade so content never sits right on the photo when short --}}
@@ -40,6 +28,18 @@
               dark:from-transparent"></div>
 
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-6 pb-24 min-h-[65vh]">
+    {{-- Breadcrumb back to Boards --}}
+    <div class="mb-4 text-sm">
+      <a href="{{ route('boards.index') }}"
+         class="inline-flex items-center gap-1 text-blue-700 hover:underline dark:text-sky-300">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Boards
+      </a>
+      <span class="text-stone-400">/</span>
+      <span class="text-stone-700 dark:text-stone-300">{{ $board->name }}</span>
+    </div>
 
     {{-- HERO --}}
     <div class="rounded-2xl bg-white/85 ring-1 ring-black/5 shadow-xl backdrop-blur
