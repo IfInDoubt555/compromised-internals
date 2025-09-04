@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testing
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, intl, pdo_mysql, bcmath, pcntl
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Copy env
+        run: |
+          cp .env.example .env
+          php -r "file_put_contents('.env', str_replace('DB_DATABASE=homestead', 'DB_DATABASE=testing', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', str_replace('DB_USERNAME=homestead', 'DB_USERNAME=root', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', str_replace('DB_PASSWORD=secret', 'DB_PASSWORD=root', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', preg_replace('/^APP_KEY=.*/m','APP_KEY=', file_get_contents('.env')));"
+
+      - name: Composer install
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Generate key & migrate
+        run: |
+          php artisan key:generate
+          php artisan migrate --force
+
+      - name: PHPStan
+        run: vendor/bin/phpstan analyse --no-progress --error-format=github
+
+      - name: Pint (lint)
+        run: vendor/bin/pint --test
+
+      - name: NPM install + build
+        run: |
+          npm ci
+          npm run build
+
+      - name: PHPUnit
+        run: php artisan test --parallel --recreate-databases

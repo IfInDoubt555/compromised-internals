@@ -110,20 +110,18 @@ class Post extends Model
 
     /** ---------- Scopes ---------- */
     // KEEP this robust one; REMOVE the simple status-only version
-    public function scopePublished(Builder $q): Builder
+    public function scopePublic(Builder $q): Builder
     {
         return $q->where(function ($q) {
-            // New flow: published + published_at <= now
             $q->where(function ($q) {
                 $q->where('status', 'published')
                   ->whereNotNull('published_at')
                   ->where('published_at', '<=', now());
             })
-            // Legacy flow: publish_status column
             ->orWhere(function ($q) {
-                $q->whereNull('status')->where('publish_status', 'published');
+                $q->whereNull('status')
+                  ->where('publish_status', 'published');
             })
-            // Legacy: approved status
             ->orWhere('status', 'approved');
         });
     }
