@@ -19,6 +19,18 @@
 
   $threadsCount = method_exists($board, 'threads') ? ($board->threads_count ?? $board->threads()->count()) : ($threads->total() ?? $threads->count());
 @endphp
+{{-- Breadcrumb back to Boards --}}
+<div class="mb-4 text-sm">
+  <a href="{{ route('boards.index') }}"
+     class="inline-flex items-center gap-1 text-blue-700 hover:underline dark:text-sky-300">
+    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+    </svg>
+    Boards
+  </a>
+  <span class="text-stone-400">/</span>
+  <span class="text-stone-700 dark:text-stone-300">{{ $board->name }}</span>
+</div>
 
 <section class="relative isolate">
   {{-- Light-only soft fade so content never sits right on the photo when short --}}
