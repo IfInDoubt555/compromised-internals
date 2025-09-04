@@ -219,26 +219,7 @@
       </div>
     @endif
 
-    @auth
-      @php $invalid = $errors->has('body'); @endphp
-      <form action="{{ route('comments.store', $post) }}" method="POST" class="mb-6">
-        @csrf
-        <textarea
-          name="body" rows="3" aria-invalid="{{ $invalid ? 'true' : 'false' }}"
-          @class([
-            'w-full p-3 rounded shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500',
-            'border bg-gray-300 border-gray-300 dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-100 dark:placeholder-stone-500' => ! $invalid,
-            'border bg-red-50 border-red-500 text-red-900 ring-red-500 dark:bg-red-950 dark:text-red-100 dark:border-red-500' => $invalid,
-          ])
-          placeholder="Leave a comment...">{{ old('body') }}</textarea>
-        @error('body')
-          <p class="mt-2 text-sm text-red-600 dark:text-red-300">{{ $message }}</p>
-        @enderror
-        <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-          Comment
-        </button>
-      </form>
-    @endauth
+    
 
     @if ($post->comments->count())
       <div class="space-y-4 mb-6 mt-10">
@@ -307,6 +288,31 @@
     @else
       <p class="mt-6 mb-6 text-gray-500 italic dark:text-stone-400">No comments yet. Be the first to chime in!</p>
     @endif
+    {{-- Composer moved to the bottom (where the new comment will appear) --}}
+    @auth
+      @php $invalid = $errors->has('body'); @endphp
+      <div id="comment-form" class="mt-6">
+        <form action="{{ route('comments.store', $post) }}" method="POST" class="mb-6">
+          @csrf
+          <textarea
+            name="body" rows="3" aria-invalid="{{ $invalid ? 'true' : 'false' }}"
+            @class([
+              'w-full p-3 rounded shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500',
+              'border bg-gray-300 border-gray-300 dark:bg-stone-800/60 dark:border-white/10 dark:text-stone-100 dark:placeholder-stone-500' => ! $invalid,
+              'border bg-red-50 border-red-500 text-red-900 ring-red-500 dark:bg-red-950 dark:text-red-100 dark:border-red-500' => $invalid,
+            ])
+            placeholder="Leave a comment...">{{ old('body') }}</textarea>
+          @error('body')
+            <p class="mt-2 text-sm text-red-600 dark:text-red-300">{{ $message }}</p>
+          @enderror
+          <div class="flex justify-end">
+            <button type="submit" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              Comment
+            </button>
+          </div>
+        </form>
+      </div>
+    @endauth
 
   </div>
 </div>

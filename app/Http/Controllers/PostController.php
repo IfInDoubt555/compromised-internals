@@ -164,21 +164,27 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $now = now();
-
+    
         // Accept: new published posts, legacy publish_status, or legacy approved
         $isPublic =
             (($post->status === 'published') && $post->published_at && $post->published_at->lte($now))
             || (is_null($post->status) && $post->publish_status === 'published')
             || ($post->status === 'approved');
-
+    
         abort_unless($isPublic, 404);
-
-        $relations = ['user', 'board'];
+    
+        // Eager-load core relations + comments oldest→newest (composer will sit at the end)
+        $relations = [
+            'user.profile',
+            'board',
+            // comments ordered oldest-first and include commenter profile
+            'comments' => fn ($q) => $q->oldest()->with('user.profile'),
+        ];
         if (class_exists(\App\Models\Tag::class) && method_exists($post, 'tags')) {
             $relations[] = 'tags';
         }
         $post->load($relations);
-
+    
         // Prev/next using the same visibility rules
         $visibility = function ($q) use ($now) {
             $q->where(function ($q) use ($now) {
@@ -193,19 +199,19 @@ class PostController extends Controller
                 ->orWhere('status', 'approved');
             });
         };
-
+    
         $previous = Post::where('id', '<', $post->id)
                         ->where($visibility)
                         ->orderBy('id', 'desc')
                         ->first();
-
+    
         $next = Post::where('id', '>', $post->id)
                     ->where($visibility)
                     ->orderBy('id')
                     ->first();
-
+    
         $boardColor = optional($post->board)->color_token ?? 'sky';
-
+    
         return view('posts.show', compact('post', 'previous', 'next', 'boardColor'));
     }
 
