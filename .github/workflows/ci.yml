@@ -39,13 +39,17 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Copy env
+      # ---- CI-only .env (does NOT touch Forge or your local .env) ----
+      - name: Copy env (CI MySQL)
         run: |
           cp .env.example .env
-          php -r "file_put_contents('.env', str_replace('DB_DATABASE=homestead', 'DB_DATABASE=testing', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', str_replace('DB_USERNAME=homestead', 'DB_USERNAME=root', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', str_replace('DB_PASSWORD=secret', 'DB_PASSWORD=root', file_get_contents('.env')));"
           php -r "file_put_contents('.env', preg_replace('/^APP_KEY=.*/m','APP_KEY=', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', preg_replace('/^DB_CONNECTION=.*/m','DB_CONNECTION=mysql', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', preg_replace('/^DB_HOST=.*/m','DB_HOST=127.0.0.1', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', preg_replace('/^DB_PORT=.*/m','DB_PORT=3306', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', preg_replace('/^DB_DATABASE=.*/m','DB_DATABASE=testing', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', preg_replace('/^DB_USERNAME=.*/m','DB_USERNAME=root', file_get_contents('.env')));"
+          php -r "file_put_contents('.env', preg_replace('/^DB_PASSWORD=.*/m','DB_PASSWORD=root', file_get_contents('.env')));"
 
       - name: Composer install
         run: composer install --no-interaction --prefer-dist
