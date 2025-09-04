@@ -144,8 +144,9 @@
               <div x-show="!editing" x-cloak
                    class="prose dark:prose-invert max-w-none
                           prose-headings:font-semibold prose-h3:text-lg
-                          prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1">
-                          {!! $reply->body_html !!}
+                          prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1
+                          prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-96">
+                {!! $reply->body_html !!}
               </div>
 
               @if(auth()->check() && auth()->id() === $reply->user_id)
