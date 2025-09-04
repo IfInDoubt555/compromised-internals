@@ -238,7 +238,12 @@
             </div>
 
             <div class="mb-3">
-              <p x-show="!editing" x-text="body" class="text-gray-900 dark:text-stone-100"></p>
+              <div x-show="!editing" x-cloak
+                   class="prose dark:prose-invert max-w-none
+                          prose-headings:font-semibold prose-p:leading-relaxed
+                          prose-ul:list-disc prose-ol:list-decimal prose-li:my-1">
+                {!! $comment->body_html !!}
+              </div>
 
               @can('update', $comment)
                 <form x-show="editing" method="POST" action="{{ route('comments.update', $comment) }}"

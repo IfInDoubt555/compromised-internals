@@ -97,7 +97,7 @@
                       prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
                       prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1
                       dark:bg-stone-900/70 dark:ring-white/10">
-        {!! Str::markdown($thread->body) !!}
+        {!! $thread->body_html !!}
       </article>
 
       @can('update', $thread)
