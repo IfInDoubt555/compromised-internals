@@ -1,45 +1,70 @@
-// Simple Alpine-powered lightbox (no deps)
-document.addEventListener('alpine:init', () => {
-  Alpine.store('lightbox', {
-    open: false,
-    src: '',
-    alt: '',
-    show(src, alt = '') {
-      this.src = src;
-      this.alt = alt;
-      this.open = true;
-      document.body.classList.add('overflow-hidden');
-    },
-    close() {
-      this.open = false;
-      this.src = '';
-      this.alt = '';
-      document.body.classList.remove('overflow-hidden');
-    },
+(() => {
+  const root = document.getElementById('ci-lightbox-root');
+  if (!root) return;
+
+  const imgEl = root.querySelector('#ci-lightbox-img');
+  const backdrop = root.querySelector('[data-ci="backdrop"]');
+  const btnClose = root.querySelector('[data-ci="close"]');
+
+  let prevOverflow = '';
+  let active = false;
+
+  const open = (src) => {
+    if (!src) return;
+    active = true;
+    imgEl.src = src;
+
+    // show
+    root.classList.remove('hidden');
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    root.setAttribute('aria-hidden', 'false');
+
+    // small fade / scale-in
+    requestAnimationFrame(() => {
+      backdrop.classList.remove('opacity-0');
+      imgEl.classList.remove('opacity-0', 'scale-95');
+    });
+
+    // focus for a11y
+    btnClose.focus({ preventScroll: true });
+  };
+
+  const close = () => {
+    if (!active) return;
+    active = false;
+
+    // animate out
+    backdrop.classList.add('opacity-0');
+    imgEl.classList.add('opacity-0', 'scale-95');
+
+    setTimeout(() => {
+      root.classList.add('hidden');
+      root.setAttribute('aria-hidden', 'true');
+      imgEl.removeAttribute('src');
+      document.documentElement.style.overflow = prevOverflow || '';
+    }, 150);
+  };
+
+  // Close interactions
+  btnClose.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') close();
   });
-});
 
-// Delegate clicks on images inside any .js-lightbox-scope container
-document.addEventListener('click', (e) => {
-  const img = e.target.closest('.js-lightbox-scope img');
-  if (!img) return;
-  if (img.hasAttribute('data-nolightbox')) return;
+  // Delegate clicks on images within any .js-lightbox-scope container
+  document.addEventListener('click', (e) => {
+    if (active) return;
 
-  // If inside an anchor, prevent navigation
-  const a = img.closest('a');
-  if (a) e.preventDefault();
+    const img = e.target.closest('.js-lightbox-scope img');
+    if (!img || img.dataset.noLightbox !== undefined) return;
 
-  const src = img.getAttribute('src');
-  const alt = img.getAttribute('alt') || '';
+    // prevent parent link navigation if any
+    if (e.target.tagName === 'IMG') e.preventDefault();
+    e.stopPropagation();
 
-  if (window.Alpine?.store('lightbox')) {
-    window.Alpine.store('lightbox').show(src, alt);
-  }
-});
-
-// Close on ESC
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && window.Alpine?.store('lightbox')) {
-    window.Alpine.store('lightbox').close();
-  }
-});
+    const src = img.currentSrc || img.src;
+    open(src);
+  }, { capture: true });
+})();

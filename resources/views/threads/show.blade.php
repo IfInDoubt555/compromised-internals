@@ -96,7 +96,7 @@
                class="prose dark:prose-invert max-w-none rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow p-5
                       prose-headings:font-semibold prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
                       prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1
-                      prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-[36rem]
+                      prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-[36rem]      prose-img:cursor-zoom-in
                       dark:bg-stone-900/70 dark:ring-white/10
                       js-lightbox-scope">
         {!! $thread->body_html !!}
@@ -144,13 +144,13 @@
 
             <div class="mt-2">
               <div x-show="!editing" x-cloak
-                   class="prose dark:prose-invert max-w-none
-                          prose-headings:font-semibold prose-h3:text-lg
-                          prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1
-                          prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-96
-                          js-lightbox-scope">
-                {!! $reply->body_html !!}
-              </div>
+                 class="prose dark:prose-invert max-w-none
+                        prose-headings:font-semibold prose-h3:text-lg
+                        prose-p:leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-li:my-1
+                        prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-96 prose-img:cursor-zoom-in
+                        js-lightbox-scope">
+              {!! $reply->body_html !!}
+            </div>
 
               @if(auth()->check() && auth()->id() === $reply->user_id)
               <form x-show="editing" x-cloak method="POST" action="{{ route('replies.update', $reply) }}" class="mt-2 space-y-2">
