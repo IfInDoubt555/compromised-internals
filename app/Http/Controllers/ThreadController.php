@@ -19,12 +19,14 @@ class ThreadController extends Controller
         if (! $thread->isPublished() && Gate::denies('update', $thread)) {
             abort(404);
         }
-        
+
+        // Load relations; replies ordered oldest → newest so composer sits where reply will appear
         $thread->load([
             'board',
             'user.profile',
-            'replies.user.profile',
+            'replies' => fn ($q) => $q->oldest()->with('user.profile'),
         ]);
+
         return view('threads.show', compact('thread'));
     }
 

@@ -110,32 +110,8 @@
         <p class="mt-2 text-xs text-stone-500 dark:text-stone-400">Markdown supported.</p>
       </div>
       @endcan
-
-      {{-- Reply composer --}}
-      <div class="rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow p-5
-                  dark:bg-stone-900/70 dark:ring-white/10">
-        @auth
-          <form action="{{ route('replies.store', $thread->slug) }}" method="POST" class="space-y-3">
-            @csrf
-            <textarea name="body" rows="5" required placeholder="Write a reply…"
-                      class="w-full rounded-lg p-3 bg-white ring-1 ring-black/10
-                             dark:bg-stone-800/60 dark:ring-white/10 dark:text-stone-100">{{ old('body') }}</textarea>
-            @error('body')
-              <p class="text-sm text-rose-600 dark:text-rose-300">{{ $message }}</p>
-            @enderror
-            <div class="flex justify-end">
-              <button class="rounded-lg px-4 py-2 font-semibold
-                             bg-red-600 text-white hover:bg-red-700">Post reply</button>
-            </div>
-          </form>
-        @else
-          <p class="text-sm text-stone-600 dark:text-stone-400">
-            Please <a href="{{ route('login') }}" class="text-blue-700 underline dark:text-sky-300">log in</a> to reply.
-          </p>
-        @endauth
-      </div>
-
-      {{-- Replies --}}
+      
+      {{-- Replies (oldest → newest) --}}
       <section aria-labelledby="replies" class="space-y-4">
         <h2 id="replies" class="sr-only">Replies</h2>
 
@@ -191,6 +167,29 @@
           <p class="text-sm text-stone-600 dark:text-stone-400">No replies yet.</p>
         @endforelse
       </section>
+      {{-- Reply composer (moved to bottom, where the reply will appear) --}}
+      <div class="rounded-2xl bg-white/90 backdrop-blur ring-1 ring-black/5 shadow p-5
+                  dark:bg-stone-900/70 dark:ring-white/10" id="reply">
+        @auth
+          <form action="{{ route('replies.store', $thread->slug) }}" method="POST" class="space-y-3" id="reply-form">
+            @csrf
+            <textarea name="body" rows="5" required placeholder="Write a reply…"
+                      class="w-full rounded-lg p-3 bg-white ring-1 ring-black/10
+                             dark:bg-stone-800/60 dark:ring-white/10 dark:text-stone-100">{{ old('body') }}</textarea>
+            @error('body')
+              <p class="text-sm text-rose-600 dark:text-rose-300">{{ $message }}</p>
+            @enderror
+            <div class="flex justify-end">
+              <button class="rounded-lg px-4 py-2 font-semibold
+                             bg-red-600 text-white hover:bg-red-700">Post reply</button>
+            </div>
+          </form>
+        @else
+          <p class="text-sm text-stone-600 dark:text-stone-400">
+            Please <a href="{{ route('login') }}" class="text-blue-700 underline dark:text-sky-300">log in</a> to reply.
+          </p>
+        @endauth
+      </div>
     </section>
 
     {{-- RIGHT: rail --}}
