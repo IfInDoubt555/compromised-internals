@@ -48,7 +48,7 @@ class ThreadController extends Controller
         ]);
 
         // Slug: use provided slug or derive from title, ensure uniqueness
-        $slug = $data['slug'] ?: Str::slug($data['title']);
+        $slug = $data['slug'] ?? Str::slug($data['title']);
         if (Thread::where('slug', $slug)->exists()) {
             $slug .= '-' . Str::lower(Str::random(6));
         }
