@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2e7f97abdd9ad00323b26c3bae474bf",
+    "content-hash": "3cacdf2371b5a5f1550708028fdd3236",
     "packages": [
         {
             "name": "balping/json-raw-encoder",
@@ -3969,16 +3969,16 @@
         },
         {
             "name": "spatie/laravel-csp",
-            "version": "3.13.1",
+            "version": "3.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-csp.git",
-                "reference": "dccf75bee8556e1bd0ae13abf505497a141fccf7"
+                "reference": "0a39546574f2e16aa142b25b96dce1fc62f7fc49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-csp/zipball/dccf75bee8556e1bd0ae13abf505497a141fccf7",
-                "reference": "dccf75bee8556e1bd0ae13abf505497a141fccf7",
+                "url": "https://api.github.com/repos/spatie/laravel-csp/zipball/0a39546574f2e16aa142b25b96dce1fc62f7fc49",
+                "reference": "0a39546574f2e16aa142b25b96dce1fc62f7fc49",
                 "shasum": ""
             },
             "require": {
@@ -4042,7 +4042,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-csp/tree/3.13.1"
+                "source": "https://github.com/spatie/laravel-csp/tree/3.17.0"
             },
             "funding": [
                 {
@@ -4050,7 +4050,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-06-23T13:39:38+00:00"
+            "time": "2025-08-25T07:38:42+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
