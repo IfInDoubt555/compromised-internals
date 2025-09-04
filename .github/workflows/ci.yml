@@ -43,13 +43,22 @@ jobs:
       - name: Copy env (CI MySQL)
         run: |
           cp .env.example .env
-          php -r "file_put_contents('.env', preg_replace('/^APP_KEY=.*/m','APP_KEY=', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', preg_replace('/^DB_CONNECTION=.*/m','DB_CONNECTION=mysql', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', preg_replace('/^DB_HOST=.*/m','DB_HOST=127.0.0.1', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', preg_replace('/^DB_PORT=.*/m','DB_PORT=3306', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', preg_replace('/^DB_DATABASE=.*/m','DB_DATABASE=testing', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', preg_replace('/^DB_USERNAME=.*/m','DB_USERNAME=root', file_get_contents('.env')));"
-          php -r "file_put_contents('.env', preg_replace('/^DB_PASSWORD=.*/m','DB_PASSWORD=root', file_get_contents('.env')));"
+          # ensure APP_KEY is empty so artisan can set it
+          sed -i 's/^APP_KEY=.*/APP_KEY=/' .env || true
+
+          {
+            echo "DB_CONNECTION=mysql"
+            echo "DB_HOST=127.0.0.1"
+            echo "DB_PORT=3306"
+            echo "DB_DATABASE=testing"
+            echo "DB_USERNAME=root"
+            echo "DB_PASSWORD=root"
+          } >> .env
+
+          # sanity check
+          echo "::group::.env (tail)"
+          tail -n 20 .env
+          echo "::endgroup::"
 
       - name: Composer install
         run: composer install --no-interaction --prefer-dist
