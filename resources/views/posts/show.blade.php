@@ -182,11 +182,13 @@
 {{-- Article --}}
 <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
   <article
-    class="prose max-w-4xl mx-auto text-gray-800 text-[1rem] leading-relaxed
-           bg-white/50 backdrop-blur-md rounded-xl shadow-xl p-8 ring-1 ring-black/5
-           dark:prose-invert dark:text-stone-200 dark:bg-stone-900/70 dark:ring-white/10">
-    {!! $post->body_html !!}
-  </article>
+  class="prose max-w-4xl mx-auto text-gray-800 text-[1rem] leading-relaxed
+         bg-white/50 backdrop-blur-md rounded-xl shadow-xl p-8 ring-1 ring-black/5
+         prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-[36rem]
+         dark:prose-invert dark:text-stone-200 dark:bg-stone-900/70 dark:ring-white/10
+         js-lightbox-scope">
+  {!! $post->body_html !!}
+</article>
 </div>
 
 {{-- Tags --}}
@@ -241,7 +243,8 @@
                  class="prose dark:prose-invert max-w-none
                         prose-headings:font-semibold prose-p:leading-relaxed
                         prose-ul:list-disc prose-ol:list-decimal prose-li:my-1
-                        prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-96">
+                        prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto prose-img:max-h-96
+                        js-lightbox-scope">
               {!! $comment->body_html !!}
             </div>
 

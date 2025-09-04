@@ -3,6 +3,7 @@ import './bootstrap';
 import Alpine from 'alpinejs';
 import intersect from '@alpinejs/intersect';
 import focus from '@alpinejs/focus';
+import './lightbox';
 
 window.Alpine = Alpine;
 Alpine.plugin(intersect);

@@ -232,5 +232,9 @@
 
   {{-- Page-tail injections (fixed UI, modals, lazy UI like scroll controls) --}}
   @stack('after-body')
+
+    {{-- Global lightbox modal --}}
+  @stack('modals')
+  <x-lightbox />
 </body>
 </html>
