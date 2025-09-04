@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-G-1L4__l.css",
+    "file": "assets/app-C4sTW7n3.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -10,18 +10,38 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DZGliOsy.js",
+    "file": "assets/app-iBUK8G3l.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/scrollControls.js",
+      "resources/js/calendar.js",
+      "resources/js/stages.js"
+    ]
+  },
+  "resources/js/calendar.js": {
+    "file": "assets/calendar-BY6UaxK6.js",
+    "name": "calendar",
+    "src": "resources/js/calendar.js",
+    "isDynamicEntry": true
   },
   "resources/js/history.js": {
-    "file": "assets/history-CLCX0AbS.js",
+    "file": "assets/history-DcX-mAUD.js",
     "name": "history",
     "src": "resources/js/history.js",
-    "isEntry": true,
-    "css": [
-      "assets/history-CGyQCxiP.css"
-    ]
+    "isEntry": true
+  },
+  "resources/js/scrollControls.js": {
+    "file": "assets/scrollControls-BX-Wy8Ol.js",
+    "name": "scrollControls",
+    "src": "resources/js/scrollControls.js",
+    "isDynamicEntry": true
+  },
+  "resources/js/stages.js": {
+    "file": "assets/stages-Cfd722tT.js",
+    "name": "stages",
+    "src": "resources/js/stages.js",
+    "isDynamicEntry": true
   }
 }

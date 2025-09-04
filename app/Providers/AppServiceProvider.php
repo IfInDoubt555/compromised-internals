@@ -22,9 +22,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::component('components.guest-layout', 'guest-layout');
-
+    
         if (app()->environment('local')) {
-            URL::forceRootUrl(request()->getSchemeAndHttpHost());
+            // Use the incoming request’s origin (scheme + host) as the root for generated URLs
+            URL::useOrigin(request());
         }
     }
 }

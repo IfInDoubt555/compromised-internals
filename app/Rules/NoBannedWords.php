@@ -2,25 +2,19 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class NoBannedWords implements Rule
+class NoBannedWords implements ValidationRule
 {
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, \Closure $fail): void
     {
         $bannedWords = config('bannedwords.banned');
 
         foreach ($bannedWords as $word) {
             if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', $value)) {
-                return false;
+                $fail('Your input contains inappropriate language.');
+                return;
             }
         }
-
-        return true;
-    }
-
-    public function message()
-    {
-        return 'Your input contains inappropriate language.';
     }
 }

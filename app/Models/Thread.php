@@ -8,11 +8,30 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Carbon\CarbonImmutable;
 
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
 
+
+/**
+ * @property int $id
+ * @property int $board_id
+ * @property int $user_id
+ * @property string $title
+ * @property string $slug
+ * @property string|null $body
+ * @property CarbonImmutable|null $last_activity_at
+ * @property 'draft'|'scheduled'|'published' $status
+ * @property CarbonImmutable|null $scheduled_for
+ * @property CarbonImmutable|null $published_at
+ *
+ * @property-read \App\Models\Board $board
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Reply> $replies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Tag> $tags
+ */
 class Thread extends Model
 {
     protected $fillable = [
@@ -46,9 +65,9 @@ class Thread extends Model
     protected function casts(): array
     {
         return [
-            'last_activity_at' => 'datetime',
-            'scheduled_for'    => 'datetime',
-            'published_at'     => 'datetime',
+            'last_activity_at' => 'immutable_datetime',
+            'scheduled_for'    => 'immutable_datetime',
+            'published_at'     => 'immutable_datetime',
         ];
     }
 
@@ -87,6 +106,11 @@ class Thread extends Model
         return $q->where('status', 'scheduled')
                  ->whereNotNull('scheduled_for')
                  ->where('scheduled_for', '>', now());
+    }
+        /** Alias used by some admin code */
+    public function scopeDraft(Builder $q): Builder
+    {
+        return $q->where('status', 'draft');
     }
 
     public function scopeDrafts(Builder $q): Builder

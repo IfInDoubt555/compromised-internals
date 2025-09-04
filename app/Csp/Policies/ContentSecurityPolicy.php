@@ -3,9 +3,9 @@
 namespace App\Csp\Policies;
 
 use Spatie\Csp\Directive;
-use Spatie\Csp\Policies\Basic;
+use Spatie\Csp\Policies\Policy;
 
-class ContentSecurityPolicy extends Basic
+class ContentSecurityPolicy extends Policy
 {
     public function configure(): void
     {

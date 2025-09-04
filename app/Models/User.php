@@ -3,18 +3,40 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * @property int                       $id
+ * @property string                    $name
+ * @property string                    $email
+ * @property string|null               $password
+ * @property string|null               $profile_picture
+ * @property string|null               $title
+ * @property bool                      $is_admin
+ * @property \Carbon\CarbonImmutable|null $email_verified_at
+ * @property \Carbon\CarbonImmutable|null $banned_at
+ *
+ * @property-read UserProfile|null     $profile
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,Post>    $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,Order>   $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,Comment> $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,Post>    $likedPosts
+ *
+ * @property-read string               $profile_picture_url
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use HasFactory;
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     */
+    /** @var array<int,string> */
     protected $fillable = [
         'name',
         'email',
@@ -25,17 +47,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_admin',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays / JSON.
-     */
+    /** @var array<int,string> */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
+    /** @var array<string,string> */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password'          => 'hashed',
@@ -43,9 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'banned_at'         => 'datetime',
     ];
 
-    /**
-     * Append these accessors to the model's array form.
-     */
+    /** @var array<int,string> */
     protected $appends = [
         'profile_picture_url',
     ];
@@ -56,28 +72,29 @@ class User extends Authenticatable implements MustVerifyEmail
         return (bool) $this->is_admin;
     }
 
-    /** Relations */
-    public function posts()
+    /** ---------- Relations ---------- */
+
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    public function orders()
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
 
-    public function likedPosts()
+    public function likedPosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_user_likes')->withTimestamps();
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
@@ -85,14 +102,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /** Is the user banned? */
     public function isBanned(): bool
     {
-        return ! is_null($this->banned_at);
+        return $this->banned_at !== null;
     }
 
     /**
      * Accessor: full URL for the profile picture.
-     * - Accepts absolute URLs stored in DB
-     * - Otherwise treats value as a 'public' disk path
-     * - Falls back to default avatar
      */
     public function getProfilePictureUrlAttribute(): string
     {
@@ -109,17 +123,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return Storage::url($p); // /storage/...
     }
 
-        /**
-     * Accessor: display_name
-     * Prefer the profile's display_name; fallback to the account name.
+    /**
+     * Accessor: display_name (profile.display_name → name).
      */
     public function getDisplayNameAttribute(): string
     {
-        // If relation is loaded, use it without another query.
         if ($this->relationLoaded('profile') && $this->profile) {
             return $this->profile->display_name ?: $this->name;
         }
-        // Lazy fallback (single query if not preloaded)
+
         return optional($this->profile)->display_name ?: $this->name;
     }
 }

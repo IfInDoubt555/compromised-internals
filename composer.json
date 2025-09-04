@@ -29,9 +29,10 @@
     "laravel/sail": "^1.41",
     "mockery/mockery": "^1.6",
     "nunomaduro/collision": "^8.6",
-    "phpstan/phpstan": "^1.11",
-    "phpstan/phpstan-deprecation-rules": "1.1",
-    "phpunit/phpunit": "^11.5.3"
+    "phpunit/phpunit": "^11.5.3",
+    "phpstan/phpstan": "^2.1.8",
+    "phpstan/phpstan-deprecation-rules": "^2.0",
+    "larastan/larastan": "^3.3"
   },
   "autoload": {
     "psr-4": {
@@ -62,7 +63,6 @@
       "@php artisan migrate --graceful --ansi"
     ],
 
-
     "dev": [
       "Composer\\Config::disableProcessTimeout",
       "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
@@ -72,11 +72,13 @@
       "@php artisan test"
     ],
 
-
     "lint": "pint",
     "lint:test": "pint --test",
-    "stan": "phpstan analyse --no-progress",
-    "test:parallel": "php artisan test --parallel --recreate-databases"
+    
+    "stan": "php -d memory_limit=1G vendor/bin/phpstan analyse --no-progress --memory-limit=1G",
+    "stan:ci": "php -d memory_limit=1G vendor/bin/phpstan analyse --no-progress --error-format=github --memory-limit=1G",
+    "stan:baseline": "php -d memory_limit=1G vendor/bin/phpstan analyse --generate-baseline --memory-limit=1G",
+    "stan:fix": "php -d memory_limit=1G vendor/bin/phpstan analyse --fix --no-progress --memory-limit=1G"
   },
   "extra": {
     "laravel": {

@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 use App\Models\User;
 use App\Models\Board;
@@ -39,14 +42,22 @@ class Post extends Model
     protected function casts(): array
     {
         return [
-            'scheduled_for' => 'datetime',
-            'published_at'  => 'datetime',
+            // immutable_* is optional but recommended for stricter typing with Carbon
+            'scheduled_for' => 'immutable_datetime',
+            'published_at'  => 'immutable_datetime',
         ];
     }
 
     /** ---------- Relations ---------- */
-    public function user()  { return $this->belongsTo(User::class); }
-    public function board() { return $this->belongsTo(Board::class); }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function board(): BelongsTo
+    {
+        return $this->belongsTo(Board::class);
+    }
 
     public function getBodyHtmlAttribute(): string
     {
@@ -68,12 +79,12 @@ class Post extends Model
         return $converter->convert((string) $this->body)->getContent();
     }
 
-    public function likes()
+    public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(\App\Models\Comment::class)->latest();
     }
@@ -126,6 +137,15 @@ class Post extends Model
         });
     }
 
+        /**
+     * Alias expected by controllers: ->published()
+     * Delegate to the robust public() scope to keep behavior in one place.
+     */
+    public function scopePublished(Builder $q): Builder
+    {
+        return $this->scopePublic($q);
+    }
+
     public function scopeHot(Builder $q, int $days = 14): Builder
     {
         return $q->withCount(['likes', 'comments'])
@@ -152,7 +172,7 @@ class Post extends Model
     }
 
     /** ---------- Routing ---------- */
-    public function getRouteKeyName()
+    public function getRouteKeyName():string
     {
         return 'slug';
     }
