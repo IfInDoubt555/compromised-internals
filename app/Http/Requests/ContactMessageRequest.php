@@ -18,7 +18,7 @@ final class ContactMessageRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<string|ValidationRule|array|Closure>>
+     * @return array<string, list<Closure|ValidationRule|string>>
      */
     public function rules(): array
     {

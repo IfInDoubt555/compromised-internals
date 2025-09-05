@@ -40,7 +40,9 @@ class GenerateImageVariants implements ShouldQueue
      *  - GenerateImageVariants::dispatch('foo/bar.png', 's3')
      *  - GenerateImageVariants::dispatch('foo/bar.png', 's3', [200,400], ['webp'])
      *
-     * @param list<int>    $sizes
+     * @param string $path
+     * @param string $disk
+     * @param list<int> $sizes
      * @param list<string> $formats
      */
     public function __construct(
@@ -64,7 +66,9 @@ class GenerateImageVariants implements ShouldQueue
         Log::info('image.variants.generated', ['path' => $this->path, 'count' => $written]);
     }
 
-    /** @return list<string> Nice tags for Horizon */
+    /**
+     * @return list<string> Nice tags for Horizon
+     */
     public function tags(): array
     {
         return ['images', 'variants', 'path:' . $this->path];
