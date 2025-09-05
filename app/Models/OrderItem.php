@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @use HasFactory<\Illuminate\Database\Eloquent\Factories\Factory>
+ * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\OrderItemFactory>
  */
 class OrderItem extends Model
 {
+    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\OrderItemFactory> */
     use HasFactory;
 
     /** @var list<string> */
@@ -25,9 +26,7 @@ class OrderItem extends Model
         'color',
     ];
 
-    /**
-     * @return BelongsTo<Order, OrderItem>
-     */
+    /** @return BelongsTo<Order, OrderItem> */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);

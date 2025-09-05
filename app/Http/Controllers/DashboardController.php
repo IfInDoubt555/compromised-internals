@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Models\Thread;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+final class DashboardController extends Controller
 {
     public function __construct()
     {
@@ -19,41 +21,38 @@ class DashboardController extends Controller
     public function index(): View
     {
         $user = Auth::user();
+        /** @var \App\Models\User $user */ // auth middleware ensures non-null
 
         // Posts
-        $posts = Post::where('user_id', $user->id)
+        $posts = Post::where('user_id', $user->getKey())
             ->latest()->take(10)->get();
-        $postCount = Post::where('user_id', $user->id)->count();
+        $postCount = Post::where('user_id', $user->getKey())->count();
 
         // Threads
-        $threads = Thread::where('user_id', $user->id)
+        $threads = Thread::where('user_id', $user->getKey())
             ->latest()->take(10)->get();
-        $threadCount = Thread::where('user_id', $user->id)->count();
+        $threadCount = Thread::where('user_id', $user->getKey())->count();
 
         // Orders
         $orders = $user->orders()->with('items')->latest()->get();
 
-        return view(
-            /** @var view-string $view */
-            $view = 'dashboard',
-            compact('user', 'posts', 'postCount', 'threads', 'threadCount', 'orders')
-        );
+        /** @var view-string $view */
+        $view = 'dashboard.index';
+        return view($view, compact('user', 'posts', 'postCount', 'threads', 'threadCount', 'orders'));
     }
 
     public function show(): View
     {
-        return view(
-            /** @var view-string $view */
-            $view = 'dashboard.show'
-        );
+        /** @var view-string $view */
+        $view = 'dashboard.show';
+        return view($view);
     }
 
     public function edit(): View
     {
-        return view(
-            /** @var view-string $view */
-            $view = 'dashboard.edit'
-        );
+        /** @var view-string $view */
+        $view = 'dashboard.edit';
+        return view($view);
     }
 
     public function update(Request $request): RedirectResponse
@@ -63,20 +62,21 @@ class DashboardController extends Controller
             'body'  => 'required|string',
         ]);
 
-        // TODO: implement dashboard update action if needed
-        // e.g. Auth::user()->update($validated);
+        // TODO: implement dashboard update action if/when needed
+        // Auth::user()?->update($validated);
 
         return back()->with('status', 'Updated.');
     }
 
     public function orders(): View
     {
-        $orders = Auth::user()->orders()->with('items')->latest()->get();
+        $user = Auth::user();
+        /** @var \App\Models\User $user */
 
-        return view(
-            /** @var view-string $view */
-            $view = 'profile.orders',
-            compact('orders')
-        );
+        $orders = $user->orders()->with('items')->latest()->get();
+
+        /** @var view-string $view */
+        $view = 'profile.orders';
+        return view($view, compact('orders'));
     }
 }

@@ -30,13 +30,19 @@ class TravelHighlight extends Model
         'tips_selection' => 'array',
     ];
 
-    /** @return Builder<self> */
+    /**
+     * @param Builder<self> $query
+     * @return Builder<self>
+     */
     public function scopeHighlights(Builder $query): Builder
     {
         return $query->where('kind', self::KIND_HIGHLIGHT);
     }
 
-    /** @return Builder<self> */
+    /**
+     * @param Builder<self> $query
+     * @return Builder<self>
+     */
     public function scopeTips(Builder $query): Builder
     {
         return $query->where('kind', self::KIND_TIPS);

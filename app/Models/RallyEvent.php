@@ -1,30 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-/** @extends \Illuminate\Database\Eloquent\Factories\HasFactory<\App\Models\RallyEvent> */
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 
 /**
+ * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\RallyEventFactory>
+ *
  * @property int $id
  * @property string $name
  * @property string|null $slug
  * @property string|null $location
  * @property string|null $city
  * @property string|null $country
- * @property \Carbon\CarbonImmutable|null $start_date
- * @property \Carbon\CarbonImmutable|null $end_date
+ * @property string|null $description
+ * @property string|null $championship
+ * @property string|null $map_embed_url
+ * @property string|null $official_url
+ * @property \Illuminate\Support\Carbon|null $start_date
+ * @property \Illuminate\Support\Carbon|null $end_date
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyEventDay> $days
  */
-
 class RallyEvent extends Model
 {
     use HasFactory;
 
-    /** @var array<int,string> */
+    /** @var list<string> */
     protected $fillable = [
         'name',
         'location',
@@ -38,27 +43,24 @@ class RallyEvent extends Model
         'official_url',
     ];
 
-    /**
-     * Use immutable Carbon so calls like ->toDateString(), ->copy(), ->isFuture() are known-safe.
-     *
-     * @return array<string,string>
-     */
+    /** @return array<string,string> */
     protected function casts(): array
     {
+        // Use mutable Carbon (Laravel default) to align with app-wide choice
         return [
-            'start_date' => 'immutable_date',
-            'end_date'   => 'immutable_date',
+            'start_date' => 'date',
+            'end_date'   => 'date',
         ];
     }
 
-    /** @return HasMany<RallyEventDay, RallyEvent> */
+    /** @return HasMany<RallyEventDay> */
     public function days(): HasMany
     {
         return $this->hasMany(RallyEventDay::class, 'rally_event_id')
             ->orderBy('date');
     }
 
-    /** @return HasMany<RallyStage, RallyEvent> */
+    /** @return HasMany<RallyStage> */
     public function stages(): HasMany
     {
         return $this->hasMany(RallyStage::class, 'rally_event_id')

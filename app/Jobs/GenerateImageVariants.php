@@ -35,21 +35,26 @@ class GenerateImageVariants implements ShouldQueue
     public array|int $backoff = [5, 30, 120];
 
     /**
+     * Flexible constructor:
+     *  - GenerateImageVariants::dispatch('foo/bar.png')
+     *  - GenerateImageVariants::dispatch('foo/bar.png', 's3')
+     *  - GenerateImageVariants::dispatch('foo/bar.png', 's3', [200,400], ['webp'])
+     *
      * @param list<int>    $sizes
      * @param list<string> $formats
      */
     public function __construct(
-        string $disk,
         string $path,
-        array $sizes = [160, 320, 640],
-        array $formats = ['webp', 'avif']
+        string $disk = 'public',
+        array $sizes = [160, 320, 640, 960, 1280],
+        array $formats = ['webp', 'avif'],
     ) {
         $this->disk    = $disk !== '' ? $disk : 'public';
         $this->path    = ltrim($path, '/'); // keep storage-relative
         $this->sizes   = $sizes;
         $this->formats = $formats;
 
-        // Put this job on a dedicated queue without redefining $queue (avoids trait collision)
+        // Put this job on a dedicated queue
         $this->onQueue('images');
     }
 

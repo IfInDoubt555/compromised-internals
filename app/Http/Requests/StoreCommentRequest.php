@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\NoBannedWords;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class StoreCommentRequest extends FormRequest
+final class StoreCommentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->check();
+        return Auth::check();
     }
 
     /**
-     * @return array<string, list<\Illuminate\Contracts\Validation\ValidationRule|array|string>>
+     * @return array<string, list<string|ValidationRule|array>>
      */
     public function rules(): array
     {

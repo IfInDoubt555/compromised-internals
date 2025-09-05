@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * @use HasFactory<\Database\Factories\UserFactory>
+ * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserFactory>
  *
  * @property int                                    $id
  * @property string                                 $name
@@ -24,8 +24,8 @@ use Illuminate\Support\Str;
  * @property string|null                            $profile_picture
  * @property string|null                            $title
  * @property bool                                   $is_admin
- * @property \Carbon\CarbonImmutable|null           $email_verified_at
- * @property \Carbon\CarbonImmutable|null           $banned_at
+ * @property \Illuminate\Support\Carbon|null        $email_verified_at
+ * @property \Illuminate\Support\Carbon|null        $banned_at
  *
  * @property-read \App\Models\UserProfile|null                                       $profile
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Post>     $posts
@@ -38,6 +38,7 @@ use Illuminate\Support\Str;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use Notifiable;
 
@@ -60,10 +61,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** @var array<string,string> */
     protected $casts = [
-        'email_verified_at' => 'immutable_datetime',
+        'email_verified_at' => 'datetime',
         'password'          => 'hashed',
         'is_admin'          => 'boolean',
-        'banned_at'         => 'immutable_datetime',
+        'banned_at'         => 'datetime',
     ];
 
     /** @var list<string> */
@@ -78,46 +79,31 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** ---------- Relations ---------- */
 
-    /**
-     * @return HasMany<\App\Models\Post, \App\Models\User>
-     * @phpstan-return HasMany<\App\Models\Post, \App\Models\User>
-     */
+    /** @return HasMany<Post> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    /**
-     * @return HasMany<\App\Models\Order, \App\Models\User>
-     * @phpstan-return HasMany<\App\Models\Order, \App\Models\User>
-     */
+    /** @return HasMany<Order> */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    /**
-     * @return HasOne<\App\Models\UserProfile, \App\Models\User>
-     * @phpstan-return HasOne<\App\Models\UserProfile, \App\Models\User>
-     */
+    /** @return HasOne<UserProfile> */
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
 
-    /**
-     * @return BelongsToMany<\App\Models\Post, \App\Models\User, \Illuminate\Database\Eloquent\Relations\Pivot>
-     * @phpstan-return BelongsToMany<\App\Models\Post, \App\Models\User, \Illuminate\Database\Eloquent\Relations\Pivot>
-     */
+    /** @return BelongsToMany<Post, User> */
     public function likedPosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_user_likes')->withTimestamps();
     }
 
-    /**
-     * @return HasMany<\App\Models\Comment, \App\Models\User>
-     * @phpstan-return HasMany<\App\Models\Comment, \App\Models\User>
-     */
+    /** @return HasMany<Comment> */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

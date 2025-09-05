@@ -21,10 +21,10 @@ use League\CommonMark\MarkdownConverter;
  * @property string $title
  * @property string $slug
  * @property string|null $body
- * @property \Illuminate\Support\CarbonImmutable|null $last_activity_at
+ * @property \Illuminate\Support\Carbon|null $last_activity_at
  * @property 'draft'|'scheduled'|'published' $status
- * @property \Illuminate\Support\CarbonImmutable|null $scheduled_for
- * @property \Illuminate\Support\CarbonImmutable|null $published_at
+ * @property \Illuminate\Support\Carbon|null $scheduled_for
+ * @property \Illuminate\Support\Carbon|null $published_at
  *
  * @property-read Board $board
  * @property-read User $user
@@ -33,7 +33,7 @@ use League\CommonMark\MarkdownConverter;
  *
  * @mixin \Eloquent
  */
-class Thread extends Model
+final class Thread extends Model
 {
     /** @var list<string> */
     protected $fillable = [
@@ -52,9 +52,9 @@ class Thread extends Model
     protected function casts(): array
     {
         return [
-            'last_activity_at' => 'immutable_datetime',
-            'scheduled_for'    => 'immutable_datetime',
-            'published_at'     => 'immutable_datetime',
+            'last_activity_at' => 'datetime',
+            'scheduled_for'    => 'datetime',
+            'published_at'     => 'datetime',
         ];
     }
 
@@ -76,36 +76,28 @@ class Thread extends Model
 
     /** ---------- Relations ---------- */
 
-    /**
-     * @return BelongsTo<Board, Thread>
-     */
+    /** @return BelongsTo<Board, Thread> */
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
     }
 
-    /**
-     * @return BelongsTo<User, Thread>
-     */
+    /** @return BelongsTo<User, Thread> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return HasMany<Reply, Thread>
-     */
+    /** @return HasMany<Reply> */
     public function replies(): HasMany
     {
         return $this->hasMany(Reply::class);
     }
 
-    /**
-     * @return BelongsToMany<Tag, Thread>
-     */
+    /** @return BelongsToMany<Tag, Thread> */
     public function tags(): BelongsToMany
     {
-        // ensure your pivot table name matches your schema (e.g., 'thread_tag')
+        // ensure the pivot name matches your schema (e.g., 'thread_tag')
         return $this->belongsToMany(Tag::class, 'thread_tag')->withTimestamps();
     }
 
@@ -125,7 +117,6 @@ class Thread extends Model
 
     /**
      * Threads that should appear publicly in lists.
-     * Use this everywhere you count or list threads so results match.
      * @param  Builder<Thread> $query
      * @return Builder<Thread>
      */

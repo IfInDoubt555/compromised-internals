@@ -4,20 +4,28 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 final class SlugService
 {
     /**
-     * Generate a unique slug for a model's table on a given column.
+     * Generate a unique slug under a given table/column.
      *
-     * @param class-string<Model> $modelClass  Eloquent model class (e.g., \App\Models\Post::class)
+     * Usage:
+     *  - SlugService::generate('My Title')                           // table=posts, column=slug
+     *  - SlugService::generate('My Title', 'posts')                  // explicit table
+     *  - SlugService::generate('My Title', 'posts', 'custom_slug')   // explicit column
+     *  - SlugService::generate('My Title', 'posts', 'slug', 123)     // ignore row id=123
+     *
+     * @param  string      $base      Human string to slugify
+     * @param  string      $table     DB table name (defaults to 'posts')
+     * @param  string      $column    Column to ensure uniqueness on (defaults to 'slug')
+     * @param  int|null    $ignoreId  Primary key to exclude from uniqueness (assumes 'id' PK)
      */
     public static function generate(
-        string $modelClass,
         string $base,
+        string $table = 'posts',
         string $column = 'slug',
         ?int $ignoreId = null
     ): string {
@@ -29,10 +37,7 @@ final class SlugService
         $candidate = $slug;
         $i = 2;
 
-        /** @var Builder<Model> $q */
-        $q = $modelClass::query();
-
-        while (self::exists($q, $column, $candidate, $ignoreId)) {
+        while (self::exists($table, $column, $candidate, $ignoreId)) {
             $candidate = $slug . '-' . $i;
             $i++;
         }
@@ -41,20 +46,36 @@ final class SlugService
     }
 
     /**
-     * @param Builder<Model> $query
+     * Back-compat helper if you prefer passing a model class.
+     * Example: SlugService::generateForModel(\App\Models\Post::class, 'My Title', 'slug', 123)
+     *
+     * @param  class-string<\Illuminate\Database\Eloquent\Model>  $modelClass
      */
+    public static function generateForModel(
+        string $modelClass,
+        string $base,
+        string $column = 'slug',
+        ?int $ignoreId = null
+    ): string {
+        $model = new $modelClass();
+        /** @var string $table */
+        $table = $model->getTable();
+
+        return self::generate($base, $table, $column, $ignoreId);
+    }
+
     private static function exists(
-        Builder $query,
+        string $table,
         string $column,
         string $value,
         ?int $ignoreId = null
     ): bool {
-        $query = $query->where($column, $value);
+        $q = DB::table($table)->where($column, $value);
 
         if ($ignoreId !== null) {
-            $query->whereKeyNot($ignoreId);
+            $q->where('id', '!=', $ignoreId);
         }
 
-        return $query->exists();
+        return $q->exists();
     }
 }

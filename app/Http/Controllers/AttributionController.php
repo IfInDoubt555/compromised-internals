@@ -1,26 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class AttributionController extends Controller
+final class AttributionController extends Controller
 {
-    protected string $csvPath = 'attribution-log.csv';
+    private string $csvPath = 'attribution-log.csv';
 
     public function index(Request $request): View
     {
         $showAll = $request->query('all') === '1';
         $fullPath = storage_path('app/' . $this->csvPath);
+
+        // Ensure CSV exists with headers
         if (!is_file($fullPath)) {
-            // Create empty CSV with headers if missing
             $defaultHeaders = [
                 'Filename','Path','Width','Height','Size (KB)','MIME Type',
-                'Year (Guess)','Section (Guess)','Source URL','Author','License Type','Credit String'
+                'Year (Guess)','Section (Guess)','Source URL','Author','License Type','Credit String',
             ];
             $handle = fopen($fullPath, 'w');
             if ($handle !== false) {
@@ -29,19 +31,19 @@ class AttributionController extends Controller
             }
         }
 
-        /** @var array<int,string> $rawLines */
+        /** @var list<string>|false $rawLines */
         $rawLines = @file($fullPath, FILE_IGNORE_NEW_LINES);
-        if ($rawLines === false || count($rawLines) === 0) {
+        if ($rawLines === false || $rawLines === []) {
             $rawLines = [implode(',', [
                 'Filename','Path','Width','Height','Size (KB)','MIME Type',
-                'Year (Guess)','Section (Guess)','Source URL','Author','License Type','Credit String'
+                'Year (Guess)','Section (Guess)','Source URL','Author','License Type','Credit String',
             ])];
         }
 
-        /** @var array<int,array<int,string>> $rows */
+        /** @var list<list<string>> $rows */
         $rows = array_map('str_getcsv', $rawLines);
 
-        /** @var array<int,string> $headers */
+        /** @var list<string> $headers */
         $headers = array_map('trim', (array) array_shift($rows));
 
         /** @var Collection<int, array<string,string>> $entries */
@@ -59,7 +61,10 @@ class AttributionController extends Controller
                 return $assoc;
             }
         );
-                    $entries = $entries->filter(
+
+        // Only filter to incomplete entries when showAll is not requested
+        if (!$showAll) {
+            $entries = $entries->filter(
                 /** @param array<string,string> $entry */
                 function (array $entry): bool {
                     return trim($entry['Author'] ?? '') === ''
@@ -67,35 +72,34 @@ class AttributionController extends Controller
                         || trim($entry['License Type'] ?? '') === '';
                 }
             );
-                    return view(
-            /** @var view-string $view */
-            $view = 'admin.attributions',
-            [
-                'entries' => $entries,
-                'showAll' => $showAll,
-            ]
-        );
         }
 
+        /** @var view-string $view */
+        $view = 'admin.attributions';
+        return view($view, [
+            'entries' => $entries,
+            'showAll' => $showAll,
+        ]);
+    }
 
     public function update(Request $request): RedirectResponse
     {
-                /** @var array<int, array<string,string>> $data */
+        /** @var array<int, array<string,string>> $data */
         $data = (array) $request->input('attributions', []);
 
-
-        /** @var array<int,string> $headers */
+        /** @var list<string> $headers */
         $headers = [
-            'Filename', 'Path', 'Width', 'Height', 'Size (KB)', 'MIME Type',
-            'Year (Guess)', 'Section (Guess)', 'Source URL', 'Author', 'License Type', 'Credit String'
+            'Filename','Path','Width','Height','Size (KB)','MIME Type',
+            'Year (Guess)','Section (Guess)','Source URL','Author','License Type','Credit String',
         ];
 
-        /** @var array<int, array<int,string>> $updated */
+        /** @var list<list<string>> $updated */
         $updated = [$headers];
+
         foreach ($data as $item) {
-            $credit = "Photo by " . ($item['Author'] ?? '') .
-                      " via " . ($item['Source URL'] ?? '') .
-                      " – " . ($item['License Type'] ?? '');
+            $credit = 'Photo by ' . (string) ($item['Author'] ?? '')
+                . ' via ' . (string) ($item['Source URL'] ?? '')
+                . ' – ' . (string) ($item['License Type'] ?? '');
             $item['Credit String'] = $credit;
 
             $updated[] = array_map(

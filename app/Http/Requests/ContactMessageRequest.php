@@ -6,10 +6,11 @@ namespace App\Http\Requests;
 
 use App\Rules\NoBannedWords;
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Http;
 
-class ContactMessageRequest extends FormRequest
+final class ContactMessageRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,7 +18,7 @@ class ContactMessageRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<\Illuminate\Contracts\Validation\ValidationRule|array|string>>
+     * @return array<string, list<string|ValidationRule|array|Closure>>
      */
     public function rules(): array
     {
@@ -29,7 +30,7 @@ class ContactMessageRequest extends FormRequest
                 'required',
                 'string',
                 function (string $attribute, mixed $value, Closure $fail): void {
-                    if (! (bool) config('services.recaptcha.enabled')) {
+                    if (!(bool) config('services.recaptcha.enabled')) {
                         return; // Skip in local/dev
                     }
 
@@ -45,7 +46,7 @@ class ContactMessageRequest extends FormRequest
                     /** @var array<string, mixed> $data */
                     $data = $resp->json();
 
-                    if (! ($data['success'] ?? false) || (float) ($data['score'] ?? 0.0) < 0.5) {
+                    if (!($data['success'] ?? false) || (float) ($data['score'] ?? 0.0) < 0.5) {
                         $fail('Failed reCAPTCHA validation. Please try again.');
                     }
                 },

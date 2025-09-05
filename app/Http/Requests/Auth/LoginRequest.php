@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class LoginRequest extends FormRequest
+final class LoginRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -19,7 +20,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<\Illuminate\Contracts\Validation\ValidationRule|array|string>>
+     * @return array<string, list<string|ValidationRule|\Closure>>
      */
     public function rules(): array
     {
@@ -34,7 +35,10 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (!Auth::attempt(
+            $this->only('email', 'password'),
+            $this->boolean('remember')
+        )) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -65,6 +69,8 @@ class LoginRequest extends FormRequest
 
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower((string) $this->string('email')) . '|' . (string) $this->ip());
+        return Str::transliterate(
+            Str::lower((string) $this->string('email')) . '|' . (string) $this->ip()
+        );
     }
 }

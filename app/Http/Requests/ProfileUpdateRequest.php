@@ -6,10 +6,11 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use App\Rules\NoBannedWords;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProfileUpdateRequest extends FormRequest
+final class ProfileUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,7 +18,7 @@ class ProfileUpdateRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<\Illuminate\Contracts\Validation\ValidationRule|array|string>>
+     * @return array<string, list<string|ValidationRule|array|\Closure>>
      */
     public function rules(): array
     {
@@ -40,7 +41,6 @@ class ProfileUpdateRequest extends FormRequest
                 ]),
             ],
             'profile_picture' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
-
             'bio'             => ['nullable', 'string', new NoBannedWords()],
             'display_name'    => ['required', 'string', new NoBannedWords()],
             'location'        => ['nullable', 'string', new NoBannedWords()],

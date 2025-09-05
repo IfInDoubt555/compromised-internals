@@ -1,33 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use App\Support\SectionExtractor;
-use Parsedown;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
+use Parsedown;
 
-class HistoryController extends Controller
+final class HistoryController extends Controller
 {
     /**
      * Format a single podium result row into a neat string like:
      * "Walter Schock / Rolf Moll · Mercedes-Benz 220 SE · 3h42m"
+     *
+     * @param array<string, mixed>|null $r
      */
     private function fmtResult(?array $r): ?string
     {
-        if (!$r) return null;
+        if ($r === null) {
+            return null;
+        }
 
         $bits = [];
-        if (!empty($r['crew']))  $bits[] = e($r['crew']);
-        if (!empty($r['car']))   $bits[] = e($r['car']);
-        if (!empty($r['time']))  $bits[] = e($r['time']);
-        if (!empty($r['notes'])) $bits[] = e($r['notes']);
+        if (!empty($r['crew']))  { $bits[] = e((string) $r['crew']); }
+        if (!empty($r['car']))   { $bits[] = e((string) $r['car']); }
+        if (!empty($r['time']))  { $bits[] = e((string) $r['time']); }
+        if (!empty($r['notes'])) { $bits[] = e((string) $r['notes']); }
 
-        return count($bits) ? implode(' · ', $bits) : null;
+        return $bits !== [] ? implode(' · ', $bits) : null;
     }
 
     /**
@@ -42,9 +46,9 @@ class HistoryController extends Controller
         }
 
         // Normalize decade to "####s"
-        if (preg_match('/^\d{4}$/', $decade)) {
+        if (preg_match('/^\d{4}$/', $decade) === 1) {
             $decade .= 's';
-        } elseif (!preg_match('/^\d{4}s$/', $decade)) {
+        } elseif (preg_match('/^\d{4}s$/', $decade) !== 1) {
             abort(404, 'Invalid decade segment.');
         }
 
@@ -64,19 +68,21 @@ class HistoryController extends Controller
 
         /** @var array<string,mixed>|null $item */
         $item = $collection->firstWhere('id', (int) $id);
-        if (!$item) {
+        if ($item === null) {
             abort(404, 'Item not found.');
         }
 
         // Prev/next
-        $currentIndex = $collection->search(fn ($e) => (int) ($e['id'] ?? 0) === (int) $id);
+        $currentIndex = $collection->search(
+            static fn ($e): bool => (int) ($e['id'] ?? 0) === (int) $id
+        );
         $previousItem = $currentIndex !== false ? ($collection[$currentIndex - 1] ?? null) : null;
         $nextItem     = $currentIndex !== false ? ($collection[$currentIndex + 1] ?? null) : null;
 
         // Fallback: markdown → HTML
         if (empty($item['details_html']) && !empty($item['details'])) {
             $parsedown = new Parsedown();
-            $item['details_html'] = $parsedown->text($item['details']);
+            $item['details_html'] = $parsedown->text((string) $item['details']);
         }
 
         // ---------- Results block (events only) ----------
@@ -85,18 +91,18 @@ class HistoryController extends Controller
 
         if ($tab === 'events') {
             /** @var array<string,mixed>|null $winnerRaw */
-            $winnerRaw = Arr::get($item, 'results.winner');
+            $winnerRaw = $item['results']['winner'] ?? null;
             /** @var array<string,mixed>|null $secondRaw */
-            $secondRaw = Arr::get($item, 'results.second');
+            $secondRaw = $item['results']['second'] ?? null;
             /** @var array<string,mixed>|null $thirdRaw */
-            $thirdRaw  = Arr::get($item, 'results.third');
+            $thirdRaw  = $item['results']['third'] ?? null;
 
             $winner = $this->fmtResult($winnerRaw);
             $second = $this->fmtResult($secondRaw);
             $third  = $this->fmtResult($thirdRaw);
 
             /** @var string|null $resultsNarrative */
-            $resultsNarrative = Arr::get($item, 'results.narrative_html');
+            $resultsNarrative = $item['results']['narrative_html'] ?? null;
 
             $secResults = (bool) (
                 $winner || $second || $third ||
@@ -112,7 +118,9 @@ class HistoryController extends Controller
         };
         $sections = SectionExtractor::parse($item['details_html'] ?? null, $type);
 
-        return view('history.show', [
+        /** @var view-string $view */
+        $view = 'history.show';
+        return view($view, [
             'item'             => $item,
             'tab'              => $tab,
             'decade'           => $decade,                     // "1990s"
@@ -130,15 +138,15 @@ class HistoryController extends Controller
 
     public function index(Request $request): View
     {
-        $decadeIn = $request->query('decade', '1960s');
-        $tab      = $request->query('tab', 'events');
+        $decadeIn = (string) $request->query('decade', '1960s');
+        $tab      = (string) $request->query('tab', 'events');
         /** @var int|string|null $year */
         $year     = $request->query('year');
 
         // Normalize decade to "####s"
-        if (preg_match('/^\d{4}$/', $decadeIn)) {
-            $decade = $decadeIn.'s';
-        } elseif (preg_match('/^\d{4}s$/', $decadeIn)) {
+        if (preg_match('/^\d{4}$/', $decadeIn) === 1) {
+            $decade = $decadeIn . 's';
+        } elseif (preg_match('/^\d{4}s$/', $decadeIn) === 1) {
             $decade = $decadeIn;
         } else {
             $decade = '1960s';
@@ -149,7 +157,9 @@ class HistoryController extends Controller
         $years       = $this->yearsFor($decade, $tab);
         $themeDecade = (int) substr($decade, 0, 4);
 
-        return view('history.bookmarks', [
+        /** @var view-string $view */
+        $view = 'history.bookmarks';
+        return view($view, [
             'decades'     => $decades,
             'decade'      => $decade,
             'themeDecade' => $themeDecade,
@@ -160,7 +170,11 @@ class HistoryController extends Controller
         ]);
     }
 
-    /** Unique years available for a decade (per tab). @return array<int,int> */
+    /**
+     * Unique years available for a decade (per tab).
+     *
+     * @return array<int, int>
+     */
     private function yearsFor(string $decade, string $tab = 'events'): array
     {
         /** @var array<int,int> $years */
@@ -175,7 +189,11 @@ class HistoryController extends Controller
         return $years;
     }
 
-    /** Available decades. @return array<int,string> */
+    /**
+     * Available decades.
+     *
+     * @return array<int, string>
+     */
     private function allDecades(): array
     {
         /** @var array<int,string> $decades */
@@ -216,7 +234,7 @@ class HistoryController extends Controller
         // EVENTS: keep original ordering
         if ($tab === 'events') {
             if ($year !== null) {
-                $rows = $rows->filter(fn ($r) => (int)($r['year'] ?? 0) === $year);
+                $rows = $rows->filter(static fn ($r): bool => (int) ($r['year'] ?? 0) === $year);
             }
             return $rows->values();
         }
@@ -227,8 +245,8 @@ class HistoryController extends Controller
         }
 
         return $rows->sortBy([
-            fn ($row) => (int)($row['year'] ?? 0),
-            fn ($row) => (string)($row['title'] ?? $row['name'] ?? $row['model'] ?? $row['driver'] ?? ''),
+            static fn ($row) => (int) ($row['year'] ?? 0),
+            static fn ($row) => (string) ($row['title'] ?? $row['name'] ?? $row['model'] ?? $row['driver'] ?? ''),
         ])->values();
     }
 }

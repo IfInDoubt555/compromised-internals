@@ -1,45 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\RallyEvent;
-use Illuminate\Http\Request;
 use App\Services\Schema\EventSchemaBuilder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-class RallyEventController extends Controller
+use Illuminate\Http\Request;
+
+final class RallyEventController extends Controller
 {
     public function index(): View
     {
         // Paginate instead of loading all
         $events = RallyEvent::orderBy('start_date')->paginate(10);
-        return view('calendar.index', compact('events'));
+
+        /** @var view-string $view */
+        $view = 'calendar.index';
+        return view($view, compact('events'));
     }
 
     public function api(Request $request): JsonResponse
     {
-        // Events that overlap the requested window
         $events = RallyEvent::query()
-            ->when($request->start, fn ($q) =>
-                $q->whereDate('end_date', '>=', $request->start)
-            )
-            ->when($request->end, fn ($q) =>
-                $q->whereDate('start_date', '<=', $request->end)
-            )
+            // Events that overlap the requested window
+            ->when($request->string('start')->isNotEmpty(), fn ($q) => $q
+                ->whereDate('end_date', '>=', (string) $request->string('start')))
+            ->when($request->string('end')->isNotEmpty(), fn ($q) => $q
+                ->whereDate('start_date', '<=', (string) $request->string('end')))
             // Optional championship filter (?champ=WRC|ERC|ARA)
-            ->when($request->filled('champ'), fn ($q) =>
-                $q->where('championship', (string) $request->string('champ'))
-            )
+            ->when($request->filled('champ'), fn ($q) => $q
+                ->where('championship', (string) $request->string('champ')))
             ->orderBy('start_date')
             ->get()
-            ->map(function (RallyEvent $event) {
-                if (!$event->start_date || !$event->end_date) {
+            ->map(function (RallyEvent $event): ?array {
+                if ($event->start_date === null || $event->end_date === null) {
                     return null;
                 }
 
                 return [
-                    'id'     => $event->id,
-                    'title'  => $event->name ?? 'Untitled Event',
+                    'id'     => $event->getKey(),
+                    'title'  => (string) ($event->name ?? 'Untitled Event'),
                     // Send DATE strings (all-day)
                     'start'  => $event->start_date->toDateString(),
                     // FullCalendar uses exclusive end for all-day
@@ -65,17 +68,20 @@ class RallyEventController extends Controller
         return response()->json($events);
     }
 
-    public function show($slug, EventSchemaBuilder $schemaBuilder): View
+    public function show(string $slug, EventSchemaBuilder $schemaBuilder): View
     {
         $event = RallyEvent::where('slug', $slug)
             ->with([
-                'days'   => fn ($q) => $q->orderBy('date'),
-                'stages' => fn ($q) => $q->orderBy('ss_number'),
-            ])->firstOrFail();
-            
+                'days'   => static fn ($q) => $q->orderBy('date'),
+                'stages' => static fn ($q) => $q->orderBy('ss_number'),
+            ])
+            ->firstOrFail();
+
         $stagesByDay = $event->stages->groupBy('rally_event_day_id');
         $schema = $schemaBuilder->build($event);
-            
-        return view('calendar.show', compact('event', 'stagesByDay', 'schema'));
+
+        /** @var view-string $view */
+        $view = 'calendar.show';
+        return view($view, compact('event', 'stagesByDay', 'schema'));
     }
 }

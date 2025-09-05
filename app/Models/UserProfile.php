@@ -10,39 +10,41 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * @use HasFactory<\Database\Factories\UserProfileFactory>
+ * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserProfileFactory>
  *
- * @property int                          $id
- * @property int                          $user_id
- * @property string|null                  $display_name
- * @property string|null                  $location
- * @property string|null                  $rally_role
- * @property int|null                     $rally_fan_since
- * @property \Illuminate\Support\Carbon|null $birthday
- * @property string|null                  $bio
- * @property string|null                  $favorite_driver
- * @property string|null                  $favorite_car
- * @property string|null                  $favorite_event
- * @property string|null                  $favorite_game
- * @property string|null                  $car_setup_notes
- * @property string|null                  $website
- * @property string|null                  $instagram
- * @property string|null                  $youtube
- * @property string|null                  $twitter
- * @property string|null                  $twitch
- * @property string|null                  $profile_color
- * @property string|null                  $layout_style
- * @property string|null                  $banner_image
- * @property bool                         $show_birthday
- * @property bool                         $show_car_setup_notes
- * @property bool                         $show_favorites
- * @property bool                         $show_location
- * @property bool                         $show_socials
+ * @property int                               $id
+ * @property int                               $user_id
+ * @property string|null                       $display_name
+ * @property string|null                       $location
+ * @property string|null                       $rally_role
+ * @property int|null                          $rally_fan_since
+ * @property \Illuminate\Support\Carbon|null   $birthday
+ * @property string|null                       $bio
+ * @property string|null                       $favorite_driver
+ * @property string|null                       $favorite_car
+ * @property string|null                       $favorite_event
+ * @property string|null                       $favorite_game
+ * @property string|null                       $car_setup_notes
+ * @property string|null                       $website
+ * @property string|null                       $instagram
+ * @property string|null                       $youtube
+ * @property string|null                       $twitter
+ * @property string|null                       $twitch
+ * @property string|null                       $profile_color
+ * @property string|null                       $layout_style
+ * @property string|null                       $banner_image
+ * @property bool                              $show_birthday
+ * @property bool                              $show_car_setup_notes
+ * @property bool                              $show_favorites
+ * @property bool                              $show_location
+ * @property bool                              $show_socials
  */
 class UserProfile extends Model
 {
+    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserProfileFactory> */
     use HasFactory;
 
+    /** @var list<string> */
     protected $fillable = [
         'user_id',
         'display_name',
@@ -71,6 +73,7 @@ class UserProfile extends Model
         'show_socials',
     ];
 
+    /** @return array<string,string> */
     protected function casts(): array
     {
         return [
@@ -84,17 +87,13 @@ class UserProfile extends Model
         ];
     }
 
-    /**
-     * @return BelongsTo<User, UserProfile>
-     */
+    /** @return BelongsTo<User, UserProfile> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return array<string, string|null>
-     */
+    /** @return array<string, string|null> */
     public function socialLinks(): array
     {
         return [
@@ -114,7 +113,7 @@ class UserProfile extends Model
         }
 
         $today = now();
-        return (int)$bday->month === (int)$today->month
-            && (int)$bday->day === (int)$today->day;
+        return (int) $bday->month === (int) $today->month
+            && (int) $bday->day === (int) $today->day;
     }
 }

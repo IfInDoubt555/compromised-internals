@@ -15,13 +15,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $location
  * @property string|null $city
  * @property string|null $country
- * @property \Carbon\CarbonImmutable|null $start_date
- * @property \Carbon\CarbonImmutable|null $end_date
- * @property \Carbon\CarbonImmutable|null $date
- * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyEventDay> $days
+ * @property \Illuminate\Support\Carbon|null $start_date
+ * @property \Illuminate\Support\Carbon|null $end_date
+ * @property \Illuminate\Support\Carbon|null $date
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyStage> $stages
  */
-
 class RallyEventDay extends Model
 {
     /** @var list<string> */
@@ -30,20 +28,17 @@ class RallyEventDay extends Model
     /** @return array<string,string> */
     protected function casts(): array
     {
+        // mutable Carbon via 'date'
         return ['date' => 'date'];
     }
 
-    /**
-     * @return BelongsTo<RallyEvent, RallyEventDay>
-     */
+    /** @return BelongsTo<RallyEvent, RallyEventDay> */
     public function event(): BelongsTo
     {
         return $this->belongsTo(RallyEvent::class, 'rally_event_id');
     }
 
-    /**
-     * @return HasMany<RallyStage, RallyEventDay>
-     */
+    /** @return HasMany<RallyStage> */
     public function stages(): HasMany
     {
         return $this->hasMany(RallyStage::class, 'rally_event_day_id')

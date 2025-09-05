@@ -46,8 +46,10 @@ final class SectionExtractor
             return [];
         }
         $type = self::normalizeType($type);
-        /** @var array<string, list<string>> $map */
-        $map  = self::MAP[$type] ?? [];
+
+        // Explicit array-shape exists on the constant; widen to list-like shape for PHPStan.
+        /** @var array<string, array<int, string>> $map */
+        $map = self::MAP[$type] ?? [];
 
         $dom = new DOMDocument();
         // Guard against fragment warnings
@@ -105,7 +107,7 @@ final class SectionExtractor
     }
 
     /**
-     * @param array<string, list<string>> $map
+     * @param array<string, array<int, string>> $map
      */
     private static function matchKey(string $title, array $map): ?string
     {

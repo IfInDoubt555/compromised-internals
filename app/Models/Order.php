@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @use HasFactory<\Illuminate\Database\Eloquent\Factories\Factory>
+ * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\OrderFactory>
  */
 class Order extends Model
 {
+    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
 
     /** @var list<string> */
@@ -23,9 +24,7 @@ class Order extends Model
         'status',
     ];
 
-    /**
-     * @return HasMany<OrderItem, Order>
-     */
+    /** @return HasMany<OrderItem> */
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);

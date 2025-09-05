@@ -19,6 +19,11 @@ use League\CommonMark\MarkdownConverter;
 /**
  * @use HasFactory<\Database\Factories\PostFactory>
  *
+ * @property-read string $body_html
+ * @property-read string $image_url
+ * @property-read string $thumbnail_url
+ * @property-read string $excerpt_for_display
+ * @property-read string $meta_description
  * @property int $id
  * @property int|null $user_id
  * @property int|null $board_id
@@ -28,8 +33,9 @@ use League\CommonMark\MarkdownConverter;
  * @property string|null $body
  * @property string|null $image_path
  * @property 'draft'|'scheduled'|'published'|'approved'|null $status
- * @property \Illuminate\Support\CarbonImmutable|null $scheduled_for
- * @property \Illuminate\Support\CarbonImmutable|null $published_at
+ * @property string|null $publish_status  // legacy column
+ * @property \Illuminate\Support\Carbon|null $scheduled_for
+ * @property \Illuminate\Support\Carbon|null $published_at
  *
  * @property-read User $user
  * @property-read Board $board
@@ -52,7 +58,7 @@ class Post extends Model
         'user_id',
         'board_id',
         'status',          // draft | scheduled | published | approved (legacy)
-        'scheduled_for',   // datetime (UTC) - legacy helper
+        'scheduled_for',   // datetime (UTC)
         'published_at',    // datetime (UTC)
     ];
 
@@ -60,48 +66,39 @@ class Post extends Model
     protected function casts(): array
     {
         return [
-            'scheduled_for' => 'immutable_datetime',
-            'published_at'  => 'immutable_datetime',
+            // Use mutable Carbon to match phpdoc and silence PHPStan class-not-found for CarbonImmutable
+            'scheduled_for' => 'datetime',
+            'published_at'  => 'datetime',
         ];
     }
 
     /** ---------- Relations ---------- */
 
-    /**
-     * @return BelongsTo<User, Post>
-     */
+    /** @return BelongsTo<User, Post> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return BelongsTo<Board, Post>
-     */
+    /** @return BelongsTo<Board, Post> */
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
     }
 
-    /**
-     * @return BelongsToMany<User, Post>
-     */
+    /** @return BelongsToMany<User, Post> */
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
     }
 
-    /**
-     * @return HasMany<Comment, Post>
-     */
+    /** @return HasMany<Comment> */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class)->latest();
     }
 
-    /**
-     * @return BelongsToMany<Tag, Post>
-     */
+    /** @return BelongsToMany<Tag, Post> */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
@@ -193,14 +190,17 @@ class Post extends Model
      * @param  Builder<Post> $query
      * @return Builder<Post>
      */
+    /** @return \Illuminate\Database\Eloquent\Builder */
     public function scopeHot(Builder $query, int $days = 14): Builder
-    {
-        return $query->withCount(['likes', 'comments'])
-            ->when($days > 0, fn (Builder $qq): Builder => $qq->where('created_at', '>=', now()->subDays($days)))
-            ->selectRaw('(COALESCE(likes_count,0)*3 + COALESCE(comments_count,0)*2) as hot_score')
-            ->orderByDesc('hot_score')
-            ->orderByDesc('created_at');
-    }
+     {
+         return $query->withCount(['likes', 'comments'])
+             ->when($days > 0, fn ($qq): Builder =>
+                 $qq->where('created_at', '>=', now()->subDays($days))
+             )
+             ->selectRaw('(COALESCE(likes_count,0)*3 + COALESCE(comments_count,0)*2) as hot_score')
+             ->orderByDesc('hot_score')
+             ->orderByDesc('created_at');
+     }
 
     /**
      * @param  Builder<Post> $query
@@ -264,7 +264,7 @@ class Post extends Model
     public function getExcerptForDisplayAttribute(): string
     {
         $raw = $this->excerpt ?: strip_tags((string) $this->body);
-        return Str::limit(Str::of($raw)->squish(), 160);
+        return Str::limit((string) Str::of($raw)->squish()->toString(), 160);
     }
 
     public function getMetaDescriptionAttribute(): string
@@ -293,6 +293,6 @@ class Post extends Model
         if ($user === null) {
             return false;
         }
-        return $this->likes()->where('user_id', $user->id)->exists();
+        return $this->likes()->where('user_id', $user->getKey())->exists();
     }
 }

@@ -6,11 +6,12 @@ namespace App\Http\Requests;
 
 use App\Rules\NoBannedWords;
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Password;
 
-class RegisterRequest extends FormRequest
+final class RegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -18,7 +19,7 @@ class RegisterRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<\Illuminate\Contracts\Validation\ValidationRule|array|string>>
+     * @return array<string, list<string|ValidationRule|array|Closure>>
      */
     public function rules(): array
     {
@@ -30,7 +31,7 @@ class RegisterRequest extends FormRequest
                 'required',
                 'string',
                 function (string $attribute, mixed $value, Closure $fail): void {
-                    if (! (bool) config('services.recaptcha.enabled')) {
+                    if (!(bool) config('services.recaptcha.enabled')) {
                         return; // Skip reCAPTCHA in local/dev
                     }
 
@@ -46,7 +47,7 @@ class RegisterRequest extends FormRequest
                     /** @var array<string, mixed> $data */
                     $data = $response->json();
 
-                    if (! ($data['success'] ?? false)) {
+                    if (!($data['success'] ?? false)) {
                         $fail('reCAPTCHA failed: ' . (string) ($data['error-codes'][0] ?? 'unknown error'));
                         return;
                     }
