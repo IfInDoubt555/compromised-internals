@@ -79,13 +79,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** ---------- Relations ---------- */
 
-        /** @return HasMany<App\Models\Post, App\Models\User> */
+        /** @return HasMany<\App\Models\Post, \App\Models\User> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    /** @return HasMany<App\Models\Order, App\Models\User> */
+    /** @return HasMany<\App\Models\Order, \App\Models\User> */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);

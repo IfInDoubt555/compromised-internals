@@ -15,7 +15,7 @@ class CommentFactory extends Factory
     /**
      * The model that this factory is for.
      *
-     * @var class-string<App\Models\Comment>
+     * @var class-string<\App\Models\Comment>
      */
     protected $model = Comment::class;
 

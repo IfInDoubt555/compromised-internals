@@ -13,7 +13,7 @@ class RallyEventDayFactory extends Factory
     /**
      * The model that this factory is for.
      *
-     * @var class-string<App\Models\RallyEventDay>
+     * @var class-string<\App\Models\RallyEventDay>
      */
     protected $model = RallyEventDay::class;
 
