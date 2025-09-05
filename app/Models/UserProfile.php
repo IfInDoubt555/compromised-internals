@@ -87,7 +87,7 @@ class UserProfile extends Model
         ];
     }
 
-    /** @return BelongsTo<User, UserProfile> */
+    /** @return BelongsTo<\App\Models\User, \App\Models\UserProfile> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

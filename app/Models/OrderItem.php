@@ -26,7 +26,11 @@ class OrderItem extends Model
         'color',
     ];
 
-    /** @return BelongsTo<Order, OrderItem> */
+    /**
+     * Get the order that owns the OrderItem.
+     *
+     * @return BelongsTo<Order, OrderItem>
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);

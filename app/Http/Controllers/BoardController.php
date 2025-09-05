@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Board;
 use App\Models\Post;
+use App\Models\Thread;  // Import the Thread model
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -31,7 +32,7 @@ final class BoardController extends Controller
 
     public function show(Board $board): View
     {
-        /** @var HasMany<Thread> $threads */
+        /** @var Builder<\App\Models\Thread> $threads */
         $threads = $board->threads()->latest();
     
         $threads = $threads

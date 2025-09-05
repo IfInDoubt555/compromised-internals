@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Models\RallyEvent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RallyEvent>
+ */
 class RallyEventFactory extends Factory
 {
     protected $model = RallyEvent::class;

@@ -6,11 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\NoBannedWords;
 
-
 class StorePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -25,12 +26,8 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'max:255', new NoBannedWords],
             'body' => ['required', new NoBannedWords],
-            'excerpt' => ['nullable', 'max:160', new NoBannedWords],
-            'image_path' => 'nullable|image|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:5120',
-            'slug_mode' => 'required|in:auto,manual',
-            'slug' => ['nullable', 'string', 'unique:posts,slug,' . optional($this->post)->id, new NoBannedWords],
+            'post_id' => ['required', 'exists:posts,id'],
         ];
     }
 }

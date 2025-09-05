@@ -28,7 +28,7 @@ class Reply extends Model
     {
         return $this->belongsTo(Thread::class);
     }
-
+    
     /**
      * @return BelongsTo<User, Reply>
      */

@@ -17,7 +17,9 @@ final class StoreCommentRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<string|ValidationRule|array>>
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, array<string|ValidationRule>>
      */
     public function rules(): array
     {

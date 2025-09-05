@@ -83,19 +83,19 @@ final class Thread extends Model
     {
         return $this->belongsTo(Board::class);
     }
-
+    
     /** @return BelongsTo<User, Thread> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
+    
     /** @return HasMany<Reply, Thread> */
     public function replies(): HasMany
     {
         return $this->hasMany(Reply::class);
     }
-
+    
     /** @return BelongsToMany<Tag, Thread> */
     public function tags(): BelongsToMany
     {

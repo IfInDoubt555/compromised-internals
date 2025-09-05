@@ -79,13 +79,13 @@ class RallyStage extends Model
     {
         return $this->belongsTo(RallyEvent::class, 'rally_event_id');
     }
-
+    
     /** @return BelongsTo<RallyEventDay, RallyStage> */
     public function day(): BelongsTo
     {
         return $this->belongsTo(RallyEventDay::class, 'rally_event_day_id');
     }
-
+    
     /** @return BelongsTo<RallyEventDay, RallyStage> */
     public function secondDay(): BelongsTo
     {

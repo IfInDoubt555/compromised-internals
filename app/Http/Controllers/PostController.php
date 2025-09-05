@@ -341,8 +341,12 @@ final class PostController extends Controller
         if (!$path) {
             return;
         }
-
-        // Job expects at least path + sizes/formats
-        GenerateImageVariants::dispatch($path, self::VARIANT_SIZES, self::VARIANT_FORMATS);
+    
+        // Job expects path (string) + sizes (list<int>) + formats (list<string>)
+        GenerateImageVariants::dispatch(
+            $path,                          // Ensure $path is a string (path to the image)
+            self::VARIANT_SIZES,            // Sizes should be an array of integers
+            self::VARIANT_FORMATS           // Formats should be an array of strings
+        );
     }
 }

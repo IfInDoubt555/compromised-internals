@@ -15,18 +15,31 @@ class Comment extends Model
     /** @var list<string> */
     protected $fillable = ['post_id', 'user_id', 'body'];
 
-    /** @return BelongsTo<Post, Comment> */
+    /**
+     * Get the post that owns the comment.
+     *
+     * @return BelongsTo<Post, Comment>
+     */
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
-    
-    /** @return BelongsTo<User, Comment> */
+
+    /**
+     * Get the user that owns the comment.
+     *
+     * @return BelongsTo<User, Comment>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Convert the comment's body to HTML.
+     *
+     * @return string
+     */
     public function getBodyHtmlAttribute(): string
     {
         static $converter = null;

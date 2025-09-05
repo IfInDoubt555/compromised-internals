@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Board extends Model
 {
+    use HasFactory;
+
     /** @var list<string> */
     protected $fillable = ['name','slug','icon','color','position','is_public','description'];
 
@@ -24,9 +27,9 @@ class Board extends Model
     public function accentButtonClasses(): string
     {
         $c = $this->color_token;
-        return "border border-{$c}-400 text-{$c}-700 bg-{$c}-100 hover:bg-{$c}-200 ".
-               "ring-1 ring-{$c}-500/20 ".
-               "dark:border-{$c}-600 dark:text-{$c}-300 dark:bg-{$c}-950/40 dark:hover:bg-{$c}-900/50 ".
+        return "border border-{$c}-400 text-{$c}-700 bg-{$c}-100 hover:bg-{$c}-200 " .
+               "ring-1 ring-{$c}-500/20 " .
+               "dark:border-{$c}-600 dark:text-{$c}-300 dark:bg-{$c}-950/40 dark:hover:bg-{$c}-900/50 " .
                "dark:ring-{$c}-400/20";
     }
 

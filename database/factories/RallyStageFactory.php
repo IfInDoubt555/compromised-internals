@@ -6,6 +6,9 @@ use App\Models\RallyStage;
 use App\Models\RallyEventDay;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RallyStage>
+ */
 class RallyStageFactory extends Factory
 {
     protected $model = RallyStage::class;

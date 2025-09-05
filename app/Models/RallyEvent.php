@@ -53,14 +53,18 @@ class RallyEvent extends Model
         ];
     }
 
-    /** @return HasMany<RallyEventDay> */
+    /** 
+     * @return HasMany<RallyEventDay, RallyEvent> 
+     */
     public function days(): HasMany
     {
         return $this->hasMany(RallyEventDay::class, 'rally_event_id')
             ->orderBy('date');
     }
 
-    /** @return HasMany<RallyStage> */
+    /** 
+     * @return HasMany<RallyStage, RallyEvent> 
+     */
     public function stages(): HasMany
     {
         return $this->hasMany(RallyStage::class, 'rally_event_id')

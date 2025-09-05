@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class RallyEventDay extends Model
 {
     use HasFactory;
+
     /** @var list<string> */
     protected $fillable = ['rally_event_id', 'date', 'label'];
 
@@ -34,13 +35,17 @@ class RallyEventDay extends Model
         return ['date' => 'date'];
     }
 
-    /** @return BelongsTo<RallyEvent, RallyEventDay> */
+    /** 
+     * @return BelongsTo<RallyEvent, RallyEventDay> 
+     */
     public function event(): BelongsTo
     {
         return $this->belongsTo(RallyEvent::class, 'rally_event_id');
     }
 
-    /** @return HasMany<RallyStage> */
+    /** 
+     * @return HasMany<RallyStage, RallyEventDay> 
+     */
     public function stages(): HasMany
     {
         return $this->hasMany(RallyStage::class, 'rally_event_day_id')
