@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::table('user_profiles', function (Blueprint $table) {
             $table->string('rally_role')->nullable()->after('location');
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('user_profiles', function (Blueprint $table) {
             $table->dropColumn('rally_role');

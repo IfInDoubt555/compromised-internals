@@ -1,12 +1,39 @@
-{{-- resources/views/components/user-avatar.blade.php --}}
-@props(['path' => null, 'alt' => '', 'size' => 80, 'class' => '', 'raw' => false])
+{{-- props: user (App\Models\User), size (int), alt? class? --}}
+@props([
+  'user',
+  'size' => 80,
+  'alt' => '',
+  'class' => '',
+])
 
-@if ($raw || !$path)
-  <img src="{{ $path ? Storage::url($path) : asset('images/default-avatar.png') }}"
-       alt="{{ $alt }}" width="{{ $size }}" height="{{ $size }}"
-       class="rounded-full {{ $class }}">
+@php
+  /** @var \App\Models\User $user */
+  $path = $user->profile_picture ?? null;
+  $fallback = asset('images/default-avatar.png');
+@endphp
+
+@if (empty($path))
+  <img
+    src="{{ $fallback }}"
+    alt="{{ $alt }}"
+    width="{{ (int) $size }}"
+    height="{{ (int) $size }}"
+    class="rounded-full {{ $class }}">
 @else
-  <x-img :path="$path" :alt="$alt" :widths="[80,160,320]"
-         sizes="{{ $size }}px" width="{{ $size }}" height="{{ $size }}"
-         class="rounded-full {{ $class }}" />
+  {{-- If you have an <x-img> responsive helper, use it. Otherwise use Storage::url --}}
+  @if (class_exists(\Illuminate\Support\Facades\Storage::class))
+    <img
+      src="{{ \Illuminate\Support\Facades\Storage::url($path) }}"
+      alt="{{ $alt }}"
+      width="{{ (int) $size }}"
+      height="{{ (int) $size }}"
+      class="rounded-full {{ $class }}">
+  @else
+    <img
+      src="{{ $fallback }}"
+      alt="{{ $alt }}"
+      width="{{ (int) $size }}"
+      height="{{ (int) $size }}"
+      class="rounded-full {{ $class }}">
+  @endif
 @endif

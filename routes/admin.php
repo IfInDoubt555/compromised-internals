@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -14,6 +16,8 @@ use App\Http\Controllers\Admin\TravelHighlightController;
 use App\Http\Controllers\Admin\AffiliateClickController;
 use App\Http\Controllers\Admin\ThreadAdminController;
 use App\Http\Controllers\Admin\PublisherController;
+use App\Models\Post;
+use App\Models\Thread;
 
 // NOTE: RouteServiceProvider already wraps this file with:
 // prefix('admin')->name('admin.') and web+auth+access-admin middleware
@@ -87,9 +91,12 @@ Route::prefix('threads')->name('threads.')->group(function () {
 
 /* ---------- Optional: Unified Scheduled Overview ---------- */
 Route::get('/scheduled', function () {
-    return view('admin.scheduled', [
-        'posts'   => \App\Models\Post::scheduled()->orderBy('published_at')->get(),
-        'threads' => \App\Models\Thread::scheduled()->orderBy('published_at')->get(),
+    /** @var view-string $view */
+    $view = 'admin.scheduled';
+
+    return view($view, [
+        'posts'   => Post::query()->scheduled()->orderBy('published_at')->get(),
+        'threads' => Thread::query()->scheduled()->orderBy('published_at')->get(),
     ]);
 })->name('scheduled');
 
@@ -113,9 +120,9 @@ Route::prefix('users')->name('users.')->group(function () {
 
 /* ---------- Emails ---------- */
 Route::prefix('emails')->name('emails.')->group(function () {
-    Route::get('/',                 [EmailController::class, 'index'])->name('index');
-    Route::get('/{id}',             [EmailController::class, 'show'])->name('show');
-    Route::patch('/{id}/resolve',   [EmailController::class, 'toggleResolved'])->name('toggleResolved');
-    Route::patch('/{id}/category',  [EmailController::class, 'updateCategory'])->name('updateCategory');
+    Route::get('/',                    [EmailController::class, 'index'])->name('index');
+    Route::get('/{message}',           [EmailController::class, 'show'])->name('show');
+    Route::patch('/{message}/resolve', [EmailController::class, 'toggleResolved'])->name('toggleResolved');
+    Route::patch('/{message}/category',[EmailController::class, 'updateCategory'])->name('updateCategory');
     Route::patch('/{message}/archive', [EmailController::class, 'archive'])->name('archive');
 });

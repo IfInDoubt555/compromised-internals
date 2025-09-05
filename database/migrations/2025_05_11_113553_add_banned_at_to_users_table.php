@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('banned_at')->nullable()->after('email_verified_at');
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('banned_at');
