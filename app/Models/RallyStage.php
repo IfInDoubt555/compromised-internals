@@ -17,10 +17,14 @@ use Illuminate\Support\Str;
  * @property int|null                  $rally_event_day_id
  * @property string|null               $name
  * @property string|null               $ss_number
+ * @property int|null                  $ss_number
  * @property string|null               $second_ss_number
  * @property float|string|null         $distance_km
  * @property \Illuminate\Support\Carbon|null $start_time_local
  * @property \Illuminate\Support\Carbon|null $second_pass_time_local
+ * @property string|\Carbon\CarbonInterface|null $start_time_local
+ * @property string|\Carbon\CarbonInterface|null $second_pass_time_local
+ * @property string|null               $location
  * @property string|null               $map_image_url
  * @property string|null               $map_embed_url
  * @property bool                      $is_super_special

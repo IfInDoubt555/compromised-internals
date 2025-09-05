@@ -17,23 +17,23 @@ use Illuminate\Support\Str;
 /**
  * @use HasFactory<\Database\Factories\UserFactory>
  *
- * @property int                             $id
- * @property string                          $name
- * @property string                          $email
- * @property string|null                     $password
- * @property string|null                     $profile_picture
- * @property string|null                     $title
- * @property bool                            $is_admin
- * @property \Carbon\CarbonImmutable|null    $email_verified_at
- * @property \Carbon\CarbonImmutable|null    $banned_at
+ * @property int                                    $id
+ * @property string                                 $name
+ * @property string                                 $email
+ * @property string|null                            $password
+ * @property string|null                            $profile_picture
+ * @property string|null                            $title
+ * @property bool                                   $is_admin
+ * @property \Carbon\CarbonImmutable|null           $email_verified_at
+ * @property \Carbon\CarbonImmutable|null           $banned_at
  *
- * @property-read UserProfile|null           $profile
- * @property-read \Illuminate\Database\Eloquent\Collection<int,Post>    $posts
- * @property-read \Illuminate\Database\Eloquent\Collection<int,Order>   $orders
- * @property-read \Illuminate\Database\Eloquent\Collection<int,Comment> $comments
- * @property-read \Illuminate\Database\Eloquent\Collection<int,Post>    $likedPosts
+ * @property-read \App\Models\UserProfile|null                                       $profile
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Post>     $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Order>    $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Comment>  $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Post>     $likedPosts
  *
- * @property-read string                     $profile_picture_url
+ * @property-read string                          $profile_picture_url
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -60,10 +60,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** @var array<string,string> */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'immutable_datetime',
         'password'          => 'hashed',
         'is_admin'          => 'boolean',
-        'banned_at'         => 'datetime',
+        'banned_at'         => 'immutable_datetime',
     ];
 
     /** @var list<string> */
@@ -71,7 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_picture_url',
     ];
 
-    /** Is the user an administrator? */
     public function isAdmin(): bool
     {
         return (bool) $this->is_admin;
@@ -80,7 +79,8 @@ class User extends Authenticatable implements MustVerifyEmail
     /** ---------- Relations ---------- */
 
     /**
-     * @return HasMany<Post, User>
+     * @return HasMany<\App\Models\Post, \App\Models\User>
+     * @phpstan-return HasMany<\App\Models\Post, \App\Models\User>
      */
     public function posts(): HasMany
     {
@@ -88,7 +88,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return HasMany<Order, User>
+     * @return HasMany<\App\Models\Order, \App\Models\User>
+     * @phpstan-return HasMany<\App\Models\Order, \App\Models\User>
      */
     public function orders(): HasMany
     {
@@ -96,7 +97,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return HasOne<UserProfile, User>
+     * @return HasOne<\App\Models\UserProfile, \App\Models\User>
+     * @phpstan-return HasOne<\App\Models\UserProfile, \App\Models\User>
      */
     public function profile(): HasOne
     {
@@ -104,7 +106,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return BelongsToMany<Post, User>
+     * @return BelongsToMany<\App\Models\Post, \App\Models\User, \Illuminate\Database\Eloquent\Relations\Pivot>
+     * @phpstan-return BelongsToMany<\App\Models\Post, \App\Models\User, \Illuminate\Database\Eloquent\Relations\Pivot>
      */
     public function likedPosts(): BelongsToMany
     {
@@ -112,20 +115,19 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return HasMany<Comment, User>
+     * @return HasMany<\App\Models\Comment, \App\Models\User>
+     * @phpstan-return HasMany<\App\Models\Comment, \App\Models\User>
      */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    /** Is the user banned? */
     public function isBanned(): bool
     {
         return $this->banned_at !== null;
     }
 
-    /** Accessor: full URL for the profile picture. */
     public function getProfilePictureUrlAttribute(): string
     {
         $p = (string) ($this->profile_picture ?? '');
@@ -138,10 +140,9 @@ class User extends Authenticatable implements MustVerifyEmail
             return $p;
         }
 
-        return Storage::url($p); // /storage/...
+        return Storage::url($p);
     }
 
-    /** Accessor: display_name (profile.display_name → name). */
     public function getDisplayNameAttribute(): string
     {
         if ($this->relationLoaded('profile') && $this->profile) {

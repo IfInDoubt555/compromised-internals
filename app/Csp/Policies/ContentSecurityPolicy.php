@@ -3,14 +3,15 @@
 namespace App\Csp\Policies;
 
 use Spatie\Csp\Directive;
-use Spatie\Csp\Policies\Policy;
+use Spatie\Csp\Policy as BasePolicy;
 
-class ContentSecurityPolicy extends Policy
+class ContentSecurityPolicy extends BasePolicy
 {
-    public function configure(): void
+    public function configure(BasePolicy $policy): void
     {
-        $this
-            ->addDirective(Directive::IMG,  ["'self'", 'https:', 'data:', 'blob:'])
-            ->addDirective(Directive::FONT, ["'self'", 'https:', 'data:']);
+        // extend with your own directives
+        $policy
+            ->add(Directive::IMG,  ["'self'", 'https:', 'data:', 'blob:'])
+            ->add(Directive::FONT, ["'self'", 'https:', 'data:']);
     }
 }

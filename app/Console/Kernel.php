@@ -18,6 +18,9 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 
+    /**
+     * Define the application's command schedule.
+     */
     protected function schedule(Schedule $schedule): void
     {
         // Birthday offer
@@ -35,7 +38,7 @@ class Kernel extends ConsoleKernel
             ->environments(['production']);
 
         // Clean sessions with missing UA
-        $schedule->call(function () {
+        $schedule->call(function (): void {
             DB::table('sessions')
                 ->whereNull('user_agent')
                 ->orWhere('user_agent', '')
@@ -64,11 +67,11 @@ class Kernel extends ConsoleKernel
     }
 
     /**
-     * Add manually registered Artisan commands here.
+     * Manually registered Artisan commands.
      *
-     * @var array<class-string>
+     * @var list<class-string>
      */
-    protected array $commands = [
+    protected $commands = [
         \App\Console\Commands\ScanImageAttributions::class,
         \App\Console\Commands\PruneSessions::class,
         \App\Console\Commands\HistoryAddResults::class,

@@ -3,12 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+/** @extends \Illuminate\Database\Eloquent\Factories\HasFactory<\App\Models\RallyEvent> */
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection<int, RallyEventDay> $days
- * @property-read \Illuminate\Database\Eloquent\Collection<int, RallyStage> $stages
+ * @property int $id
+ * @property string $name
+ * @property string|null $slug
+ * @property string|null $location
+ * @property string|null $city
+ * @property string|null $country
+ * @property \Carbon\CarbonImmutable|null $start_date
+ * @property \Carbon\CarbonImmutable|null $end_date
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyEventDay> $days
  */
 
 class RallyEvent extends Model

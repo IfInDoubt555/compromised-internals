@@ -9,10 +9,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property \Illuminate\Support\Carbon|null $date
- * @property-read RallyEvent $event
- * @property-read \Illuminate\Database\Eloquent\Collection<int, RallyStage> $stages
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $slug
+ * @property string|null $location
+ * @property string|null $city
+ * @property string|null $country
+ * @property \Carbon\CarbonImmutable|null $start_date
+ * @property \Carbon\CarbonImmutable|null $end_date
+ * @property \Carbon\CarbonImmutable|null $date
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyEventDay> $days
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyStage> $stages
  */
+
 class RallyEventDay extends Model
 {
     /** @var list<string> */
