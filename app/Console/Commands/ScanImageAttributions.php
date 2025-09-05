@@ -4,20 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 
 class ScanImageAttributions extends Command
 {
     protected $signature = 'images:scan-attribution';
     protected $description = 'Scan image folder for metadata and prepare attribution tracking';
 
-    public function handle()
+    public function handle(): int
     {
         $imageDir = public_path('images/history');
         $outputFile = storage_path('app/attribution-log.csv');
 
         if (!File::exists($imageDir)) {
             $this->error("Directory not found: $imageDir");
-            return;
+            return SymfonyCommand::FAILURE;
         }
 
         $images = File::allFiles($imageDir);
@@ -31,12 +32,12 @@ class ScanImageAttributions extends Command
             $size = round($image->getSize() / 1024, 2);
             $filename = $image->getFilename();
             $relativePath = str_replace(public_path(), '', $path);
-            
+
             [$width, $height, $type] = getimagesize($path) ?: [null, null, null];
-            $mime = image_type_to_mime_type($type);
+            $mime = $type ? image_type_to_mime_type($type) : '';
 
             // Guess year from filename (e.g., 1986-audi.jpg)
-            preg_match('/(19|20)\\d{2}/', $filename, $matches);
+            preg_match('/(19|20)\d{2}/', $filename, $matches);
             $year = $matches[0] ?? '';
 
             // Guess section (e.g., /events/, /cars/, /drivers/)
@@ -67,5 +68,7 @@ class ScanImageAttributions extends Command
         fclose($handle);
 
         $this->info("Image scan complete. CSV saved to: {$outputFile}");
+
+        return SymfonyCommand::SUCCESS;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -12,10 +14,13 @@ class StoreCommentRequest extends FormRequest
         return auth()->check();
     }
 
+    /**
+     * @return array<string, list<\Illuminate\Contracts\Validation\ValidationRule|array|string>>
+     */
     public function rules(): array
     {
         return [
-            'body' => ['required', 'string', 'max:1000', new NoBannedWords],
+            'body' => ['required', 'string', 'max:1000', new NoBannedWords()],
         ];
     }
 }

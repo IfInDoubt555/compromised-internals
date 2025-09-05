@@ -7,12 +7,13 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\StoreCommentRequest;
+use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
 {
     use AuthorizesRequests;
 
-    public function store(StoreCommentRequest $request, Post $post)
+    public function store(StoreCommentRequest $request, Post $post): RedirectResponse
     {
         $user = auth()->user();
 
@@ -28,7 +29,7 @@ class CommentController extends Controller
         return back()->with('success', 'Comment added!');
     }
 
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Comment $comment): RedirectResponse
     {
         $this->authorize('update', $comment);
 
@@ -41,7 +42,7 @@ class CommentController extends Controller
         return back()->with('success', 'Comment updated!');
     }
 
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment): RedirectResponse
     {
         $this->authorize('delete', $comment);
         $comment->delete();

@@ -67,7 +67,7 @@ class ThreadController extends Controller
         ]);
 
         // Optional: auto-tag by board
-        if (class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
+        if (class_exists(\App\Models\Tag::class)) {
             $tag = \App\Models\Tag::firstOrCreate(
                 ['slug' => 'board-' . $board->slug],
                 ['name' => $board->name]
@@ -129,7 +129,7 @@ class ThreadController extends Controller
         $thread->save();
 
         // (Optional) retag if board changed
-        if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
+        if ($boardChanged && class_exists(\App\Models\Tag::class)) {
             $newBoard = \App\Models\Board::find($data['board_id']);
             if ($newBoard) {
                 $newTag = \App\Models\Tag::firstOrCreate(

@@ -6,10 +6,11 @@ use App\Models\RallyEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Http\Response;
 
 class CalendarExportController extends Controller
 {
-    public function year(Request $request, int $year)
+    public function year(Request $request, int $year): Response
     {
         $ics = $this->buildIcsForYear($year, $request->string('champ')->toString());
         return response($ics, 200, [
@@ -18,7 +19,7 @@ class CalendarExportController extends Controller
         ]);
     }
 
-    public function download(Request $request, int $year)
+    public function download(Request $request, int $year): Response
     {
         $ics = $this->buildIcsForYear($year, $request->string('champ')->toString());
         return response($ics, 200, [

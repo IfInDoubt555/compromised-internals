@@ -23,9 +23,8 @@ class BuildSitemap extends Command
     {
         File::ensureDirectoryExists(public_path('sitemaps'));
 
-        /** helper to safely write and log **/
-        $write = function (Sitemap $map, string $absPath, string $label, int $count) {
-            // ensure dir exists
+        /** helper to safely write and log */
+        $write = function (Sitemap $map, string $absPath, string $label, int $count): void {
             File::ensureDirectoryExists(dirname($absPath));
             $map->writeToFile($absPath);
             $this->info(sprintf('%s sitemap written: %s (%d urls)', $label, $absPath, $count));
@@ -34,16 +33,24 @@ class BuildSitemap extends Command
         // -------- 1) Static
         try {
             $staticCount = 0;
-            $static = Sitemap::create()
-                ->add(Url::create(url('/'))->setLastModificationDate(now())) && $staticCount++;
             $static = Sitemap::create();
-            $static->add(Url::create(url('/'))->setLastModificationDate(now())) && $staticCount++;
-            $static->add(Url::create(url('/blog'))->setLastModificationDate(now())) && $staticCount++;
-            $static->add(Url::create(url('/shop'))->setLastModificationDate(now())) && $staticCount++;
-            $static->add(Url::create(url('/history'))->setLastModificationDate(now())) && $staticCount++;
-            $static->add(Url::create(url('/calendar'))->setLastModificationDate(now())) && $staticCount++;
 
-            $write($static, public_path('sitemaps/static.xml'), 'Static', 5); // 5 + homepage
+            $static->add(Url::create(url('/'))->setLastModificationDate(now()));
+            $staticCount++;
+
+            $static->add(Url::create(url('/blog'))->setLastModificationDate(now()));
+            $staticCount++;
+
+            $static->add(Url::create(url('/shop'))->setLastModificationDate(now()));
+            $staticCount++;
+
+            $static->add(Url::create(url('/history'))->setLastModificationDate(now()));
+            $staticCount++;
+
+            $static->add(Url::create(url('/calendar'))->setLastModificationDate(now()));
+            $staticCount++;
+
+            $write($static, public_path('sitemaps/static.xml'), 'Static', $staticCount);
         } catch (\Throwable $e) {
             Log::warning('Sitemap static: ' . $e->getMessage());
         }
@@ -60,18 +67,15 @@ class BuildSitemap extends Command
                     ->select(['slug', 'updated_at', 'published_at', 'status', 'publish_status', 'created_at'])
                     ->whereNotNull('slug')
                     ->where(function ($q) {
-                        // New flow: published + has published_at <= now
                         $q->where(function ($q) {
                             $q->where('status', 'published')
                               ->whereNotNull('published_at')
                               ->where('published_at', '<=', now());
                         })
-                        // Legacy flow: publish_status column
                         ->orWhere(function ($q) {
                             $q->whereNull('status')
                               ->where('publish_status', 'published');
                         })
-                        // Legacy: approved status
                         ->orWhere('status', 'approved');
                     })
                     ->orderByDesc('id')
@@ -137,14 +141,13 @@ class BuildSitemap extends Command
             $history = Sitemap::create();
             $historyCount = 0;
 
-            // Look in both places you might keep decade files
             $candidates = array_merge(
                 glob(public_path('data/*-*.json')) ?: [],
                 glob(storage_path('app/public/data/*-*.json')) ?: []
             );
 
             foreach ($candidates as $path) {
-                $filename = basename($path); // e.g., events-1960s.json
+                $filename = basename($path);
                 if (!preg_match('/^(events|cars|drivers)-(\d{4})s\.json$/', $filename, $m)) {
                     continue;
                 }

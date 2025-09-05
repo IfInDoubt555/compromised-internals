@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\View\View;
+
 
 class BlogController extends Controller
 {
@@ -14,7 +16,7 @@ class BlogController extends Controller
      * - Also shows LEGACY posts that were 'approved' or publish_status='published'.
      * - Orders by published_at when present, otherwise created_at.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $q = Post::with(['user', 'board'])
             ->where(function ($q) {
@@ -58,6 +60,9 @@ class BlogController extends Controller
             return Post::query()->hot(14)->limit(5)->get();
         });
 
-        return view('blog.index', compact('posts', 'hotPosts'));
-    }
+        return view(
+            /** @var view-string $view */
+            $view = 'blog.index',
+            compact('posts', 'hotPosts')
+        );    }
 }

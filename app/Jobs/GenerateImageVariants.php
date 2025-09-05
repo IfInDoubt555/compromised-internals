@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Services\ImageVariantService;
@@ -17,10 +19,10 @@ class GenerateImageVariants implements ShouldQueue
     public string $disk;
     public string $path;
 
-    /** @var int[] */
+    /** @var list<int> */
     public array $sizes;
 
-    /** @var string[] */
+    /** @var list<string> */
     public array $formats;
 
     /** Give optimizers some headroom */
@@ -28,15 +30,21 @@ class GenerateImageVariants implements ShouldQueue
 
     /** basic resiliency */
     public int $tries = 3;
+
+    /** @var int|list<int> */
     public array|int $backoff = [5, 30, 120];
 
+    /**
+     * @param list<int>    $sizes
+     * @param list<string> $formats
+     */
     public function __construct(
         string $disk,
         string $path,
         array $sizes = [160, 320, 640],
         array $formats = ['webp', 'avif']
     ) {
-        $this->disk    = $disk ?: 'public';
+        $this->disk    = $disk !== '' ? $disk : 'public';
         $this->path    = ltrim($path, '/'); // keep storage-relative
         $this->sizes   = $sizes;
         $this->formats = $formats;
@@ -51,7 +59,7 @@ class GenerateImageVariants implements ShouldQueue
         Log::info('image.variants.generated', ['path' => $this->path, 'count' => $written]);
     }
 
-    /** Nice tags for Horizon */
+    /** @return list<string> Nice tags for Horizon */
     public function tags(): array
     {
         return ['images', 'variants', 'path:' . $this->path];

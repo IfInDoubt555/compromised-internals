@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AffiliateClick;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Http\JsonResponse;
 
 class AffiliateClickController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $query = AffiliateClick::query()->latest();
 
@@ -65,14 +67,13 @@ class AffiliateClickController extends Controller
     /**
      * Return JSON data for clicks per day for the last 30 days.
      */
-    public function chartData()
+    public function chartData(): JsonResponse
     {
-        $byDay = \App\Models\AffiliateClick::selectRaw('DATE(created_at) as date, count(*) as total')
+        $byDay = AffiliateClick::selectRaw('DATE(created_at) as date, count(*) as total')
             ->groupBy('date')
             ->orderBy('date')
             ->pluck('total', 'date');
 
         return response()->json($byDay);
     }
-
 }

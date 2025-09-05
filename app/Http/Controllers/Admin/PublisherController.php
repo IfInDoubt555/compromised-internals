@@ -10,137 +10,156 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PublisherController extends Controller
 {
     // NEW: queue page (drafts + scheduled)
-    public function index()
+    public function index(): View
     {
         // POSTS
-        $postDrafts = Post::with(['user','board'])
+        $postDrafts = Post::with(['user', 'board'])
             ->drafts()
             ->latest('updated_at')
             ->paginate(10, ['*'], 'postDrafts');
-    
-        $postScheduled = Post::with(['user','board'])
+
+        $postScheduled = Post::with(['user', 'board'])
             ->scheduled()
             ->orderBy('published_at')   // canonical schedule time
             ->paginate(10, ['*'], 'postScheduled');
-    
-        $postPublished = Post::with(['user','board'])
+
+        $postPublished = Post::with(['user', 'board'])
             ->published()
             ->latest('published_at')
             ->limit(10)
             ->get();
-    
+
         // THREADS
-        $threadDrafts = Thread::with(['user','board'])
+        $threadDrafts = Thread::with(['user', 'board'])
             ->drafts()
             ->latest('updated_at')
             ->paginate(10, ['*'], 'threadDrafts');
-    
-        $threadScheduled = Thread::with(['user','board'])
+
+        $threadScheduled = Thread::with(['user', 'board'])
             ->scheduled()
             ->orderBy('published_at')
             ->paginate(10, ['*'], 'threadScheduled');
-    
-        $threadPublished = Thread::with(['user','board'])
+
+        $threadPublished = Thread::with(['user', 'board'])
             ->published()
             ->latest('published_at')
             ->limit(10)
             ->get();
-    
-        return view('admin.publish.index', compact(
-            'postDrafts', 'postScheduled', 'postPublished',
-            'threadDrafts', 'threadScheduled', 'threadPublished'
-        ));
+
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.publish.index',
+            compact(
+                'postDrafts',
+                'postScheduled',
+                'postPublished',
+                'threadDrafts',
+                'threadScheduled',
+                'threadPublished'
+            )
+        );
     }
 
-    // (create/store exist already)
-
     // NEW: admin-only preview for draft/scheduled
-    public function preview(Post $post)
+    public function preview(Post $post): View
     {
         // only allow preview if not public yet
         $isPreviewable = ($post->status === 'draft')
             || ($post->status === 'scheduled')
-            || (is_null($post->status) && in_array($post->publish_status, ['draft','scheduled']));
+            || (is_null($post->status) && in_array($post->publish_status, ['draft', 'scheduled'], true));
 
         abort_unless($isPreviewable, 404);
 
-        return view('admin.publish.preview', [
-            'post' => $post,
-            'isPreview' => true,
-        ]);
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.publish.preview',
+            [
+                'post'      => $post,
+                'isPreview' => true,
+            ]
+        );
     }
 
     // NEW: quick publish now
-    public function publishNow(Post $post)
+    public function publishNow(Post $post): RedirectResponse
     {
         $this->authorize('update', $post);
 
         $post->forceFill([
-            'status'        => 'published',
-            'publish_status'=> 'published', // keep legacy in sync
-            'published_at'  => now()->utc(),
-            'scheduled_for' => null,
+            'status'         => 'published',
+            'publish_status' => 'published', // keep legacy in sync
+            'published_at'   => now()->utc(),
+            'scheduled_for'  => null,
         ])->save();
 
-        return redirect()->route('admin.publish.index')->with('status', 'Post published.');
+        return redirect()
+            ->route('admin.publish.index')
+            ->with('status', 'Post published.');
     }
 
     // NEW: quick schedule
-    public function schedule(Request $request, Post $post)
+    public function schedule(Request $request, Post $post): RedirectResponse
     {
         $this->authorize('update', $post);
 
         $data = $request->validate([
-            'published_at' => ['required','date'],
+            'published_at' => ['required', 'date'],
         ]);
 
+        $scheduledUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
+
         $post->forceFill([
-            'status'        => 'scheduled',
-            'publish_status'=> 'scheduled',
-            'published_at'  => Carbon::parse($data['published_at'], config('app.timezone'))->utc(),
-            'scheduled_for' => Carbon::parse($data['published_at'], config('app.timezone'))->utc(),
+            'status'         => 'scheduled',
+            'publish_status' => 'scheduled',
+            'published_at'   => $scheduledUtc,
+            'scheduled_for'  => $scheduledUtc,
         ])->save();
 
-        return redirect()->route('admin.publish.index')->with('status', 'Post scheduled.');
+        return redirect()
+            ->route('admin.publish.index')
+            ->with('status', 'Post scheduled.');
     }
 
-
-    public function create()
+    public function create(): View
     {
         $boards = Board::orderBy('name')->get();
 
-        return view('admin.publish.create', [
-            'boards' => $boards,
-        ]);
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.publish.create',
+            [
+                'boards' => $boards,
+            ]
+        );
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'type'            => ['required','in:blog,thread'],
+            'type'            => ['required', 'in:blog,thread'],
 
             // shared
-            'title'           => ['required','string','max:255'],
-            'slug'            => ['nullable','string','max:255'],
-            'body'            => ['required','string','max:20000'],
+            'title'           => ['required', 'string', 'max:255'],
+            'slug'            => ['nullable', 'string', 'max:255'],
+            'body'            => ['required', 'string', 'max:20000'],
 
             // preferred single status; accepts 'now' from UI
-            'status'          => ['nullable','in:draft,scheduled,now,published'],
+            'status'          => ['nullable', 'in:draft,scheduled,now,published'],
 
-            'scheduled_for'   => ['nullable','date'],
+            'scheduled_for'   => ['nullable', 'date'],
 
             // blog-only
-            'board_id'        => ['nullable','exists:boards,id'],
-            'image_path'      => ['nullable','image','mimes:jpg,jpeg,png,webp','max:4096'],
+            'board_id'        => ['nullable', 'exists:boards,id'],
+            'image_path'      => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
 
             // thread-only
-            'thread_board_id' => ['nullable','exists:boards,id'],
+            'thread_board_id' => ['nullable', 'exists:boards,id'],
         ]);
 
         $nowUtc = now()->utc();
@@ -148,9 +167,11 @@ class PublisherController extends Controller
             ? Carbon::parse($data['scheduled_for'], config('app.timezone'))->utc()
             : null;
 
-        $isAdmin = Auth::user()?->isAdmin();
+        $isAdmin = (bool) (Auth::user()?->isAdmin());
         $intent  = $data['status'] ?? 'draft';
-        if ($intent === 'now') $intent = 'published';
+        if ($intent === 'now') {
+            $intent = 'published';
+        }
 
         if ($data['type'] === 'blog') {
             $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
@@ -167,17 +188,17 @@ class PublisherController extends Controller
             if ($isAdmin) {
                 // BYPASS moderation: write final status + timestamps
                 if ($intent === 'published') {
-                    $payload['status']         = 'published';
-                    $payload['published_at']   = $nowUtc;
-                    $payload['scheduled_for']  = null;
+                    $payload['status']        = 'published';
+                    $payload['published_at']  = $nowUtc;
+                    $payload['scheduled_for'] = null;
                 } elseif ($intent === 'scheduled') {
-                    $payload['status']         = 'scheduled';
-                    $payload['published_at']   = $scheduledUtc ?: $nowUtc;
-                    $payload['scheduled_for']  = $payload['published_at']; // legacy mirror
+                    $payload['status']        = 'scheduled';
+                    $payload['published_at']  = $scheduledUtc ?: $nowUtc;
+                    $payload['scheduled_for'] = $payload['published_at']; // legacy mirror
                 } else {
-                    $payload['status']         = 'draft';
-                    $payload['scheduled_for']  = null;
-                    $payload['published_at']   = null;
+                    $payload['status']        = 'draft';
+                    $payload['scheduled_for'] = null;
+                    $payload['published_at']  = null;
                 }
             } else {
                 $payload['status'] = 'pending';
@@ -190,7 +211,7 @@ class PublisherController extends Controller
                 $payload['image_path'] = $request->file('image_path')->store('posts', 'public');
             }
 
-            $post = Post::create($payload);
+            Post::create($payload);
 
             return $isAdmin
                 ? redirect()->route('admin.publish.index')->with('status', 'Post saved.')
@@ -199,7 +220,7 @@ class PublisherController extends Controller
 
         // THREAD
         $request->validate([
-            'thread_board_id' => ['required','exists:boards,id'],
+            'thread_board_id' => ['required', 'exists:boards,id'],
         ]);
 
         $slug = $data['slug'] ? Str::slug($data['slug']) : Str::slug($data['title']);
@@ -234,7 +255,7 @@ class PublisherController extends Controller
             $payload['status'] = 'pending';
         }
 
-        $thread = Thread::create($payload);
+        Thread::create($payload);
 
         return $isAdmin
             ? redirect()->route('admin.publish.index')->with('status', 'Thread saved.')

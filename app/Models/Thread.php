@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
-use Carbon\CarbonImmutable;
-
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
@@ -21,21 +21,21 @@ use League\CommonMark\MarkdownConverter;
  * @property string $title
  * @property string $slug
  * @property string|null $body
- * @property \Illuminate\Support\Carbon|null $last_activity_at
+ * @property \Illuminate\Support\CarbonImmutable|null $last_activity_at
  * @property 'draft'|'scheduled'|'published' $status
- * @property \Illuminate\Support\Carbon|null $scheduled_for
- * @property \Illuminate\Support\Carbon|null $published_at
+ * @property \Illuminate\Support\CarbonImmutable|null $scheduled_for
+ * @property \Illuminate\Support\CarbonImmutable|null $published_at
  *
- * @property-read \App\Models\Board $board
- * @property-read \App\Models\User $user
- * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Reply> $replies
- * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Tag> $tags
+ * @property-read Board $board
+ * @property-read User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Reply> $replies
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Tag> $tags
  *
  * @mixin \Eloquent
  */
-
 class Thread extends Model
 {
+    /** @var list<string> */
     protected $fillable = [
         'board_id',
         'user_id',
@@ -43,27 +43,12 @@ class Thread extends Model
         'slug',
         'body',
         'last_activity_at',
-        // scheduling
         'status',          // draft | scheduled | published
         'scheduled_for',   // datetime (UTC)
         'published_at',    // datetime (UTC)
     ];
 
-       /** Thread belongs to one Board */
-    public function board(): BelongsTo
-    {
-        return $this->belongsTo(\App\Models\Board::class);
-    }
-
-    /** Only visible threads */
-    public function scopePublished(Builder $q): Builder
-    {
-        return $q->where('status', 'published')
-                 ->whereNotNull('published_at')
-                 ->where('published_at', '<=', now());
-    }
-
-
+    /** @return array<string,string> */
     protected function casts(): array
     {
         return [
@@ -89,35 +74,96 @@ class Thread extends Model
         return $converter->convert((string) $this->body)->getContent();
     }
 
+    /** ---------- Relations ---------- */
+
+    /**
+     * @return BelongsTo<Board, Thread>
+     */
+    public function board(): BelongsTo
+    {
+        return $this->belongsTo(Board::class);
+    }
+
+    /**
+     * @return BelongsTo<User, Thread>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<Reply, Thread>
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * @return BelongsToMany<Tag, Thread>
+     */
+    public function tags(): BelongsToMany
+    {
+        // ensure your pivot table name matches your schema (e.g., 'thread_tag')
+        return $this->belongsToMany(Tag::class, 'thread_tag')->withTimestamps();
+    }
+
     /** ---------- Scopes ---------- */
+
+    /**
+     * Only visible threads.
+     * @param  Builder<Thread> $query
+     * @return Builder<Thread>
+     */
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('status', 'published')
+                     ->whereNotNull('published_at')
+                     ->where('published_at', '<=', now());
+    }
 
     /**
      * Threads that should appear publicly in lists.
      * Use this everywhere you count or list threads so results match.
+     * @param  Builder<Thread> $query
+     * @return Builder<Thread>
      */
-    public function scopeVisibleForList(Builder $q): Builder
+    public function scopeVisibleForList(Builder $query): Builder
     {
-        return $q->where('status', 'published')
-                 ->whereNotNull('published_at')
-                 ->where('published_at', '<=', now());
+        return $query->where('status', 'published')
+                     ->whereNotNull('published_at')
+                     ->where('published_at', '<=', now());
     }
 
-    public function scopeScheduled(Builder $q): Builder
+    /**
+     * @param  Builder<Thread> $query
+     * @return Builder<Thread>
+     */
+    public function scopeScheduled(Builder $query): Builder
     {
-        // ✅ scheduled_for (not published_at)
-        return $q->where('status', 'scheduled')
-                 ->whereNotNull('scheduled_for')
-                 ->where('scheduled_for', '>', now());
-    }
-        /** Alias used by some admin code */
-    public function scopeDraft(Builder $q): Builder
-    {
-        return $q->where('status', 'draft');
+        return $query->where('status', 'scheduled')
+                     ->whereNotNull('scheduled_for')
+                     ->where('scheduled_for', '>', now());
     }
 
-    public function scopeDrafts(Builder $q): Builder
+    /**
+     * @param  Builder<Thread> $query
+     * @return Builder<Thread>
+     */
+    public function scopeDraft(Builder $query): Builder
     {
-        return $q->where('status', 'draft');
+        return $query->where('status', 'draft');
+    }
+
+    /**
+     * Alias used by some admin code.
+     * @param  Builder<Thread> $query
+     * @return Builder<Thread>
+     */
+    public function scopeDrafts(Builder $query): Builder
+    {
+        return $query->where('status', 'draft');
     }
 
     /** ---------- Status helpers ---------- */
@@ -128,27 +174,16 @@ class Thread extends Model
 
     public function isScheduled(): bool
     {
-        // ✅ scheduled_for (not published_at)
         return $this->status === 'scheduled'
-            && $this->scheduled_for
+            && $this->scheduled_for !== null
             && $this->scheduled_for->isFuture();
     }
 
     public function isPublished(): bool
     {
         return $this->status === 'published'
-            && $this->published_at
+            && $this->published_at !== null
             && $this->published_at->isPast();
-    }
-
-    /** ---------- Relations ---------- */
-    public function user(): BelongsTo    { return $this->belongsTo(User::class); }
-    public function replies(): HasMany   { return $this->hasMany(Reply::class); }
-
-    public function tags(): BelongsToMany
-    {
-        // ensure your pivot table name matches your schema (e.g., 'thread_tag')
-        return $this->belongsToMany(Tag::class, 'thread_tag')->withTimestamps();
     }
 
     /** ---------- Routing ---------- */
@@ -160,7 +195,7 @@ class Thread extends Model
     /** ---------- Boot ---------- */
     protected static function booted(): void
     {
-        static::saving(function (Thread $t) {
+        static::saving(function (Thread $t): void {
             if (empty($t->slug) && !empty($t->title)) {
                 $t->slug = Str::slug($t->title);
             }

@@ -7,22 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * @property int                             $id
- * @property string                          $name
- * @property string|null                     $location
- * @property string|null                     $description
- * @property string                          $slug
- * @property int|null                        $user_id
- * @property string|null                     $championship
- * @property string|null                     $map_embed_url
- * @property string|null                     $official_url
- * @property \Carbon\CarbonImmutable|null    $start_date
- * @property \Carbon\CarbonImmutable|null    $end_date
- *
- * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyEventDay> $days
- * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyStage>    $stages
- * 
- * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, RallyEventDay> $days
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, RallyStage> $stages
  */
 
 class RallyEvent extends Model
@@ -56,16 +42,18 @@ class RallyEvent extends Model
         ];
     }
 
-    /** @return HasMany<RallyEventDay> */
+    /** @return HasMany<RallyEventDay, RallyEvent> */
     public function days(): HasMany
     {
-        return $this->hasMany(RallyEventDay::class)->orderBy('date');
+        return $this->hasMany(RallyEventDay::class, 'rally_event_id')
+            ->orderBy('date');
     }
 
-    /** @return HasMany<RallyStage> */
+    /** @return HasMany<RallyStage, RallyEvent> */
     public function stages(): HasMany
     {
-        return $this->hasMany(RallyStage::class)->orderBy('ss_number');
+        return $this->hasMany(RallyStage::class, 'rally_event_id')
+            ->orderBy('ss_number');
     }
 
     public function getRouteKeyName(): string

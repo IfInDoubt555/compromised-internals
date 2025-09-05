@@ -1,45 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
+use App\Rules\NoBannedWords;
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Http;
-use App\Rules\NoBannedWords;
 
 class ContactMessageRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // Everyone can hit the contact form
-        return true;
+        return true; // everyone can hit the contact form
     }
 
+    /**
+     * @return array<string, list<\Illuminate\Contracts\Validation\ValidationRule|array|string>>
+     */
     public function rules(): array
     {
         return [
-            'name'            => ['required', 'string', 'max:255', new NoBannedWords],
-            'email'           => ['required', 'string', 'email', 'max:255', new NoBannedWords],
-            'message'         => ['required', 'string', 'min:10', new NoBannedWords],
+            'name'            => ['required', 'string', 'max:255', new NoBannedWords()],
+            'email'           => ['required', 'string', 'email', 'max:255', new NoBannedWords()],
+            'message'         => ['required', 'string', 'min:10', new NoBannedWords()],
             'recaptcha_token' => [
                 'required',
                 'string',
-                function ($attribute, $value, $fail) {
-                    // Skip in local/dev if you’ve toggled recaptcha off
-                    if (!config('services.recaptcha.enabled')) {
-                        return;
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    if (! (bool) config('services.recaptcha.enabled')) {
+                        return; // Skip in local/dev
                     }
 
-                    $response = Http::asForm()
-                        ->post('https://www.google.com/recaptcha/api/siteverify', [
-                            'secret'   => config('services.recaptcha.secret_key'),
-                            'response' => $value,
-                            'remoteip' => $this->ip(),
-                        ])
-                        ->throw()
-                        ->json();
+                    $resp = Http::asForm()->post(
+                        'https://www.google.com/recaptcha/api/siteverify',
+                        [
+                            'secret'   => (string) config('services.recaptcha.secret_key'),
+                            'response' => (string) $value,
+                            'remoteip' => (string) $this->ip(),
+                        ]
+                    );
 
-                    // Must be a successful call and score >= 0.5
-                    if (!($response['success'] ?? false) || ($response['score'] ?? 0) < 0.5) {
+                    /** @var array<string, mixed> $data */
+                    $data = $resp->json();
+
+                    if (! ($data['success'] ?? false) || (float) ($data['score'] ?? 0.0) < 0.5) {
                         $fail('Failed reCAPTCHA validation. Please try again.');
                     }
                 },

@@ -10,12 +10,13 @@ use Illuminate\Support\Carbon;
 use App\Models\Post;
 // Use your real calendar model class here
 use App\Models\RallyEvent;
+use Illuminate\Http\Response;
 
 class SitemapController extends Controller
 {
     private int $ttl = 60 * 60 * 24; // 24h
 
-    public function index()
+    public function index(): Response
     {
         $xml = Cache::remember('sitemap:index', $this->ttl, function () {
             return SitemapIndex::create()
@@ -29,7 +30,7 @@ class SitemapController extends Controller
         return response($xml, 200)->header('Content-Type', 'application/xml');
     }
 
-    public function static()
+    public function static(): Response
     {
         $xml = Cache::remember('sitemap:static', $this->ttl, function () {
             return Sitemap::create()
@@ -44,7 +45,7 @@ class SitemapController extends Controller
         return response($xml, 200)->header('Content-Type', 'application/xml');
     }
 
-    public function blog()
+    public function blog(): Response
     {
         $xml = Cache::remember('sitemap:blog', $this->ttl, function () {
             $sm = Sitemap::create();
@@ -81,7 +82,7 @@ class SitemapController extends Controller
         return response($xml, 200)->header('Content-Type', 'application/xml');
     }
 
-    public function calendar()
+    public function calendar(): Response
     {
         $xml = Cache::remember('sitemap:calendar', $this->ttl, function () {
             $sm = Sitemap::create();
@@ -107,7 +108,7 @@ class SitemapController extends Controller
         return response($xml, 200)->header('Content-Type', 'application/xml');
     }
 
-    public function history()
+    public function history(): Response
     {
         $xml = Cache::remember('sitemap:history', $this->ttl, function () {
             $sm = Sitemap::create();

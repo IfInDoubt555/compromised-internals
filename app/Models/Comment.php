@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,10 +12,24 @@ use League\CommonMark\MarkdownConverter;
 
 class Comment extends Model
 {
-    protected $fillable = ['post_id','user_id','body'];
+    /** @var list<string> */
+    protected $fillable = ['post_id', 'user_id', 'body'];
 
-    public function post(): BelongsTo { return $this->belongsTo(Post::class); }
-    public function user(): BelongsTo { return $this->belongsTo(User::class); }
+    /**
+     * @return BelongsTo<Post, Comment>
+     */
+    public function post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    /**
+     * @return BelongsTo<User, Comment>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function getBodyHtmlAttribute(): string
     {
@@ -21,7 +37,7 @@ class Comment extends Model
 
         if ($converter === null) {
             $config = [
-                'html_input'         => 'strip',   // block raw HTML for safety
+                'html_input'         => 'strip',   // strip raw HTML in replies for safety
                 'allow_unsafe_links' => false,
                 'max_nesting_level'  => 20,
             ];

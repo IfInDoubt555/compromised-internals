@@ -6,27 +6,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RallyEvent;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class AdminRallyEventController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $events = RallyEvent::latest()->paginate(10);
         return view('admin.events.index', compact('events'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('admin.events.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         // Normalize official_url (auto-prefix https:// if missing)
         if ($request->filled('official_url')) {
             $url = (string) $request->input('official_url');
-        
-            if (! (str_starts_with($url, 'http://') || str_starts_with($url,'https://'))) {
+
+            if (! (str_starts_with($url, 'http://') || str_starts_with($url, 'https://'))) {
                 $request->merge(['official_url' => 'https://' . $url]);
             }
         }
@@ -51,22 +53,21 @@ class AdminRallyEventController extends Controller
             ->with('success', 'Event created successfully.');
     }
 
-    public function edit(RallyEvent $event)
+    public function edit(RallyEvent $event): View
     {
         return view('admin.events.edit', compact('event'));
     }
 
-    public function update(Request $request, RallyEvent $event)
+    public function update(Request $request, RallyEvent $event): RedirectResponse
     {
         // Normalize official_url (auto-prefix https:// if missing)
         if ($request->filled('official_url')) {
             $url = (string) $request->input('official_url');
-        
+
             if (! (str_starts_with($url, 'http://') || str_starts_with($url, 'https://'))) {
                 $request->merge(['official_url' => 'https://' . $url]);
             }
         }
-
 
         $validated = $request->validate([
             'name'         => 'required|string|max:255',
@@ -79,7 +80,6 @@ class AdminRallyEventController extends Controller
             'official_url' => ['nullable','url','max:255'],
         ]);
 
-        // Single atomic update; relies on fillable in RallyEvent (including map_embed_url & championship).
         $event->fill($validated)->save();
 
         return redirect()
@@ -87,7 +87,7 @@ class AdminRallyEventController extends Controller
             ->with('success', 'Event updated successfully.');
     }
 
-    public function destroy(RallyEvent $event)
+    public function destroy(RallyEvent $event): RedirectResponse
     {
         $event->delete();
 

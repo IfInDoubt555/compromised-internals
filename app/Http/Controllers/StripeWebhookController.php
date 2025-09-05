@@ -1,37 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
-use Stripe\Webhook;
-use Stripe\Stripe;
 use Stripe\Exception\SignatureVerificationException;
+use Stripe\Webhook;
 
 class StripeWebhookController extends Controller
 {
-    public function handleWebhook(Request $request)
+    public function handleWebhook(Request $request): Response
     {
-        $payload = $request->getContent();
-        $sigHeader = $request->header('Stripe-Signature');
-        $secret = env('STRIPE_WEBHOOK_SECRET');
+        $payload   = (string) $request->getContent();
+        $sigHeader = (string) $request->header('Stripe-Signature', '');
+        /** Use config; env() is disallowed outside config files */
+        $secret    = (string) config('services.stripe.webhook_secret');
 
         try {
             $event = Webhook::constructEvent($payload, $sigHeader, $secret);
         } catch (SignatureVerificationException $e) {
             Log::warning('Stripe webhook signature verification failed.');
-            return response('Invalid signature', 400);
+            return new Response('Invalid signature', 400);
         }
 
         switch ($event->type) {
             case 'payment_intent.succeeded':
-                // Handle successful payment
                 Log::info('💰 Payment succeeded', $event->data->object->toArray());
                 break;
 
             case 'payment_intent.payment_failed':
-                // Handle failed payment
                 Log::info('❌ Payment failed', $event->data->object->toArray());
                 break;
 
@@ -39,7 +39,6 @@ class StripeWebhookController extends Controller
                 Log::info('💸 Charge refunded', $event->data->object->toArray());
                 break;
 
-            // Add more cases as needed...
             default:
                 Log::info('Unhandled event type: ' . $event->type);
         }

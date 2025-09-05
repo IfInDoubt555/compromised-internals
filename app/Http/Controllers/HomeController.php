@@ -9,10 +9,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Post;
 use App\Models\RallyEvent;
+use Illuminate\Contracts\View\View;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         // Latest posts for the homepage carousel
         $latestPosts = Post::published()
@@ -40,8 +41,10 @@ class HomeController extends Controller
         return view('home', compact('latestPosts', 'posts', 'event', 'car', 'driver', 'nextEvents'));
     }
 
-    private function pickRandomFromDecadeFiles(string $type): ?array
-    {
+    /**
+     * @return array<string,mixed>|null
+     */
+    private function pickRandomFromDecadeFiles(string $type): ?array    {
         $pattern = public_path("data/{$type}-*s.json");
         $files   = glob($pattern);
         if (!$files) return null;
@@ -49,10 +52,12 @@ class HomeController extends Controller
         shuffle($files);
 
         foreach ($files as $file) {
-            $items = json_decode(File::get($file), true);
+            /** @var array<int, array<string,mixed>>|null $items */
+            $items = json_decode(File::get($file), true);            
             if (!is_array($items) || empty($items)) continue;
 
-            $item = Arr::first(Arr::shuffle($items));
+            /** @var array<string,mixed>|null $item */
+            $item = Arr::first(Arr::shuffle($items));            
             if (!is_array($item) || empty($item)) continue;
 
             $base = pathinfo($file, PATHINFO_FILENAME);
@@ -71,6 +76,9 @@ class HomeController extends Controller
         return null;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function placeholder(string $type): array
     {
         return match ($type) {

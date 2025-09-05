@@ -10,10 +10,12 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\View;
 
 class CheckoutController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): RedirectResponse
     {
         if (!config('payments.stripe.secret')) {
             Log::error('Stripe secret missing. Checkout unavailable.');
@@ -38,13 +40,14 @@ class CheckoutController extends Controller
             'cancel_url' => route('checkout.cancel'),
         ]);
 
+        /** @var RedirectResponse */
         return redirect($session->url);
     }
 
-    public function success()
+    public function success(): View
     {
-        $cart = session('cart');
-
+        /** @var array<int, array{ name:string, quantity:int, price:int, options?:array<string,mixed> }> $cart */
+        $cart = (array) session('cart', []);
         if (!empty($cart) && Auth::check()) {
             $order = Order::create([
                 'user_id' => Auth::id(),
@@ -57,8 +60,8 @@ class CheckoutController extends Controller
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_name' => $item['name'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
+                    'quantity' => (int) $item['quantity'],
+                    'price' => (int) $item['price'],
                     'size' => $item['options']['size'] ?? null,
                     'color' => $item['options']['color'] ?? null,
                 ]);
@@ -67,19 +70,35 @@ class CheckoutController extends Controller
             session()->forget('cart');
         }
 
-        return view('shop.checkout.success');
+        return view(
+                    /** @var view-string $view */
+                    $view = 'shop.checkout.success'
+        );    
     }
 
+    /**
+     * @param array<int, array{price:int, quantity:int}> $cart
+     */
     protected function calculateCartTotal(array $cart): int
     {
-        return array_reduce($cart, function ($carry, $item) {
-            return $carry + ($item['price'] * $item['quantity']);
-        }, 0);
+        /** @var int $total */
+        $total = array_reduce(
+            $cart,
+            /** @param array{price:int, quantity:int} $item */
+            function (int $carry, array $item): int {
+                return $carry + ((int) $item['price'] * (int) $item['quantity']);
+            },
+            0
+        );
+        return $total;
     }
 
-    public function cancel()
+    public function cancel(): View
     {
         session()->forget('cart');
-        return view('shop.checkout.cancel');
+        return view(
+            /** @var view-string $view */
+            $view = 'shop.checkout.cancel'
+        );    
     }
 }

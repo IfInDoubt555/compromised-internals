@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\TravelHighlight;
 use App\Models\RallyEvent;
+use App\Models\TravelHighlight;
+use Illuminate\Contracts\View\View;
 
 class TravelPageController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         // Curated highlights (only kind=highlight)
         $manual = TravelHighlight::highlights()
@@ -27,10 +30,10 @@ class TravelPageController extends Controller
                 ->whereDate('start_date', '>=', now()->toDateString())
                 ->orderBy('start_date')
                 ->take(3)
-                ->get(['id','slug', 'name','location','start_date'])   // keep id in the select
+                ->get(['id', 'slug', 'name', 'location', 'start_date'])
                 ->map(fn ($e) => [
                     'title' => "{$e->name} — Plan Trip",
-                    'url' => route('travel.plan.event', ['rallyEvent' => $e->slug]),
+                    'url'   => route('travel.plan.event', ['rallyEvent' => $e->slug]),
                 ])
                 ->all();
         }
@@ -41,7 +44,7 @@ class TravelPageController extends Controller
         return view('travel.index', compact('items', 'tips'));
     }
 
-    public function event(RallyEvent $rallyEvent)
+    public function event(RallyEvent $rallyEvent): View
     {
         $seo = [
             'title'       => "Plan Your Trip – {$rallyEvent->name}",
@@ -49,7 +52,7 @@ class TravelPageController extends Controller
                              ($rallyEvent->location ? " in {$rallyEvent->location}" : '') . '.',
             'url'         => route('travel.plan.event', $rallyEvent),
         ];
-    
+
         return view('travel.event', [
             'event' => $rallyEvent,
             'seo'   => $seo,

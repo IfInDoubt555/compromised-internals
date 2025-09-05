@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TravelHighlight;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class TravelHighlightController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         // Show all highlights (active + inactive)
         $highlights = TravelHighlight::highlights()
@@ -17,15 +19,22 @@ class TravelHighlightController extends Controller
 
         $tips = TravelHighlight::tips()->first();
 
-        return view('admin.travel-highlights.index', compact('highlights', 'tips'));
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.travel-highlights.index',
+            compact('highlights', 'tips')
+        );
     }
 
-    public function create()
+    public function create(): View
     {
-        return view('admin.travel-highlights.create');
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.travel-highlights.create'
+        );
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'title'      => ['required', 'string', 'max:160'],
@@ -45,15 +54,19 @@ class TravelHighlightController extends Controller
             ->with('status', 'Highlight created.');
     }
 
-    public function edit(TravelHighlight $travel_highlight)
+    public function edit(TravelHighlight $travel_highlight): View
     {
         // Don’t allow editing the tips record through highlight routes
         abort_if($travel_highlight->kind !== TravelHighlight::KIND_HIGHLIGHT, 404);
 
-        return view('admin.travel-highlights.edit', ['h' => $travel_highlight]);
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.travel-highlights.edit',
+            ['h' => $travel_highlight]
+        );
     }
 
-    public function update(Request $request, TravelHighlight $travel_highlight)
+    public function update(Request $request, TravelHighlight $travel_highlight): RedirectResponse
     {
         abort_if($travel_highlight->kind !== TravelHighlight::KIND_HIGHLIGHT, 404);
 
@@ -74,7 +87,7 @@ class TravelHighlightController extends Controller
             ->with('status', 'Highlight updated.');
     }
 
-    public function destroy(TravelHighlight $travel_highlight)
+    public function destroy(TravelHighlight $travel_highlight): RedirectResponse
     {
         abort_if($travel_highlight->kind !== TravelHighlight::KIND_HIGHLIGHT, 404);
 
@@ -83,7 +96,7 @@ class TravelHighlightController extends Controller
         return back()->with('status', 'Highlight deleted.');
     }
 
-    public function editTips()
+    public function editTips(): View
     {
         $tips = TravelHighlight::tips()->first();
 
@@ -99,10 +112,14 @@ class TravelHighlightController extends Controller
             ]);
         }
 
-        return view('admin.travel-highlights.tips', compact('tips'));
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.travel-highlights.tips',
+            compact('tips')
+        );
     }
 
-    public function updateTips(Request $request)
+    public function updateTips(Request $request): RedirectResponse
     {
         $tips = TravelHighlight::tips()->firstOrFail();
 

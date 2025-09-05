@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
 use App\Jobs\GenerateImageVariants;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
@@ -24,7 +26,7 @@ class PostController extends Controller
     /**
      * Public blog index — show only truly published posts.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $q = Post::with(['user', 'board'])
             ->where(function ($q) {
@@ -65,7 +67,7 @@ class PostController extends Controller
         return view('blog.index', compact('posts'));
     }
 
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         // Optional board context (?board=slug) – when present, form hides selector and posts to that board.
         $board = null;
@@ -79,7 +81,7 @@ class PostController extends Controller
         return view('posts.create', compact('board', 'boards'));
     }
 
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
         $this->authorize('create', Post::class);
         $validated = $request->validated();
@@ -116,24 +118,27 @@ class PostController extends Controller
         $post = Post::create($validated);
 
         // --- tags (unchanged from your version) ---
-        if (class_exists(\App\Models\Tag::class) && method_exists($post, 'tags')) {
+        if (class_exists(\App\Models\Tag::class)) {
             $attachIds = [];
 
             if ($request->string('slug_mode') === 'manual') {
-                $tags = collect($request->input('tags', []));
-                if ($tags->isEmpty() && $request->filled('tags')) {
-                    $tags = collect(explode(',', (string) $request->input('tags')));
+                /** @var array<int,string>|string $rawTags */
+                $rawTags = $request->input('tags', []);
+                if (is_string($rawTags)) {
+                    $rawTags = array_map('trim', explode(',', $rawTags));
                 }
-
-                $tags = $tags->map(fn ($t) => \Illuminate\Support\Str::of($t)->lower()  ->trim())
-                             ->filter()
-                             ->map(fn ($t) => \Illuminate\Support\Str::slug($t,     '-'))
-                             ->filter()
-                             ->unique()
-                             ->values();
+                /** @var \Illuminate\Support\Collection<int,string> $tags */
+                $tags = collect($rawTags)
+                    ->map(fn ($t) => (string) $t)
+                    ->map(fn (string $t) => Str::of($t)->lower()->trim()->value())
+                    ->filter()
+                    ->map(fn (string $t) => Str::slug($t, '-'))
+                    ->filter()
+                    ->unique()
+                    ->values();
 
                 foreach ($tags as $slug) {
-                    $name = \Illuminate\Support\Str::headline(str_replace('-', ' ',     $slug));
+                    $name = Str::headline(str_replace('-', ' ', $slug));
                     $tag  = \App\Models\Tag::firstOrCreate(['slug' => $slug], ['name' => $name]);
                     $attachIds[] = $tag->id;
                 }
@@ -161,7 +166,7 @@ class PostController extends Controller
     /**
      * Public show — only allow truly published posts.
      */
-    public function show(Post $post)
+    public function show(Post $post): View
     {
         $now = now();
     
@@ -180,7 +185,7 @@ class PostController extends Controller
             // comments ordered oldest-first and include commenter profile
             'comments' => fn ($q) => $q->oldest()->with('user.profile'),
         ];
-        if (class_exists(\App\Models\Tag::class) && method_exists($post, 'tags')) {
+        if (class_exists(\App\Models\Tag::class)) {
             $relations[] = 'tags';
         }
         $post->load($relations);
@@ -215,7 +220,7 @@ class PostController extends Controller
         return view('posts.show', compact('post', 'previous', 'next', 'boardColor'));
     }
 
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         // Provide boards for the selector (to change board association)
         $boards = Board::orderBy('position')->get();
@@ -223,7 +228,7 @@ class PostController extends Controller
         return view('posts.edit', compact('post', 'boards'));
     }
 
-    public function update(StorePostRequest $request, Post $post)
+    public function update(StorePostRequest $request, Post $post): RedirectResponse
     {
         $validated = $request->validated();
     
@@ -259,7 +264,7 @@ class PostController extends Controller
         return redirect()->route('blog.index')->with('success', 'Post updated successfully!');
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
             Storage::disk('public')->delete($post->image_path);
@@ -299,6 +304,6 @@ class PostController extends Controller
     private function queueImageVariants(?string $path): void
     {
         if (!$path) return;
-        GenerateImageVariants::dispatch($path, self::VARIANT_SIZES, self::VARIANT_FORMATS);
-    }
+// Job signature expects string $path; sizes/formats should be handled internally/config.
+        GenerateImageVariants::dispatch($path);    }
 }

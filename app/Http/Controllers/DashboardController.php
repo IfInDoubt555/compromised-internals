@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
-use App\Models\Thread; // ⬅️ add this
+use App\Models\Thread;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends Controller
 {
@@ -14,7 +16,7 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(): View
     {
         $user = Auth::user();
 
@@ -28,42 +30,53 @@ class DashboardController extends Controller
             ->latest()->take(10)->get();
         $threadCount = Thread::where('user_id', $user->id)->count();
 
-        // Orders (unchanged)
+        // Orders
         $orders = $user->orders()->with('items')->latest()->get();
 
-        return view('dashboard', compact(
-            'user',
-            'posts', 'postCount',
-            'threads', 'threadCount',
-            'orders'
-        ));
+        return view(
+            /** @var view-string $view */
+            $view = 'dashboard',
+            compact('user', 'posts', 'postCount', 'threads', 'threadCount', 'orders')
+        );
     }
 
-    public function show()
+    public function show(): View
     {
-        return view('dashboard.show');
+        return view(
+            /** @var view-string $view */
+            $view = 'dashboard.show'
+        );
     }
 
-    public function edit()
+    public function edit(): View
     {
-        return view('dashboard.edit');
+        return view(
+            /** @var view-string $view */
+            $view = 'dashboard.edit'
+        );
     }
 
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'body'  => 'required|string',
         ]);
 
-        // TODO: implement dashboard update action if you actually need it
+        // TODO: implement dashboard update action if needed
         // e.g. Auth::user()->update($validated);
+
         return back()->with('status', 'Updated.');
     }
 
-    public function orders()
+    public function orders(): View
     {
         $orders = Auth::user()->orders()->with('items')->latest()->get();
-        return view('profile.orders', compact('orders'));
+
+        return view(
+            /** @var view-string $view */
+            $view = 'profile.orders',
+            compact('orders')
+        );
     }
 }

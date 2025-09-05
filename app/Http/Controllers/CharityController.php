@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 
 class CharityController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        return view('charity.index'); // This will be your charity.blade.php
+        return view(
+            /** @var view-string $view */
+            $view = 'charity.index'
+        );
     }
 }

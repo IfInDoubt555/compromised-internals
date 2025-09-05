@@ -46,7 +46,6 @@ final class SectionExtractor
             return [];
         }
         $type = self::normalizeType($type);
-        /** @var array<string, list<string>> $map */
         $map  = self::MAP[$type] ?? [];
 
         $dom = new DOMDocument();
@@ -105,7 +104,8 @@ final class SectionExtractor
     }
 
     /**
-     * @param array<string, list<string>> $map
+     * @phpstan-type AliasList list<string>
+     * @param array<string, AliasList> $map
      */
     private static function matchKey(string $title, array $map): ?string
     {

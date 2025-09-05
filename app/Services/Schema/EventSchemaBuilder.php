@@ -1,77 +1,77 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Schema;
 
 use App\Models\RallyEvent;
-use Carbon\Carbon;
+use App\Models\RallyStage;
+use App\Models\RallyEventDay;
 
-class EventSchemaBuilder
+/**
+ * Builds JSON-LD for a rally event.
+ */
+final class EventSchemaBuilder
 {
-    public function build(RallyEvent $event): array
+    /**
+     * @return array<string, mixed>
+     */
+    public function build(RallyEventDay $event): array
     {
-        $schema = [
-            '@context'               => 'https://schema.org',
-            '@type'                  => 'SportsEvent',
-            'name'                   => $event->name,
-            'description'            => strip_tags($event->description ?? ''),
-            'url'                    => route('calendar.show', $event->slug),
-            'startDate'              => optional($event->start_date)->toDateString(),
-            'endDate'                => optional($event->end_date)->toDateString(),
-            'eventStatus'            => 'https://schema.org/EventScheduled',
-            'eventAttendanceMode'    => 'https://schema.org/OfflineEventAttendanceMode',
-            'isAccessibleForFree'    => true,
-            'image'                  => $event->image_url ?? asset('images/calendar-og.png'),
-            'location'               => [
-                '@type'   => 'Place',
-                'name'    => $event->location ?? '',
-                'address' => $event->location ?? '',
-            ],
-        ];
+        // Ensure relations are available if caller forgot to eager load
+        $event->loadMissing([
+            'days' => function ($q) {
+                $q->orderBy('date');
+            },
+            'days.stages' => function ($q) {
+                $q->orderBy('start_time');
+            },
+        ]);
 
-        if (!empty($event->official_url)) {
-            $schema['sameAs'] = [$event->official_url];
-        }
+        $days = [];
+        foreach ($event->days as $day) {
+            $stages = [];
 
-        $subEvents = [];
-        foreach ($event->stages as $s) {
-            $startAt = $s->start_time_local
-                ?: (!empty($s->start_at) ? Carbon::parse($s->start_at) : null);
+            /** @var RallyStage $stage */
+            foreach ($day->stages as $stage) {
+                /** @var EventDay|null $stageDay */
+                $stageDay = $stage->getRelationValue('day'); // avoid $stage->day direct access for PHPStan
 
-            if (!$startAt && !empty($s->start_time)) {
-                $dayDate = optional($s->day)->date ?? $event->start_date;
-                if ($dayDate) {
-                    $startAt = Carbon::parse($dayDate . ' ' . $s->start_time, config('app.timezone'));
-                }
-            }
-            if (!$startAt) {
-                continue;
+                $stages[] = [
+                    '@type'      => 'SportsEvent',
+                    'name'       => $stage->name,
+                    'startDate'  => optional($stage->start_time)->toIso8601String(),
+                    'endDate'    => optional($stage->end_time)->toIso8601String(),
+                    'location'   => [
+                        '@type' => 'Place',
+                        'name'  => $stage->location ?? ($stageDay?->name ?? $event->location),
+                    ],
+                    'identifier' => $stage->id,
+                ];
             }
 
-            $endAt = (clone $startAt)->addHour(); // fallback duration
-            $label = ($s->stage_type ?? 'SS') === 'SD'
-                ? trim(($s->name ?: 'Shakedown') . ' (SD)')
-                : (function ($s) {
-                    $nums = 'SS ' . ($s->ss_number ?? '?');
-                    if (!empty($s->second_ss_number)) $nums .= '/' . $s->second_ss_number;
-                    if (!empty($s->is_super_special)) $nums .= ' /S';
-                    return trim(($s->name ?: 'Special Stage') . " ({$nums})");
-                })($s);
-
-            $subEvents[] = [
-                '@type'               => 'SportsEvent',
-                'name'                => $label,
-                'startDate'           => $startAt->toIso8601String(),
-                'endDate'             => $endAt->toIso8601String(),
-                'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
-                'location'            => ['@type' => 'Place', 'name' => $event->location ?? ''],
-                'url'                 => route('calendar.show', $event->slug) . '#ss-' . ($s->id ?? 'x'),
+            $days[] = [
+                '@type'     => 'Event',
+                'name'      => $day->name ?? $day->date?->toDateString(),
+                'startDate' => optional($day->date)->toIso8601String(),
+                'subEvent'  => $stages,
             ];
         }
 
-        if ($subEvents) {
-            $schema['subEvent'] = $subEvents;
-        }
-
-        return $schema;
+        return [
+            '@context'   => 'https://schema.org',
+            '@type'      => 'SportsEvent',
+            'name'       => $event->title,
+            'startDate'  => optional($event->start_date)->toIso8601String(),
+            'endDate'    => optional($event->end_date)->toIso8601String(),
+            'location'   => [
+                '@type' => 'Place',
+                'name'  => $event->location,
+                'address' => $event->city ? "{$event->city}, {$event->country}" : $event->country,
+            ],
+            'identifier' => $event->id,
+            'subEvent'   => $days,
+            'url'        => route('events.show', $event), // adjust if your route differs
+        ];
     }
 }

@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class StageController extends Controller
 {
-    public function index(RallyEvent $event)
+    public function index(RallyEvent $event): View
     {
         $event->load([
             'days'   => fn ($q) => $q->orderBy('date'),
@@ -25,10 +27,14 @@ class StageController extends Controller
         $max  = $event->stages->where('stage_type', 'SS')->max('ss_number');
         $next = (int) ($max ?? 0) + 1;
 
-        return view('admin.events.stages.index', compact('event', 'next'));
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.events.stages.index',
+            compact('event', 'next')
+        );
     }
 
-    public function store(Request $request, RallyEvent $event)
+    public function store(Request $request, RallyEvent $event): RedirectResponse
     {
         $data = $this->validated($request, $event->id);
         $data['rally_event_id']   = $event->id;
@@ -51,15 +57,19 @@ class StageController extends Controller
         return back()->with('status', 'Stage created.');
     }
 
-    public function edit(RallyEvent $event, RallyStage $stage)
+    public function edit(RallyEvent $event, RallyStage $stage): View
     {
         abort_if($stage->rally_event_id !== $event->id, 404);
         $days = $event->days()->orderBy('date')->get();
 
-        return view('admin.events.stages.edit', compact('event', 'stage', 'days'));
+        return view(
+            /** @var view-string $view */
+            $view = 'admin.events.stages.edit',
+            compact('event', 'stage', 'days')
+        );
     }
 
-    public function update(Request $request, RallyEvent $event, RallyStage $stage)
+    public function update(Request $request, RallyEvent $event, RallyStage $stage): RedirectResponse
     {
         abort_if($stage->rally_event_id !== $event->id, 404);
 
@@ -84,7 +94,7 @@ class StageController extends Controller
             ->with('status', 'Stage updated.');
     }
 
-    public function destroy(RallyEvent $event, RallyStage $stage)
+    public function destroy(RallyEvent $event, RallyStage $stage): RedirectResponse
     {
         abort_if($stage->rally_event_id !== $event->id, 404);
         $stage->delete();
@@ -94,6 +104,8 @@ class StageController extends Controller
 
     /**
      * Validate + normalize request data.
+     *
+     * @return array<string, mixed>
      */
     private function validated(Request $r, int $eventId, ?int $stageId = null): array
     {
@@ -151,7 +163,7 @@ class StageController extends Controller
         if (empty($data['rally_event_day_id']) && !empty($data['start_time_local'])) {
             $d = Carbon::parse($data['start_time_local'])->toDateString();
             $dayId = RallyEventDay::where('rally_event_id', $eventId)
-                ->whereDate('date', $d)
+                ->where('date', $d)
                 ->value('id');
             if ($dayId) {
                 $data['rally_event_day_id'] = $dayId;
@@ -161,9 +173,9 @@ class StageController extends Controller
         // Infer second day from second time if missing
         if (empty($data['second_rally_event_day_id']) && !empty($data['second_pass_time_local'])) {
             $d2 = Carbon::parse($data['second_pass_time_local'])->toDateString();
-            $dayId2 = RallyEventDay::where('rally_event_id', $eventId)
-                ->whereDate('date', $d2)
-                ->value('id');
+                $dayId2 = RallyEventDay::where('rally_event_id', $eventId)
+                    ->where('date', $d2)
+                    ->value('id');
             if ($dayId2) {
                 $data['second_rally_event_day_id'] = $dayId2;
             }

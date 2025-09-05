@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\RallyEvent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CalendarEventsController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $start = Carbon::parse($request->query('start', now()->startOfMonth()));
         $end   = Carbon::parse($request->query('end',   now()->endOfMonth()));
@@ -27,7 +28,7 @@ class CalendarEventsController extends Controller
 
         // Optional filter e.g. ?champ=WRC | ERC | ARA
         if ($request->filled('champ')) {
-            $q->where('championship', $request->string('champ'));
+            $q->where('championship', (string) $request->string('champ'));
         }
 
         $events = $q->get()->map(function (RallyEvent $ev) {

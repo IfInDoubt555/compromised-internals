@@ -6,15 +6,20 @@ use App\Models\AffiliateClick;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+
 
 class AffiliateRedirectController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
         // Required: destination URL
-        $to   = $request->query('u');
-        $brand= $request->query('brand'); // booking|trip|agoda|expedia|viator (optional)
-        $subid= $request->query('subid'); // optional tracking
+        /** @var string|null $to */
+        $to = $request->query('u');
+        /** @var string|null $brand */
+        $brand = $request->query('brand'); // booking|trip|agoda|expedia|viator (optional)
+        /** @var string|null $subid */
+        $subid = $request->query('subid'); // optional tracking
 
         if (!$to) {
             abort(400, 'Missing destination.');
@@ -30,9 +35,11 @@ class AffiliateRedirectController extends Controller
 
         // Allowlist check (prevents open redirect abuse)
         $brands = config('affiliates.brands', []);
+        /** @var array<int,string> $allowedHosts */
         $allowedHosts = $brand && isset($brands[$brand])
-            ? $brands[$brand]
+            ? (array) $brands[$brand]
             : Arr::flatten($brands); // if brand not provided, allow any known host
+
 
         $isAllowed = false;
         foreach ($allowedHosts as $allowed) {

@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
 
 class BirthdayOfferMail extends Mailable
 {
@@ -16,18 +19,12 @@ class BirthdayOfferMail extends Mailable
     public User $user;
     public string $offerCode;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(User $user, string $offerCode = 'BIRTHDAY20')
     {
         $this->user = $user;
         $this->offerCode = $offerCode;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -35,13 +32,10 @@ class BirthdayOfferMail extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            markdown: 'email.birthday.offer', // <- using Markdown view
+            markdown: 'email.birthday.offer',
             with: [
                 'user' => $this->user,
                 'offerCode' => $this->offerCode,
@@ -50,7 +44,7 @@ class BirthdayOfferMail extends Mailable
     }
 
     /**
-     * Get the attachments for the message.
+     * @return list<Attachment>
      */
     public function attachments(): array
     {

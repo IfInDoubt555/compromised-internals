@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\RallyEvent;
 use Illuminate\Http\Request;
 use App\Services\Schema\EventSchemaBuilder;
-
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 class RallyEventController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         // Paginate instead of loading all
         $events = RallyEvent::orderBy('start_date')->paginate(10);
         return view('calendar.index', compact('events'));
     }
 
-    public function api(Request $request)
+    public function api(Request $request): JsonResponse
     {
         // Events that overlap the requested window
         $events = RallyEvent::query()
@@ -27,7 +28,7 @@ class RallyEventController extends Controller
             )
             // Optional championship filter (?champ=WRC|ERC|ARA)
             ->when($request->filled('champ'), fn ($q) =>
-                $q->where('championship', $request->string('champ'))
+                $q->where('championship', (string) $request->string('champ'))
             )
             ->orderBy('start_date')
             ->get()
@@ -64,7 +65,7 @@ class RallyEventController extends Controller
         return response()->json($events);
     }
 
-    public function show($slug, EventSchemaBuilder $schemaBuilder)
+    public function show($slug, EventSchemaBuilder $schemaBuilder): View
     {
         $event = RallyEvent::where('slug', $slug)
             ->with([
@@ -75,6 +76,6 @@ class RallyEventController extends Controller
         $stagesByDay = $event->stages->groupBy('rally_event_day_id');
         $schema = $schemaBuilder->build($event);
             
-        return view('calendar.show', compact('event', 'stagesByDay',    'schema'));
+        return view('calendar.show', compact('event', 'stagesByDay', 'schema'));
     }
 }

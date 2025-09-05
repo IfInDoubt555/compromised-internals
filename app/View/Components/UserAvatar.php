@@ -1,24 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Components;
 
-use Closure;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Illuminate\Support\Facades\Auth;
 
 class UserAvatar extends Component
 {
-    public $user;
-    public $size;
+    public User $user;
+    public int $size;
 
-    public function __construct($user = null, $size = 'w-20 h-20')
+    public function __construct(User $user, int $size = 80)
     {
-        $this->user = $user ?? Auth::user();
+        $this->user = $user;
         $this->size = $size;
     }
 
-    public function render(): View|Closure|string
+    public function render(): View|string
     {
         return view('components.user-avatar');
     }

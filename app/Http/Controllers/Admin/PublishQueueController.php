@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 
 class PublishQueueController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // POSTS
         $postDrafts = Post::where('status', 'draft')
@@ -40,8 +41,12 @@ class PublishQueueController extends Controller
             ->get();
 
         return view('admin.publish.index', compact(
-            'postDrafts', 'postScheduled', 'postPublished',
-            'threadDrafts', 'threadScheduled', 'threadPublished'
+            'postDrafts',
+            'postScheduled',
+            'postPublished',
+            'threadDrafts',
+            'threadScheduled',
+            'threadPublished'
         ));
     }
 }

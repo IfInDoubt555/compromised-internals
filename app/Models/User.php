@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -13,23 +15,25 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
- * @property int                       $id
- * @property string                    $name
- * @property string                    $email
- * @property string|null               $password
- * @property string|null               $profile_picture
- * @property string|null               $title
- * @property bool                      $is_admin
- * @property \Carbon\CarbonImmutable|null $email_verified_at
- * @property \Carbon\CarbonImmutable|null $banned_at
+ * @use HasFactory<\Database\Factories\UserFactory>
  *
- * @property-read UserProfile|null     $profile
+ * @property int                             $id
+ * @property string                          $name
+ * @property string                          $email
+ * @property string|null                     $password
+ * @property string|null                     $profile_picture
+ * @property string|null                     $title
+ * @property bool                            $is_admin
+ * @property \Carbon\CarbonImmutable|null    $email_verified_at
+ * @property \Carbon\CarbonImmutable|null    $banned_at
+ *
+ * @property-read UserProfile|null           $profile
  * @property-read \Illuminate\Database\Eloquent\Collection<int,Post>    $posts
  * @property-read \Illuminate\Database\Eloquent\Collection<int,Order>   $orders
  * @property-read \Illuminate\Database\Eloquent\Collection<int,Comment> $comments
  * @property-read \Illuminate\Database\Eloquent\Collection<int,Post>    $likedPosts
  *
- * @property-read string               $profile_picture_url
+ * @property-read string                     $profile_picture_url
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -37,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use Notifiable;
 
-    /** @var array<int,string> */
+    /** @var list<string> */
     protected $fillable = [
         'name',
         'email',
@@ -48,7 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_admin',
     ];
 
-    /** @var array<int,string> */
+    /** @var list<string> */
     protected $hidden = [
         'password',
         'remember_token',
@@ -62,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'banned_at'         => 'datetime',
     ];
 
-    /** @var array<int,string> */
+    /** @var list<string> */
     protected $appends = [
         'profile_picture_url',
     ];
@@ -75,26 +79,41 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** ---------- Relations ---------- */
 
+    /**
+     * @return HasMany<Post, User>
+     */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * @return HasMany<Order, User>
+     */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * @return HasOne<UserProfile, User>
+     */
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
 
+    /**
+     * @return BelongsToMany<Post, User>
+     */
     public function likedPosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_user_likes')->withTimestamps();
     }
 
+    /**
+     * @return HasMany<Comment, User>
+     */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
@@ -106,9 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->banned_at !== null;
     }
 
-    /**
-     * Accessor: full URL for the profile picture.
-     */
+    /** Accessor: full URL for the profile picture. */
     public function getProfilePictureUrlAttribute(): string
     {
         $p = (string) ($this->profile_picture ?? '');
@@ -124,9 +141,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return Storage::url($p); // /storage/...
     }
 
-    /**
-     * Accessor: display_name (profile.display_name → name).
-     */
+    /** Accessor: display_name (profile.display_name → name). */
     public function getDisplayNameAttribute(): string
     {
         if ($this->relationLoaded('profile') && $this->profile) {

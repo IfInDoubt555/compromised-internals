@@ -9,10 +9,12 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PostModerationController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         // Only items that actually need review
         $pendingPosts = Post::where('status', 'pending')
@@ -23,14 +25,14 @@ class PostModerationController extends Controller
         return view('admin.posts.moderation', compact('pendingPosts'));
     }
 
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         $boards = Board::orderBy('name')->get();
 
         return view('admin.posts.edit', compact('post', 'boards'));
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): RedirectResponse
     {
         $data = $request->validate([
             'title'        => ['required', 'string', 'max:255'],
@@ -60,10 +62,8 @@ class PostModerationController extends Controller
         $publishedAtUtc = null;
 
         if ($finalStatus === 'published') {
-            // Publish now (ignore any provided date)
             $publishedAtUtc = now()->utc();
         } elseif ($finalStatus === 'scheduled') {
-            // Require a future datetime; if past/now, promote to published
             $request->validate(['published_at' => ['required', 'date']]);
             $scheduledUtc = Carbon::parse($data['published_at'], config('app.timezone'))->utc();
 
@@ -71,11 +71,8 @@ class PostModerationController extends Controller
                 $finalStatus    = 'published';
                 $publishedAtUtc = now()->utc();
             } else {
-                // Store the future time in published_at (canonical schedule time)
                 $publishedAtUtc = $scheduledUtc;
             }
-        } else { // draft
-            $publishedAtUtc = null;
         }
 
         // Persist (mirror legacy columns for BC)
@@ -87,8 +84,8 @@ class PostModerationController extends Controller
             'board_id'      => $data['board_id'] ?? null,
             'status'        => $finalStatus,
             'published_at'  => $finalStatus === 'draft' ? null : $publishedAtUtc,
-            'scheduled_for' => $finalStatus === 'scheduled' ? $publishedAtUtc : null, // legacy mirror
-            'publish_status'=> $finalStatus, // legacy mirror
+            'scheduled_for' => $finalStatus === 'scheduled' ? $publishedAtUtc : null,
+            'publish_status'=> $finalStatus,
             'image_path'    => $imagePath,
         ])->save();
 
@@ -97,14 +94,12 @@ class PostModerationController extends Controller
             ->with('status', 'Post saved.');
     }
 
-    public function approve(Post $post)
+    public function approve(Post $post): RedirectResponse
     {
-        // Only process pending; otherwise no-op
         if ($post->status !== 'pending') {
             return back()->with('info', 'This post is already processed.');
         }
 
-        // If a future publish_at exists -> scheduled; else publish now
         if ($post->published_at && $post->published_at->isFuture()) {
             $post->status = 'scheduled';
         } else {
@@ -112,7 +107,6 @@ class PostModerationController extends Controller
             $post->published_at  = now()->utc();
         }
 
-        // Legacy mirrors
         $post->scheduled_for  = $post->published_at;
         $post->publish_status = $post->status;
 
@@ -121,11 +115,11 @@ class PostModerationController extends Controller
         return back()->with('success', 'Post approved.');
     }
 
-    public function reject(Post $post)
+    public function reject(Post $post): RedirectResponse
     {
         $post->forceFill([
             'status'         => 'rejected',
-            'publish_status' => 'rejected', // legacy mirror
+            'publish_status' => 'rejected',
         ])->save();
 
         return back()->with('success', 'Post rejected.');

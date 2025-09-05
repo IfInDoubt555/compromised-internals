@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -8,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RejectEmptyUserAgent
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         $ua = $request->header('User-Agent', '');
 
@@ -23,9 +25,12 @@ class RejectEmptyUserAgent
         }
 
         // 3) (Optional) Block the entire 196.251.0.0/16 subnet
-        if (str_starts_with($request->ip(), '196.251.')) {
+        if (str_starts_with((string) $request->ip(), '196.251.')) {
             abort(Response::HTTP_FORBIDDEN, 'Your IP range is not welcome here.');
         }
-        return $next($request);
+
+        /** @var Response $resp */
+        $resp = $next($request);
+        return $resp;
     }
 }

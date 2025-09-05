@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,6 +10,7 @@ use Illuminate\Support\Str;
 
 class Tag extends Model
 {
+    /** @var list<string> */
     protected $fillable = ['name', 'slug'];
 
     /**
@@ -15,19 +18,25 @@ class Tag extends Model
      */
     protected static function booted(): void
     {
-        static::saving(function (Tag $tag) {
+        static::saving(function (Tag $tag): void {
             $tag->slug = $tag->slug
                 ? Str::slug($tag->slug)
                 : Str::slug((string) $tag->name);
         });
     }
 
+    /**
+     * @return BelongsToMany<Thread, Tag>
+     */
     public function threads(): BelongsToMany
     {
-        // Use explicit pivot name and timestamps
+        // Ensure your pivot table name matches your schema (e.g., 'tag_thread')
         return $this->belongsToMany(Thread::class, 'tag_thread')->withTimestamps();
     }
 
+    /**
+     * @return BelongsToMany<Post, Tag>
+     */
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_tag')->withTimestamps();

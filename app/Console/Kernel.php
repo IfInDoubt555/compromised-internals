@@ -65,8 +65,10 @@ class Kernel extends ConsoleKernel
 
     /**
      * Add manually registered Artisan commands here.
+     *
+     * @var array<class-string>
      */
-    protected $commands = [
+    protected array $commands = [
         \App\Console\Commands\ScanImageAttributions::class,
         \App\Console\Commands\PruneSessions::class,
         \App\Console\Commands\HistoryAddResults::class,

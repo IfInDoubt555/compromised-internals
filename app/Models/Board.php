@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Board extends Model
 {
+    /** @var list<string> */
     protected $fillable = ['name','slug','icon','color','position','is_public','description'];
 
     /** Tailwind palette whitelist used for theming */
@@ -26,19 +30,27 @@ class Board extends Model
                "dark:ring-{$c}-400/20";
     }
 
+    /** @var array<string,string> */
     protected $casts = [
         'is_public' => 'boolean',
         'position'  => 'integer',
     ];
 
     // Optional: lets boards.index show counts without extra queries
+    /** @var list<string> */
     protected $withCount = ['threads'];
 
+    /**
+     * @return HasMany<Thread, Board>
+     */
     public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
     }
 
+    /**
+     * @return HasMany<Post, Board>
+     */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
@@ -52,15 +64,12 @@ class Board extends Model
     /** Return a valid Tailwind color token from DB color (fallback to 'sky'). */
     public function tailwindColor(): string
     {
-        // Trim, lowercase
         $raw = strtolower(trim((string) $this->color));
 
-        // Strip accidental shade/opacity suffixes like "emerald-600" or "emerald-600/30"
         if (preg_match('/^(?<base>[a-z]+)(?:-\d{2,3})?(?:\/\d{1,3})?$/', $raw, $m)) {
             $raw = $m['base'];
         }
 
-        // Map common human aliases to Tailwind palette names
         $aliases = [
             'grey' => 'stone',
             'gray' => 'slate',
@@ -89,15 +98,28 @@ class Board extends Model
 
     protected static function booted(): void
     {
-        // Auto-fill slug if missing
-        static::saving(function (Board $board) {
+        static::saving(function (Board $board): void {
             if (empty($board->slug) && !empty($board->name)) {
                 $board->slug = Str::slug($board->name);
             }
         });
     }
 
-    // Handy scopes (optional)
-    public function scopePublic($q)  { return $q->where('is_public', true); }
-    public function scopeOrdered($q) { return $q->orderBy('position')->orderBy('name'); }
+    /**
+     * @param  Builder<Board> $query
+     * @return Builder<Board>
+     */
+    public function scopePublic(Builder $query): Builder
+    {
+        return $query->where('is_public', true);
+    }
+
+    /**
+     * @param  Builder<Board> $query
+     * @return Builder<Board>
+     */
+    public function scopeOrdered(Builder $query): Builder
+    {
+        return $query->orderBy('position')->orderBy('name');
+    }
 }

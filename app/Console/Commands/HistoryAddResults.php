@@ -20,8 +20,8 @@ class HistoryAddResults extends Command
 
     public function handle(): int
     {
-        $input  = $this->option('input');
-        $output = $this->option('output') ?? $input;
+        $input  = (string) $this->option('input');
+        $output = (string) ($this->option('output') ?? $input);
         $dry    = (bool) $this->option('dry-run');
 
         if (!File::exists($input)) {
@@ -37,6 +37,7 @@ class HistoryAddResults extends Command
 
         // Optional lookup file for tricky entries
         $lookupPath = storage_path('app/history/results-lookup.json');
+        /** @var array{by_id: array<string, mixed>, by_title: array<string, mixed>} $lookup */
         $lookup = [
             'by_id' => [],
             'by_title' => [],
@@ -49,14 +50,16 @@ class HistoryAddResults extends Command
             }
         }
 
-        $updatedCount = 0;
-        $skippedCount = 0;
-        $parsedCount  = 0;
-        $fallbackCount= 0;
+        $updatedCount  = 0;
+        $skippedCount  = 0;
+        $parsedCount   = 0;
+        $fallbackCount = 0;
 
         // The top-level shape can be: { "1960": { "events": [...] }, "1961": {...}, ... }
         foreach ($json as $yearKey => &$yearBlock) {
-            if (!isset($yearBlock['events']) || !is_array($yearBlock['events'])) continue;
+            if (!isset($yearBlock['events']) || !is_array($yearBlock['events'])) {
+                continue;
+            }
 
             foreach ($yearBlock['events'] as &$event) {
                 // If already has `results`, skip
@@ -65,16 +68,18 @@ class HistoryAddResults extends Command
                     continue;
                 }
 
-                $id       = $event['id']   ?? null;
-                $title    = $event['title']?? null;
-                $details  = $event['details_html'] ?? '';
+                $id      = $event['id']    ?? null;
+                $title   = $event['title'] ?? null;
+                $details = $event['details_html'] ?? '';
 
                 $struct = $this->parseResultsFromDetailsHtml($details);
 
                 if (!$struct) {
                     // Try lookup by id then by title
-                    $struct = $lookup['by_id'][(string)$id] ?? $lookup['by_title'][$title] ?? null;
-                    if ($struct) $fallbackCount++;
+                    $struct = $lookup['by_id'][(string) $id] ?? ($title ? ($lookup['by_title'][$title] ?? null) : null);
+                    if ($struct) {
+                        $fallbackCount++;
+                    }
                 } else {
                     $parsedCount++;
                 }
@@ -106,7 +111,7 @@ class HistoryAddResults extends Command
                 }
             }
         }
-        unset($yearBlock); // refs
+        unset($yearBlock); // break reference
 
         $this->info("Parsed from HTML: {$parsedCount}");
         $this->info("Filled from lookup: {$fallbackCount}");
@@ -125,40 +130,51 @@ class HistoryAddResults extends Command
             $this->comment("Backup written: {$backup}");
         }
 
-        File::put($output, json_encode($json, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT));
+        File::put($output, json_encode($json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
         $this->info("Wrote updated file to: {$output}");
 
         return self::SUCCESS;
     }
 
     /**
-     * Extracts structured results from the standardized "🏆 Results" section inside details_html.
-     * Supports patterns like:
-     *   Overall Winner: Name & Name (Car) [optional time/notes after)
-     *   2nd Place: ...
-     *   3rd Place: ...
-     * Also tries to grab the first centered paragraph after the Results block as narrative_html.
+     * Extract structured results from the standardized "🏆 Results" section inside details_html.
+     *
+     * @return array{
+     *   winner: array{crew:?string,car:?string,time:?string,notes:?string},
+     *   second: array{crew:?string,car:?string,time:?string,notes:?string},
+     *   third:  array{crew:?string,car:?string,time:?string,notes:?string},
+     *   narrative_html:?string
+     * }|null
      */
     private function parseResultsFromDetailsHtml(?string $html): ?array
     {
-        if (!$html) return null;
+        if (!$html) {
+            return null;
+        }
 
         // Find the Results block quickly
         $resultsPos = mb_stripos($html, '🏆 Results');
-        if ($resultsPos === false) return null;
+        if ($resultsPos === false) {
+            return null;
+        }
 
         // Slice from results header onward
         $chunk = mb_substr($html, $resultsPos);
 
         // Simple regex helpers (crew + car in parentheses), tolerant to &amp; etc.
-        $line = function(string $label) use ($chunk) {
+        $line = function (string $label) use ($chunk): ?array {
             // Match: <p><strong>LABEL:</strong> crew (car) ...</p>
-            $pattern = '/<p>\s*<strong>\s*'.preg_quote($label, '/').'\s*:<\/strong>\s*(.*?)<\/p>/is';
-            if (!preg_match($pattern, $chunk, $m)) return null;
+            $pattern = '/<p>\s*<strong>\s*' . preg_quote($label, '/') . '\s*:<\/strong>\s*(.*?)<\/p>/is';
+            if (!preg_match($pattern, $chunk, $m)) {
+                return null;
+            }
 
             $text = strip_tags($m[1]);
             // Extract "Name & Name (Car)" — car in () at end
-            $crew = null; $car = null; $time = null; $notes = null;
+            $crew = null;
+            $car = null;
+            $time = null;
+            $notes = null;
 
             // Car: last (...) group
             if (preg_match('/\(([^()]*)\)\s*$/u', $text, $m2)) {
@@ -175,30 +191,32 @@ class HistoryAddResults extends Command
                 $time = $m3[1];
             }
 
-            // Anything after a "—" or "." could be notes; optional
+            // Anything after a "—" or similar could be notes; optional
             if (preg_match('/[—\-–]\s*(.+)$/u', $text, $m4)) {
                 $notes = trim($m4[1]);
             }
 
-            return compact('crew','car','time','notes');
+            return compact('crew', 'car', 'time', 'notes');
         };
 
         $winner = $line('Overall Winner') ?? $line('Winner');
         $second = $line('2nd Place') ?? $line('Second Place');
         $third  = $line('3rd Place') ?? $line('Third Place');
 
-        if (!$winner && !$second && !$third) return null;
+        if (!$winner && !$second && !$third) {
+            return null;
+        }
 
         // Narrative: first centered paragraph AFTER the results header block
         $narrative_html = null;
         if (preg_match('/<p[^>]*class="[^"]*text-center[^"]*"[^>]*>(.*?)<\/p>/is', $chunk, $m)) {
-            $narrative_html = "<p class='text-center mt-4'>".trim($m[1])."</p>";
+            $narrative_html = "<p class='text-center mt-4'>" . trim($m[1]) . "</p>";
         }
 
         return [
-            'winner' => $winner ?? ['crew'=>null,'car'=>null,'time'=>null,'notes'=>null],
-            'second' => $second ?? ['crew'=>null,'car'=>null,'time'=>null,'notes'=>null],
-            'third'  => $third  ?? ['crew'=>null,'car'=>null,'time'=>null,'notes'=>null],
+            'winner' => $winner ?? ['crew' => null, 'car' => null, 'time' => null, 'notes' => null],
+            'second' => $second ?? ['crew' => null, 'car' => null, 'time' => null, 'notes' => null],
+            'third'  => $third  ?? ['crew' => null, 'car' => null, 'time' => null, 'notes' => null],
             'narrative_html' => $narrative_html,
         ];
     }

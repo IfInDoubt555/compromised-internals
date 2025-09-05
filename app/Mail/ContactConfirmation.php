@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -10,16 +12,25 @@ class ContactConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $data;
+    /** @var array<string, mixed> */
+    public array $data;
 
-    public function __construct($data)
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function __construct(array $data)
     {
         $this->data = $data;
     }
 
+    /** @return $this */
     public function build()
     {
+        /** @var view-string $view */
+        $view = 'email.confirmation';
+
         return $this->subject('Thanks for Contacting Compromised Internals!')
-            ->view('email.confirmation');
+            ->view($view)
+            ->with($this->data);
     }
 }

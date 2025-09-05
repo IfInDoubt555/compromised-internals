@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class ReplyController extends Controller
 {
-    public function store(Request $request, Thread $thread)
+    public function store(Request $request, Thread $thread): RedirectResponse
     {
         $user = $request->user();
 
@@ -31,7 +32,7 @@ class ReplyController extends Controller
         return back()->with('success', 'Reply posted!');
     }
 
-    public function update(Request $request, Reply $reply)
+    public function update(Request $request, Reply $reply): RedirectResponse
     {
         if ($request->user()->id !== $reply->user_id) {
             abort(403);
@@ -47,7 +48,7 @@ class ReplyController extends Controller
         return back()->with('success', 'Reply updated!');
     }
 
-    public function destroy(Request $request, Reply $reply)
+    public function destroy(Request $request, Reply $reply): RedirectResponse
     {
         if ($request->user()->id !== $reply->user_id) {
             abort(403);
