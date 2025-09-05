@@ -74,19 +74,19 @@ class RallyStage extends Model
         return number_format((float) $this->distance_km, 2, '.', '');
     }
 
-    /** @return BelongsTo<RallyEvent, RallyStage> */
+    /** @return BelongsTo<\App\Models\RallyEvent, \App\Models\RallyStage> */
     public function event(): BelongsTo
     {
         return $this->belongsTo(RallyEvent::class, 'rally_event_id');
     }
-    
-    /** @return BelongsTo<RallyEventDay, RallyStage> */
+
+    /** @return BelongsTo<\App\Models\RallyEventDay, \App\Models\RallyStage> */
     public function day(): BelongsTo
     {
         return $this->belongsTo(RallyEventDay::class, 'rally_event_day_id');
     }
-    
-    /** @return BelongsTo<RallyEventDay, RallyStage> */
+
+    /** @return BelongsTo<\App\Models\RallyEventDay, \App\Models\RallyStage> */
     public function secondDay(): BelongsTo
     {
         return $this->belongsTo(RallyEventDay::class, 'second_rally_event_day_id');

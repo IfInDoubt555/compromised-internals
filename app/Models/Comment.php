@@ -15,20 +15,16 @@ class Comment extends Model
     /** @var list<string> */
     protected $fillable = ['post_id', 'user_id', 'body'];
 
-    /**
-     * Get the post that owns the comment.
-     *
-     * @return BelongsTo<Post, Comment>
+    /** 
+     * @return BelongsTo<\App\Models\Post, \App\Models\Comment> 
      */
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
 
-    /**
-     * Get the user that owns the comment.
-     *
-     * @return BelongsTo<User, Comment>
+    /** 
+     * @return BelongsTo<\App\Models\User, \App\Models\Comment> 
      */
     public function user(): BelongsTo
     {

@@ -14,7 +14,7 @@ class OrderFactory extends Factory
     /**
      * The model that this factory is for.
      *
-     * @var string
+     * @var class-string<App\Models\Order>
      */
     protected $model = Order::class;
 

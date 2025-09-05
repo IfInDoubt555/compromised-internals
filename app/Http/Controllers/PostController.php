@@ -342,11 +342,11 @@ final class PostController extends Controller
             return;
         }
     
-        // Job expects path (string) + sizes (list<int>) + formats (list<string>)
+        // Ensure correct data for disk, sizes, and formats
         GenerateImageVariants::dispatch(
-            $path,                          // Ensure $path is a string (path to the image)
-            self::VARIANT_SIZES,            // Sizes should be an array of integers
-            self::VARIANT_FORMATS           // Formats should be an array of strings
+            $path,                          // $path should be a string
+            self::VARIANT_SIZES,            // $sizes should be a list of integers (e.g., [100, 200, 300])
+            self::VARIANT_FORMATS           // $formats should be a list of strings (e.g., ['webp', 'avif'])
         );
     }
 }

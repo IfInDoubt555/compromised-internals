@@ -24,10 +24,8 @@ class Order extends Model
         'status',
     ];
 
-    /**
-     * Get the items for the order.
-     *
-     * @return HasMany<OrderItem, Order>
+    /** 
+     * @return HasMany<\App\Models\OrderItem, \App\Models\Order>
      */
     public function items(): HasMany
     {

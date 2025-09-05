@@ -21,17 +21,13 @@ class Reply extends Model
         return ['created_at' => 'datetime', 'updated_at' => 'datetime'];
     }
 
-    /**
-     * @return BelongsTo<Thread, Reply>
-     */
+    /** @return BelongsTo<\App\Models\Thread, \App\Models\Reply> */
     public function thread(): BelongsTo
     {
         return $this->belongsTo(Thread::class);
     }
-    
-    /**
-     * @return BelongsTo<User, Reply>
-     */
+
+    /** @return BelongsTo<\App\Models\User, \App\Models\Reply> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

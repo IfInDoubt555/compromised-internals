@@ -27,18 +27,14 @@ class Tag extends Model
         });
     }
 
-    /**
-     * @return BelongsToMany<Thread, Tag>
-     */
+    /** @return BelongsToMany<\App\Models\Thread, \App\Models\Tag> */
     public function threads(): BelongsToMany
     {
         // Ensure your pivot table name matches your schema (e.g., 'tag_thread')
         return $this->belongsToMany(Thread::class, 'tag_thread')->withTimestamps();
     }
 
-    /**
-     * @return BelongsToMany<Post, Tag>
-     */
+    /** @return BelongsToMany<\App\Models\Post, \App\Models\Tag> */
     public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_tag')->withTimestamps();

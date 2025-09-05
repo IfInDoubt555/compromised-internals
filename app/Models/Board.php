@@ -43,13 +43,13 @@ class Board extends Model
     /** @var list<string> */
     protected $withCount = ['threads'];
 
-    /** @return HasMany<Thread, Board> */
+    /** @return HasMany<\App\Models\Thread, \App\Models\Board> */
     public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
     }
 
-    /** @return HasMany<Post, Board> */
+    /** @return HasMany<\App\Models\Post, \App\Models\Board> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);

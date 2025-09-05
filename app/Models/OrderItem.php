@@ -26,10 +26,8 @@ class OrderItem extends Model
         'color',
     ];
 
-    /**
-     * Get the order that owns the OrderItem.
-     *
-     * @return BelongsTo<Order, OrderItem>
+    /** 
+     * @return BelongsTo<\App\Models\Order, \App\Models\OrderItem>
      */
     public function order(): BelongsTo
     {

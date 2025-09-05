@@ -35,8 +35,8 @@ final class ProfileUpdateRequest extends FormRequest
             'rally_role' => [
                 'nullable',
                 Rule::in([
-                    'Team Manager', 'Team Owner', 'Fan', 'Marshal', 'Scrutineer', 'Announcer', 'Sim Racer', 'Logistics', 'Sponsor',
-                    'Medical Staff', 'Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Club Organizer', 'Mechanic', 'Engineer',
+                    'Team Manager', 'Team Owner', 'Fan', 'Marshal', 'Scrutineer', 'Announcer', 'Sim Racer', 'Logistics',    'Sponsor',
+                    'Medical Staff', 'Driver', 'Co-Driver', 'Media', 'Spectator', 'Technician', 'Club Organizer',   'Mechanic', 'Engineer',
                     'Coordinator', 'Volunteer',
                 ]),
             ],

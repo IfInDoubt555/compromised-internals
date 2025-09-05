@@ -79,31 +79,31 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** ---------- Relations ---------- */
 
-    /** @return HasMany<Post, User> */
+        /** @return HasMany<App\Models\Post, App\Models\User> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
-    
-    /** @return HasMany<Order, User> */
+
+    /** @return HasMany<App\Models\Order, App\Models\User> */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
-    
-    /** @return HasOne<UserProfile, User> */
+
+    /** @return HasOne<\App\Models\UserProfile, \App\Models\User> */
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
-    
-    /** @return BelongsToMany<Post, User> */
+
+    /** @return BelongsToMany<\App\Models\Post, \App\Models\User> */
     public function likedPosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_likes')->withTimestamps();
     }
-    
-    /** @return HasMany<Comment, User> */
+
+    /** @return HasMany<\App\Models\Comment, \App\Models\User> */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

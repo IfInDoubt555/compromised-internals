@@ -54,7 +54,7 @@ class RallyEvent extends Model
     }
 
     /** 
-     * @return HasMany<RallyEventDay, RallyEvent> 
+     * @return HasMany<\App\Models\RallyEventDay, \App\Models\RallyEvent> 
      */
     public function days(): HasMany
     {
@@ -63,7 +63,7 @@ class RallyEvent extends Model
     }
 
     /** 
-     * @return HasMany<RallyStage, RallyEvent> 
+     * @return HasMany<\App\Models\RallyStage, \App\Models\RallyEvent> 
      */
     public function stages(): HasMany
     {

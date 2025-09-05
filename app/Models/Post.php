@@ -74,31 +74,31 @@ class Post extends Model
 
     /** ---------- Relations ---------- */
 
-    /** @return BelongsTo<User, Post> */
+    /** @return BelongsTo<\App\Models\User, \App\Models\Post> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /** @return BelongsTo<Board, Post> */
+    /** @return BelongsTo<\App\Models\Board, \App\Models\Post> */
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
     }
 
-    /** @return BelongsToMany<User, Post> */
+    /** @return BelongsToMany<\App\Models\User, \App\Models\Post> */
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_likes')->withTimestamps();
     }
 
-    /** @return HasMany<Comment, Post> */
+    /** @return HasMany<\App\Models\Comment, \App\Models\Post> */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    /** @return BelongsToMany<Tag, Post> */
+    /** @return BelongsToMany<\App\Models\Tag, \App\Models\Post> */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();
@@ -186,21 +186,17 @@ class Post extends Model
         return $this->scopePublic($query);
     }
 
-    /**
-     * @param  Builder<Post> $query
-     * @return Builder<Post>
-     */
-    /** @return \Illuminate\Database\Eloquent\Builder */
+    /** @return Builder<\App\Models\Post> */
     public function scopeHot(Builder $query, int $days = 14): Builder
-     {
-         return $query->withCount(['likes', 'comments'])
-             ->when($days > 0, fn ($qq): Builder =>
-                 $qq->where('created_at', '>=', now()->subDays($days))
-             )
-             ->selectRaw('(COALESCE(likes_count,0)*3 + COALESCE(comments_count,0)*2) as hot_score')
-             ->orderByDesc('hot_score')
-             ->orderByDesc('created_at');
-     }
+    {
+        return $query->withCount(['likes', 'comments'])
+            ->when($days > 0, fn ($qq): Builder =>
+                $qq->where('created_at', '>=', now()->subDays($days))
+            )
+            ->selectRaw('(COALESCE(likes_count,0)*3 + COALESCE(comments_count,0)*2) as hot_score')
+            ->orderByDesc('hot_score')
+            ->orderByDesc('created_at');
+    }
 
     /**
      * @param  Builder<Post> $query

@@ -23,9 +23,9 @@ final class ContactMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'            => ['required', 'string', 'max:255', new NoBannedWords()],
-            'email'           => ['required', 'string', 'email', 'max:255', new NoBannedWords()],
-            'message'         => ['required', 'string', 'min:10', new NoBannedWords()],
+            'name' => ['required', 'string', 'max:255', new NoBannedWords()],
+            'email' => ['required', 'string', 'email', 'max:255', new NoBannedWords()],
+            'message' => ['required', 'string', 'min:10', new NoBannedWords()],
             'recaptcha_token' => [
                 'required',
                 'string',
@@ -33,7 +33,7 @@ final class ContactMessageRequest extends FormRequest
                     if (!(bool) config('services.recaptcha.enabled')) {
                         return; // Skip in local/dev
                     }
-
+                
                     $resp = Http::asForm()->post(
                         'https://www.google.com/recaptcha/api/siteverify',
                         [
@@ -42,10 +42,10 @@ final class ContactMessageRequest extends FormRequest
                             'remoteip' => (string) $this->ip(),
                         ]
                     );
-
+                
                     /** @var array<string, mixed> $data */
                     $data = $resp->json();
-
+                
                     if (!($data['success'] ?? false) || (float) ($data['score'] ?? 0.0) < 0.5) {
                         $fail('Failed reCAPTCHA validation. Please try again.');
                     }
