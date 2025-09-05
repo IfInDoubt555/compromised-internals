@@ -24,7 +24,7 @@ class Order extends Model
         'status',
     ];
 
-    /** @return HasMany<OrderItem> */
+    /** @return HasMany<OrderItem, Order> */
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);

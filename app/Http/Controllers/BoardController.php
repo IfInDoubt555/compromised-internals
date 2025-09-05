@@ -31,10 +31,10 @@ final class BoardController extends Controller
 
     public function show(Board $board): View
     {
-        /** @var Builder<\App\Models\Thread> $threadsQuery */
-        $threadsQuery = $board->threads();
-
-        $threads = $threadsQuery
+        /** @var HasMany<Thread> $threads */
+        $threads = $board->threads()->latest();
+    
+        $threads = $threads
             ->visibleForList()
             ->with([
                 // Load user and just the profile fields we need for display_name
@@ -45,7 +45,7 @@ final class BoardController extends Controller
             ->orderByRaw('COALESCE(last_activity_at, published_at, created_at) DESC')
             ->paginate(20)
             ->withQueryString();
-
+            
         // Recent published blog posts linked to this board
         $posts = Post::query()
             ->published()
@@ -54,7 +54,7 @@ final class BoardController extends Controller
             ->latest('published_at')
             ->limit(6)
             ->get();
-
+            
         /** @var view-string $view */
         $view = 'boards.show';
         return view($view, compact('board', 'threads', 'posts'));

@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property-read RallyEvent|null            $event
@@ -33,6 +34,8 @@ use Illuminate\Support\Str;
  */
 class RallyStage extends Model
 {
+    use HasFactory;
+
     /** @var list<string> */
     protected $fillable = [
         'rally_event_id',

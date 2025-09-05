@@ -65,14 +65,25 @@ class GenerateImageVariants extends Command
         $queued = 0;
         $done   = 0;
 
+        // Dispatch the job with corrected argument types
         foreach ($files as $rel) {
             if ($sync) {
-                // run now
-                GenerateVariantsJob::dispatchSync($disk, $rel, $sizes->all(), $formats->all());
+                // Run now with correct argument types
+                GenerateVariantsJob::dispatchSync(
+                    $disk, 
+                    $rel, 
+                    $sizes->all(),  // Ensure it's an array of integers (list<int>)
+                    $formats->all()  // Ensure it's an array of strings (list<string>)
+                );
                 $done++;
             } else {
-                // queue on dedicated queue
-                GenerateVariantsJob::dispatch($disk, $rel, $sizes->all(), $formats->all())->onQueue('images');
+                // Queue the job with correct argument types
+                GenerateVariantsJob::dispatch(
+                    $disk, 
+                    $rel, 
+                    $sizes->all(),  // Ensure it's an array of integers (list<int>)
+                    $formats->all()  // Ensure it's an array of strings (list<string>)
+                )->onQueue('images');
                 $queued++;
             }
             $bar->advance();

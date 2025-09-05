@@ -89,19 +89,19 @@ class Post extends Model
     /** @return BelongsToMany<User, Post> */
     public function likes(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'post_user_likes')->withTimestamps();
+        return $this->belongsToMany(User::class, 'post_likes')->withTimestamps();
     }
 
-    /** @return HasMany<Comment> */
+    /** @return HasMany<Comment, Post> */
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class)->latest();
+        return $this->hasMany(Comment::class);
     }
 
     /** @return BelongsToMany<Tag, Post> */
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     /** ---------- Markdown ---------- */

@@ -79,19 +79,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** ---------- Relations ---------- */
 
-    /** @return HasMany<Post> */
+    /** @return HasMany<Post, User> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    /** @return HasMany<Order> */
+    /** @return HasMany<Order, User> */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    /** @return HasOne<UserProfile> */
+    /** @return HasOne<UserProfile, User> */
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
@@ -100,10 +100,10 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @return BelongsToMany<Post, User> */
     public function likedPosts(): BelongsToMany
     {
-        return $this->belongsToMany(Post::class, 'post_user_likes')->withTimestamps();
+        return $this->belongsToMany(Post::class, 'post_likes')->withTimestamps();
     }
 
-    /** @return HasMany<Comment> */
+    /** @return HasMany<Comment, User> */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
@@ -113,7 +113,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->banned_at !== null;
     }
-
+    
+    /** @property-read string $profile_picture_url */
     public function getProfilePictureUrlAttribute(): string
     {
         $p = (string) ($this->profile_picture ?? '');

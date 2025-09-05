@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int $id
@@ -35,6 +36,7 @@ use League\CommonMark\MarkdownConverter;
  */
 final class Thread extends Model
 {
+    use HasFactory;
     /** @var list<string> */
     protected $fillable = [
         'board_id',
@@ -88,7 +90,7 @@ final class Thread extends Model
         return $this->belongsTo(User::class);
     }
 
-    /** @return HasMany<Reply> */
+    /** @return HasMany<Reply, Thread> */
     public function replies(): HasMany
     {
         return $this->hasMany(Reply::class);
@@ -97,8 +99,7 @@ final class Thread extends Model
     /** @return BelongsToMany<Tag, Thread> */
     public function tags(): BelongsToMany
     {
-        // ensure the pivot name matches your schema (e.g., 'thread_tag')
-        return $this->belongsToMany(Tag::class, 'thread_tag')->withTimestamps();
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     /** ---------- Scopes ---------- */
