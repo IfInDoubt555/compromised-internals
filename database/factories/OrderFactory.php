@@ -8,8 +8,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderFactory extends Factory
 {
+    /**
+     * The model that this factory is for.
+     *
+     * @var string
+     */
     protected $model = Order::class;
 
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [

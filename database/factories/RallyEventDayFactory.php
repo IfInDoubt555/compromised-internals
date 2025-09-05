@@ -2,15 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\RallyEvent;
 use App\Models\RallyEventDay;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RallyEventDay>
- */
 class RallyEventDayFactory extends Factory
 {
+    /**
+     * The model that this factory is for.
+     *
+     * @var string
+     */
+    protected $model = RallyEventDay::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,10 +22,15 @@ class RallyEventDayFactory extends Factory
     public function definition(): array
     {
         return [
-            'rally_event_id' => RallyEvent::factory(), // Generate RallyEvent using its factory
-            'date' => $this->faker->date(), // Generate a random date
-            'label' => $this->faker->word(), // Random word for label
-            'name' => $this->faker->word(), // Random name for the day
+            'name' => $this->faker->company, // Generate a random rally event name
+            'slug' => $this->faker->slug,    // Generate a random slug for the rally event
+            'location' => $this->faker->city, // Random city for event location
+            'start_date' => $this->faker->dateTimeThisYear, // Random start date
+            'end_date' => $this->faker->dateTimeThisYear,   // Random end date
+            'description' => $this->faker->paragraph, // Random event description
+            'championship' => $this->faker->word, // Random championship name
+            'map_embed_url' => $this->faker->url, // Random map embed URL
+            'official_url' => $this->faker->url, // Random official URL
         ];
     }
 }

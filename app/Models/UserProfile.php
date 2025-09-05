@@ -90,7 +90,7 @@ class UserProfile extends Model
     /** @return BelongsTo<User, UserProfile> */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /** @return array<string, string|null> */

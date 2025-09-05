@@ -12,7 +12,7 @@ final class SectionExtractor
 {
     /**
      * Canonical keys → heading aliases (lowercased, emoji/whitespace removed)
-     * @var array<string, array<int, string>> $map
+     * @var array<string, array<string>> $map
      */
     private const MAP = [
         'events' => [
@@ -51,7 +51,7 @@ final class SectionExtractor
         }
 
         $type = self::normalizeType($type);
-        /** @var array<string, array<int, string>> $map */
+        /** @var array<string, array<string>> $map */
         $map = self::MAP[$type] ?? [];
 
         $dom = new DOMDocument();
@@ -126,7 +126,7 @@ final class SectionExtractor
      * Match the cleaned title to a key in the aliases map.
      *
      * @param string $title The title to match.
-     * @param array<string, array<int, string>> $map The aliases map.
+     * @param array<string, array<string>> $map The aliases map.
      * @return string|null The matched key or null if no match.
      */
     private static function matchKey(string $title, array $map): ?string
