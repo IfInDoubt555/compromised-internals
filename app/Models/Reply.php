@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reply extends Model
 {
+    use HasFactory;
     /** @var list<string> */
     protected $fillable = ['thread_id', 'user_id', 'body'];
 
@@ -21,13 +23,13 @@ class Reply extends Model
         return ['created_at' => 'datetime', 'updated_at' => 'datetime'];
     }
 
-    /** @return BelongsTo<\App\Models\Thread, \App\Models\Reply> */
+    /** @return BelongsTo<Thread, Reply> */
     public function thread(): BelongsTo
     {
         return $this->belongsTo(Thread::class);
     }
 
-    /** @return BelongsTo<\App\Models\User, \App\Models\Reply> */
+    /** @return BelongsTo<User, Reply> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

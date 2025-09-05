@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
 /**
  * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserFactory>
  *
@@ -38,7 +37,7 @@ use Illuminate\Support\Str;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
     use Notifiable;
 
@@ -79,31 +78,31 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /** ---------- Relations ---------- */
 
-        /** @return HasMany<\App\Models\Post, \App\Models\User> */
+        /** @return HasMany<Post, User> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    /** @return HasMany<\App\Models\Order, \App\Models\User> */
+    /** @return HasMany<Order, User> */
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    /** @return HasOne<\App\Models\UserProfile, \App\Models\User> */
+    /** @return HasOne<UserProfile, User> */
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
     }
 
-    /** @return BelongsToMany<\App\Models\Post, \App\Models\User> */
+    /** @return BelongsToMany<Post, User> */
     public function likedPosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_likes')->withTimestamps();
     }
 
-    /** @return HasMany<\App\Models\Comment, \App\Models\User> */
+    /** @return HasMany<Comment, User> */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);

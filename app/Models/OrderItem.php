@@ -8,13 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\OrderItemFactory>
- */
 class OrderItem extends Model
 {
-    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\OrderItemFactory> */
-    use HasFactory;
+    use HasFactory; // This is sufficient to connect the factory
 
     /** @var list<string> */
     protected $fillable = [
@@ -27,7 +23,7 @@ class OrderItem extends Model
     ];
 
     /** 
-     * @return BelongsTo<\App\Models\Order, \App\Models\OrderItem>
+     * @return BelongsTo<Order, OrderItem>
      */
     public function order(): BelongsTo
     {

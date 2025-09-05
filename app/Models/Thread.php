@@ -78,25 +78,25 @@ final class Thread extends Model
 
     /** ---------- Relations ---------- */
 
-    /** @return BelongsTo<\App\Models\Board, \App\Models\Thread> */
+    /** @return BelongsTo<Board, Thread> */
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
     }
 
-    /** @return BelongsTo<\App\Models\User, \App\Models\Thread> */
+    /** @return BelongsTo<User, Thread> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /** @return HasMany<\App\Models\Reply, \App\Models\Thread> */
+    /** @return HasMany<Reply, Thread> */
     public function replies(): HasMany
     {
         return $this->hasMany(Reply::class);
     }
 
-    /** @return BelongsToMany<\App\Models\Tag, \App\Models\Thread> */
+    /** @return BelongsToMany<Tag, Thread> */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();

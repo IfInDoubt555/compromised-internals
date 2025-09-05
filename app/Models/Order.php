@@ -26,7 +26,7 @@ class Order extends Model
     ];
 
     /** 
-     * @return HasMany<\App\Models\OrderItem, \App\Models\Order>
+     * @return HasMany<OrderItem, Order>
      */
     public function items(): HasMany
     {

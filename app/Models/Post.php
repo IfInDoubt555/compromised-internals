@@ -17,7 +17,7 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
 
 /**
- * @use HasFactory<\Database\Factories\PostFactory>
+ * @use HasFactory<PostFactory>
  *
  * @property-read string $body_html
  * @property-read string $image_url
@@ -74,31 +74,31 @@ class Post extends Model
 
     /** ---------- Relations ---------- */
 
-    /** @return BelongsTo<\App\Models\User, \App\Models\Post> */
+    /** @return BelongsTo<User, Post> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /** @return BelongsTo<\App\Models\Board, \App\Models\Post> */
+    /** @return BelongsTo<Board, Post> */
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class);
     }
 
-    /** @return BelongsToMany<\App\Models\User, \App\Models\Post> */
+    /** @return BelongsToMany<User, Post> */
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_likes')->withTimestamps();
     }
 
-    /** @return HasMany<\App\Models\Comment, \App\Models\Post> */
+    /** @return HasMany<Comment, Post> */
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    /** @return BelongsToMany<\App\Models\Tag, \App\Models\Post> */
+    /** @return BelongsToMany<Tag, Post> */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();
@@ -186,7 +186,7 @@ class Post extends Model
         return $this->scopePublic($query);
     }
 
-    /** @return Builder<\App\Models\Post> */
+    /** @return Builder<Post> */
     public function scopeHot(Builder $query, int $days = 14): Builder
     {
         return $query->withCount(['likes', 'comments'])

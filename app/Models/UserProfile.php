@@ -41,7 +41,7 @@ use Illuminate\Support\Carbon;
  */
 class UserProfile extends Model
 {
-    /** @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserProfileFactory> */
+    /** @use HasFactory<UserProfileFactory> */
     use HasFactory;
 
     /** @var list<string> */
@@ -87,7 +87,7 @@ class UserProfile extends Model
         ];
     }
 
-    /** @return BelongsTo<\App\Models\User, \App\Models\UserProfile> */
+    /** @return BelongsTo<User, UserProfile> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

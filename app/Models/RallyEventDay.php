@@ -36,7 +36,7 @@ class RallyEventDay extends Model
     }
 
     /** 
-     * @return BelongsTo<\App\Models\RallyEvent, \App\Models\RallyEventDay> 
+     * @return BelongsTo<RallyEvent, RallyEventDay> 
      */
     public function event(): BelongsTo
     {
@@ -44,7 +44,7 @@ class RallyEventDay extends Model
     }
 
     /** 
-     * @return HasMany<\App\Models\RallyStage, \App\Models\RallyEventDay> 
+     * @return HasMany<RallyStage, RallyEventDay> 
      */
     public function stages(): HasMany
     {

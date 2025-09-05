@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Comment extends Model
 {
+    use HasFactory;
     /** @var list<string> */
     protected $fillable = ['post_id', 'user_id', 'body'];
 
     /** 
-     * @return BelongsTo<\App\Models\Post, \App\Models\Comment> 
+     * @return BelongsTo<Post, Comment> 
      */
     public function post(): BelongsTo
     {
@@ -24,7 +26,7 @@ class Comment extends Model
     }
 
     /** 
-     * @return BelongsTo<\App\Models\User, \App\Models\Comment> 
+     * @return BelongsTo<User, Comment> 
      */
     public function user(): BelongsTo
     {

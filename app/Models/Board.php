@@ -44,7 +44,7 @@ class Board extends Model
     protected $withCount = ['threads'];
 
     /**
-     * @return HasMany<\App\Models\Thread, \App\Models\Board> 
+     * @return HasMany<Thread, Board> 
      */
     public function threads(): HasMany
     {
@@ -52,7 +52,7 @@ class Board extends Model
     }
 
     /**
-     *  @return HasMany<\App\Models\Post, \App\Models\Board>
+     *  @return HasMany<Post, Board>
      */
     public function posts(): HasMany
     {
