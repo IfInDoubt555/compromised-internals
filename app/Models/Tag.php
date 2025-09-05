@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @use HasFactory<\Database\Factories\TagFactory>
+ */
 class Tag extends Model
 {
     use HasFactory;

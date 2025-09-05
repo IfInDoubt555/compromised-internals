@@ -9,8 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+/** @use HasFactory<CommentFactory> */
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @use HasFactory<\Database\Factories\CommentFactory>
+ */
 class Comment extends Model
 {
     use HasFactory;

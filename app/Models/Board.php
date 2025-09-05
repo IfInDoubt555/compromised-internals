@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @use HasFactory<\Database\Factories\BoardFactory>
+ */
 class Board extends Model
 {
     use HasFactory;

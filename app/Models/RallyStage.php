@@ -32,6 +32,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read string|null                $distance_km_formatted
  * @property-read string|null                $map_image_src
  */
+/**
+ * @use HasFactory<\Database\Factories\RallyStageFactory>
+ */
 class RallyStage extends Model
 {
     use HasFactory;

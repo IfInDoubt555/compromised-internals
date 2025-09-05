@@ -34,6 +34,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *
  * @mixin \Eloquent
  */
+/**
+ * @use HasFactory<\Database\Factories\ThreadFactory>
+ */
 final class Thread extends Model
 {
     use HasFactory;

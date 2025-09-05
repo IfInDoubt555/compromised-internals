@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\OrderItem;
 
 /**
- * @use \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\OrderFactory>
+ * @use HasFactory<\Database\Factories\OrderFactory>
  */
 class Order extends Model
 {

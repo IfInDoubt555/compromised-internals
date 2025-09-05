@@ -25,6 +25,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $end_date
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyEventDay> $days
  */
+/**
+ * @use HasFactory<\Database\Factories\RallyEventFactory>
+ */
 class RallyEvent extends Model
 {
     use HasFactory;

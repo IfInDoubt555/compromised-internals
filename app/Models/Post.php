@@ -44,6 +44,9 @@ use League\CommonMark\MarkdownConverter;
  *
  * @mixin \Eloquent
  */
+/**
+ * @use HasFactory<\Database\Factories\PostFactory>
+ */
 class Post extends Model
 {
     use HasFactory;

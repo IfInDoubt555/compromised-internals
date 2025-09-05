@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @use HasFactory<\Database\Factories\TravelHighlightFactory>
+ */
 class TravelHighlight extends Model
 {
     use HasFactory;

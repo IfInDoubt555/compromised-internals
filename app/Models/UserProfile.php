@@ -39,6 +39,9 @@ use Illuminate\Support\Carbon;
  * @property bool                              $show_location
  * @property bool                              $show_socials
  */
+/**
+ * @use HasFactory<\Database\Factories\UserProfileFactory>
+ */
 class UserProfile extends Model
 {
     /** @use HasFactory<UserProfileFactory> */

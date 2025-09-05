@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @use HasFactory<\Database\Factories\ContactMessageFactory>
+ */
 class ContactMessage extends Model
 {
     use HasFactory;

@@ -35,6 +35,9 @@ use Illuminate\Support\Str;
  * @property-read string                          $profile_picture_url
  * @mixin \Eloquent
  */
+/**
+ * @use HasFactory<\Database\Factories\UserFactory>
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */

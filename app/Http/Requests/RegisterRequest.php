@@ -21,7 +21,7 @@ final class RegisterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, list<Closure|ValidationRule|string>>
+     * @return array<string, array<string|Closure|ValidationRule>>
      */
     public function rules(): array
     {

@@ -18,7 +18,7 @@ final class ProfileUpdateRequest extends FormRequest
     }
 
     /**
-     * @return array<string, list<\Closure|ValidationRule|string>>
+     * @return array<string, array<string|Closure|ValidationRule>>
      */
     public function rules(): array
     {
