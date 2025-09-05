@@ -50,7 +50,7 @@ class PostController extends Controller
         
         // 🔹 Optional: filter by board (?board=slug)
         if ($request->filled('board')) {
-            if ($board = \App\Models\Board::where('slug', $request->string('board'))->first()) {
+            if ($board = Board::where('slug', $request->string('board'))->first()) {
                 $q->where('board_id', $board->id);
             }
         }
@@ -125,15 +125,15 @@ class PostController extends Controller
                     $tags = collect(explode(',', (string) $request->input('tags')));
                 }
 
-                $tags = $tags->map(fn ($t) => \Illuminate\Support\Str::of($t)->lower()  ->trim())
+                $tags = $tags->map(fn ($t) => Str::of($t)->lower()  ->trim())
                              ->filter()
-                             ->map(fn ($t) => \Illuminate\Support\Str::slug($t,     '-'))
+                             ->map(fn ($t) => Str::slug($t,     '-'))
                              ->filter()
                              ->unique()
                              ->values();
 
                 foreach ($tags as $slug) {
-                    $name = \Illuminate\Support\Str::headline(str_replace('-', ' ',     $slug));
+                    $name = Str::headline(str_replace('-', ' ',     $slug));
                     $tag  = \App\Models\Tag::firstOrCreate(['slug' => $slug], ['name' => $name]);
                     $attachIds[] = $tag->id;
                 }
@@ -279,7 +279,7 @@ class PostController extends Controller
 
     public function toggleLike(Post $post)
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (!$user->hasVerifiedEmail()) {
             return back()->withErrors(['You must verify your email address to like posts.']);
