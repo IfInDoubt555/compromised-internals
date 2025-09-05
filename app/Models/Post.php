@@ -20,6 +20,27 @@ use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
 
+/**
+ * @property int $id
+ * @property int|null $user_id
+ * @property int|null $board_id
+ * @property string $title
+ * @property string|null $excerpt
+ * @property string $slug
+ * @property string|null $body
+ * @property string|null $image_path
+ * @property 'draft'|'scheduled'|'published'|'approved'|null $status
+ * @property \Illuminate\Support\Carbon|null $scheduled_for
+ * @property \Illuminate\Support\Carbon|null $published_at
+ *
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Board $board
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Comment> $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Tag> $tags
+ *
+ * @mixin \Eloquent
+ */
+
 class Post extends Model
 {
     use HasFactory;

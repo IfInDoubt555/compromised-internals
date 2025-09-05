@@ -21,7 +21,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyEventDay> $days
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\RallyStage>    $stages
+ * 
+ * @mixin \Eloquent
  */
+
 class RallyEvent extends Model
 {
     use HasFactory;

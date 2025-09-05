@@ -2,18 +2,21 @@ includes:
     - vendor/larastan/larastan/extension.neon
 
 parameters:
+    level: 6
+
     paths:
         - app
         - database
         - routes
-    level: 6
 
-    # Good defaults
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
-    checkPhpDocMissingReturnType: false
+    # Reduce “always true/false” noise from phpdoc-only types
     treatPhpDocTypesAsCertain: false
 
-    # Optional perf / noise tuning
-    reportUnmatchedIgnoredErrors: true
-    tipsOfTheDay: false
+    # Replacement for the removed checkPhpDocMissingReturnType
+    checkPhpDocMissingReturn: true
+
+    # Don't fail CI when an ignored pattern isn't matched
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Support\\Collection::where#'

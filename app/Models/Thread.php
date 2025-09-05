@@ -14,24 +14,26 @@ use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
 
-
 /**
  * @property int $id
- * @property int $board_id
- * @property int $user_id
+ * @property int|null $board_id
+ * @property int|null $user_id
  * @property string $title
  * @property string $slug
  * @property string|null $body
- * @property CarbonImmutable|null $last_activity_at
+ * @property \Illuminate\Support\Carbon|null $last_activity_at
  * @property 'draft'|'scheduled'|'published' $status
- * @property CarbonImmutable|null $scheduled_for
- * @property CarbonImmutable|null $published_at
+ * @property \Illuminate\Support\Carbon|null $scheduled_for
+ * @property \Illuminate\Support\Carbon|null $published_at
  *
  * @property-read \App\Models\Board $board
  * @property-read \App\Models\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Reply> $replies
  * @property-read \Illuminate\Database\Eloquent\Collection<int,\App\Models\Tag> $tags
+ *
+ * @mixin \Eloquent
  */
+
 class Thread extends Model
 {
     protected $fillable = [

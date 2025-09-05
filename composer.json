@@ -16,6 +16,7 @@
     "spatie/image": "^3.8",
     "spatie/image-optimizer": "^1.8",
     "spatie/laravel-csp": "^3.17",
+    "spatie/laravel-permission": "^6.21",
     "spatie/laravel-sitemap": "^7.3",
     "stripe/stripe-php": "^17.1",
     "symfony/http-client": "^7.2",

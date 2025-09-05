@@ -30,6 +30,7 @@ use Illuminate\Support\Str;
  * @property-read \Illuminate\Database\Eloquent\Collection<int,Post>    $likedPosts
  *
  * @property-read string               $profile_picture_url
+ * @mixin \Eloquent
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
