@@ -12,7 +12,8 @@ class AffiliateRedirectController extends Controller
     public function __invoke(Request $request)
     {
         // Required: destination URL
-        $to   = $request->query('u');
+        $toRaw   = $request->query('u');
+        $to      = is_string($toRaw) ? urldecode($toRaw) : '';
         $brand= $request->query('brand'); // booking|trip|agoda|expedia|viator (optional)
         $subid= $request->query('subid'); // optional tracking
 
