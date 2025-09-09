@@ -8,6 +8,7 @@ return [
         'agoda'   => ['agoda.com'],
         'expedia' => ['expedia.com'],
         'viator'  => ['viator.com'],
+        'osr'     => ['opensimracing.com', 'www.opensimracing.com'],
     ],
 
     // Optional: map unified "subid" to partner-specific param (can be expanded later)
