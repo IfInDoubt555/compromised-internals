@@ -67,7 +67,7 @@ class AffiliateClickController extends Controller
      */
     public function chartData()
     {
-        $byDay = \App\Models\AffiliateClick::selectRaw('DATE(created_at) as date, count(*) as total')
+        $byDay = AffiliateClick::selectRaw('DATE(created_at) as date, count(*) as total')
             ->groupBy('date')
             ->orderBy('date')
             ->pluck('total', 'date');

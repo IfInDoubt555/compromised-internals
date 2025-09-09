@@ -1,7 +1,6 @@
 <?php
 
 return [
-    // Allowed affiliate brands and their host allowlists
     'brands' => [
         'booking' => ['booking.com'],
         'trip'    => ['trip.com'],
@@ -9,9 +8,14 @@ return [
         'expedia' => ['expedia.com'],
         'viator'  => ['viator.com'],
         'osr'     => ['opensimracing.com', 'www.opensimracing.com'],
-    ],
 
-    // Optional: map unified "subid" to partner-specific param (can be expanded later)
+        // NordVPN program domains (cover both direct and affiliate hosts)
+        'nordvpn' => [
+            'nordvpn.com', 'www.nordvpn.com',
+            'go.nordvpn.net',                // CJ/Impact style links
+            'nordvpn.tpx.lt', 'www.tpx.lt',  // the link used in your components
+        ],
+    ],
     'subid_param' => [
         'default' => 'subid',
     ],
