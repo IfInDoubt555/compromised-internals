@@ -121,8 +121,8 @@ class Thread extends Model
 
     public function tags(): BelongsToMany
     {
-        // ensure your pivot table name matches your schema (e.g., 'thread_tag')
-        return $this->belongsToMany(Tag::class, 'thread_tag')->withTimestamps();
+        // Pivot table is tag_thread (Tag + Thread in alpha order)
+        return $this->belongsToMany(Tag::class, 'tag_thread')->withTimestamps();
     }
 
     /** ---------- Routing ---------- */
