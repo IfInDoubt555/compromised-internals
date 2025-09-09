@@ -11,24 +11,35 @@ class AffiliateClickController extends Controller
 {
     public function index(Request $request)
     {
-        $query = AffiliateClick::query()->latest();
+        // Base query
+        $base = AffiliateClick::query();
 
-        if ($brand = $request->string('brand')->trim())   $query->where('brand', $brand);
-        if ($subid = $request->string('subid')->trim())   $query->where('subid', 'like', "%{$subid}%");
-        if ($host  = $request->string('host')->trim())    $query->where('host', 'like', "%{$host}%");
-        if ($from  = $request->date('from'))              $query->whereDate('created_at', '>=', $from);
-        if ($to    = $request->date('to'))                $query->whereDate('created_at', '<=', $to);
+        // Apply filters only when the inputs are actually present
+        $filtered = (clone $base);
+        if ($request->filled('brand')) {
+            $filtered->where('brand', $request->input('brand'));
+        }
+        if ($request->filled('subid')) {
+            $filtered->where('subid', 'like', '%'.$request->input('subid').'%');
+        }
+        if ($request->filled('host')) {
+            $filtered->where('host', 'like', '%'.$request->input('host').'%');
+        }
+        if ($from = $request->date('from')) {
+            $filtered->whereDate('created_at', '>=', $from);
+        }
+        if ($to = $request->date('to')) {
+            $filtered->whereDate('created_at', '<=', $to);
+        }
 
-        $clicks = $query->paginate(50)->withQueryString();
+        // Table
+        $clicks = (clone $filtered)->latest()->paginate(50)->withQueryString();
 
-        // quick aggregates (today, 7d, 30d)
+        // Stats from the SAME filtered set
         $stats = [
-            'today' => (clone $query)->cloneWithout(['columns','orders','limit','offset'])
-                        ->whereDate('created_at', now()->toDateString())->count(),
-            '7d'    => (clone $query)->cloneWithout(['columns','orders','limit','offset'])
-                        ->where('created_at','>=', now()->subDays(7))->count(),
-            '30d'   => (clone $query)->cloneWithout(['columns','orders','limit','offset'])
-                        ->where('created_at','>=', now()->subDays(30))->count(),
+            'today' => (clone $filtered)->whereDate('created_at', today())->count(),
+            '7d'    => (clone $filtered)->where('created_at', '>=', now()->subDays(7))->count(),
+            '30d'   => (clone $filtered)->where('created_at', '>=', now()->subDays(30))->count(),
         ];
 
         $brands = array_keys(config('affiliates.brands', []));
@@ -41,11 +52,11 @@ class AffiliateClickController extends Controller
         $file = 'affiliate_clicks_'.now()->format('Ymd_His').'.csv';
 
         $query = AffiliateClick::query()->latest();
-        if ($brand = $request->string('brand')->trim()) $query->where('brand', $brand);
-        if ($subid = $request->string('subid')->trim()) $query->where('subid', 'like', "%{$subid}%");
-        if ($host  = $request->string('host')->trim())  $query->where('host',  'like', "%{$host}%");
-        if ($from  = $request->date('from'))            $query->whereDate('created_at', '>=', $from);
-        if ($to    = $request->date('to'))              $query->whereDate('created_at', '<=', $to);
+        if ($request->filled('brand')) $query->where('brand', $request->input('brand'));
+        if ($request->filled('subid')) $query->where('subid', 'like', '%'.$request->input('subid').'%');
+        if ($request->filled('host'))  $query->where('host',  'like', '%'.$request->input('host').'%');
+        if ($from = $request->date('from')) $query->whereDate('created_at', '>=', $from);
+        if ($to   = $request->date('to'))   $query->whereDate('created_at', '<=', $to);
 
         return response()->streamDownload(function () use ($query) {
             $out = fopen('php://output', 'w');
@@ -65,14 +76,24 @@ class AffiliateClickController extends Controller
     /**
      * Return JSON data for clicks per day for the last 30 days.
      */
-    public function chartData()
+    public function chartData(Request $request)
     {
-        $byDay = AffiliateClick::selectRaw('DATE(created_at) as date, count(*) as total')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->pluck('total', 'date');
+        // Optional: respect date filters used on the page
+        $q = AffiliateClick::query();
+        if ($from = $request->date('from')) $q->whereDate('created_at', '>=', $from);
+        if ($to   = $request->date('to'))   $q->whereDate('created_at', '<=', $to);
 
-        return response()->json($byDay);
+        // Grouping mode
+        if ($request->query('group') === 'brand') {
+            $data = $q->selectRaw('COALESCE(NULLIF(brand, \'\'), \'(none)\') as k, COUNT(*) as c')
+                      ->groupBy('k')->orderByDesc('c')->pluck('c', 'k');
+            return response()->json($data);
+        }
+
+        // Default: by day (last 30 days)
+        $data = $q->where('created_at', '>=', now()->subDays(30))
+                  ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
+                  ->groupBy('d')->orderBy('d')->pluck('c', 'd');
+        return response()->json($data);
     }
-
 }

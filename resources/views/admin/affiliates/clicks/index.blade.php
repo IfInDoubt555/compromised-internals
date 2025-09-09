@@ -37,7 +37,7 @@
     <input type="date" name="to"   value="{{ request('to') }}"   class="ci-input">
     <div class="flex gap-2">
       <button class="btn btn-primary">Filter</button>
-      <a href="{{ route('admin.affiliates.clicks.export', request()->all()) }}" class="btn btn-secondary">Export CSV</a>
+    <a href="{{ route('admin.affiliates.clicks.export', request()->except('page')) }}" class="btn btn-secondary">Export CSV</a>
     </div>
   </form>
 
