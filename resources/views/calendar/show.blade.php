@@ -198,12 +198,14 @@
     DETAIL PER DAY
   </h2>
 
-  <div class="mt-6 grid gap-6 justify-center [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]">
+  <div
+    class="mt-6 grid justify-center gap-6
+           [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
     @foreach($days->sortBy('date') as $day)
       @php $pal = $dayPalette($day->date); @endphp
 
       <div class="self-start rounded-2xl bg-white dark:bg-stone-900/70 shadow-lg
-            ring-1 ring-slate-200 dark:ring-white/10">
+                  ring-1 ring-slate-200 dark:ring-white/10 w-full max-w-sm">
         <div class="flex items-center justify-between px-4 pt-4">
           <span class="text-[11px] font-semibold uppercase tracking-wide
                        {{ $pal['t'] }} {{ $pal['bg'] }} border {{ $pal['b'] }}
@@ -225,8 +227,7 @@
 
                 {{-- stacked meta rows --}}
                 <div class="mt-2 space-y-1 text-[11px] text-slate-700 dark:text-stone-300">
-
-                  {{-- Stage id (SS 3 / 7 or Shakedown) --}}
+                  {{-- Stage id --}}
                   <div class="flex items-center gap-2">
                     <span class="inline-flex items-center justify-center h-6 min-w-[92px] px-2 rounded
                                  bg-slate-50 border border-slate-200 text-slate-700
@@ -252,7 +253,7 @@
                     @endif
                   </div>
 
-                  {{-- 1st pass start time --}}
+                  {{-- 1st pass --}}
                   @if($ss->start_time_local)
                     <div class="flex items-center gap-2">
                       <span class="inline-flex items-center justify-center h-6 min-w-[92px] px-2 rounded
@@ -268,7 +269,7 @@
                     </div>
                   @endif
 
-                  {{-- 2nd pass start time (optional) --}}
+                  {{-- 2nd pass --}}
                   @if($ss->second_pass_time_local)
                     <div class="flex items-center gap-2">
                       <span class="inline-flex items-center justify-center h-6 min-w-[92px] px-2 rounded
@@ -299,7 +300,6 @@
                       </span>
                     </div>
                   @endif
-
                 </div>
               </div>
             </a>
