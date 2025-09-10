@@ -31,7 +31,8 @@ use App\Http\Controllers\AffiliateRedirectController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Admin\PublisherController;
 use App\Http\Controllers\Admin\PostModerationController;
-
+use App\Http\Controllers\CalendarLegacyRedirectController;
+use App\Http\Controllers\PublicProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -57,9 +58,12 @@ Route::middleware(['auth'])->group(function () {
     Route::patch ('/threads/{thread:slug}',      [ThreadController::class, 'update'])->name('threads.update');
     Route::delete('/threads/{thread:slug}',      [ThreadController::class, 'destroy'])->name('threads.destroy');
 
-    Route::post  ('/threads/{thread:slug}/replies', [ReplyController::class, 'store'])->name('replies.store');
-    Route::patch ('/replies/{reply}',               [ReplyController::class, 'update'])->name('replies.update');
-    Route::delete('/replies/{reply}',               [ReplyController::class, 'destroy'])->name('replies.destroy');
+    Route::post  ('/threads/{thread:slug}/replies', [ReplyController::class, 'store'])
+        ->middleware('throttle:ugc-write')->name('replies.store');
+    Route::patch ('/replies/{reply}',               [ReplyController::class, 'update'])
+        ->middleware('throttle:ugc-write')->name('replies.update');
+    Route::delete('/replies/{reply}',               [ReplyController::class, 'destroy'])
+        ->middleware('throttle:ugc-write')->name('replies.destroy');
 });
 
 /* ----------------- Calendar ----------------- */
@@ -70,14 +74,12 @@ Route::get('/calendar', [RallyEventController::class, 'index'])->name('calendar.
 Route::get('/calendar/events', [RallyEventController::class, 'api'])->name('calendar.api');
 
 // Legacy numeric links: /calendar/events/{id}  ->  /calendar/{slug}
-Route::get('/calendar/events/{event:id}', function (RallyEvent $event) {
-    return redirect()->route('calendar.show', $event->slug, 301);
-})->whereNumber('event')->name('calendar.events.legacy');
+Route::get('/calendar/events/{event:id}', [CalendarLegacyRedirectController::class, 'byId'])
+    ->whereNumber('event')->name('calendar.events.legacy');
 
 // Legacy slug links that used the /calendar/events/ prefix (avoid numbers-only)
-Route::get('/calendar/events/{slug}', function (string $slug) {
-    return redirect()->route('calendar.show', $slug, 301);
-})->where('slug', '^(?!\d+$)[a-z0-9-]+$')->name('calendar.events.legacy.slug');
+Route::get('/calendar/events/{slug}', [CalendarLegacyRedirectController::class, 'bySlug'])
+    ->where('slug', '^(?!\d+$)[a-z0-9-]+$')->name('calendar.events.legacy.slug');
 
 // Canonical event page (slug-bound model)
 Route::get('/calendar/{rallyEvent:slug}', [RallyEventController::class, 'show'])->name('calendar.show');
@@ -167,22 +169,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
     Route::post('/posts/{post}/like', [PostController::class, 'toggleLike'])->name('posts.like');
-    Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::post('/comments/{comment}/edit', [CommentController::class, 'update'])->name('comments.update');
-    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/posts/{post}/comments', [CommentController::class, 'store'])
+        ->middleware('throttle:ugc-write')->name('comments.store');
+    Route::post('/comments/{comment}/edit', [CommentController::class, 'update'])
+        ->middleware('throttle:ugc-write')->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
+        ->middleware('throttle:ugc-write')->name('comments.destroy');
 });
 
 // Public post show
 Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 /* ----------------- Public profile ----------------- */
-Route::get('/profile/{user}', function (User $user) {
-    return view('profile.public', compact('user'));
-})->middleware(['auth', 'verified'])->name('profile.public');
+Route::get('/profile/{user}', [PublicProfileController::class, 'show'])
+    ->middleware(['auth', 'verified'])->name('profile.public');
 
 /* ----------------- Contact ----------------- */
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
-Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+Route::post('/contact', [ContactController::class, 'submit'])
+    ->middleware('throttle:contact.submit')->name('contact.submit');
 
 /* ----------------- Footer pages ----------------- */
 Route::view('/terms', 'footer.terms')->name('terms');

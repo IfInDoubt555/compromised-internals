@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\TravelHighlightController;
 use App\Http\Controllers\Admin\AffiliateClickController;
 use App\Http\Controllers\Admin\ThreadAdminController;
 use App\Http\Controllers\Admin\PublisherController;
+use App\Http\Controllers\Admin\AdminScheduledController;
 
 // NOTE: RouteServiceProvider already wraps this file with:
 // prefix('admin')->name('admin.') and web+auth+access-admin middleware
@@ -86,12 +87,7 @@ Route::prefix('threads')->name('threads.')->group(function () {
 });
 
 /* ---------- Optional: Unified Scheduled Overview ---------- */
-Route::get('/scheduled', function () {
-    return view('admin.scheduled', [
-        'posts'   => \App\Models\Post::scheduled()->orderBy('published_at')->get(),
-        'threads' => \App\Models\Thread::scheduled()->orderBy('published_at')->get(),
-    ]);
-})->name('scheduled');
+Route::get('/scheduled', [AdminScheduledController::class, 'index'])->name('scheduled');
 
 /* ---------- Travel Highlights ---------- */
 Route::resource('travel-highlights', TravelHighlightController::class)
