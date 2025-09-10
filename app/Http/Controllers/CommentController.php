@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\UpdateCommentRequest;
 
 class CommentController extends Controller
 {
@@ -14,29 +14,29 @@ class CommentController extends Controller
 
     public function store(StoreCommentRequest $request, Post $post)
     {
-        $user = auth()->user();
+        $user = $request->user();
 
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             return back()->withErrors(['You must verify your email address to comment.']);
         }
 
+        $data = $request->validated(); // body sanitized in StoreCommentRequest
+
         $post->comments()->create([
             'user_id' => $user->id,
-            'body' => $request->body,
+            'body'    => $data['body'],
         ]);
 
         return back()->with('success', 'Comment added!');
     }
 
-    public function update(Request $request, Comment $comment)
+    public function update(UpdateCommentRequest $request, Comment $comment)
     {
         $this->authorize('update', $comment);
 
-        $request->validate([
-            'body' => ['required', 'string', 'max:1000', new \App\Rules\NoBannedWords],
-        ]);
+        $data = $request->validated(); // body sanitized in UpdateCommentRequest
 
-        $comment->update(['body' => $request->body]);
+        $comment->update(['body' => $data['body']]);
 
         return back()->with('success', 'Comment updated!');
     }
@@ -44,6 +44,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $this->authorize('delete', $comment);
+
         $comment->delete();
 
         return back()->with('success', 'Comment deleted.');

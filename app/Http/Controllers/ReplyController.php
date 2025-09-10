@@ -4,25 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Reply;
 use App\Models\Thread;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreReplyRequest;
+use App\Http\Requests\UpdateReplyRequest;
+use Illuminate\Http\RedirectResponse;
 
 class ReplyController extends Controller
 {
-    public function store(Request $request, Thread $thread)
+    public function store(StoreReplyRequest $request, Thread $thread): RedirectResponse
     {
         $user = $request->user();
 
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             return back()->withErrors(['You must verify your email address to reply.']);
         }
 
-        $validated = $request->validate([
-            'body' => ['required', 'string', 'max:5000', new \App\Rules\NoBannedWords],
-        ]);
+        $data = $request->validated();
 
         $thread->replies()->create([
             'user_id' => $user->id,
-            'body'    => $validated['body'],
+            'body'    => $data['body'], // HTML already stripped; markdown allowed
         ]);
 
         // keep “Hot Right Now” fresh
@@ -31,25 +31,21 @@ class ReplyController extends Controller
         return back()->with('success', 'Reply posted!');
     }
 
-    public function update(Request $request, Reply $reply)
+    public function update(UpdateReplyRequest $request, Reply $reply): RedirectResponse
     {
-        if ($request->user()->id !== $reply->user_id) {
-            abort(403);
-        }
+        // authorize() already checked ownership in UpdateReplyRequest
+        $data = $request->validated();
 
-        $validated = $request->validate([
-            'body' => ['required', 'string', 'max:5000', new \App\Rules\NoBannedWords],
-        ]);
-
-        $reply->update(['body' => $validated['body']]);
+        $reply->update(['body' => $data['body']]);
         $reply->thread()->update(['last_activity_at' => now()]);
 
         return back()->with('success', 'Reply updated!');
     }
 
-    public function destroy(Request $request, Reply $reply)
+    public function destroy(\Illuminate\Http\Request $request, Reply $reply): RedirectResponse
     {
-        if ($request->user()->id !== $reply->user_id) {
+        // Keep current ownership guard (no ReplyPolicy yet)
+        if ($request->user()->id !== (int) $reply->user_id) {
             abort(403);
         }
 

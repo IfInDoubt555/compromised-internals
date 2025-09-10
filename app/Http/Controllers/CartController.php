@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use app\Http\Requests\AddToCartRequest;
 
 class CartController extends Controller
 {
@@ -13,44 +14,37 @@ class CartController extends Controller
         return view('shop.cart.index', compact('cart'));
     }
 
-    public function add(Request $request, Product $product)
+    public function add(AddToCartRequest $request, Product $product)
     {
+        $data = $request->validated();
+
         $cart = session()->get('cart', []);
 
-        $size = $request->input('size');
-        $color = $request->input('color');
-
-        if (!$product->has_variants) {
-            $size = null;
-            $color = null;
-        }
-
+        // Never trust client price
         $cart[$product->id] = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'price' => $product->price,
-            'quantity' => isset($cart[$product->id]) ? $cart[$product->id]['quantity'] + 1 : 1,
-            'options' => [
-                'size' => $size,
-                'color' => $color,
-            ]
+            'id'       => $product->id,
+            'name'     => $product->name,
+            'price'    => $product->price,   // from DB
+            'quantity' => ($cart[$product->id]['quantity'] ?? 0) + $data['quantity'],
+            'options'  => [
+                'size'  => $product->has_variants ? $data['size'] ?? null : null,
+                'color' => $product->has_variants ? $data['color'] ?? null : null,
+            ],
         ];
 
         session()->put('cart', $cart);
 
-        return redirect()->route('shop.cart.index')->with('success', "$product->name added to cart!");
+        return redirect()->route('shop.cart.index')
+            ->with('success', "{$product->name} added to cart!");
     }
 
-    public function update(Request $request, $id)
+    public function update(AddToCartRequest $request, $id)
     {
-        $validated = $request->validate([
-            'quantity' => 'required|integer|min:1'
-        ]);
-
+        $data = $request->validated();
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = $validated['quantity'];
+            $cart[$id]['quantity'] = $data['quantity'];
             session()->put('cart', $cart);
         }
 
