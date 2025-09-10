@@ -43,10 +43,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(AddCspHeaders::class);
     })
     ->withCommands([
-        \App\Console\Commands\PruneSessions::class,
+        PruneSessions::class,
         \App\Console\Commands\ScanImageAttributions::class,
     ])
     ->withBindings([
-        \Illuminate\Contracts\Http\Kernel::class => \App\Http\Kernel::class,
+        HttpKernel::class => HttpKernel::class,
     ])
     ->create();

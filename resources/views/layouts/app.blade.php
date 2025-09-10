@@ -7,9 +7,6 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="color-scheme" content="light dark" id="meta-color-scheme">
 
-  {{-- CSP (meta) --}}
-  @cspMetaTag(\App\Csp\Policies\ContentSecurityPolicy::class)
-
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   {{-- View-specific preloads (e.g., hero image) --}}
