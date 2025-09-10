@@ -192,20 +192,20 @@
 
 {{-- Detail per day --}}
 @if($days->count())
-<section class="mt-12 max-w-6xl mx-auto px-4">
+<section class="mt-12 mx-auto px-4"> {{-- remove max-w to allow 4-up on wide screens --}}
   <h2 class="text-center text-3xl font-extrabold tracking-wide
              text-slate-900 dark:text-stone-100">
     DETAIL PER DAY
   </h2>
 
-  <div
-    class="mt-6 grid justify-center gap-6
-           [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
+  {{-- PACKED, CENTERED ROWS: 2–4 across, then wrap --}}
+  <div class="mt-6 flex flex-wrap justify-center gap-6">
     @foreach($days->sortBy('date') as $day)
       @php $pal = $dayPalette($day->date); @endphp
 
-      <div class="self-start rounded-2xl bg-white dark:bg-stone-900/70 shadow-lg
-                  ring-1 ring-slate-200 dark:ring-white/10 w-full max-w-sm">
+      <div class="w-[360px] max-w-full self-start rounded-2xl
+                  bg-white dark:bg-stone-900/70 shadow-lg
+                  ring-1 ring-slate-200 dark:ring-white/10">
         <div class="flex items-center justify-between px-4 pt-4">
           <span class="text-[11px] font-semibold uppercase tracking-wide
                        {{ $pal['t'] }} {{ $pal['bg'] }} border {{ $pal['b'] }}
