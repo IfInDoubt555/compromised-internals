@@ -198,7 +198,7 @@
     DETAIL PER DAY
   </h2>
 
-  <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  <div class="mt-6 grid gap-6 justify-center [grid-template-columns:repeat(auto-fit,minmax(250px,1fr))]">
     @foreach($days->sortBy('date') as $day)
       @php $pal = $dayPalette($day->date); @endphp
 
