@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
++        // (CSP is handled by Spatie\Csp\AddCspHeaders in bootstrap/app.php)
+
         Blade::component('components.guest-layout', 'guest-layout');
 
         if (app()->environment('local')) {

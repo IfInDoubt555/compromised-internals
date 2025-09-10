@@ -113,7 +113,7 @@ class ThreadController extends Controller
         $thread->save();
 
         if ($boardChanged && class_exists(\App\Models\Tag::class) && method_exists($thread, 'tags')) {
-            $newBoard = \App\Models\Board::find($data['board_id']);
+            $newBoard = Board::find($data['board_id']);
             if ($newBoard) {
                 $newTag = \App\Models\Tag::firstOrCreate(
                     ['slug' => 'board-' . $newBoard->slug],

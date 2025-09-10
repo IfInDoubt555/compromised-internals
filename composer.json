@@ -16,7 +16,7 @@
         "mews/purifier": "^3.4",
         "spatie/image": "^3.8",
         "spatie/image-optimizer": "^1.8",
-        "spatie/laravel-csp": "^3.17",
+        "spatie/laravel-csp": "*",
         "spatie/laravel-sitemap": "^7.3",
         "stripe/stripe-php": "^17.1",
         "symfony/http-client": "^7.2",

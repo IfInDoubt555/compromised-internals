@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use App\Console\Commands\PruneSessions;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use App\Http\Kernel as AppHttpKernel;
+use Spatie\Csp\AddCspHeaders; // ⬅️ add this
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -37,6 +38,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         ]);
+
+        // ⬇️ Append CSP headers globally
+        $middleware->append(AddCspHeaders::class);
     })
     ->withCommands([
         \App\Console\Commands\PruneSessions::class,

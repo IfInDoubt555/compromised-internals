@@ -7,13 +7,18 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="color-scheme" content="light dark" id="meta-color-scheme">
 
+  {{-- CSP (meta) --}}
+  @cspMetaTag(\App\Csp\Policies\ContentSecurityPolicy::class)
+
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   {{-- View-specific preloads (e.g., hero image) --}}
   @stack('preload')
 
   <!-- Consent / vendor - load at idle to avoid blocking FCP/LCP -->
-  <script>
+  {{-- NOTE: allow this domain in CSP (SCRIPT) if you keep it:
+       https://cmp.osano.com --}}
+  <script @cspNonce>
     (function loadOsanoWhenIdle() {
       var boot = function () {
         var s = document.createElement('script');
@@ -30,7 +35,7 @@
   </script>
 
   <!-- Set theme BEFORE CSS paints to avoid FOUC -->
-  <script>
+  <script @cspNonce>
     (() => {
       const STORAGE_KEY = 'ci-theme';  // 'light' | 'dark' | 'system'
       const mql = window.matchMedia('(prefers-color-scheme: dark)');

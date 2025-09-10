@@ -31,7 +31,6 @@ class Kernel extends HttpKernel
             SubstituteBindings::class,
             \App\Http\Middleware\RejectEmptyUserAgent::class,
             \App\Http\Middleware\MinifyHtml::class,
-            \Spatie\Csp\AddCspHeaders::class,
         ],
 
         'api' => [
