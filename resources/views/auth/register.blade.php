@@ -3,7 +3,7 @@
     <title>Register | Compromised Internals</title>
     <meta name="description" content="Join Compromised Internals to share your rally stories, comment on posts, and connect with the motorsport community.">
     <meta name="robots" content="noindex, nofollow">
-  @endpush>
+  @endpush
 
   {{-- Full-bleed wrapper with responsive scenic rally background --}}
   <div class="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4">
