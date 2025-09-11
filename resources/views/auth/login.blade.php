@@ -3,7 +3,7 @@
     <title>Login | Compromised Internals</title>
     <meta name="description" content="Log in to Compromised Internals to post, comment, and engage with the rally racing community.">
     <meta name="robots" content="noindex, nofollow">
-  @endpush>
+  @endpush
 
   <div class="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4">
 
