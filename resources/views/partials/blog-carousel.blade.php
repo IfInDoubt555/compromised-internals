@@ -30,7 +30,7 @@
   <div
     x-ref="track"
     class="flex transition-transform duration-500 ease-in-out will-change-transform"
-    :style="`transform: translateX(-${index * 100}%)`"
+    :style="{ transform: 'translateX(-' + (index * 100) + '%)' }"
     @transitionend="onTransitionEnd()"
     @mouseenter="pause()" @mouseleave="play()"
     @touchstart.passive="touchStart($event)" @touchmove.passive="touchMove($event)" @touchend.passive="touchEnd()"

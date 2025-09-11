@@ -59,7 +59,7 @@
 
       <form id="register-form" method="POST" action="{{ route('register') }}" class="space-y-5" autocomplete="on" novalidate>
         @csrf
-        <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+      <input type="hidden" name="g-recaptcha-response" id="g_recaptcha">
 
         <div>
           <x-input-label for="name" value="Name" />
@@ -155,26 +155,32 @@
 
   @push('scripts')
   <script nonce="@cspNonce">
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('register-form');
-      const tokenInput = document.getElementById('recaptcha_token');
-      if (!form) return;
-
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        if (typeof grecaptcha === 'undefined') return form.submit();
-
-        grecaptcha.ready(function () {
-          grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'register' })
-            .then(function (token) {
-              tokenInput.value = token;
-              if (typeof form.requestSubmit === 'function') form.requestSubmit();
-              else form.submit();
-            })
-            .catch(console.error);
-        });
-      });
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('register-form');
+    const tokenInput = document.getElementById('g_recaptcha');
+    if (!form || !tokenInput) return;
+  
+    let submitting = false;
+  
+    form.addEventListener('submit', async (e) => {
+      if (submitting) return; // prevent double-submits / recursion
+    
+      // If grecaptcha isn't loaded, don't block a normal submit.
+      if (typeof grecaptcha === 'undefined') return;
+    
+      e.preventDefault();
+      try {
+        const token = await grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action:   'register' });
+        tokenInput.value = token;
+      } catch (err) {
+        console.error('reCAPTCHA error:', err);
+        // fall through and try submitting anyway
+      }
+    
+      submitting = true;
+      form.submit(); // native submit (does NOT re-trigger this listener)
     });
+  });
   </script>
   @endpush
 </x-guest-layout>
