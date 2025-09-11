@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
-use App\Jobs\GenerateImageVariants;
+use App\Jobs\GenerateImageVariants as GenerateVariantsJob;
 
 class PostController extends Controller
 {
@@ -93,17 +93,24 @@ class PostController extends Controller
             $validated['board_id'] = (int) $request->input('board_id');
         }
 
-        // Image
+        // Image (store original and queue variants)
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
             $processedPath = ImageService::processAndStore(
                 $request->file('image_path'),
-                'posts', 'post_', 1280, null
+                'posts',      // dir
+                'post_',      // filename prefix
+                1280,         // max width for original
+                null          // keep aspect ratio
             );
+
             if (! $processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
+
             $validated['image_path'] = $processedPath;
-            $this->queueImageVariants($processedPath);
+
+            // AVIF/WebP responsive variants (non-blocking)
+            $this->queueImageVariants($processedPath, [320,640,960,1200,1600], ['webp','avif']);
         }
 
         // Slug
@@ -111,13 +118,11 @@ class PostController extends Controller
             ? SlugService::generate($request->slug)
             : SlugService::generate($validated['title']);
 
-        // Publishing controls:
-        // - Non-admins cannot schedule or set custom status.
+        // Publishing controls
         if (! $request->user()->isAdmin()) {
             $validated['status']       = 'published';
             $validated['published_at'] = now();
         } else {
-            // Admins: ensure sensible defaults if not provided
             $validated['status']       = $validated['status']       ?? 'published';
             $validated['published_at'] = $validated['published_at'] ?? now();
         }
@@ -243,20 +248,28 @@ class PostController extends Controller
             $validated['board_id'] = (int) $request->input('board_id');
         }
 
-        // Image replace
+        // Image replace (delete original + known variants, store new, queue variants)
         if ($request->hasFile('image_path') && $request->file('image_path')->isValid()) {
             if ($post->image_path && Storage::disk('public')->exists($post->image_path)) {
+                // delete original
                 Storage::disk('public')->delete($post->image_path);
+                // delete derived (-{w}.webp / -{w}.avif)
+                $this->deleteImageVariants($post->image_path, [320,640,960,1200,1600], ['webp','avif']);
             }
+
             $processedPath = ImageService::processAndStore(
                 $request->file('image_path'),
                 'posts', 'post_', 1280, null
             );
+
             if (! $processedPath) {
                 return back()->withErrors(['image_path' => 'Invalid image uploaded.']);
             }
+
             $validated['image_path'] = $processedPath;
-            $this->queueImageVariants($processedPath);
+
+            // queue responsive variants for the new image
+            $this->queueImageVariants($processedPath, [320,640,960,1200,1600], ['webp','avif']);
         }
 
         // Slug (unique; respect manual mode)
@@ -264,12 +277,10 @@ class PostController extends Controller
             ? SlugService::generate($request->slug, $post->id)
             : SlugService::generate($validated['title'], $post->id);
 
-        // Publishing controls:
+        // Publishing controls
         if (! $request->user()->isAdmin()) {
-            // non-admins cannot change schedule/state
             unset($validated['status'], $validated['published_at']);
         } else {
-            // admins: keep provided or fallback to existing
             $validated['status']       = $validated['status']       ?? $post->status ?? 'published';
             $validated['published_at'] = $validated['published_at'] ?? $post->published_at ?? now();
         }
@@ -321,11 +332,37 @@ class PostController extends Controller
     }
 
     /**
-     * Kick off variant generation for a stored image.
+     * Queue responsive image variants for a stored original.
      */
-    private function queueImageVariants(?string $path): void
+    protected function queueImageVariants(string $relativePath, array $widths = [320,640,960,1200,1600], array $formats =   ['webp','avif']): void
     {
-        if (! $path) return;
-        GenerateImageVariants::dispatch($path, self::VARIANT_SIZES, self::VARIANT_FORMATS);
+        // Ensure we pass a relative path into the job (e.g., posts/foo.png)
+        $relativePath = ltrim($relativePath, '/');
+    
+        GenerateVariantsJob::dispatch(
+            'public',      // disk
+            $relativePath, // path on disk
+            $widths,
+            $formats
+        )->onQueue('images');
+    }
+    
+    /**
+     * Remove generated variants for a given original.
+     * Example: posts/foo.png -> posts/foo-640.webp, posts/foo-640.avif, etc.
+     */
+    protected function deleteImageVariants(string $relativePath, array $widths, array $formats): void
+    {
+        $relativePath = ltrim($relativePath, '/');
+        $dir   = pathinfo($relativePath, PATHINFO_DIRNAME);
+        $name  = pathinfo($relativePath, PATHINFO_FILENAME); // foo
+        foreach ($widths as $w) {
+            foreach ($formats as $ext) {
+                $variant = ($dir !== '.' ? $dir.'/' : '').$name.'-'.$w.'.'.$ext;
+                if (Storage::disk('public')->exists($variant)) {
+                    Storage::disk('public')->delete($variant);
+                }
+            }
+        }
     }
 }
