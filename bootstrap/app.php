@@ -6,7 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use App\Console\Commands\PruneSessions;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use App\Http\Kernel as AppHttpKernel;
-use Spatie\Csp\AddCspHeaders; // ⬅️ add this
+use Spatie\Csp\AddCspHeaders;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,31 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
-    ->withExceptions(function ($exceptions) {
+    ->withExceptions(function (Exceptions $exceptions) {
         //
     })
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->group('web', [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ]);
-
-        $middleware->group('api', [
-            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ]);
-
-        $middleware->alias([
-            'auth' => \App\Http\Middleware\Authenticate::class,
-            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-            'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        ]);
-
-        // ⬇️ Append CSP headers globally
+        // Do NOT redefine 'web'/'api' groups and aliases here since Kernel owns them.
+        // If you want CSP globally, append it here (or keep it in Kernel/global).
         $middleware->append(AddCspHeaders::class);
     })
     ->withCommands([
@@ -47,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         \App\Console\Commands\ScanImageAttributions::class,
     ])
     ->withBindings([
-        HttpKernel::class => HttpKernel::class,
+        // 🔧 This was wrong before. Bind the *interface* to your App Kernel.
+        HttpKernel::class => AppHttpKernel::class,
     ])
     ->create();

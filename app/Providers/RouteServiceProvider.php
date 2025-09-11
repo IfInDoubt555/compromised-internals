@@ -31,6 +31,16 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($email.$request->ip());
         });
 
+        RateLimiter::for('register', function (Request $request) {
+        // keep it simple; IP-based is fine
+            return [
+                Limit::perMinute(5)->by($request->ip()),
+            ];
+            // If you want to tie to email too:
+            // $email = (string) $request->input('email');
+            // return [ Limit::perMinute(5)->by($email.$request->ip()) ];
+        });
+
         // Bind 'message' route parameter to ContactMessage model
         Route::model('message', \App\Models\ContactMessage::class);
 
