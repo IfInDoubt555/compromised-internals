@@ -15,7 +15,7 @@
   <!-- Consent / vendor - load at idle to avoid blocking FCP/LCP -->
   {{-- NOTE: allow this domain in CSP (SCRIPT) if you keep it:
        https://cmp.osano.com --}}
-  <script @cspNonce>
+  <script nonce="@cspNonce">
     (function loadOsanoWhenIdle() {
       var boot = function () {
         var s = document.createElement('script');
@@ -32,7 +32,7 @@
   </script>
 
   <!-- Set theme BEFORE CSS paints to avoid FOUC -->
-  <script @cspNonce>
+  <script nonce="@cspNonce">
     (() => {
       const STORAGE_KEY = 'ci-theme';  // 'light' | 'dark' | 'system'
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
@@ -184,7 +184,8 @@
                 data-color="#FF5F5F"
                 data-position="Right"
                 data-x_margin="18"
-                data-y_margin="18"></script>
+                data-y_margin="18"
+                nonce="@cspNonce"></script>
       @endif
     </main>
 
@@ -216,7 +217,7 @@
   @stack('scripts')
 
   {{-- Collapse affiliate container if a blocker hides its contents (prevents blank bands) --}}
-  <script>
+  <script nonce="@cspNonce" @cspNonce>
     document.addEventListener('DOMContentLoaded', () => {
       const el = document.querySelector('[data-affiliate-strip]');
       if (!el) return;

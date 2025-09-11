@@ -156,7 +156,7 @@
 </div>
 
 {{-- Tiny helpers (fallback if stages.js isn’t loaded) --}}
-<script>
+<script nonce="@cspNonce">
   (function () {
     const typeSel    = document.getElementById('stage_type');
     const ssWrap     = document.getElementById('ss_number_wrap');

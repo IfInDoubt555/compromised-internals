@@ -184,7 +184,7 @@
 </div>
 
 {{-- Helper script for auto-selects --}}
-<script>
+<script nonce="@cspNonce">
   (function () {
     const typeSel     = document.getElementById('stage_type');
     const ssInput     = document.querySelector('input[name="ss_number"]');

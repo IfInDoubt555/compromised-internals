@@ -10,7 +10,7 @@
     />
 </div>
 
-<script>
+<script nonce="@cspNonce">
     function changeShirtColor(color) {
         const img = document.getElementById('productImage');
         if (!img) return;

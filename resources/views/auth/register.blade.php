@@ -154,7 +154,7 @@
   </div>
 
   @push('scripts')
-  <script>
+  <script nonce="@cspNonce">
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('register-form');
       const tokenInput = document.getElementById('recaptcha_token');

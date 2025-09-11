@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- Ensure dark class is set ASAP to avoid FOUC --}}
-    <script>
+    <script nonce="@cspNonce">
     (() => {
       const root = document.documentElement;
       const saved = localStorage.getItem('theme');
@@ -29,10 +29,12 @@
     {{-- Osano CMP (Cookie Consent Manager) --}}
     <script id="osano-cmp"
             src="https://cmp.osano.com/68c885bf-d384-489c-a092-2092f351097c/osano.js"
-            async></script>
+            async 
+            nonce="@cspNonce"></script>
 
     {{-- reCAPTCHA --}}
     <script
+        nonce="@cspNonce"
         src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"
         async defer>
     </script>

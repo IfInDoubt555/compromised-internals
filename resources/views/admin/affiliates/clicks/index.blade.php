@@ -82,8 +82,8 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" nonce="@cspNonce"></script>
+<script nonce="@cspNonce">
 document.addEventListener('DOMContentLoaded', () => {
   // Fetch daily clicks
   fetch("{{ route('admin.affiliates.clicks.chart') }}")

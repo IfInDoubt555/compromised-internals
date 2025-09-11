@@ -88,7 +88,7 @@
 @endif
 
 {{-- Alpine helper --}}
-<script>
+<script nonce="@cspNonce">
   function carousel({ interval = 6, count = 1 }) {
     return {
       index: 1,                 // start at first real slide (after the cloned last)

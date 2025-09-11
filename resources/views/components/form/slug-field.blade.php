@@ -74,7 +74,7 @@
 </div>
 
 @pushOnce('scripts')
-<script>
+<script nonce="@cspNonce">
   function tagBox({ initial = [], mode = 'auto' } = {}) {
     return {
       tags: Array.isArray(initial) ? initial.map(sanitize) :

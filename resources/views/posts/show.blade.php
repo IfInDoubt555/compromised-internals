@@ -61,7 +61,7 @@
     <meta name="twitter:description" content="{{ $seo['description'] }}">
     <meta name="twitter:image" content="{{ $seo['image'] }}">
 
-    <script type="application/ld+json">
+    <script nonce="@cspNonce" type="application/ld+json">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 @endpush

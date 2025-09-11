@@ -76,7 +76,7 @@
                            dark:bg-stone-800 dark:border-white/10 dark:text-stone-200"
                 />
 
-                <script>
+                <script nonce="@cspNonce">
                     function previewAvatar(e) {
                         const [file] = e.target.files;
                         if (!file) return;

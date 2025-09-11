@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script>
+  <script nonce="@cspNonce">
   (() => {
     const r = document.documentElement;
     const saved = localStorage.getItem('theme');
@@ -133,7 +133,7 @@
     </main>
   </div>
 
-  <script>
+  <script nonce="@cspNonce">
     // Theme toggle
     (function () {
       const btn = document.getElementById('theme-toggle');
@@ -154,7 +154,7 @@
     })();
   </script>
 
-  <script>
+  <script nonce="@cspNonce">
   (() => {
     const openBtn = document.getElementById('admin-sidebar-open');
     const closeBtn = document.getElementById('admin-sidebar-close');

@@ -64,12 +64,12 @@
     <meta name="twitter:image" content="{{ $seo['image'] }}">
 
     {{-- Structured Data --}}
-    <script type="application/ld+json">
+    <script type="application/ld+json" nonce="@cspNonce">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 
     {{-- Provide URL templates to app.js so it can swap year & champ --}}
-    <script>
+    <script nonce="@cspNonce">
       document.addEventListener('DOMContentLoaded', function () {
         // IMPORTANT: use url('/...') so {year} stays literal (route() would encode it)
         document.body.dataset.feedTpl     = "{{ url('/calendar/feed/{year}.ics') }}";

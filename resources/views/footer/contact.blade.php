@@ -2,6 +2,7 @@
 
 @push('head')
     <script
+        nonce="@cspNonce"
         src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"
         async defer>
     </script>
@@ -118,7 +119,7 @@
 @endsection
 
 @push('scripts')
-<script>
+<script nonce="@cspNonce">
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('contact-form');
   const tokenInput = document.getElementById('recaptcha_token');

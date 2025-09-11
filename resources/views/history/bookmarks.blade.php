@@ -49,7 +49,8 @@
     <meta name="twitter:image" content="{{ $seo['image'] }}">
 
     {{-- Structured Data --}}
-    <script type="application/ld+json">
+    <script type="application/ld+json"
+            nonce="@cspNonce">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 @endpush
@@ -234,7 +235,7 @@
 @endpush
 
 @push('scripts')
-<script>
+<script nonce="@cspNonce">
 function historyDrawerOnly(tab, decade, year) {
   const KEY = 'historyDrawerHintSeen:v1';
   return {
