@@ -7,6 +7,7 @@ import intersect from '@alpinejs/intersect'
 import focus from '@alpinejs/focus'
 
 import './lightbox'
+import './carousel'
 
 window.Alpine = Alpine
 Alpine.plugin(intersect)
