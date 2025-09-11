@@ -4,7 +4,7 @@
     <meta name="robots" content="noindex, nofollow">
     {{-- Preload the logo for a snappy paint --}}
     <link rel="preload" as="image" href="{{ asset('images/compromised_internals_ci_logo_plain_cracked.png') }}">
-  @endpush>
+  @endpush
 
   <div class="min-h-screen w-full grid place-items-center py-10
               bg-gradient-to-br from-stone-50 to-stone-200
