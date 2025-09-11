@@ -3,6 +3,9 @@
 use Spatie\Csp\Directive;
 use Spatie\Csp\Nonce\RandomString;
 
+$allowUnsafeEval = env('CSP_ALLOW_UNSAFE_EVAL', false); // TEMP switch while migrating to @alpinejs/csp
+$osano = ' https://cmp.osano.com';
+
 return [
     'enabled' => env('CSP_ENABLED', true),
     'enabled_while_hot_reloading' => env('CSP_ENABLED_WHILE_HOT_RELOADING', false),
@@ -13,30 +16,37 @@ return [
     'report_uri' => env('CSP_REPORT_URI', ''),
 
     'presets' => [
-        // \Spatie\Csp\Presets\Basic::class, // keep minimal; add later if needed
+        // Keep empty; we define an explicit policy below.
     ],
 
     'directives' => [
+        // Baseline
         [Directive::DEFAULT, "'self'"],
         [Directive::BASE, "'self'"],
         [Directive::FRAME_ANCESTORS, "'self'"],
         [Directive::FORM_ACTION, "'self'"],
         [Directive::OBJECT, "'none'"],
 
-        // scripts you actually use
-        [Directive::SCRIPT, "'self' https://cmp.osano.com"],
+        // Scripts (nonces are added automatically when nonce_enabled=true)
+        // Toggle 'unsafe-eval' temporarily via .env while you switch to @alpinejs/csp
+        [Directive::SCRIPT, "'self'".($allowUnsafeEval ? " 'unsafe-eval'" : '').$osano],
 
-        // styles/fonts for Google Fonts
-        [Directive::STYLE, "'self' https://fonts.googleapis.com"],
-        [Directive::FONT, "'self' data: https://fonts.gstatic.com"],
+        // Styles (Tailwind/FullCalendar need inline styles for transitions)
+        [Directive::STYLE, "'self' 'unsafe-inline'"],
 
-        // images
-        [Directive::IMG, "'self' https: data: blob:"],
+        // Fonts — served locally via Vite/@fontsource; allow data: as a safe fallback
+        [Directive::FONT, "'self' data:"],
 
-        // network
-        [Directive::CONNECT, "'self'"],
+        // Images
+        [Directive::IMG, "'self' data: blob: https:"],
 
-        // optional if you serve a manifest
+        // XHR / fetch
+        [Directive::CONNECT, "'self'".$osano],
+
+        // Frames (Osano CMP)
+        [Directive::FRAME, trim($osano)],
+
+        // Web app manifest (if any)
         [Directive::MANIFEST, "'self'"],
     ],
 
