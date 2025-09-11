@@ -1,6 +1,30 @@
 {
+  "node_modules/@fontsource/orbitron/files/orbitron-latin-400-normal.woff": {
+    "file": "assets/orbitron-latin-400-normal-DBk4Dmer.woff",
+    "src": "node_modules/@fontsource/orbitron/files/orbitron-latin-400-normal.woff"
+  },
+  "node_modules/@fontsource/orbitron/files/orbitron-latin-400-normal.woff2": {
+    "file": "assets/orbitron-latin-400-normal-U6xZUhur.woff2",
+    "src": "node_modules/@fontsource/orbitron/files/orbitron-latin-400-normal.woff2"
+  },
+  "node_modules/@fontsource/orbitron/files/orbitron-latin-600-normal.woff": {
+    "file": "assets/orbitron-latin-600-normal-75H6acHo.woff",
+    "src": "node_modules/@fontsource/orbitron/files/orbitron-latin-600-normal.woff"
+  },
+  "node_modules/@fontsource/orbitron/files/orbitron-latin-600-normal.woff2": {
+    "file": "assets/orbitron-latin-600-normal-mazHmDYu.woff2",
+    "src": "node_modules/@fontsource/orbitron/files/orbitron-latin-600-normal.woff2"
+  },
+  "node_modules/@fontsource/orbitron/files/orbitron-latin-700-normal.woff": {
+    "file": "assets/orbitron-latin-700-normal-DmYOh-W9.woff",
+    "src": "node_modules/@fontsource/orbitron/files/orbitron-latin-700-normal.woff"
+  },
+  "node_modules/@fontsource/orbitron/files/orbitron-latin-700-normal.woff2": {
+    "file": "assets/orbitron-latin-700-normal-4jsRXGGJ.woff2",
+    "src": "node_modules/@fontsource/orbitron/files/orbitron-latin-700-normal.woff2"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-G-1L4__l.css",
+    "file": "assets/app-PuSBlg_3.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -10,18 +34,38 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DZGliOsy.js",
+    "file": "assets/app-Bl1d7puG.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/scrollControls.js",
+      "resources/js/calendar.js",
+      "resources/js/stages.js"
+    ]
+  },
+  "resources/js/calendar.js": {
+    "file": "assets/calendar-BY6UaxK6.js",
+    "name": "calendar",
+    "src": "resources/js/calendar.js",
+    "isDynamicEntry": true
   },
   "resources/js/history.js": {
-    "file": "assets/history-CLCX0AbS.js",
+    "file": "assets/history-DcX-mAUD.js",
     "name": "history",
     "src": "resources/js/history.js",
-    "isEntry": true,
-    "css": [
-      "assets/history-CGyQCxiP.css"
-    ]
+    "isEntry": true
+  },
+  "resources/js/scrollControls.js": {
+    "file": "assets/scrollControls-BX-Wy8Ol.js",
+    "name": "scrollControls",
+    "src": "resources/js/scrollControls.js",
+    "isDynamicEntry": true
+  },
+  "resources/js/stages.js": {
+    "file": "assets/stages-Cfd722tT.js",
+    "name": "stages",
+    "src": "resources/js/stages.js",
+    "isDynamicEntry": true
   }
 }

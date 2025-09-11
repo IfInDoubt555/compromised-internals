@@ -16,7 +16,7 @@
         "brace-expansion": "2.0.2"
     },
     "devDependencies": {
-        "@alpinejs/intersect": "^3.14.9",
+        "@alpinejs/intersect": "3.15.0",
         "@fullcalendar/core": "^6.1.19",
         "@fullcalendar/daygrid": "^6.1.19",
         "@fullcalendar/interaction": "^6.1.19",
@@ -33,9 +33,10 @@
         "vite": "^6.3.6"
     },
     "dependencies": {
-        "@alpinejs/focus": "3.14",
+        "@alpinejs/csp": "3.15.0",
+        "@alpinejs/focus": "3.15.0",
         "@fontsource/orbitron": "^5.2.7",
-        "alpinejs": "^3.14.9",
+        "alpinejs": "3.15.0",
         "embla-carousel": "^8.6.0",
         "form-data": "^4.0.4",
         "nouislider": "^15.8.1"
