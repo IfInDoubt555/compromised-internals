@@ -145,7 +145,7 @@
     @endisset
 
     {{-- Row 2: Page content (offset for sticky nav via --nav-h) --}}
-    <main id="app-main" class="pt-[calc(var(--nav-h,64px)+8px)]">
+    <main id="app-main" class="pt-[calc(var(--nav-h,64px)+8px)] min-w-0">
       @if (session('success'))
         <div
           x-data="{ show: true }"
