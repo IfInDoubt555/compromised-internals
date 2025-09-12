@@ -166,30 +166,51 @@
           <div class="space-y-6">
             @if($event)
               <article class="ci-card p-3 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">...</h3>
-                <p class="mt-2 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">...</p>
+                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">
+                  {{ $event['title'] ?? 'Untitled Event' }}
+                </h3>
+                <p class="mt-2 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">
+                  {{ $event['bio'] ?? '' }}
+                </p>
                 <div class="mt-2 sm:mt-4 text-center">
-                  <a class="inline-flex items-center text-[12px] sm:text-sm font-semibold ...">Read more</a>
+                  <a href="{{ route('history.show', ['tab'=>'events','decade'=>$event['decade'],'id'=>$event['id']]) }}"
+                     class="inline-flex items-center text-[12px] sm:text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
+                    Read more
+                  </a>
                 </div>
               </article>
             @endif
-        
+
             @if($car)
               <article class="ci-card p-3 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">...</h3>
-                <p class="mt-2 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">...</p>
+                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">
+                  {{ $car['name'] ?? 'Unnamed Car' }}
+                </h3>
+                <p class="mt-2 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">
+                  {{ $car['bio'] ?? '' }}
+                </p>
                 <div class="mt-2 sm:mt-4 text-center">
-                  <a class="inline-flex items-center text-[12px] sm:text-sm font-semibold ...">Read more</a>
+                  <a href="{{ route('history.show', ['tab'=>'cars','decade'=>$car['decade'],'id'=>$car['id']]) }}"
+                     class="inline-flex items-center text-[12px] sm:text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
+                    Read more
+                  </a>
                 </div>
               </article>
             @endif
-        
+
             @if($driver)
               <article class="ci-card p-3 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">...</h3>
-                <p class="mt-2 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">...</p>
+                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">
+                  {{ $driver['name'] ?? 'Unnamed Driver' }}
+                </h3>
+                <p class="mt-2 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">
+                  {{ $driver['bio'] ?? '' }}
+                </p>
                 <div class="mt-2 sm:mt-4 text-center">
-                  <a class="inline-flex items-center text-[12px] sm:text-sm font-semibold ...">Read more</a>
+                  <a href="{{ route('history.show', ['tab'=>'drivers','decade'=>$driver['decade'],'id'=>$driver ['id']]) }}"
+                     class="inline-flex items-center text-[12px] sm:text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
+                    Read more
+                  </a>
                 </div>
               </article>
             @endif
