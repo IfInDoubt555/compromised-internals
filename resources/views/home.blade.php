@@ -62,13 +62,13 @@
 
 @section('content')
 <div
-  class="min-h-screen antialiased text-stone-900 dark:text-stone-200
+  class="min-h-screen antialiased overflow-x-clip text-stone-900 dark:text-stone-200
          bg-gradient-to-b from-stone-400 to-stone-500
          dark:from-stone-950 dark:to-stone-900
          selection:bg-rose-500/30">
 
   {{-- ===== HERO + HISTORY/NEXT (scoped banner behind) ===== --}}
-  <section id="home-hero" class="relative isolate">
+  <section id="home-hero" class="relative isolate min-h-svh">
 
     {{-- BACKGROUND (Light) --}}
     @push('preload')
@@ -116,7 +116,7 @@
             media="(prefers-color-scheme: dark)">
     @endpush
 
-    <picture class="fixed inset-0 -z-10 hidden dark:block" aria-hidden="true">
+    <picture class="absolute inset-0 -z-10 hidden dark:block pointer-events-none" aria-hidden="true">
       {{-- Desktop (>=1024px) --}}
       <source media="(min-width: 1024px)" type="image/avif"
               srcset="
@@ -157,7 +157,7 @@
     </picture>
 
     {{-- Contrast overlay --}}
-    <div class="fixed inset-0 -z-10 bg-gradient-to-b from-black/0 via-black/0 to-black/20
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-black/0 via-black/0 to-black/20
                 dark:from-black/20 dark:via-black/30 dark:to-black/50"></div>
 
     {{-- CONTENT (centered container) --}}

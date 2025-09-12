@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="color-scheme" content="light dark" id="meta-color-scheme">
 
@@ -100,7 +100,7 @@
 </head>
 
 <body
-  class="antialiased text-stone-900 dark:text-stone-200
+  class="antialiased overflow-x-clip text-stone-900 dark:text-stone-200
          bg-gradient-to-b from-stone-400 to-stone-500 dark:from-stone-950 dark:to-stone-900
          selection:bg-rose-500/30"
   data-events-endpoint="{{ url('/api/events') }}"
@@ -120,10 +120,20 @@
 
   {{-- GRID LAYOUT: header(nav) | content | footer --}}
   <div id="theme-wrapper"
-       class="min-h-screen supports-[min-height:100svh]:min-h-svh
+       class="min-h-screen supports-[min-height:100svh]:min-h-svh overflow-x-clip
               grid grid-rows-[auto_auto_1fr_auto]">
     {{-- Row 1: Sticky nav (your component handles position:sticky/fixed) --}}
     @include('layouts.navigation')
+    <script nonce="@cspNonce">
+      // If --nav-h isn’t set by the nav, set it based on rendered height.
+      (function () {
+        const root = document.documentElement;
+        if (!getComputedStyle(root).getPropertyValue('--nav-h')) {
+          const nav = document.querySelector('nav');
+          if (nav) root.style.setProperty('--nav-h', nav.getBoundingClientRect().height + 'px');
+        }
+      })();
+    </script>
 
     {{-- Optional page header (under the nav) --}}
     @isset($header)
