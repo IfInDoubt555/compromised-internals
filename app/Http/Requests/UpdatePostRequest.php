@@ -11,7 +11,9 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Authorize against the bound Post model (route-model-binding: {post})
+        $post = $this->route('post');
+        return (bool) $this->user()?->can('update', $post);
     }
 
     /**
@@ -22,7 +24,11 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title'        => 'sometimes|string|max:255',
+            'body'         => 'sometimes|string',
+            // if you’re updating the main image:
+            'image'        => 'sometimes|file|image|max:5120', // 5MB
+            'is_main'      => 'sometimes|boolean',
         ];
     }
 }

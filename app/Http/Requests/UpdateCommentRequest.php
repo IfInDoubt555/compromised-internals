@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Comment;
 
 class UpdateCommentRequest extends FormRequest
 {
@@ -11,7 +12,9 @@ class UpdateCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        /** @var \App\Models\Comment|null $comment */
+        $comment = $this->route('comment');
+        return $this->user()?->can('update', $comment);
     }
 
     /**
@@ -22,7 +25,7 @@ class UpdateCommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'body' => ['required', 'string', 'max:2000'],
         ];
     }
 }
