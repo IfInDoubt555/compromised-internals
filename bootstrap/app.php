@@ -19,9 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withMiddleware(function (Middleware $middleware) {
+        if (!app()->isLocal()) {
         // Do NOT redefine 'web'/'api' groups and aliases here since Kernel owns them.
         // If you want CSP globally, append it here (or keep it in Kernel/global).
-        $middleware->append(AddCspHeaders::class);
+            $middleware->append(AddCspHeaders::class);
+        }
     })
     ->withCommands([
         PruneSessions::class,
