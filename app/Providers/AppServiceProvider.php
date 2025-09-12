@@ -25,13 +25,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // (CSP is handled by Spatie\Csp\AddCspHeaders in bootstrap/app.php)
-
         Blade::component('components.guest-layout', 'guest-layout');
 
-        if (app()->environment('local')) {
-            URL::forceRootUrl(request()->getSchemeAndHttpHost());
-        } else {
-            // Behind Cloudflare/HTTPS: keep signed URLs valid by locking scheme
+        /**
+         * Ensure URL generator uses the correct host in BOTH web + CLI.
+         * Critical for jobs/commands (e.g., sitemap) where no Request exists.
+         */
+        $root = rtrim((string) config('app.url'), '/');
+        if ($root !== '') {
+            URL::forceRootUrl($root);
+        }
+        // Behind Cloudflare/HTTPS: lock scheme only in production.
+        if (app()->isProduction()) {
             URL::forceScheme('https');
         }
 
