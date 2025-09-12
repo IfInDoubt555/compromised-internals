@@ -70,8 +70,13 @@
   :class="{ 'drawer-open': drawerOpen }"
   x-init="init()"
 >
-  {{-- Mobile header --}}
-  <div class="block md:hidden flex items-center justify-center px-4 py-8">
+ {{-- Alpine root for history page --}}
+ <div
+   x-data="historyDrawerOnly('{{ $tab }}','{{ $decade }}', {{ $year ? (int)$year : 'null' }})"
+   x-init="init()"
+ >
+   {{-- Mobile header --}}
+   <div class="block md:hidden flex items-center justify-center px-4 py-8">
     <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-center">
       Rally History Archive
     </h1>
