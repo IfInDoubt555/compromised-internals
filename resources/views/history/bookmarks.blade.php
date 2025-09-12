@@ -49,11 +49,11 @@
     <meta name="twitter:image" content="{{ $seo['image'] }}">
 
     {{-- Structured Data --}}
-    <script type="application/ld+json"
-            nonce="@cspNonce">
+    <script type="application/ld+json" nonce="@cspNonce">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 @endpush
+
 @push('main-classes')
   !flex-none   {{-- stop <main> from growing on history pages --}}
 @endpush
@@ -66,17 +66,12 @@
   class="history-body overflow-x-hidden decade-{{ $themeDecade }} pt-16 lg:pt-24"
   data-decade="{{ $themeDecade }}"
   data-tab="{{ $tab }}"
-  x-data="historyDrawerOnly('{{ $tab }}', '{{ $decade }}', '{{ $year ?? '' }}')"
+  x-data="historyDrawerOnly('{{ $tab }}','{{ $decade }}', {{ $year ? (int)$year : 'null' }})"
   :class="{ 'drawer-open': drawerOpen }"
   x-init="init()"
 >
- {{-- Alpine root for history page --}}
- <div
-   x-data="historyDrawerOnly('{{ $tab }}','{{ $decade }}', {{ $year ? (int)$year : 'null' }})"
-   x-init="init()"
- >
-   {{-- Mobile header --}}
-   <div class="block md:hidden flex items-center justify-center px-4 py-8">
+  {{-- Mobile header --}}
+  <div class="block md:hidden flex items-center justify-center px-4 py-8">
     <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-center">
       Rally History Archive
     </h1>
@@ -87,7 +82,7 @@
     <button
       type="button"
       class="history-pull-tab"
-      @click="drawerOpen = true; markHintSeen()"
+      @click="openDrawer"
       aria-label="Open browse drawer"
     >▎</button>
 
@@ -107,14 +102,14 @@
   <div class="md:hidden fixed inset-0 z-50"
        x-show="drawerOpen"
        x-transition.opacity
-       @click.self="drawerOpen = false">
+       @click.self="closeDrawer">
     <div class="history-drawer"
          x-show="drawerOpen"
          x-transition
-         @keydown.escape.window="drawerOpen=false">
+         @keydown.escape.window="closeDrawer">
       <div class="flex items-center justify-between mb-3">
         <h3 class="font-semibold">Browse</h3>
-        <button class="text-sm underline" @click="drawerOpen=false">Close</button>
+        <button class="text-sm underline" @click="closeDrawer">Close</button>
       </div>
 
       {{-- Tabs --}}
@@ -122,7 +117,7 @@
         @foreach(['events' => 'Events', 'cars' => 'Cars', 'drivers' => 'Drivers'] as $key => $label)
           <a href="{{ route('history.index', ['decade'=>$decade, 'tab'=>$key]) }}"
              class="history-chip px-3 py-1 rounded-full text-sm {{ $tab === $key ? 'ring-1 ring-black/10' : 'hover:bg-white/80' }}"
-             @click="drawerOpen=false">
+             @click="closeDrawer">
             {{ $label }}
           </a>
         @endforeach
@@ -139,7 +134,7 @@
           <li>
             <a href="{{ route('history.index', $params) }}"
                class="history-chip block text-center px-2 py-1 rounded {{ $d===$decade ? 'ring-1 ring-black/20' : '' }}"
-               @click="drawerOpen=false">
+               @click="closeDrawer">
               {{ $d }}
             </a>
           </li>
@@ -153,7 +148,7 @@
           @foreach($years as $y)
             <a href="{{ route('history.index', ['decade'=>$decade, 'tab'=>'events', 'year'=>$y]) }}"
                class="history-chip px-2 py-1 rounded text-sm {{ (string)$y === (string)($year ?? '') ? 'ring-1 ring-black/20' : '' }}"
-               @click="drawerOpen=false">
+               @click="closeDrawer">
               {{ $y }}
             </a>
           @endforeach
@@ -176,8 +171,8 @@
   </header>
 
   {{-- DESKTOP grid --}}
-  <div class="w-full max-w-screen-2xl mx-auto px-4 md:px-6 lg:px-8
-              grid md:grid-cols-[200px_minmax(0,1fr)] gap-6">    {{-- Decade rail --}}
+  <div class="w-full max-w-screen-2xl mx-auto px-4 md:px-6 lg:px-8 grid md:grid-cols-[200px_minmax(0,1fr)] gap-6">
+    {{-- Decade rail --}}
     <nav class="hidden md:block">
       <ul class="flex md:flex-col gap-2">
         @foreach($decades as $d)
@@ -261,7 +256,15 @@ function historyDrawerOnly(tab, decade, year) {
       if (this.hintTimer) clearTimeout(this.hintTimer);
       this.showHint = false;
       try { localStorage.setItem(KEY, '1'); } catch (_) {}
-    }
+    },
+    // CSP-safe handlers (referenced by name from directives)
+    openDrawer() {
+      this.drawerOpen = true;
+      this.markHintSeen();
+    },
+    closeDrawer() {
+      this.drawerOpen = false;
+    },
   }
 }
 </script>
@@ -270,3 +273,4 @@ function historyDrawerOnly(tab, decade, year) {
 @push('scripts')
   @vite('resources/js/history.js')
 @endpush
+@endsection
