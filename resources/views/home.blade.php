@@ -110,10 +110,7 @@
 @section('content')
 <div
   class="min-h-screen antialiased overflow-x-clip text-stone-900 dark:text-stone-200
-         bg-gradient-to-b from-stone-400 to-stone-500
-         dark:from-stone-950 dark:to-stone-900
-         selection:bg-rose-500/30">
-
+         selection:bg-rose-500/30 bg-transparent">
   {{-- ===== HERO + HISTORY/NEXT (scoped banner behind) ===== --}}
   <section id="home-hero" class="relative isolate">
 
