@@ -231,7 +231,7 @@
 
 @push('after-body')
   {{-- Lazy-load scroll controls only on history pages --}}
-  <x-scroll-controls />
+  <x-scroll-controls :bottom-offset="0" />
 @endpush
 
 @push('scripts')
