@@ -9,7 +9,6 @@
         'favicon'     => asset('favicon.png'),
     ];
 
-    // JSON-LD WebSite with site search
     $ld = [
         '@context' => 'https://schema.org',
         '@type'    => 'WebSite',
@@ -24,18 +23,13 @@
 @endphp
 
 @push('head')
-    {{-- Favicon --}}
     <link rel="icon" href="{{ $seo['favicon'] }}" type="image/png" />
-
-    {{-- Canonical + robots --}}
     <link rel="canonical" href="{{ $seo['url'] }}">
     <meta name="robots" content="index,follow">
 
-    {{-- Basic Meta --}}
     <title>{{ $seo['title'] }}</title>
     <meta name="description" content="{{ $seo['description'] }}">
 
-    {{-- Open Graph --}}
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Compromised Internals">
     <meta property="og:locale" content="en_US">
@@ -44,59 +38,51 @@
     <meta property="og:description" content="{{ $seo['description'] }}">
     <meta property="og:image" content="{{ $seo['image'] }}">
 
-    {{-- Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ $seo['url'] }}">
     <meta name="twitter:title" content="{{ $seo['title'] }}">
     <meta name="twitter:description" content="{{ $seo['description'] }}">
     <meta name="twitter:image" content="{{ $seo['image'] }}">
 
-    {{-- Structured Data --}}
     <script type="application/ld+json" nonce="@cspNonce">
       @json($ld, JSON_UNESCAPED_UNICODE|JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT)
     </script>
 @endpush
 
 @push('after-body')
-  {{-- Fixed, page-level background (light/dark) --}}
+  {{-- Fixed background (light/dark) --}}
   <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
     {{-- Light --}}
     <picture class="absolute inset-0 block dark:hidden" aria-hidden="true">
-      <source media="(min-width: 1024px)" type="image/avif"
+      <source media="(min-width:1024px)" type="image/avif"
               srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }} 1920w,
                       {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-2560.avif') }} 2560w,
                       {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-3840.avif') }} 3840w"
               sizes="100vw">
-      <source media="(max-width: 1023px)" type="image/avif"
+      <source media="(max-width:1023px)" type="image/avif"
               srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-mobile-720.avif') }} 720w,
                       {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-1080.avif') }} 1080w,
                       {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-2160.avif') }} 2160w"
               sizes="100vw">
-      <img
-        src="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }}"
-        alt=""
-        class="w-full h-full object-cover will-change-transform"
-        loading="eager" fetchpriority="high" decoding="async">
+      <img src="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }}"
+           alt="" class="w-full h-full object-cover will-change-transform" loading="eager" fetchpriority="high" decoding="async">
     </picture>
 
     {{-- Dark --}}
     <picture class="absolute inset-0 hidden dark:block" aria-hidden="true">
-      <source media="(min-width: 1024px)" type="image/avif"
+      <source media="(min-width:1024px)" type="image/avif"
               srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.avif') }} 1280w,
                       {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }} 1920w,
                       {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.avif') }} 2560w,
                       {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.avif') }} 3840w"
               sizes="100vw">
-      <source media="(max-width: 1023px)" type="image/avif"
+      <source media="(max-width:1023px)" type="image/avif"
               srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-400.avif') }} 400w,
                       {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.avif') }} 720w,
                       {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.avif') }} 1080w"
               sizes="100vw">
-      <img
-        src="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-master.png') }}"
-        alt=""
-        class="w-full h-full object-cover will-change-transform"
-        loading="eager" fetchpriority="high" decoding="async">
+      <img src="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-master.png') }}"
+           alt="" class="w-full h-full object-cover will-change-transform" loading="eager" fetchpriority="high" decoding="async">
     </picture>
 
     {{-- Contrast wash --}}
@@ -106,30 +92,27 @@
 @endpush
 
 @section('content')
-<div
-  class="min-h-screen antialiased overflow-x-clip text-stone-900 dark:text-stone-200 selection:bg-rose-500/30 bg-transparent">
+<div class="min-h-screen antialiased overflow-x-clip text-stone-900 dark:text-stone-200 selection:bg-rose-500/30 bg-transparent">
 
   {{-- ===== HERO + HISTORY/NEXT ===== --}}
   <section id="home-hero" class="relative isolate">
-
-    {{-- CONTENT (centered container) --}}
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 min-w-0">
 
-      {{-- HERO CARD (mobile-tighter scale) --}}
-      <section class="pt-3 sm:pt-8">
-        <div class="ci-card px-3 sm:px-6 py-2.5 sm:py-6 shadow-md sm:shadow-xl">
-          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-2.5 sm:gap-6">
+      {{-- HERO CARD (roomier on mobile) --}}
+      <section class="pt-4 sm:pt-8">
+        <div class="ci-card px-4 sm:px-6 py-4 sm:py-6 shadow-md sm:shadow-xl">
+          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
             <div>
-              <h1 class="font-orbitron text-lg sm:text-3xl font-bold tracking-tight leading-tight">
+              <h1 class="font-orbitron text-xl sm:text-3xl font-bold tracking-tight leading-snug sm:leading-tight">
                 Compromised Internals
               </h1>
-              <p class="mt-1 sm:mt-2 text-[13px] sm:text-base leading-snug ci-muted">
+              <p class="mt-2 text-sm sm:text-base leading-normal ci-muted">
                 News, history, schedules, and deep-dive profiles for rally fans.
               </p>
             </div>
-            <div class="flex items-center gap-2 sm:gap-3">
+            <div class="flex items-center gap-3">
               <a href="{{ route('contact') }}"
-                 class="inline-flex items-center rounded-md sm:rounded-lg bg-amber-400/90 text-stone-900 px-3 py-1.5 text-[12px] sm:text-sm font-semibold hover:bg-amber-400 transition">
+                 class="inline-flex items-center rounded-md sm:rounded-lg bg-amber-400/90 text-stone-900 px-3 py-2 text-sm font-semibold hover:bg-amber-400 transition">
                 Leave feedback
               </a>
             </div>
@@ -138,42 +121,40 @@
       </section>
 
       {{-- HISTORY + NEXT RALLIES --}}
-      <section class="mt-6 sm:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-6">
-        {{-- LEFT: History features --}}
-        <div class="relative lg:col-span-2">
-          {{-- Light-only soft fade behind the heading (scoped to left col) --}}
+      <section class="mt-7 sm:mt-10 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-6">
+        {{-- LEFT --}}
+        <div class="relative">
           <div aria-hidden="true"
-               class="pointer-events-none absolute inset-x-0 -top-2 h-12
-                      rounded-t-2xl bg-gradient-to-b from-white/85 via-white/50 to-transparent
-                      dark:from-transparent"></div>
+               class="pointer-events-none absolute inset-x-0 -top-2 h-12 rounded-t-2xl
+                      bg-gradient-to-b from-white/85 via-white/50 to-transparent dark:from-transparent"></div>
 
-          <header class="mb-2 sm:mb-4">
-            <h2 class="text-center font-orbitron tracking-wide text-[15px] sm:text-2xl lg:text-3xl font-semibold">
-              <span class="rounded-xl px-3 py-0.5 bg-white/80 ring-1 ring-black/5 backdrop-blur-md text-stone-900
+          <header class="mb-3 sm:mb-5">
+            <h2 class="text-center font-orbitron tracking-wide text-lg sm:text-2xl lg:text-3xl font-semibold">
+              <span class="rounded-xl px-3 py-1 bg-white/80 ring-1 ring-black/5 backdrop-blur-md text-stone-900
                            dark:bg-transparent dark:ring-0 dark:text-stone-100">
                 History Features
               </span>
             </h2>
             <p class="mt-1 text-center">
-              <span class="text-[11px] sm:text-sm rounded-full px-2.5 py-0.5 bg-white/70 ring-1 ring-black/5 backdrop-blur-md text-stone-700
+              <span class="text-xs sm:text-sm rounded-full px-3 py-1 bg-white/70 ring-1 ring-black/5 backdrop-blur-md text-stone-700
                            dark:bg-transparent dark:ring-0 dark:text-stone-400">
                 Iconic events, machines, and drivers that shaped rally
               </span>
             </p>
           </header>
 
-          <div class="space-y-6">
+          <div class="space-y-4 sm:space-y-6">
             @if($event)
-              <article class="ci-card p-3 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">
+              <article class="ci-card p-4 sm:p-6 shadow-md">
+                <h3 class="font-orbitron text-lg sm:text-xl md:text-2xl font-bold text-center leading-snug sm:leading-tight">
                   {{ $event['title'] ?? 'Untitled Event' }}
                 </h3>
-                <p class="mt-1.5 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">
+                <p class="mt-2 text-sm sm:text-base text-center text-stone-700 dark:text-stone-300 leading-normal">
                   {{ $event['bio'] ?? '' }}
                 </p>
-                <div class="mt-2 sm:mt-3 text-center">
-                  <a href="{{ route('history.show', ['tab' => 'events', 'decade' => $event['decade'], 'id' => $event['id']]) }}"
-                     class="inline-flex items-center text-xs sm:text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
+                <div class="mt-3 sm:mt-4 text-center">
+                  <a href="{{ route('history.show', ['tab'=>'events','decade'=>$event['decade'],'id'=>$event['id']]) }}"
+                     class="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
                     Read more
                   </a>
                 </div>
@@ -181,16 +162,16 @@
             @endif
 
             @if($car)
-              <article class="ci-card p-3 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">
+              <article class="ci-card p-4 sm:p-6 shadow-md">
+                <h3 class="font-orbitron text-lg sm:text-xl md:text-2xl font-bold text-center leading-snug sm:leading-tight">
                   {{ $car['name'] ?? 'Unnamed Car' }}
                 </h3>
-                <p class="mt-1.5 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">
+                <p class="mt-2 text-sm sm:text-base text-center text-stone-700 dark:text-stone-300 leading-normal">
                   {{ $car['bio'] ?? '' }}
                 </p>
-                <div class="mt-2 sm:mt-3 text-center">
-                  <a href="{{ route('history.show', ['tab' => 'cars', 'decade' => $car['decade'], 'id' => $car['id']]) }}"
-                     class="inline-flex items-center text-xs sm:text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
+                <div class="mt-3 sm:mt-4 text-center">
+                  <a href="{{ route('history.show', ['tab'=>'cars','decade'=>$car['decade'],'id'=>$car['id']]) }}"
+                     class="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
                     Read more
                   </a>
                 </div>
@@ -198,16 +179,16 @@
             @endif
 
             @if($driver)
-              <article class="ci-card p-3 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-base sm:text-xl md:text-2xl font-bold text-center leading-tight">
+              <article class="ci-card p-4 sm:p-6 shadow-md">
+                <h3 class="font-orbitron text-lg sm:text-xl md:text-2xl font-bold text-center leading-snug sm:leading-tight">
                   {{ $driver['name'] ?? 'Unnamed Driver' }}
                 </h3>
-                <p class="mt-1.5 text-[13px] sm:text-base text-center text-stone-700 dark:text-stone-300 leading-snug">
+                <p class="mt-2 text-sm sm:text-base text-center text-stone-700 dark:text-stone-300 leading-normal">
                   {{ $driver['bio'] ?? '' }}
                 </p>
-                <div class="mt-2 sm:mt-3 text-center">
-                  <a href="{{ route('history.show', ['tab' => 'drivers', 'decade' => $driver['decade'], 'id' => $driver['id']]) }}"
-                     class="inline-flex items-center text-xs sm:text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
+                <div class="mt-3 sm:mt-4 text-center">
+                  <a href="{{ route('history.show', ['tab'=>'drivers','decade'=>$driver['decade'],'id'=>$driver['id']]) }}"
+                     class="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
                     Read more
                   </a>
                 </div>
@@ -216,14 +197,14 @@
           </div>
         </div>
 
-        {{-- RIGHT: Next rallies --}}
-        <aside class="ci-card p-3 sm:p-5 shadow-md">
-          <h3 class="font-orbitron text-sm sm:text-lg font-bold">Next Rallies</h3>
-          <ul class="mt-1 sm:mt-3 divide-y divide-stone-200 dark:divide-stone-600">
+        {{-- RIGHT --}}
+        <aside class="ci-card p-4 sm:p-5 shadow-md">
+          <h3 class="font-orbitron text-base sm:text-lg font-bold">Next Rallies</h3>
+          <ul class="mt-2 sm:mt-3 divide-y divide-stone-200 dark:divide-stone-600">
             @forelse(($nextEvents ?? []) as $e)
-              <li class="py-2 sm:py-3">
-                <div class="text-[13px] sm:text-base font-semibold">{{ $e->title }}</div>
-                <div class="text-[12px] sm:text-sm text-stone-700 dark:text-stone-400">
+              <li class="py-3 sm:py-3.5">
+                <div class="text-sm sm:text-base font-semibold">{{ $e->title }}</div>
+                <div class="text-xs sm:text-sm text-stone-700 dark:text-stone-400">
                   <time datetime="{{ $e->start_date?->toDateString() }}">
                     {{ optional($e->start_date)->format('M j') }}@if($e->end_date) – {{ $e->end_date->format('M j') }} @endif
                   </time>
@@ -247,25 +228,19 @@
         </aside>
       </section>
 
-      {{-- Extend banner just a bit below the cards --}}
-      <div class="h-6 sm:h-8 md:h-10"></div>
+      <div class="h-8 sm:h-10"></div>
     </div>
   </section>
-  {{-- ===== /HERO + HISTORY/NEXT ===== --}}
 
-  {{-- Home: Latest From the Blog --}}
-  <section id="home-blog"
-           class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-8 mb-16 overflow-x-clip">
-
-    {{-- light-only soft fade so text doesn’t sit directly on the photo --}}
+  {{-- ===== BLOG ===== --}}
+  <section id="home-blog" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-8 mb-16 overflow-x-clip">
     <div aria-hidden="true"
          class="pointer-events-none absolute inset-x-4 sm:inset-x-6 lg:inset-x-8 -top-4 h-14
-                rounded-t-2xl bg-gradient-to-b from-white/85 via-white/50 to-transparent
-                dark:from-transparent"></div>
+                rounded-t-2xl bg-gradient-to-b from-white/85 via-white/50 to-transparent dark:from-transparent"></div>
 
     @if(($latestPosts ?? collect())->count())
-      <div class="relative mb-4 sm:mb-6 flex items-center justify-between gap-3">
-        <h2 class="text-[15px] sm:text-2xl lg:text-3xl font-semibold tracking-wide">
+      <div class="relative mb-5 sm:mb-6 flex items-center justify-between gap-3">
+        <h2 class="text-lg sm:text-2xl lg:text-3xl font-semibold tracking-wide">
           <span class="rounded-xl px-3 py-1 bg-white/80 ring-1 ring-black/5 backdrop-blur-md text-stone-900
                        dark:bg-transparent dark:ring-0 dark:text-stone-100">
             Latest from the Blog
@@ -289,7 +264,6 @@
         'interval' => 6,
       ])
 
-      {{-- Mobile “view all” link under the carousel --}}
       <div class="mt-4 sm:hidden">
         <a href="{{ route('blog.index') }}"
            class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium

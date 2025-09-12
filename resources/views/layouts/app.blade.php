@@ -1,278 +1,250 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@php
-    $seo = [
-        'title'       => 'Compromised Internals | Rally Racing News, History, Calendar & Travel Guides',
-        'description' => 'Your rally racing hub: history archive, event calendar, driver & car profiles, plus travel guides to help fans plan trips to WRC, ERC & ARA rallies worldwide.',
-        'url'         => url('/'),
-        'image'       => asset('images/ci-og.png'),
-        'favicon'     => asset('favicon.png'),
-    ];
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="color-scheme" content="light dark" id="meta-color-scheme">
 
-    $ld = [
-        '@context' => 'https://schema.org',
-        '@type'    => 'WebSite',
-        'url'      => $seo['url'],
-        'name'     => 'Compromised Internals',
-        'potentialAction' => [
-            '@type'       => 'SearchAction',
-            'target'      => url('/blog') . '?q={search_term_string}',
-            'query-input' => 'required name=search_term_string',
-        ],
-    ];
-@endphp
+  <title>{{ config('app.name', 'Laravel') }}</title>
 
-@push('head')
-    <link rel="icon" href="{{ $seo['favicon'] }}" type="image/png" />
-    <link rel="canonical" href="{{ $seo['url'] }}">
-    <meta name="robots" content="index,follow">
+  {{-- View-specific preloads (e.g., hero image) --}}
+  @stack('preload')
 
-    <title>{{ $seo['title'] }}</title>
-    <meta name="description" content="{{ $seo['description'] }}">
+  <!-- Consent / vendor - load at idle to avoid blocking FCP/LCP -->
+  {{-- NOTE: allow this domain in CSP (SCRIPT) if you keep it:
+       https://cmp.osano.com --}}
+  <script nonce="@cspNonce">
+    (function loadOsanoWhenIdle() {
+      var boot = function () {
+        var s = document.createElement('script');
+        s.src = 'https://cmp.osano.com/QSYKFTgmsG/68c885bf-d384-489c-a092-2092f351097c/osano.js';
+        s.defer = true;
+        document.head.appendChild(s);
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(boot, { timeout: 2000 });
+      } else {
+        window.addEventListener('load', function () { setTimeout(boot, 0); }, { once: true });
+      }
+    })();
+  </script>
 
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Compromised Internals">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:url" content="{{ $seo['url'] }}">
-    <meta property="og:title" content="{{ $seo['title'] }}">
-    <meta property="og:description" content="{{ $seo['description'] }}">
-    <meta property="og:image" content="{{ $seo['image'] }}">
+  <!-- Set theme BEFORE CSS paints to avoid FOUC -->
+  <script nonce="@cspNonce">
+    (() => {
+      const STORAGE_KEY = 'ci-theme';  // 'light' | 'dark' | 'system'
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{{ $seo['url'] }}">
-    <meta name="twitter:title" content="{{ $seo['title'] }}">
-    <meta name="twitter:description" content="{{ $seo['description'] }}">
-    <meta name="twitter:image" content="{{ $seo['image'] }}">
+      const getStored = () => {
+        try { return localStorage.getItem(STORAGE_KEY); } catch { return null; }
+      };
 
-    <script type="application/ld+json" nonce="@cspNonce">
-      @json($ld, JSON_UNESCAPED_UNICODE|JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT)
-    </script>
-@endpush
+      const setMeta = (isDark) => {
+        const el = document.getElementById('meta-color-scheme');
+        if (el) el.content = isDark ? 'dark light' : 'light dark';
+      };
 
-@push('after-body')
-  {{-- Fixed background (light/dark) --}}
-  <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
-    {{-- Light --}}
-    <picture class="absolute inset-0 block dark:hidden" aria-hidden="true">
-      <source media="(min-width:1024px)" type="image/avif"
-              srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }} 1920w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-2560.avif') }} 2560w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-3840.avif') }} 3840w"
-              sizes="100vw">
-      <source media="(max-width:1023px)" type="image/avif"
-              srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-mobile-720.avif') }} 720w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-1080.avif') }} 1080w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-2160.avif') }} 2160w"
-              sizes="100vw">
-      <img src="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }}"
-           alt="" class="w-full h-full object-cover will-change-transform" loading="eager" fetchpriority="high" decoding="async">
-    </picture>
+      const apply = (mode, { notify = false } = {}) => {
+        const isDark = mode === 'dark' || (mode !== 'light' && mql.matches);
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        setMeta(isDark);
+        if (notify) {
+          document.dispatchEvent(new CustomEvent('ci-theme:changed', { detail: { mode, dark: isDark } }));
+        }
+      };
 
-    {{-- Dark --}}
-    <picture class="absolute inset-0 hidden dark:block" aria-hidden="true">
-      <source media="(min-width:1024px)" type="image/avif"
-              srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.avif') }} 1280w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }} 1920w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.avif') }} 2560w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.avif') }} 3840w"
-              sizes="100vw">
-      <source media="(max-width:1023px)" type="image/avif"
-              srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-400.avif') }} 400w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.avif') }} 720w,
-                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.avif') }} 1080w"
-              sizes="100vw">
-      <img src="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-master.png') }}"
-           alt="" class="w-full h-full object-cover will-change-transform" loading="eager" fetchpriority="high" decoding="async">
-    </picture>
+      // default to "system" if nothing stored
+      let mode = getStored() || 'system';
+      apply(mode);
 
-    {{-- Contrast wash --}}
-    <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/20
-                dark:from-black/20 dark:via-black/30 dark:to-black/50"></div>
-  </div>
-@endpush
+      // keep in sync with OS when mode is "system"
+      (mql.addEventListener ? mql.addEventListener('change', onChange) : mql.addListener(onChange));
+      function onChange() {
+        if ((getStored() || 'system') === 'system') apply('system', { notify: true });
+      }
 
-@section('content')
-<div class="min-h-screen antialiased overflow-x-clip text-stone-900 dark:text-stone-200 selection:bg-rose-500/30 bg-transparent">
+      // expose helpers for Alpine / UI
+      window.CI_THEME = {
+        getMode: () => getStored() || 'system',
+        setMode: (newMode) => {
+          try { localStorage.setItem(STORAGE_KEY, newMode); } catch {}
+          apply(newMode, { notify: true });
+        },
+        toggle: () => {
+          const cur = getStored() || 'system';
+          const next = cur === 'light' ? 'dark' : cur === 'dark' ? 'system' : 'light';
+          try { localStorage.setItem(STORAGE_KEY, next); } catch {}
+          apply(next, { notify: true });
+          return next;
+        }
+      };
+    })();
+  </script>
 
-  {{-- ===== HERO + HISTORY/NEXT ===== --}}
-  <section id="home-hero" class="relative isolate">
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 min-w-0">
+  <!-- Fonts -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
-      {{-- HERO CARD (roomier on mobile) --}}
-      <section class="pt-4 sm:pt-8">
-        <div class="ci-card px-4 sm:px-6 py-4 sm:py-6 shadow-md sm:shadow-xl">
-          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
-            <div>
-              <h1 class="font-orbitron text-xl sm:text-3xl font-bold tracking-tight leading-snug sm:leading-tight">
-                Compromised Internals
-              </h1>
-              <p class="mt-2 text-sm sm:text-base leading-normal ci-muted">
-                News, history, schedules, and deep-dive profiles for rally fans.
-              </p>
-            </div>
-            <div class="flex items-center gap-3">
-              <a href="{{ route('contact') }}"
-                 class="inline-flex items-center rounded-md sm:rounded-lg bg-amber-400/90 text-stone-900 px-3 py-2 text-sm font-semibold hover:bg-amber-400 transition">
-                Leave feedback
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+  <!-- Vite Build (global) -->
+  @vite(['resources/css/app.css', 'resources/css/fade.css', 'resources/js/app.js'])
 
-      {{-- HISTORY + NEXT RALLIES --}}
-      <section class="mt-7 sm:mt-10 grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-6">
-        {{-- LEFT --}}
-        <div class="relative">
-          <div aria-hidden="true"
-               class="pointer-events-none absolute inset-x-0 -top-2 h-12 rounded-t-2xl
-                      bg-gradient-to-b from-white/85 via-white/50 to-transparent dark:from-transparent"></div>
+  {{-- Page-scoped CSS (e.g., calendar) --}}
+  @stack('page-css')
 
-          <header class="mb-3 sm:mb-5">
-            <h2 class="text-center font-orbitron tracking-wide text-lg sm:text-2xl lg:text-3xl font-semibold">
-              <span class="rounded-xl px-3 py-1 bg-white/80 ring-1 ring-black/5 backdrop-blur-md text-stone-900
-                           dark:bg-transparent dark:ring-0 dark:text-stone-100">
-                History Features
-              </span>
-            </h2>
-            <p class="mt-1 text-center">
-              <span class="text-xs sm:text-sm rounded-full px-3 py-1 bg-white/70 ring-1 ring-black/5 backdrop-blur-md text-stone-700
-                           dark:bg-transparent dark:ring-0 dark:text-stone-400">
-                Iconic events, machines, and drivers that shaped rally
-              </span>
-            </p>
-          </header>
+  {{-- Anything else pages push into <head> --}}
+  @stack('head')
+</head>
 
-          <div class="space-y-4 sm:space-y-6">
-            @if($event)
-              <article class="ci-card p-4 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-lg sm:text-xl md:text-2xl font-bold text-center leading-snug sm:leading-tight">
-                  {{ $event['title'] ?? 'Untitled Event' }}
-                </h3>
-                <p class="mt-2 text-sm sm:text-base text-center text-stone-700 dark:text-stone-300 leading-normal">
-                  {{ $event['bio'] ?? '' }}
-                </p>
-                <div class="mt-3 sm:mt-4 text-center">
-                  <a href="{{ route('history.show', ['tab'=>'events','decade'=>$event['decade'],'id'=>$event['id']]) }}"
-                     class="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
-                    Read more
-                  </a>
-                </div>
-              </article>
-            @endif
+<body
+  class="antialiased overflow-x-clip text-stone-900 dark:text-stone-200
+         bg-gradient-to-b from-stone-400 to-stone-500 dark:from-stone-950 dark:to-stone-900
+         selection:bg-rose-500/30"
+  data-events-endpoint="{{ url('/api/events') }}"
+  data-feed-tpl="{{ url('/calendar/feed/{year}.ics') }}"
+  data-download-tpl="{{ url('/calendar/download/{year}.ics') }}"
+>
+  {{-- Anchor target for back-to-top and scroll controls --}}
+  <div id="top"></div>
 
-            @if($car)
-              <article class="ci-card p-4 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-lg sm:text-xl md:text-2xl font-bold text-center leading-snug sm:leading-tight">
-                  {{ $car['name'] ?? 'Unnamed Car' }}
-                </h3>
-                <p class="mt-2 text-sm sm:text-base text-center text-stone-700 dark:text-stone-300 leading-normal">
-                  {{ $car['bio'] ?? '' }}
-                </p>
-                <div class="mt-3 sm:mt-4 text-center">
-                  <a href="{{ route('history.show', ['tab'=>'cars','decade'=>$car['decade'],'id'=>$car['id']]) }}"
-                     class="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
-                    Read more
-                  </a>
-                </div>
-              </article>
-            @endif
-
-            @if($driver)
-              <article class="ci-card p-4 sm:p-6 shadow-md">
-                <h3 class="font-orbitron text-lg sm:text-xl md:text-2xl font-bold text-center leading-snug sm:leading-tight">
-                  {{ $driver['name'] ?? 'Unnamed Driver' }}
-                </h3>
-                <p class="mt-2 text-sm sm:text-base text-center text-stone-700 dark:text-stone-300 leading-normal">
-                  {{ $driver['bio'] ?? '' }}
-                </p>
-                <div class="mt-3 sm:mt-4 text-center">
-                  <a href="{{ route('history.show', ['tab'=>'drivers','decade'=>$driver['decade'],'id'=>$driver['id']]) }}"
-                     class="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
-                    Read more
-                  </a>
-                </div>
-              </article>
-            @endif
-          </div>
-        </div>
-
-        {{-- RIGHT --}}
-        <aside class="ci-card p-4 sm:p-5 shadow-md">
-          <h3 class="font-orbitron text-base sm:text-lg font-bold">Next Rallies</h3>
-          <ul class="mt-2 sm:mt-3 divide-y divide-stone-200 dark:divide-stone-600">
-            @forelse(($nextEvents ?? []) as $e)
-              <li class="py-3 sm:py-3.5">
-                <div class="text-sm sm:text-base font-semibold">{{ $e->title }}</div>
-                <div class="text-xs sm:text-sm text-stone-700 dark:text-stone-400">
-                  <time datetime="{{ $e->start_date?->toDateString() }}">
-                    {{ optional($e->start_date)->format('M j') }}@if($e->end_date) – {{ $e->end_date->format('M j') }} @endif
-                  </time>
-                  @if(!empty($e->location)) • {{ $e->location }} @endif
-                </div>
-                @if(!empty($e->slug))
-                  <a href="{{ route('events.show', $e->slug) }}"
-                     class="text-xs sm:text-sm font-medium text-blue-600 dark:text-rose-300 hover:underline mt-0.5 inline-block">
-                    Event details
-                  </a>
-                @endif
-              </li>
-            @empty
-              <li class="py-3 text-sm text-stone-700 dark:text-stone-400">No upcoming events found.</li>
-            @endforelse
-          </ul>
-          <a href="{{ route('calendar.index') }}"
-             class="mt-3 inline-flex items-center text-sm font-semibold text-blue-600 dark:text-rose-300 hover:underline">
-            Open full calendar
-          </a>
-        </aside>
-      </section>
-
-      <div class="h-8 sm:h-10"></div>
-    </div>
-  </section>
-
-  {{-- ===== BLOG ===== --}}
-  <section id="home-blog" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-8 mb-16 overflow-x-clip">
-    <div aria-hidden="true"
-         class="pointer-events-none absolute inset-x-4 sm:inset-x-6 lg:inset-x-8 -top-4 h-14
-                rounded-t-2xl bg-gradient-to-b from-white/85 via-white/50 to-transparent dark:from-transparent"></div>
-
-    @if(($latestPosts ?? collect())->count())
-      <div class="relative mb-5 sm:mb-6 flex items-center justify-between gap-3">
-        <h2 class="text-lg sm:text-2xl lg:text-3xl font-semibold tracking-wide">
-          <span class="rounded-xl px-3 py-1 bg-white/80 ring-1 ring-black/5 backdrop-blur-md text-stone-900
-                       dark:bg-transparent dark:ring-0 dark:text-stone-100">
-            Latest from the Blog
-          </span>
-        </h2>
-
-        <a href="{{ route('blog.index') }}"
-           class="hidden sm:inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium
-                  bg-white/75 ring-1 ring-black/10 backdrop-blur-md text-stone-900 hover:text-stone-700
-                  dark:bg-stone-800/60 dark:ring-white/10 dark:text-sky-300 dark:hover:text-sky-200">
-          View all
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      </div>
-
-      @include('partials.blog-carousel', [
-        'posts'    => $latestPosts,
-        'variant'  => 'featured',
-        'interval' => 6,
-      ])
-
-      <div class="mt-4 sm:hidden">
-        <a href="{{ route('blog.index') }}"
-           class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium
-                  bg-white/75 ring-1 ring-black/10 backdrop-blur-md text-stone-900 hover:text-stone-700
-                  dark:bg-stone-800/60 dark:ring-white/10 dark:text-sky-300 dark:hover:text-sky-200">
-          View all posts
-        </a>
+  @auth
+    @if (Auth::user()->profile && Auth::user()->profile->isBirthday())
+      <div class="fixed top-4 right-4 bg-yellow-200 text-yellow-800 px-4 py-2 rounded shadow z-50">
+        🎂 Happy Birthday, {{ Auth::user()->profile->display_name }}!
       </div>
     @endif
-  </section>
-</div>
-@endsection
+  @endauth
+
+  {{-- GRID LAYOUT: header(nav) | content | footer --}}
+  <div id="theme-wrapper"
+       class="min-h-screen supports-[min-height:100svh]:min-h-svh overflow-x-clip
+              grid grid-rows-[auto_auto_1fr_auto]">
+    {{-- Row 1: Sticky nav (your component handles position:sticky/fixed) --}}
+    @include('layouts.navigation')
+    <script nonce="@cspNonce">
+      // If --nav-h isn’t set by the nav, set it based on rendered height.
+      (function () {
+        const root = document.documentElement;
+        if (!getComputedStyle(root).getPropertyValue('--nav-h')) {
+          const nav = document.querySelector('nav');
+          if (nav) root.style.setProperty('--nav-h', nav.getBoundingClientRect().height + 'px');
+        }
+      })();
+    </script>
+
+    {{-- Optional page header (under the nav) --}}
+    @isset($header)
+      <header class="bg-gradient-to-b from-slate-300 to-slate-400 dark:from-stone-950 dark:to-stone-900 shadow-sm ring-1 ring-stone-900/5 dark:ring-white/10">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+          {{ $header }}
+        </div>
+      </header>
+    @endisset
+
+    {{-- Row 2: Page content (offset for sticky nav via --nav-h) --}}
+    <main id="app-main" class="pt-[calc(var(--nav-h,64px)+8px)]">
+      @if (session('success'))
+        <div
+          x-data="{ show: true }"
+          x-init="setTimeout(() => show = false, 3000)"
+          x-show="show"
+          x-transition:leave="transition ease-in transform duration-700"
+          x-transition:leave-start="opacity-100 translate-x-0"
+          x-transition:leave-end="opacity-0 translate-x-full"
+          class="max-w-7xl mx-auto px-4 py-3">
+          <div class="bg-green-100 dark:bg-emerald-900/40 border border-green-400/60 dark:border-emerald-700/60 text-green-700 dark:text-emerald-200 px-4 py-3 rounded relative shadow-md" role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+          </div>
+        </div>
+      @endif
+
+      @yield('content')
+
+      {{-- Affiliate strip lives INSIDE <main> so it never creates a dangling page gap --}}
+      @php
+        // Pages where the streaming-oriented copy/link should be used
+        $isStreamingContext = request()->is('calendar*') || request()->is('events*') || request()->is('travel*');        
+        // Show BMAC on home, calendar, and blog pages (NOT on history), except blog.index
+        $showBmac = (
+            request()->is('/') ||
+            request()->is('calendar*') ||
+            request()->is('blog*')
+        ) && !request()->routeIs('blog.index');
+      @endphp
+      
+      <div class="mt-10 -mx-4 sm:-mx-6 lg:-mx-8" data-affiliate-strip>
+        @if ($isStreamingContext)
+          <x-affiliate.nordvpn-footer-stream-bar />
+        @else
+          <x-affiliate.nordvpn-footer-bar />
+        @endif
+      </div>
+
+      @if ($showBmac)
+        <!-- Buy Me a Coffee Floating Widget -->
+        <script data-name="BMC-Widget"
+                src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+                data-id="CompromisedInternals"
+                data-description="Support me on Buy me a coffee!"
+                data-message="Thank you for visiting. Any support is appreciated."
+                data-color="#FF5F5F"
+                data-position="Right"
+                data-x_margin="18"
+                data-y_margin="18"
+                nonce="@cspNonce"></script>
+      @endif
+    </main>
+
+    {{-- Row 3: Footer --}}
+    <footer>
+      @include('partials.footer')
+    </footer>
+  </div>
+
+  {{-- Floating cart button (mobile, shop pages) --}}
+  @if ((request()->is('shop*') || request()->is('cart')) && !request()->is('checkout*'))
+    <div class="fixed bottom-4 right-4 z-50 lg:hidden">
+      <a href="{{ route('shop.cart.index') }}"
+         class="relative flex items-center justify-center w-16 h-16 bg-red-600 shadow-lg rounded-full hover:bg-red-700 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-red-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.293 1.293a1 1 0 001.414 1.414L7 13zm10 0l1.293 1.293a1 1 0 01-1.414 1.414L17 13z" />
+        </svg>
+        @if (session('cart') && count(session('cart') ?? []) > 0)
+          <span class="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-600 rounded-full">
+            {{ array_sum(array_column(session('cart'), 'quantity')) }}
+          </span>
+        @endif
+      </a>
+    </div>
+  @endif
+
+  {{-- Scripts pushed by views --}}
+  @stack('scripts')
+
+  {{-- Collapse affiliate container if a blocker hides its contents (prevents blank bands) --}}
+  <script nonce="@cspNonce" @cspNonce>
+    document.addEventListener('DOMContentLoaded', () => {
+      const el = document.querySelector('[data-affiliate-strip]');
+      if (!el) return;
+      const visibleChild = [...el.querySelectorAll('*')].find(n => {
+        const r = n.getBoundingClientRect();
+        const cs = getComputedStyle(n);
+        return cs.display !== 'none' && cs.visibility !== 'hidden' && r.width > 0 && r.height > 0;
+      });
+      if (!visibleChild) el.remove();
+    });
+  </script>
+
+  {{-- Page-tail injections (fixed UI, modals, lazy UI like scroll controls) --}}
+  @stack('after-body')
+
+    {{-- Global lightbox modal --}}
+  @stack('modals')
+  <x-lightbox />
+</body>
+</html>
