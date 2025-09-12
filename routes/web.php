@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\PostModerationController;
 use App\Http\Controllers\CalendarLegacyRedirectController;
 use App\Http\Controllers\PublicProfileController;
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /* ------------------ Affiliate ------------*/

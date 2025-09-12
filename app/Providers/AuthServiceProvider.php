@@ -15,11 +15,11 @@ use App\Policies\CommentPolicy;
 use App\Policies\ThreadPolicy;
 use App\Policies\ReplyPolicy;
 use App\Policies\ContactMessagePolicy;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use App\Policies\BoardPolicy;
 use App\Policies\ProductPolicy;
 use App\Policies\OrderPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -29,14 +29,14 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Post::class            => PostPolicy::class,
-        Comment::class         => CommentPolicy::class,
-        Thread::class          => ThreadPolicy::class,
-        Reply::class           => ReplyPolicy::class,
-        Board::class           => BoardPolicy::class,
-        ContactMessage::class  => ContactMessagePolicy::class,
-        Product::class         => ProductPolicy::class,
-        Order::class           => OrderPolicy::class,
+        Post::class           => PostPolicy::class,
+        Comment::class        => CommentPolicy::class,
+        Thread::class         => ThreadPolicy::class,
+        Reply::class          => ReplyPolicy::class,
+        Board::class          => BoardPolicy::class,
+        ContactMessage::class => ContactMessagePolicy::class,
+        Product::class        => ProductPolicy::class,
+        Order::class          => OrderPolicy::class,
     ];
 
     /**
@@ -46,9 +46,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Global Gate for admin-only features
+        // Superuser: allow admins to bypass all policy checks
+        Gate::before(function ($user, string $ability) {
+            return method_exists($user, 'isAdmin') && $user->isAdmin() ? true : null;
+        });
+
+        // Explicit gate used in routes/admin.php
         Gate::define('access-admin', function ($user) {
-            return $user->isAdmin();
+            return method_exists($user, 'isAdmin') && $user->isAdmin();
         });
     }
 }

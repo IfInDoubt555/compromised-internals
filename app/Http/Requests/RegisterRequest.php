@@ -17,46 +17,53 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', new NoBannedWords],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', new NoBannedWords],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email', new NoBannedWords],
             'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
 
-            // Accept either g-recaptcha-response (standard) or recaptcha_token (legacy)
-            'g-recaptcha-response' => ['nullable', 'string'],
-            'recaptcha_token' => ['nullable', 'string'],
+            // Require at least one captcha token field
+            'g-recaptcha-response' => ['required_without:recaptcha_token', 'string'],
+            'recaptcha_token'      => ['required_without:g-recaptcha-response', 'string'],
 
-            // Synthetic rule to validate whichever token was sent
-            'recaptcha' => [function ($attribute, $value, $fail) {
-                if (!config('services.recaptcha.enabled')) {
-                    return; // skip in envs where captcha is disabled
+            // Synthetic rule: validate with Google
+            'captcha' => [function ($attribute, $value, $fail) {
+                if (!config('services.recaptcha.secret')) {
+                    return; // fail-closed only if you want, but here skip if not configured
                 }
 
-                // Prefer the standard key; fall back to legacy
                 $token = $this->input('g-recaptcha-response') ?: $this->input('recaptcha_token');
                 if (!$token) {
-                    return $fail('reCAPTCHA token is missing.');
+                    return $fail('Captcha token is missing.');
                 }
 
                 $resp = Http::asForm()->post(
                     'https://www.google.com/recaptcha/api/siteverify',
                     [
-                        'secret'   => config('services.recaptcha.secret_key'),
+                        'secret'   => config('services.recaptcha.secret'),
                         'response' => $token,
                         'remoteip' => $this->ip(),
                     ]
                 )->json();
 
                 if (!($resp['success'] ?? false)) {
-                    return $fail('reCAPTCHA failed: ' . (($resp['error-codes'][0] ?? 'unknown')));
+                    return $fail('Captcha failed: ' . (($resp['error-codes'][0] ?? 'unknown')));
                 }
 
-                // Optional: enforce action + score for v3
+                // Optional stricter checks for v3
                 if (($resp['action'] ?? 'register') !== 'register') {
-                    return $fail('Invalid reCAPTCHA action.');
+                    return $fail('Invalid captcha action.');
                 }
-                if (($resp['score'] ?? 0) < 0.5) {
+                if (($resp['score'] ?? 0) < (float) config('services.recaptcha.threshold', 0.5)) {
                     return $fail('Suspicious activity detected. Please try again.');
                 }
             }],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'g-recaptcha-response.required_without' => 'Captcha verification is required.',
+            'recaptcha_token.required_without'      => 'Captcha verification is required.',
         ];
     }
 }

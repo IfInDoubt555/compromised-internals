@@ -42,13 +42,10 @@
     {{-- Auth card --}}
     <div
       class="w-full max-w-xl mx-auto my-10 rounded-2xl p-8 sm:p-12 z-10
-             /* Light mode (default) */
              bg-white/90 ring-1 ring-black/5 shadow-xl
              supports-[backdrop-filter]:backdrop-blur
-             /* Dark mode only */
              dark:bg-stone-900/80 dark:ring-white/10
              dark:shadow-[0_0_60px_rgba(52,211,153,0.25)]
-             /* Focus/hover accents */
              transition-shadow
              hover:shadow-[0_0_60px_rgba(16,185,129,0.22)]
              focus-within:shadow-[0_0_60px_rgba(16,185,129,0.22)]
@@ -59,17 +56,21 @@
         <p class="mt-2 text-base sm:text-sm text-gray-500 dark:text-stone-400">Glad to have you back on the rally stage</p>
       </div>
 
-      @if ($errors->has('recaptcha'))
+      {{-- Show captcha error if backend sets it --}}
+      @if ($errors->has('captcha'))
         <div class="text-red-600 dark:text-rose-300 text-sm mb-4">
-          {{ $errors->first('recaptcha') }}
+          {{ $errors->first('captcha') }}
         </div>
       @endif
 
       <x-auth-session-status class="mb-6" :status="session('status')" />
 
-      <form id="login-form" method="POST" action="{{ route('login') }}" class="space-y-6">
+      <form id="login-form" method="POST" action="{{ route('login') }}" class="space-y-6" novalidate>
         @csrf
+        {{-- reCAPTCHA v3 token (primary) --}}
         <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+        {{-- Also set v2-compatible field for controllers that check it --}}
+        <input type="hidden" name="g-recaptcha-response" id="g_recaptcha_response">
 
         {{-- Email --}}
         <div>
@@ -79,6 +80,8 @@
             name="email"
             type="email"
             :value="old('email')"
+            autocomplete="username"
+            inputmode="email"
             required
             autofocus
             style="height:3rem"
@@ -95,6 +98,7 @@
             id="password"
             name="password"
             type="password"
+            autocomplete="current-password"
             required
             style="height:3rem"
             class="block w-full mt-1 text-base
@@ -143,23 +147,40 @@
   </div>
 
   @push('scripts')
-  <script nonce="@cspNonce">
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.getElementById('login-form');
-      const tokenInput = document.getElementById('recaptcha_token');
-      if (!form) return;
+    {{-- Load reCAPTCHA v3 with the correct site key --}}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}" nonce="@cspNonce"></script>
+    <script nonce="@cspNonce">
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('login-form');
+        const v3Site = '{{ config("services.recaptcha.site") }}';
+        const v3Field = document.getElementById('recaptcha_token');
+        const v2Field = document.getElementById('g_recaptcha_response');
 
-      form.addEventListener('submit', function (event) {
-        if (tokenInput.value) return; // allow normal submit
-        event.preventDefault();
-        if (typeof grecaptcha === 'undefined') return form.submit();
-        grecaptcha.ready(function () {
-          grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action: 'login' })
-            .then(function (token) { tokenInput.value = token; form.submit(); })
-            .catch(console.error);
+        if (!form) return;
+
+        form.addEventListener('submit', function (event) {
+          // If a token is already present (e.g., double submit), let it pass
+          if (v3Field && v3Field.value) return;
+
+          // If grecaptcha isn't available, submit and let backend fail/handle
+          if (typeof grecaptcha === 'undefined') return;
+
+          event.preventDefault();
+
+          grecaptcha.ready(function () {
+            grecaptcha.execute(v3Site, { action: 'login' })
+              .then(function (token) {
+                if (v3Field) v3Field.value = token;
+                if (v2Field) v2Field.value = token; // compatibility
+                form.submit();
+              })
+              .catch(function (err) {
+                console.error('reCAPTCHA error:', err);
+                form.submit(); // fallback submit; backend can decide policy
+              });
+          });
         });
       });
-    });
-  </script>
+    </script>
   @endpush
 </x-guest-layout>

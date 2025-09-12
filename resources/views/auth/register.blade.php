@@ -3,7 +3,7 @@
     <title>Register | Compromised Internals</title>
     <meta name="description" content="Join Compromised Internals to share your rally stories, comment on posts, and connect with the motorsport community.">
     <meta name="robots" content="noindex, nofollow">
-  @endpush
+  @endpush>
 
   {{-- Full-bleed wrapper with responsive scenic rally background --}}
   <div class="relative min-h-screen w-full overflow-hidden flex items-center justify-center px-4">
@@ -18,7 +18,7 @@
                 {{ asset('images/register-bg/register-bg-desktop-2560.webp') }} 2560w,
                 {{ asset('images/register-bg/register-bg-desktop-3840.webp') }} 3840w"
         sizes="100vw">
-    
+
       {{-- Mobile --}}
       <source
         media="(max-width: 1023px)"
@@ -27,7 +27,7 @@
                 {{ asset('images/register-bg/register-bg-mobile-1080.webp') }} 1080w,
                 {{ asset('images/register-bg/register-bg-mobile-2160.webp') }} 2160w"
         sizes="100vw">
-    
+
       <img src="{{ asset('images/register-bg/register-bg-desktop-1920.webp') }}"
            alt="Scenic rally road stretching into the horizon — your rally journey begins here"
            class="h-full w-full object-cover brightness-90 dark:brightness-75"
@@ -51,15 +51,26 @@
         <p class="mt-2 text-sm text-gray-600 dark:text-stone-400">Your rally journey starts here 💨</p>
       </div>
 
-      @if ($errors->has('recaptcha'))
+      {{-- show reCAPTCHA/captcha errors --}}
+      @if ($errors->has('captcha'))
         <div class="text-red-600 dark:text-rose-300 text-sm mb-4">
-          {{ $errors->first('recaptcha') }}
+          {{ $errors->first('captcha') }}
         </div>
       @endif
 
       <form id="register-form" method="POST" action="{{ route('register') }}" class="space-y-5" autocomplete="on" novalidate>
         @csrf
-      <input type="hidden" name="g-recaptcha-response" id="g_recaptcha">
+
+        {{-- Honeypot (kept in the DOM but visually hidden) --}}
+        <div class="sr-only" aria-hidden="true">
+          <label for="nickname">Nickname</label>
+          <input type="text" name="nickname" id="nickname" tabindex="-1" autocomplete="off">
+        </div>
+
+        {{-- reCAPTCHA v3 token field (controller prefers this) --}}
+        <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+        {{-- Also set v2-compatible name to cover both paths in controller --}}
+        <input type="hidden" name="g-recaptcha-response" id="g_recaptcha_response">
 
         <div>
           <x-input-label for="name" value="Name" />
@@ -154,33 +165,36 @@
   </div>
 
   @push('scripts')
-  <script nonce="@cspNonce">
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('register-form');
-    const tokenInput = document.getElementById('g_recaptcha');
-    if (!form || !tokenInput) return;
-  
-    let submitting = false;
-  
-    form.addEventListener('submit', async (e) => {
-      if (submitting) return; // prevent double-submits / recursion
-    
-      // If grecaptcha isn't loaded, don't block a normal submit.
-      if (typeof grecaptcha === 'undefined') return;
-    
-      e.preventDefault();
-      try {
-        const token = await grecaptcha.execute("{{ config('services.recaptcha.site_key') }}", { action:   'register' });
-        tokenInput.value = token;
-      } catch (err) {
-        console.error('reCAPTCHA error:', err);
-        // fall through and try submitting anyway
-      }
-    
-      submitting = true;
-      form.submit(); // native submit (does NOT re-trigger this listener)
-    });
-  });
-  </script>
+    {{-- reCAPTCHA v3 --}}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"  nonce="@cspNonce"></script>
+    <script nonce="@cspNonce">
+      document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('register-form');
+        const v3 = '{{ config("services.recaptcha.site") }}';
+        let submitting = false;
+
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+          if (submitting) return;
+          if (typeof grecaptcha === 'undefined') return; // let backend fail-closed if misconfigured
+
+          e.preventDefault();
+
+          try {
+            const token = await grecaptcha.execute(v3, { action: 'register' });
+            const v3Field = document.getElementById('recaptcha_token');
+            const v2Field = document.getElementById('g_recaptcha_response');
+            if (v3Field) v3Field.value = token;
+            if (v2Field) v2Field.value = token;
+          } catch (err) {
+            console.error('reCAPTCHA error:', err);
+          }
+
+          submitting = true;
+          form.submit();
+        });
+      });
+    </script>
   @endpush
 </x-guest-layout>
