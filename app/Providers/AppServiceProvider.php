@@ -27,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
 
         if (app()->environment('local')) {
             URL::forceRootUrl(request()->getSchemeAndHttpHost());
+        } else {
+            // Behind Cloudflare/HTTPS: keep signed URLs valid by locking scheme
+            URL::forceScheme('https');
         }
     }
 }
