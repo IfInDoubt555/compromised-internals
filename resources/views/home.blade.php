@@ -59,6 +59,53 @@
       @json($ld, JSON_UNESCAPED_UNICODE|JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT)
     </script>
 @endpush
+@push('after-body')
+  {{-- Fixed, page-level background (light/dark) --}}
+  <div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+    {{-- Light --}}
+    <picture class="absolute inset-0 block dark:hidden" aria-hidden="true">
+      <source media="(min-width: 1024px)" type="image/avif"
+              srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }} 1920w,
+                      {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-2560.avif') }} 2560w,
+                      {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-3840.avif') }} 3840w"
+              sizes="100vw">
+      <source media="(max-width: 1023px)" type="image/avif"
+              srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-mobile-720.avif') }} 720w,
+                      {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-1080.avif') }} 1080w,
+                      {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-2160.avif') }} 2160w"
+              sizes="100vw">
+      <img
+        src="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }}"
+        alt=""
+        class="w-full h-full object-cover will-change-transform"
+        loading="eager" fetchpriority="high" decoding="async">
+    </picture>
+
+    {{-- Dark --}}
+    <picture class="absolute inset-0 hidden dark:block" aria-hidden="true">
+      <source media="(min-width: 1024px)" type="image/avif"
+              srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.avif') }} 1280w,
+                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }} 1920w,
+                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.avif') }} 2560w,
+                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.avif') }} 3840w"
+              sizes="100vw">
+      <source media="(max-width: 1023px)" type="image/avif"
+              srcset="{{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-400.avif') }} 400w,
+                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.avif') }} 720w,
+                      {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.avif') }} 1080w"
+              sizes="100vw">
+      <img
+        src="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-master.png') }}"
+        alt=""
+        class="w-full h-full object-cover will-change-transform"
+        loading="eager" fetchpriority="high" decoding="async">
+    </picture>
+
+    {{-- Contrast wash --}}
+    <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/20
+                dark:from-black/20 dark:via-black/30 dark:to-black/50"></div>
+  </div>
+@endpush
 
 @section('content')
 <div
@@ -68,97 +115,7 @@
          selection:bg-rose-500/30">
 
   {{-- ===== HERO + HISTORY/NEXT (scoped banner behind) ===== --}}
-  <section id="home-hero" class="relative isolate min-h-svh">
-
-    {{-- BACKGROUND (Light) --}}
-    @push('preload')
-      {{-- Preload the likely desktop hero so LCP improves (light theme) --}}
-      <link rel="preload" as="image"
-            href="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }}"
-            imagesrcset="
-              {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }} 1920w,
-              {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-2560.avif') }} 2560w,
-              {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-3840.avif') }} 3840w"
-            imagesizes="100vw"
-            media="(prefers-color-scheme: light)">
-    @endpush
-
-    <picture class="fixed inset-0 -z-10 block dark:hidden" aria-hidden="true">
-      <source media="(min-width: 1024px)" type="image/webp"
-              srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }} 1920w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-2560.avif') }} 2560w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-desktop-3840.avif') }} 3840w"
-              sizes="100vw">
-      <source media="(max-width: 1023px)" type="image/webp"
-              srcset="{{ asset('images/homepage-banner-light/homepage-banner-light-mobile-720.avif') }} 720w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-1080.avif') }} 1080w,
-                      {{ asset('images/homepage-banner-light/homepage-banner-light-mobile-2160.avif') }} 2160w"
-              sizes="100vw">
-      <img
-        src="{{ asset('images/homepage-banner-light/homepage-banner-light-desktop-1920.avif') }}"
-        alt=""
-        class="w-full h-full object-cover"
-        loading="eager"
-        fetchpriority="high"
-        decoding="async">
-    </picture>
-
-    {{-- BACKGROUND (Dark) --}}
-    @push('preload')
-      {{-- Preload the likely desktop hero for dark theme (won’t double-download due to media) --}}
-      <link rel="preload" as="image"
-            href="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }}"
-            imagesrcset="
-              {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }} 1920w,
-              {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.avif') }} 2560w,
-              {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.avif') }} 3840w"
-            imagesizes="100vw"
-            media="(prefers-color-scheme: dark)">
-    @endpush
-
-    <picture class="absolute inset-0 -z-10 hidden dark:block pointer-events-none" aria-hidden="true">
-      {{-- Desktop (>=1024px) --}}
-      <source media="(min-width: 1024px)" type="image/avif"
-              srcset="
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.avif') }} 1280w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.avif') }} 1920w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.avif') }} 2560w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.avif') }} 3840w"
-              sizes="100vw">
-      <source media="(min-width: 1024px)" type="image/webp"
-              srcset="
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1280.webp') }} 1280w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-1920.webp') }} 1920w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-2560.webp') }} 2560w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-3840.webp') }} 3840w"
-              sizes="100vw">
-
-      {{-- Mobile (<=1023px) --}}
-      <source media="(max-width: 1023px)" type="image/avif"
-              srcset="
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-400.avif') }} 400w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.avif') }} 720w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.avif') }} 1080w"
-              sizes="100vw">
-      <source media="(max-width: 1023px)" type="image/webp"
-              srcset="
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-400.webp') }} 400w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-720.webp') }} 720w,
-                {{ asset('images/homepage-banner-dark/homepage-banner-dark-mobile-1080.webp') }} 1080w"
-              sizes="100vw">
-
-      <img
-        src="{{ asset('images/homepage-banner-dark/homepage-banner-dark-desktop-master.png') }}"
-        alt=""
-        class="w-full h-full object-cover"
-        loading="eager"
-        fetchpriority="high"
-        decoding="async">
-    </picture>
-
-    {{-- Contrast overlay --}}
-    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-black/0 via-black/0 to-black/20
-                dark:from-black/20 dark:via-black/30 dark:to-black/50"></div>
+  <section id="home-hero" class="relative isolate">
 
     {{-- CONTENT (centered container) --}}
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
