@@ -21,6 +21,11 @@ class UpdateThreadRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->sanitizePlain(['title', 'slug', 'body']);
+
+        // Only normalize slug if present; don't overwrite existing when omitted
+        if ($this->filled('slug')) {
+            $this->sanitizeSlug('slug');
+        }
     }
 
     public function rules(): array
@@ -31,9 +36,22 @@ class UpdateThreadRequest extends FormRequest
         return [
             'board_id' => ['required', 'exists:boards,id'],
             'title'    => ['required', 'string', 'min:3', 'max:160'],
-            'slug'     => ['sometimes', 'nullable', 'string', 'max:180',
-                           Rule::unique('threads', 'slug')->ignore($thread?->id)],
+            'slug'     => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:180',
+                'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
+                Rule::unique('threads', 'slug')->ignore($thread?->id),
+            ],
             'body'     => ['required', 'string', 'max:20000'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'slug.regex' => 'The slug must contain only lowercase letters, numbers, and dashes.',
         ];
     }
 }

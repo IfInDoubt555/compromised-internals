@@ -12,22 +12,31 @@ class StoreThreadRequest extends FormRequest
 
     public function authorize(): bool
     {
-        // Let policy decide; falls back to simple auth check if no policy.
+        // Policy handles this; fallback to simple auth check
         return $this->user()?->can('create', Thread::class) ?? $this->user()?->exists();
     }
 
     protected function prepareForValidation(): void
     {
-        // Plain text only; keep Markdown symbols in body, strip any HTML.
+        // Keep Markdown, strip HTML
         $this->sanitizePlain(['title', 'slug', 'body']);
+        // Make slug kebab; if blank, derive from title
+        $this->sanitizeSlug('slug', 'title');
     }
 
     public function rules(): array
     {
         return [
             'title' => ['required', 'string', 'min:3', 'max:160'],
-            'slug'  => ['nullable', 'string', 'max:180'],
+            'slug'  => ['nullable', 'string', 'max:180', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
             'body'  => ['required', 'string', 'max:20000'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'slug.regex' => 'The slug must contain only lowercase letters, numbers, and dashes.',
         ];
     }
 }

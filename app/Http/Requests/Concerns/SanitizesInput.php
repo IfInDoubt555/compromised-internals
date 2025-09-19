@@ -2,26 +2,59 @@
 
 namespace App\Http\Requests\Concerns;
 
+use Illuminate\Support\Str;
+
 trait SanitizesInput
 {
     /**
-     * Strip tags and normalize whitespace for plain text fields.
-     * Pass an array of keys you want to sanitize.
+     * Strip HTML tags and normalize ends while preserving Markdown.
+     * - Keeps line breaks
+     * - Trims edges
+     * - Removes trailing spaces at line ends
      */
-    protected function sanitizeStrings(array $keys): void
+    protected function sanitizePlain(array $fields): void
     {
-        $data = $this->all();
+        $clean = [];
 
-        foreach ($keys as $key) {
-            if (!array_key_exists($key, $data) || $data[$key] === null) continue;
+        foreach ($fields as $field) {
+            if (! $this->has($field)) {
+                continue;
+            }
 
-            // basic normalization for plain text inputs
-            $value = is_string($data[$key]) ? $data[$key] : (string)$data[$key];
-            $value = preg_replace('/\s+/u', ' ', $value); // squash whitespace
-            $value = trim(strip_tags($value));            // strip HTML tags
-            $data[$key] = $value;
+            $value = (string) $this->input($field, '');
+
+            // normalize newlines, keep them (Markdown-friendly)
+            $value = str_replace(["\r\n", "\r"], "\n", $value);
+
+            // remove HTML tags only; keep Markdown punctuation
+            $value = strip_tags($value);
+
+            // remove trailing spaces before newlines, and trim ends
+            $value = preg_replace('/[ \t]+(?=\n)/', '', $value);
+            $value = trim($value);
+
+            $clean[$field] = $value;
         }
 
-        $this->replace($data);
+        if ($clean) {
+            $this->merge($clean);
+        }
+    }
+
+    /**
+     * Ensure a lowercase-kebab slug; if blank, derive from another field.
+     */
+    protected function sanitizeSlug(string $slugField = 'slug', ?string $fromField = null, int $max = 180): void
+    {
+        $slug = (string) $this->input($slugField, '');
+
+        if ($slug === '' && $fromField) {
+            $source = (string) $this->input($fromField, '');
+            $slug = Str::slug(Str::limit($source, $max, ''));
+        } else {
+            $slug = Str::slug(Str::limit($slug, $max, ''));
+        }
+
+        $this->merge([$slugField => $slug]);
     }
 }
