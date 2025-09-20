@@ -5,8 +5,6 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 use App\Console\Commands\PruneSessions;
-use App\Http\Kernel as AppHttpKernel;
-use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Spatie\Csp\AddCspHeaders;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -15,23 +13,28 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+        // 👇 ensure our admin routes are always registered
+        then: function () {
+            \Illuminate\Support\Facades\Route::middleware(['web', 'auth', 'can:access-admin'])
+                ->prefix('admin')
+                ->as('admin.')
+                ->group(base_path('routes/admin.php'));
+        },
     )
-        ->withProviders([
+    ->withProviders([
         \App\Providers\AppServiceProvider::class,
         \App\Providers\AuthServiceProvider::class,
-  //    \App\Providers\EventServiceProvider::class,
-        \App\Providers\RouteServiceProvider::class, // 👈 loads routes/admin.php
+        // \App\Providers\EventServiceProvider::class,
+        \App\Providers\RouteServiceProvider::class, // harmless to keep; the explicit loader above wins
     ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })
     ->withMiddleware(function (Middleware $middleware) {
-        // Use $_ENV directly; do NOT call env()/app() here.
-        $appEnv   = $_ENV['APP_ENV']       ?? 'production';
-        $cspOn    = ($_ENV['CSP_ENABLED']  ?? 'true') === 'true';
-        $isProd   = $appEnv === 'production';
+        $appEnv = $_ENV['APP_ENV'] ?? 'production';
+        $cspOn  = (($_ENV['CSP_ENABLED'] ?? 'true') === 'true');
+        $isProd = $appEnv === 'production';
 
-        // web/api groups and aliases (leave as you already had them)
         $middleware->group('web', [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -50,10 +53,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth'     => \App\Http\Middleware\Authenticate::class,
             'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-            'can'      => \Illuminate\Auth\Middleware\Authorize::class,
+            'can'      => \Illuminate\Auth\Middleware\Authorize::class, // needed for can:access-admin
         ]);
 
-        // Append CSP only in production (prevents local CSP breakage)
         if ($isProd && $cspOn) {
             $middleware->append(AddCspHeaders::class);
         }
@@ -61,8 +63,5 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withCommands([
         PruneSessions::class,
         \App\Console\Commands\ScanImageAttributions::class,
-    ])
-    ->withBindings([
-        HttpKernel::class => AppHttpKernel::class,
     ])
     ->create();
