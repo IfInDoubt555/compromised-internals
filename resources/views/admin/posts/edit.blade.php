@@ -53,7 +53,7 @@
       >{{ old('excerpt', $post->excerpt) }}</textarea>
       <div class="mt-1 flex items-center justify-between">
         <p class="text-xs text-gray-500 dark:text-stone-400">Max 160 characters.</p>
-        <p class="text-xs text-gray-500 dark:text-stone-400" x-text="`${excerptCount}/160`"></p>
+        <p class="text-xs text-gray-500 dark:text-stone-400" x-text="excerptCount + '/160`"></p>
       </div>
       @error('excerpt') <p class="ci-error">{{ $message }}</p> @enderror
     </div>

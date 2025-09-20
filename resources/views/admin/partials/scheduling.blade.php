@@ -1,15 +1,13 @@
 @props([
   'model' => null,
   'namePrefix' => '',
-  'field' => 'status',        // radio group field name base (e.g., 'status')
-  'dateField' => 'published_at', // <-- NEW: datetime field base name ('published_at' or 'scheduled_for')
+  'field' => 'status',
+  'dateField' => 'published_at',
 ])
 
 @php
-  // Current status (fallback to draft)
   $current = old($namePrefix.$field, $model->{$field} ?? 'draft');
 
-  // Build the datetime-local value safely (works for either published_at or scheduled_for)
   $publishAtLocal = old($namePrefix.$dateField);
   if (!$publishAtLocal && ($model?->{$dateField} ?? null)) {
       $publishAtLocal = $model->{$dateField}
@@ -17,7 +15,6 @@
           : null;
   }
 
-  // min=now for the picker
   $nowLocal = now()->timezone(config('app.timezone'))->format('Y-m-d\TH:i');
 @endphp
 
@@ -41,21 +38,29 @@
     </label>
   </div>
 
-  {{-- Date/time picker (only when scheduling) --}}
-  <div class="mt-2 space-y-1" x-show="status === 'scheduled'" x-cloak>
-    <label for="{{ $namePrefix.$dateField }}" class="ci-label mb-1">
-      Publish at (your local time)
-    </label>
-    <input
-      id="{{ $namePrefix.$dateField }}"
-      type="datetime-local"
-      name="{{ $namePrefix.$dateField }}"
-      class="ci-input w-64"
-      value="{{ $publishAtLocal }}"
-      :min="nowLocal"
-      x-bind:required="status === 'scheduled'">
-    <p class="ci-help mt-1">Saved in UTC ({{ config('app.timezone') }} → UTC).</p>
-  </div>
+  {{-- Only render the picker in the DOM when scheduling (avoids “not focusable” validation) --}}
+  <template x-if="status === 'scheduled'">
+    <div class="mt-2 space-y-1">
+      <label for="{{ $namePrefix.$dateField }}" class="ci-label mb-1">
+        Publish at (your local time)
+      </label>
+      <input
+        id="{{ $namePrefix.$dateField }}"
+        type="datetime-local"
+        name="{{ $namePrefix.$dateField }}"
+        class="ci-input w-64"
+        value="{{ $publishAtLocal }}"
+        :min="nowLocal"
+        required
+      >
+      <p class="ci-help mt-1">Saved in UTC ({{ config('app.timezone') }} → UTC).</p>
+    </div>
+  </template>
+
+  {{-- When NOT scheduling, submit an empty published_at to clear any previous schedule --}}
+  <template x-if="status !== 'scheduled'">
+    <input type="hidden" name="{{ $namePrefix.$dateField }}" value="">
+  </template>
 
   @if (!empty($model?->{$dateField}))
     <p class="ci-help">
