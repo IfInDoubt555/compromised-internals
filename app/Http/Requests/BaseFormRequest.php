@@ -2,43 +2,56 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 
-
-class BaseFormRequest extends BaseFormRequest
+abstract class BaseFormRequest extends FormRequest
 {
     /**
-     * Decode plain-text sequences like u2019 / u003E and surrogate pairs (e.g., ud83dudd17)
-     * across ALL string inputs before validation/saving.
+     * Normalize any odd “uXXXX” sequences, HTML entities, zero-width chars, etc.
+     */
+    protected function sanitizeString(?string $value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        // Normalize line endings
+        $s = str_replace(["\r\n", "\r"], "\n", $value);
+
+        // Decode JSON-style \uXXXX **and** bare uXXXX sequences
+        $s = preg_replace_callback('/\\\\?u([0-9a-fA-F]{4})/', function ($m) {
+            $code = hexdec($m[1]);                          // e.g. 2019
+            return mb_convert_encoding(pack('n', $code), 'UTF-8', 'UTF-16BE');
+        }, $s);
+
+        // Decode HTML entities (&amp; &quot; &#x2019; etc.)
+        $s = html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        // Remove zero-width & BOM chars
+        $s = preg_replace('/[\x{200B}-\x{200D}\x{FEFF}]/u', '', $s);
+
+        // Strip other control chars but keep tabs/newlines
+        $s = preg_replace('/\p{C}+/u', '', $s);
+
+        // Collapse long runs of spaces (preserve newlines)
+        $s = preg_replace("/[ \t\x{00A0}]{2,}/u", ' ', $s);
+
+        return $s;
+    }
+
+    /**
+     * Sanitize all string inputs before validation.
      */
     protected function prepareForValidation(): void
     {
         $data = $this->all();
 
-        foreach ($data as $key => $value) {
+        array_walk_recursive($data, function (&$value) {
             if (is_string($value)) {
-                $data[$key] = $this->decodePlainUnicode($value);
+                $value = $this->sanitizeString($value);
             }
-        }
+        });
 
         $this->merge($data);
     }
-
-    private function decodePlainUnicode(string $s): string
-    {
-        // 1) Surrogate pairs: ud83dudxxx -> emoji
-        $s = preg_replace_callback('/u(d[89ab][0-9a-f]{2})u(d[c-f][0-9a-f]{2})/i', function ($m) {
-            $hi = hexdec($m[1]);
-            $lo = hexdec($m[2]);
-            $cp = 0x10000 + (($hi - 0xD800) << 10) + ($lo - 0xDC00);
-            return html_entity_decode('&#'.$cp.';', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        }, $s) ?? $s;
-
-        // 2) Single BMP units: u2019, u003E, u00EB, etc.
-        $s = preg_replace_callback('/u([0-9a-f]{4})\b/i', function ($m) {
-            return html_entity_decode('&#'.hexdec($m[1]).';', ENT_QUOTES | ENT_HTML5, 'UTF-8');
-        }, $s) ?? $s;
-
-        return $s;
-    }
 }
-

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-
+use App\Http\Requests\BaseFormRequest;
 use App\Rules\NoBannedWords;
 use Illuminate\Support\Str;
 
