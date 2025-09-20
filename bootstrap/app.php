@@ -50,6 +50,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth'     => \App\Http\Middleware\Authenticate::class,
             'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
             'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+            'can'      => \Illuminate\Auth\Middleware\Authorize::class,
         ]);
 
         // Append CSP only in production (prevents local CSP breakage)
