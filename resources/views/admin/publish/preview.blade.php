@@ -15,10 +15,12 @@
     <div class="ml-auto flex items-center gap-2">
       <a href="{{ route('admin.posts.edit', $post) }}" class="ci-btn-secondary">Edit</a>
 
-      <form method="POST" action="{{ route('admin.publish.publishNow', $post) }}">
-        @csrf
-        <button class="ci-btn-primary">Publish now</button>
-      </form>
+      @can('update', $post)
+        <form method="POST" action="{{ route('admin.publish.now', ['post' => $post]) }}">
+          @csrf
+          <button class="ci-btn-primary">Publish now</button>
+        </form>
+      @endcan
     </div>
   </div>
 
