@@ -21,15 +21,19 @@
         ],
     ];
 
-    // ---- Preload the first card image responsively (local images only) ----
+    // ---- Build a collection from paginator or collection ----
     /** @var \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection $posts */
-    $first = isset($posts) && $posts->count() ? $posts->first() : null;
+    $items    = $posts instanceof \Illuminate\Contracts\Pagination\Paginator ? $posts->getCollection() : collect($posts);
+    $featured = $items->first();
+    $rest     = $items->slice(1);
 
+    // ---- Preload the featured image responsively (local images only) ----
     $preloadAvif = $preloadWebp = $preloadOrig = '';
-    $preloadSizes = '(min-width:1024px) 720px, 100vw';  // ~card width on desktop
+    // Matches the featured-card width on desktop (~960px usable)
+    $preloadSizes = '(min-width:1280px) 960px, (min-width:1024px) 896px, 100vw';
 
-    if ($first) {
-        $hero = $first->thumbnail_url ?? asset('images/default-post.png');
+    if ($featured) {
+        $hero = $featured->thumbnail_url ?? asset('images/default-post.png');
         $pathOnly = parse_url($hero, PHP_URL_PATH) ?? $hero;
         $isLocalPath = \Illuminate\Support\Str::startsWith($pathOnly, ['/storage', 'storage/']);
 
@@ -37,8 +41,8 @@
             $ext  = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
             $base = $ext ? substr($hero, 0, - (strlen($ext) + 1)) : $hero;
 
-            // Reasonable widths for list cards
-            $widths = [480, 720, 960];
+            // Larger widths for the featured hero card
+            $widths = [720, 960, 1280];
 
             $srcsetOrig = implode(', ', array_map(fn($w) => "{$base}-{$w}.{$ext} {$w}w", $widths));
             $srcsetWebp = implode(', ', array_map(fn($w) => "{$base}-{$w}.webp {$w}w", $widths));
@@ -48,7 +52,7 @@
             $preloadWebp = $srcsetWebp;
             $preloadOrig = $srcsetOrig;
         } else {
-            // External image – just preload the direct URL to avoid broken variants
+            // External image – just preload the direct URL
             $preloadOrig = $hero;
         }
     }
@@ -75,23 +79,21 @@
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 
-    {{-- Preload the first visible card image for better LCP --}}
-    @if($first)
+    {{-- Preload the featured card image for better LCP --}}
+    @if($featured)
         @if($preloadAvif)
             <link rel="preload" as="image" type="image/avif" imagesrcset="{{ $preloadAvif }}" imagesizes="{{ $preloadSizes }}">
             <link rel="preload" as="image" type="image/webp" imagesrcset="{{ $preloadWebp }}" imagesizes="{{ $preloadSizes }}">
             <link rel="preload" as="image" imagesrcset="{{ $preloadOrig }}" imagesizes="{{ $preloadSizes }}">
         @else
-            {{-- external or no variants --}}
             <link rel="preload" as="image" href="{{ $preloadOrig }}">
         @endif
     @endif
 @endpush
 
 @section('content')
-{{-- Offset the whole page from the sticky nav on small screens --}}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8
-            pt-[calc(var(--nav-h)+10px)] pb-8 lg:pt-10">
+<div class="mx-auto px-4 sm:px-6 lg:px-8 pt-[calc(var(--nav-h)+10px)] pb-8 lg:pt-10
+            max-w-[88rem]"> {{-- widen container a bit on desktop for a more open feel --}}
 
   {{-- Hero --}}
   <header class="mb-8 text-center">
@@ -100,18 +102,18 @@
   </header>
 
   @auth
-  {{-- Floating New Post button --}}
-  <a href="{{ route('posts.create') }}"
-     class="fixed bottom-6 right-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg ring-1 ring-stone-900/10 dark:ring-white/10 transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-     title="New Post" aria-label="Create new post">
+    {{-- Floating New Post button --}}
+    <a href="{{ route('posts.create') }}"
+       class="fixed bottom-6 right-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg ring-1 ring-stone-900/10 dark:ring-white/10 transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+       title="New Post" aria-label="Create new post">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
            viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 5v14m7-7H5" />
+        <path d="M12 5v14m7-7H5" />
       </svg>
-  </a>
+    </a>
   @endauth
 
-  {{-- MOBILE: sticky tools (Search + Discussion Boards) under the nav --}}
+  {{-- MOBILE: sticky tools --}}
   <div class="lg:hidden sticky top-[calc(var(--nav-h)+8px)] z-30">
     <div class="ci-card px-4 py-3 ring-1 ring-black/5 dark:ring-white/10 shadow-sm
                 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-stone-900/60">
@@ -119,19 +121,19 @@
     </div>
   </div>
 
-  {{-- MOBILE: Hot Right Now (separate, NOT sticky) --}}
+  {{-- MOBILE: Hot Right Now --}}
   <div class="lg:hidden mt-4">
     @include('partials.blog-hot-right-now', ['items' => $hotPosts ?? [], 'limit' => 3])
   </div>
 
   {{-- DESKTOP layout: sidebar + main --}}
-  <div class="grid grid-cols-1 lg:grid-cols-[minmax(280px,340px)_1fr] gap-8 items-start mt-6">
+  <div class="grid grid-cols-1 lg:grid-cols-[minmax(300px,360px)_1fr] gap-10 items-start mt-6">
+
     {{-- Sidebar (desktop only) --}}
     <aside class="hidden lg:block sticky top-[calc(var(--nav-h)+24px)] self-start">
       <div class="max-h-[calc(100vh-(var(--nav-h)+24px))] overflow-y-auto pr-2">
         @include('partials.blog-sidebar')
 
-        {{-- Desktop: Hot Right Now inside the sidebar --}}
         <div class="mt-4">
           @include('partials.blog-hot-right-now', ['items' => $hotPosts ?? [], 'limit' => 3])
         </div>
@@ -140,12 +142,23 @@
 
     {{-- Main --}}
     <main class="min-w-0">
-      @if($posts->count())
-        <ul class="space-y-5">
-          @foreach($posts as $post)
-            <li>@include('partials.blog-post-card', ['post' => $post])</li>
-          @endforeach
-        </ul>
+      @if($items->count())
+
+        {{-- Featured first post with a big image --}}
+        @if($featured)
+          <section aria-label="Featured post" class="mb-8">
+            @include('partials.blog-post-card', ['post' => $featured, 'variant' => 'featured'])
+          </section>
+        @endif
+
+        {{-- Rest of posts in a roomy 2-col grid on xl --}}
+        @if($rest->count())
+          <ul class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            @foreach($rest as $post)
+              <li>@include('partials.blog-post-card', ['post' => $post])</li>
+            @endforeach
+          </ul>
+        @endif
       @else
         <p class="ci-body">No posts yet.</p>
       @endif
