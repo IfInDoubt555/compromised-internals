@@ -63,21 +63,21 @@ class Post extends Model
     }
 
     // Return a URL to a specific variant, e.g. -640.webp
-public function variantUrl(int $w, ?string $format = null): ?string
-{
-    $path = (string) $this->image_path;
-    if ($path === '') return null;
-
-    $dot = strrpos($path, '.');
-    if ($dot === false) return null;
-
-    $base = substr($path, 0, $dot);
-    $ext  = strtolower($format ?: substr($path, $dot + 1));
-
-    $variant = "{$base}-{$w}.{$ext}";
-    return Storage::url($variant);
-    }
-
+    public function variantUrl(int $w, ?string $format = null): ?string
+    {
+        $path = (string) $this->image_path;
+        if ($path === '') return null;
+    
+        $dot = strrpos($path, '.');
+        if ($dot === false) return null;
+    
+        $base = substr($path, 0, $dot);
+        $ext  = strtolower($format ?: substr($path, $dot + 1));
+    
+        $variant = "{$base}-{$w}.{$ext}";
+        return Storage::url($variant);
+        }
+    
     /**
      * Build a srcset like "…-480.webp 480w, …-768.webp 768w, …"
      * Only includes variants that exist.
@@ -92,6 +92,69 @@ public function variantUrl(int $w, ?string $format = null): ?string
             if ($url) $out[] = "{$url} {$w}w";
         }
         return implode(', ', $out);
+    }
+
+    public function heroSrcset(): ?string
+    {
+        $url = $this->image_url ?? null;
+        if (!$url) return null;
+
+        $path = parse_url($url, PHP_URL_PATH) ?? '';
+        if (!Str::startsWith($path, ['/storage/', 'storage/'])) return null; // external image → no srcset
+
+        $rel = ltrim(Str::after($path, '/storage/'), '/');      // path relative to 'public' disk
+        $ext = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
+        if (!$ext) return null;
+
+        $base = substr($rel, 0, -(strlen($ext) + 1));           // posts/foo/bar
+        $widths = [640, 960, 1280, 1600, 1920];
+
+        $build = function (string $ext) use ($base, $widths) {
+            $out = [];
+            foreach ($widths as $w) {
+                $candidate = "{$base}-{$w}.{$ext}";
+                if (Storage::disk('public')->exists($candidate)) {
+                    $out[] = Storage::url($candidate) . " {$w}w";
+                }
+            }
+            return $out ? implode(', ', $out) : null;
+        };
+
+        // Prefer modern formats; the <img> tag will still get the original ext via src/srcset.
+        // (You’ll reference AVIF/WEBP in <source> tags from Blade if you want.)
+        return $build($ext);
+    }
+
+    public function heroSizes(): string
+    {
+        // max-w-5xl (~1024px) container; 100vw on small
+        return '(min-width:1280px) 1024px, (min-width:1024px) 1024px, 100vw';
+    }
+
+    // Optional: for cards
+    public function cardSrcset(string $variant = 'default'): ?string
+    {
+        $thumb = $this->thumbnail_url ?? null;
+        if (!$thumb) return null;
+
+        $path = parse_url($thumb, PHP_URL_PATH) ?? '';
+        if (!Str::startsWith($path, ['/storage/', 'storage/'])) return null;
+
+        $rel = ltrim(Str::after($path, '/storage/'), '/');
+        $ext = strtolower(pathinfo($rel, PATHINFO_EXTENSION));
+        if (!$ext) return null;
+
+        $base = substr($rel, 0, -(strlen($ext) + 1));
+        $widths = [160, 320, 640, 960, 1280];
+
+        $out = [];
+        foreach ($widths as $w) {
+            $p = "{$base}-{$w}.{$ext}";
+            if (Storage::disk('public')->exists($p)) {
+                $out[] = Storage::url($p) . " {$w}w";
+            }
+        }
+        return $out ? implode(', ', $out) : null;
     }
 
     /** ---------- Accessors ---------- */

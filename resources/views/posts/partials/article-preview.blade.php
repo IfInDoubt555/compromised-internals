@@ -7,39 +7,45 @@
   $author = $post->user;
 
   // Safe defaults so the view never explodes
-  $liked = $liked
-    ?? (auth()->check() && $post->likes()->where('user_id', auth()->id())->exists());
+  $liked = $liked ?? (auth()->check() && $post->likes()->where('user_id', auth()->id())->exists());
 
   $btn = $btn
     ?? 'inline-flex items-center gap-2 rounded-lg px-3 py-2 ring-1 ring-black/5 dark:ring-white/10
         bg-white/80 dark:bg-stone-800/60 text-sm font-semibold text-stone-800 dark:text-stone-100
         hover:bg-white hover:shadow';
 
-  // --- Responsive hero image variants (local storage only) ---
-  $hero = $post->image_url;
-  $isLocalPath = \Illuminate\Support\Str::startsWith(
-      parse_url($hero, PHP_URL_PATH) ?? $hero,
-      ['/storage', 'storage/']
-  );
+  // --- Responsive hero image (local storage only; existence-checked) ---
+  use Illuminate\Support\Facades\Storage;
+  use Illuminate\Support\Str;
 
-  $pathOnly = parse_url($hero, PHP_URL_PATH) ?? $hero;
-  $ext      = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
-  $base     = $ext ? substr($hero, 0, - (strlen($ext) + 1)) : $hero;
+  $hero    = $post->image_url;                             // full-size fallback URL
+  $path    = parse_url($hero, PHP_URL_PATH) ?? '';
+  $isLocal = Str::startsWith($path, ['/storage/', 'storage/']);
 
-  // Wider set for hero banners
-  $heroWidths = [640, 960, 1280, 1600, 1920];
-  // Container is max-w-5xl (≈1024px). Use 100vw on small screens.
-  $heroSizes  = '(min-width:1280px) 1024px, (min-width:1024px) 1024px, 100vw';
+  // Relative path under 'public' disk (e.g. posts/foo.jpg)
+  $relPath = $isLocal ? ltrim(Str::after($path, '/storage/'), '/') : null;
+  $ext     = strtolower(pathinfo($relPath ?: $path, PATHINFO_EXTENSION));
+  $baseRel = $ext ? substr($relPath, 0, -(strlen($ext) + 1)) : null;
 
-  $srcsetOrig = $isLocalPath
-      ? implode(', ', array_map(fn($w) => "{$base}-{$w}.{$ext} {$w}w", $heroWidths))
-      : '';
-  $srcsetWebp = $isLocalPath
-      ? implode(', ', array_map(fn($w) => "{$base}-{$w}.webp {$w}w", $heroWidths))
-      : '';
-  $srcsetAvif = $isLocalPath
-      ? implode(', ', array_map(fn($w) => "{$base}-{$w}.avif {$w}w", $heroWidths))
-      : '';
+  $widths  = [640, 960, 1280, 1600, 1920];
+  // Container is max-w-5xl (~1024px)
+  $sizes   = '(min-width:1024px) 1024px, 100vw';
+
+  $buildSrcset = function (?string $base, string $ext) use ($widths) {
+      if (!$base) return null;
+      $out = [];
+      foreach ($widths as $w) {
+          $candidate = "{$base}-{$w}.{$ext}";
+          if (Storage::disk('public')->exists($candidate)) {
+              $out[] = Storage::url($candidate) . " {$w}w";
+          }
+      }
+      return $out ? implode(', ', $out) : null;
+  };
+
+  $srcsetAvif = $isLocal ? $buildSrcset($baseRel, 'avif') : null;
+  $srcsetWebp = $isLocal ? $buildSrcset($baseRel, 'webp') : null;
+  $srcsetOrig = ($isLocal && $ext) ? $buildSrcset($baseRel, $ext) : null;
 @endphp
 
 {{-- Feature image + title (orientation-aware) --}}
@@ -47,24 +53,19 @@
   <figure
     class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl"
     x-data="{ portrait: false }"
-    x-init="
-      (() => {
-        const i = $refs.hero;
-        const set = () => portrait = i.naturalHeight > i.naturalWidth;
-        if (i.complete) set();
-        i.addEventListener('load', set, { once: true });
-      })()
-    "
   >
     <picture class="block">
-      @if($isLocalPath)
-        <source type="image/avif" srcset="{{ $srcsetAvif }}" sizes="{{ $heroSizes }}">
-        <source type="image/webp" srcset="{{ $srcsetWebp }}" sizes="{{ $heroSizes }}">
+      @if($srcsetAvif)
+        <source type="image/avif" srcset="{{ $srcsetAvif }}" sizes="{{ $sizes }}">
+      @endif
+      @if($srcsetWebp)
+        <source type="image/webp" srcset="{{ $srcsetWebp }}" sizes="{{ $sizes }}">
       @endif
       <img
         x-ref="hero"
-        src="{{ $hero }}"
-        @if($isLocalPath) srcset="{{ $srcsetOrig }}" sizes="{{ $heroSizes }}" @endif
+        src="{{ $post->image_url }}"
+        srcset="{{ $post->heroSrcset() }}"
+        sizes="{{ $post->heroSizes() }}"
         alt="{{ $post->title }}"
         loading="eager" fetchpriority="high" decoding="async"
         :class="portrait

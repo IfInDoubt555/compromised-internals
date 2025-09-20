@@ -40,21 +40,33 @@
         'description' => $desc,
     ];
 
-    // --- Responsive hero image variants (local images only) ---
-    $hero = $post->image_url;
-    $pathOnly = parse_url($hero, PHP_URL_PATH) ?? $hero;
-    $isLocalPath = \Illuminate\Support\Str::startsWith($pathOnly, ['/storage', 'storage/']);
+    // --- Responsive hero image: build srcset ONLY for files that exist (prevents 404 blanks) ---
+    $hero = $post->image_url; // original full-size URL (kept as <img src> fallback)
+    $path = parse_url($hero, PHP_URL_PATH) ?? '';
+    $isLocal = \Illuminate\Support\Str::startsWith($path, ['/storage/', 'storage/']);
 
-    $ext  = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
-    $base = $ext ? substr($hero, 0, - (strlen($ext) + 1)) : $hero;
+    $relPath = $isLocal ? ltrim(\Illuminate\Support\Str::after($path, '/storage/'), '/') : null; // e.g. 'posts/foo.jpg'
+    $ext     = strtolower(pathinfo($relPath ?: $path, PATHINFO_EXTENSION));
+    $baseRel = $ext ? substr($relPath, 0, -(strlen($ext) + 1)) : null;                             // e.g. 'posts/foo'
 
-    // Wide set for hero banners; container is ~1024px (max-w-5xl)
-    $heroWidths = [640, 960, 1280, 1600, 1920];
-    $heroSizes  = '(min-width:1280px) 1024px, (min-width:1024px) 1024px, 100vw';
+    $widths  = [640, 960, 1280, 1600, 1920];
+    $sizes   = '(min-width:1024px) 1024px, 100vw';
 
-    $srcsetOrig = $isLocalPath ? implode(', ', array_map(fn($w) => "{$base}-{$w}.{$ext} {$w}w", $heroWidths)) : '';
-    $srcsetWebp = $isLocalPath ? implode(', ', array_map(fn($w) => "{$base}-{$w}.webp {$w}w", $heroWidths)) : '';
-    $srcsetAvif = $isLocalPath ? implode(', ', array_map(fn($w) => "{$base}-{$w}.avif {$w}w", $heroWidths)) : '';
+    $buildSrcset = function (?string $baseRel, string $ext) use ($widths) {
+        if (!$baseRel) return null;
+        $out = [];
+        foreach ($widths as $w) {
+            $candidate = "{$baseRel}-{$w}.{$ext}";
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($candidate)) {
+                $out[] = \Illuminate\Support\Facades\Storage::url($candidate) . " {$w}w";
+            }
+        }
+        return $out ? implode(', ', $out) : null;
+    };
+
+    $srcsetAvif = $isLocal ? $buildSrcset($baseRel, 'avif') : null;
+    $srcsetWebp = $isLocal ? $buildSrcset($baseRel, 'webp') : null;
+    $srcsetOrig = ($isLocal && $ext) ? $buildSrcset($baseRel, $ext) : null;
 @endphp
 
 @push('head')
@@ -110,29 +122,24 @@
   </div>
 </div>
 
-{{-- Feature image + title (orientation-aware + responsive sources) --}}
+{{-- Feature image + title (CSP-safe Alpine + responsive sources) --}}
 <div class="max-w-5xl mx-auto px-4">
   <figure
     class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl"
     x-data="{ portrait: false }"
-    x-init="
-      (() => {
-        const i = $refs.hero;
-        const set = () => portrait = i.naturalHeight > i.naturalWidth;
-        if (i.complete) set();
-        i.addEventListener('load', set, { once: true });
-      })()
-    "
   >
     <picture class="block">
-      @if($isLocalPath)
-        <source type="image/avif" srcset="{{ $srcsetAvif }}" sizes="{{ $heroSizes }}">
-        <source type="image/webp" srcset="{{ $srcsetWebp }}" sizes="{{ $heroSizes }}">
+      @if($srcsetAvif)
+        <source type="image/avif" srcset="{{ $srcsetAvif }}" sizes="{{ $sizes }}">
+      @endif
+      @if($srcsetWebp)
+        <source type="image/webp" srcset="{{ $srcsetWebp }}" sizes="{{ $sizes }}">
       @endif
       <img
         x-ref="hero"
-        src="{{ $hero }}"
-        @if($isLocalPath) srcset="{{ $srcsetOrig }}" sizes="{{ $heroSizes }}" @endif
+        src="{{ $post->image_url }}"
+        srcset="{{ $post->heroSrcset() }}"
+        sizes="{{ $post->heroSizes() }}"
         alt="{{ $post->title }}"
         loading="eager" fetchpriority="high" decoding="async"
         :class="portrait
