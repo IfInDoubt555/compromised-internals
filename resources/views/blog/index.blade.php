@@ -21,15 +21,13 @@
         ],
     ];
 
-    // ---- Build a collection from paginator or collection ----
     /** @var \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection $posts */
     $items    = $posts instanceof \Illuminate\Contracts\Pagination\Paginator ? $posts->getCollection() : collect($posts);
     $featured = $items->first();
     $rest     = $items->slice(1);
 
-    // ---- Preload the featured image responsively (local images only) ----
+    // ---- Preload the featured image (local images only) ----
     $preloadAvif = $preloadWebp = $preloadOrig = '';
-    // Matches the featured-card width on desktop (~960px usable)
     $preloadSizes = '(min-width:1280px) 960px, (min-width:1024px) 896px, 100vw';
 
     if ($featured) {
@@ -41,9 +39,7 @@
             $ext  = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
             $base = $ext ? substr($hero, 0, - (strlen($ext) + 1)) : $hero;
 
-            // Larger widths for the featured hero card
             $widths = [720, 960, 1280];
-
             $srcsetOrig = implode(', ', array_map(fn($w) => "{$base}-{$w}.{$ext} {$w}w", $widths));
             $srcsetWebp = implode(', ', array_map(fn($w) => "{$base}-{$w}.webp {$w}w", $widths));
             $srcsetAvif = implode(', ', array_map(fn($w) => "{$base}-{$w}.avif {$w}w", $widths));
@@ -52,7 +48,6 @@
             $preloadWebp = $srcsetWebp;
             $preloadOrig = $srcsetOrig;
         } else {
-            // External image – just preload the direct URL
             $preloadOrig = $hero;
         }
     }
@@ -79,7 +74,6 @@
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
 
-    {{-- Preload the featured card image for better LCP --}}
     @if($featured)
         @if($preloadAvif)
             <link rel="preload" as="image" type="image/avif" imagesrcset="{{ $preloadAvif }}" imagesizes="{{ $preloadSizes }}">
@@ -92,17 +86,14 @@
 @endpush
 
 @section('content')
-<div class="mx-auto px-4 sm:px-6 lg:px-8 pt-[calc(var(--nav-h)+10px)] pb-8 lg:pt-10
-            max-w-[88rem]"> {{-- widen container a bit on desktop for a more open feel --}}
+<div class="mx-auto px-4 sm:px-6 lg:px-8 pt-[calc(var(--nav-h)+10px)] pb-8 lg:pt-10 max-w-[88rem]">
 
-  {{-- Hero --}}
   <header class="mb-8 text-center">
     <h1 class="ci-title-xl">Rally Blog</h1>
     <p class="mt-2 text-sm ci-muted">News, features, and notes from the stages.</p>
   </header>
 
   @auth
-    {{-- Floating New Post button --}}
     <a href="{{ route('posts.create') }}"
        class="fixed bottom-6 right-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lg ring-1 ring-stone-900/10 dark:ring-white/10 transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
        title="New Post" aria-label="Create new post">
@@ -113,27 +104,22 @@
     </a>
   @endauth
 
-  {{-- MOBILE: sticky tools --}}
+  {{-- MOBILE tools --}}
   <div class="lg:hidden sticky top-[calc(var(--nav-h)+8px)] z-30">
     <div class="ci-card px-4 py-3 ring-1 ring-black/5 dark:ring-white/10 shadow-sm
                 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-stone-900/60">
       @include('partials.blog-sidebar')
     </div>
   </div>
-
-  {{-- MOBILE: Hot Right Now --}}
   <div class="lg:hidden mt-4">
     @include('partials.blog-hot-right-now', ['items' => $hotPosts ?? [], 'limit' => 3])
   </div>
 
-  {{-- DESKTOP layout: sidebar + main --}}
   <div class="grid grid-cols-1 lg:grid-cols-[minmax(300px,360px)_1fr] gap-10 items-start mt-6">
-
-    {{-- Sidebar (desktop only) --}}
+    {{-- Sidebar (desktop) --}}
     <aside class="hidden lg:block sticky top-[calc(var(--nav-h)+24px)] self-start">
       <div class="max-h-[calc(100vh-(var(--nav-h)+24px))] overflow-y-auto pr-2">
         @include('partials.blog-sidebar')
-
         <div class="mt-4">
           @include('partials.blog-hot-right-now', ['items' => $hotPosts ?? [], 'limit' => 3])
         </div>
@@ -144,26 +130,36 @@
     <main class="min-w-0">
       @if($items->count())
 
-        {{-- Featured first post with a big image --}}
+        {{-- Featured first post --}}
         @if($featured)
           <section aria-label="Featured post" class="mb-8">
             @include('partials.blog-post-card', ['post' => $featured, 'variant' => 'featured'])
           </section>
         @endif
 
-        {{-- Rest of posts in a roomy 2-col grid on xl --}}
+        {{-- Rest: stacked on mobile, masonry (columns) on desktop --}}
         @if($rest->count())
-          <ul class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          {{-- Mobile/Tablet stacked list --}}
+          <ul class="space-y-5 lg:hidden">
             @foreach($rest as $post)
               <li>@include('partials.blog-post-card', ['post' => $post])</li>
             @endforeach
           </ul>
+
+          {{-- Desktop masonry using CSS columns (no row gaps/holes) --}}
+          <ul class="hidden lg:block columns-2 2xl:columns-2 gap-8 [column-fill:_balance]">
+            @foreach($rest as $post)
+              <li class="mb-8 break-inside-avoid">
+                @include('partials.blog-post-card', ['post' => $post])
+              </li>
+            @endforeach
+          </ul>
         @endif
+
       @else
         <p class="ci-body">No posts yet.</p>
       @endif
 
-      {{-- Pagination --}}
       <div class="mt-10 flex justify-center">
         <div class="ci-card px-3 py-2">
           {{ $posts->links() }}

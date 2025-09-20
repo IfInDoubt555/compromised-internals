@@ -9,27 +9,24 @@
 
 @php
   /** @var \App\Models\Post $post */
-  use Illuminate\Support\Str;
-  use Illuminate\Support\Facades\Storage;
-
   $variant    ??= 'default';
   $isFeatured = ($variant === 'featured');
 
-  // Fixed container heights keep the grid tidy; image switches between cover/contain.
+  // Fixed image box so cards look tidy in masonry; taller on desktop
   $imageBox = match ($variant) {
-    'featured' => 'h-[360px] md:h-[420px] xl:h-[480px]',
-    'compact'  => 'h-[180px] md:h-[220px]',
-    default    => 'h-[260px] md:h-[320px]',
+    'featured' => 'h-[420px] xl:h-[520px] 2xl:h-[600px]',     // <- was xl:h-[6000px] (typo)
+    'compact'  => 'h-[200px] md:h-[240px]',
+    default    => 'h-[320px] lg:h-[380px] xl:h-[440px]',
   };
 
   $thumb = $post->thumbnail_url ?? asset('images/default-post.png');
 
-  // Only build variant srcsets for local storage assets (produced by your generator).
-  $path     = parse_url($thumb, PHP_URL_PATH) ?? '';
-  $isLocal  = Str::startsWith($path, ['/storage/', 'storage/']);
-  $relPath  = $isLocal ? ltrim(Str::after($path, '/storage/'), '/') : null; // relative to 'public' disk
-  $ext      = strtolower(pathinfo($relPath ?: $path, PATHINFO_EXTENSION));
-  $baseRel  = $ext ? substr($relPath, 0, -(strlen($ext) + 1)) : null;
+  // Build srcsets only for local files we actually have variants for
+  $path    = parse_url($thumb, PHP_URL_PATH) ?? '';
+  $isLocal = \Illuminate\Support\Str::startsWith($path, ['/storage/', 'storage/']);
+  $rel     = $isLocal ? ltrim(\Illuminate\Support\Str::after($path, '/storage/'), '/') : null;
+  $ext     = strtolower(pathinfo($rel ?: $path, PATHINFO_EXTENSION));
+  $baseRel = $ext ? substr($rel, 0, -(strlen($ext) + 1)) : null;
 
   $widths = [160, 320, 640, 960, 1280];
   $sizes  = match ($variant) {
@@ -38,31 +35,42 @@
     default    => '(min-width:1024px) 640px, 100vw',
   };
 
-  $buildSrcset = function (?string $base, string $ext) use ($widths) {
-      if (!$base) return null;
-      $out = [];
-      foreach ($widths as $w) {
-          $candidate = "{$base}-{$w}.{$ext}";                 // e.g. posts/foo-320.webp
-          if (Storage::disk('public')->exists($candidate)) {
-              $out[] = Storage::url($candidate) . " {$w}w";   // /storage/posts/foo-320.webp 320w
-          }
+  $build = function (?string $base, string $ext) use ($widths) {
+    if (!$base) return null;
+    $out = [];
+    foreach ($widths as $w) {
+      $candidate = "{$base}-{$w}.{$ext}";
+      if (\Illuminate\Support\Facades\Storage::disk('public')->exists($candidate)) {
+        $out[] = \Illuminate\Support\Facades\Storage::url($candidate) . " {$w}w";
       }
-      return $out ? implode(', ', $out) : null;
+    }
+    return $out ? implode(', ', $out) : null;
   };
 
-  $srcsetAvif = ($isLocal) ? $buildSrcset($baseRel, 'avif') : null;
-  $srcsetWebp = ($isLocal) ? $buildSrcset($baseRel, 'webp') : null;
-  $srcsetOrig = ($isLocal && $ext) ? $buildSrcset($baseRel, $ext) : null;
+  $srcsetAvif = $isLocal ? $build($baseRel, 'avif') : null;
+  $srcsetWebp = $isLocal ? $build($baseRel, 'webp') : null;
+  $srcsetOrig = ($isLocal && $ext) ? $build($baseRel, $ext) : null;
+
+  // Only the featured card should be high-priority for LCP
+  $eager = $isFeatured;
 @endphp
 
 <article {{ $attributes->class([
   'rounded-2xl overflow-hidden ring-1 ring-black/5 shadow dark:ring-white/10 bg-white/90 dark:bg-stone-900/70'
 ]) }}>
   {{-- Thumb --}}
-  <a href="{{ route('posts.show', $post->slug) }}" class="block focus:outline-none focus:ring-2 focus:ring-sky-400">
+  <a href="{{ route('blog.show', $post->slug) }}" class="block focus:outline-none focus:ring-2 focus:ring-sky-400">
     <div
       class="relative w-full {{ $imageBox }} overflow-hidden rounded-t-2xl"
       x-data="{ portrait: false }"
+      x-init="
+        (() => {
+          const i = $refs.cardImg;
+          const set = () => portrait = i.naturalHeight > i.naturalWidth;
+          if (i.complete) set();
+          i.addEventListener('load', set, { once: true });
+        })()
+      "
     >
       <picture class="absolute inset-0 block">
         @if($srcsetAvif)
@@ -72,15 +80,15 @@
           <source type="image/webp" srcset="{{ $srcsetWebp }}" sizes="{{ $sizes }}">
         @endif
         <img
-          x-ref="hero"
-          src="{{ $post->image_url }}"
-          srcset="{{ $post->heroSrcset() }}"
-          sizes="{{ $post->heroSizes() }}"
+          x-ref="cardImg"
+          src="{{ $thumb }}"
+          @if($srcsetOrig) srcset="{{ $srcsetOrig }}" sizes="{{ $sizes }}" @endif
           alt="{{ $post->title }}"
-          loading="eager" fetchpriority="high" decoding="async"
-          :class="portrait
-            ? 'block w-full h-auto object-contain max-h-[80vh]'
-            : 'block w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]'"
+          class="absolute inset-0 w-full h-full transition-transform duration-300"
+          :class="portrait ? 'object-contain p-2' : 'object-cover'"
+          loading="{{ $eager ? 'eager' : 'lazy' }}"
+          @if($eager) fetchpriority="high" @endif
+          decoding="async"
         />
       </picture>
     </div>
@@ -102,7 +110,7 @@
     </div>
 
     <h2 class="mt-2 {{ $isFeatured ? 'ci-title-xl' : 'ci-title-lg' }} leading-snug">
-      <a href="{{ route('posts.show', $post->slug) }}" class="underline-offset-4 hover:underline">
+      <a href="{{ route('blog.show', $post->slug) }}" class="underline-offset-4 hover:underline">
         {{ $post->title }}
       </a>
     </h2>
@@ -112,7 +120,7 @@
     </p>
 
     <div class="mt-4 flex items-center justify-between">
-      <a href="{{ route('posts.show', $post->slug) }}"
+      <a href="{{ route('blog.show', $post->slug) }}"
          class="ci-cta inline-flex items-center gap-2 text-sm font-semibold">
         Read article
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
