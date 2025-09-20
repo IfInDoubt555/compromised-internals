@@ -1,40 +1,49 @@
 {{-- resources/views/partials/blog-post-card.blade.php --}}
 @props([
   'post',
-  // 'default'  = index card (220px thumb)
-  // 'compact'  = small list (160px thumb)
-  // 'featured' = hero-sized card (fills container)
-  // 'list'     = homepage list-row (no inner card)
+  // 'default'  = index card
+  // 'compact'  = small list
+  // 'featured' = hero-sized card
   'variant' => 'default',
 ])
 
 @php
-  // Safe defaults so includes never explode
-  $variant     = $variant ?? 'default';
-  $isFeatured  = ($variant === 'featured');
+  /** @var \App\Models\Post $post */
+  $variant    = $variant ?? 'default';
+  $isFeatured = ($variant === 'featured');
 
-  // Wider banner for featured, boxier for list/default
-  $thumbAspect = match ($variant) {
-      'featured' => 'aspect-[2/1] xl:aspect-[21/9]', // wider
-      'compact'  => 'aspect-[16/10]',                // small list
-      default    => 'aspect-[16/10]',
+  // Fixed container heights keep the grid tidy; image switches between cover/contain.
+  $imageBox = match ($variant) {
+    'featured' => 'h-[360px] md:h-[420px] xl:h-[480px]',
+    'compact'  => 'h-[180px] md:h-[220px]',
+    default    => 'h-[260px] md:h-[320px]',
   };
-
-  // Shared image classes
-  $imgClass = 'w-full h-full object-cover';
 @endphp
 
 <article {{ $attributes->class([
   'rounded-2xl overflow-hidden ring-1 ring-black/5 shadow dark:ring-white/10 bg-white/90 dark:bg-stone-900/70'
 ]) }}>
   {{-- Thumb --}}
-  <div class="{{ $thumbAspect }}">
+  <div
+    class="relative w-full {{ $imageBox }} overflow-hidden rounded-t-2xl ring-1 ring-black/5 dark:ring-white/10"
+    x-data="{ portrait: false }"
+    x-init="
+      (() => {
+        const i = $refs.cardImg;
+        const set = () => portrait = i.naturalHeight > i.naturalWidth;
+        if (i.complete) set();
+        i.addEventListener('load', set, { once: true });
+      })()
+    "
+  >
     <img
+      x-ref="cardImg"
       src="{{ $post->thumbnail_url ?? asset('images/default-post.png') }}"
       alt="{{ $post->title }}"
-      class="{{ $imgClass }}"
-      loading="lazy"
-    >
+      class="absolute inset-0 w-full h-full transition-transform duration-300"
+      :class="portrait ? 'object-contain p-2' : 'object-cover'"
+      loading="lazy" decoding="async"
+    />
   </div>
 
   {{-- Text --}}

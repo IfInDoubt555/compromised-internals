@@ -94,18 +94,31 @@
   </div>
 </div>
 
-{{-- Feature image + title --}}
+{{-- Feature image + title (intrinsic sizing) --}}
 <div class="max-w-5xl mx-auto px-4">
-  {{-- posts.show / posts.partials.article-preview --}}
-  <figure class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl">
+  <figure
+    class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl"
+    x-data="{ portrait: false }"
+    x-init="
+      (() => {
+        const i = $refs.hero;
+        const set = () => portrait = i.naturalHeight > i.naturalWidth;
+        if (i.complete) set();
+        i.addEventListener('load', set, { once: true });
+      })()
+    "
+  >
     <img
+      x-ref="hero"
       src="{{ $post->image_url }}"
       alt="{{ $post->title }}"
-      class="w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]"
-      loading="lazy"
+      loading="eager" fetchpriority="high"
+      sizes="(min-width: 1024px) 1024px, 100vw"
+      :class="portrait
+        ? 'block w-full h-auto object-contain max-h-[80vh]'
+        : 'block w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]'"
     />
   </figure>
-
 
   <h1 class="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-stone-100">
     {{ $post->title }}
