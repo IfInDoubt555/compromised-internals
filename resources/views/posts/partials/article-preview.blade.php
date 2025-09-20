@@ -14,6 +14,32 @@
     ?? 'inline-flex items-center gap-2 rounded-lg px-3 py-2 ring-1 ring-black/5 dark:ring-white/10
         bg-white/80 dark:bg-stone-800/60 text-sm font-semibold text-stone-800 dark:text-stone-100
         hover:bg-white hover:shadow';
+
+  // --- Responsive hero image variants (local storage only) ---
+  $hero = $post->image_url;
+  $isLocalPath = \Illuminate\Support\Str::startsWith(
+      parse_url($hero, PHP_URL_PATH) ?? $hero,
+      ['/storage', 'storage/']
+  );
+
+  $pathOnly = parse_url($hero, PHP_URL_PATH) ?? $hero;
+  $ext      = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
+  $base     = $ext ? substr($hero, 0, - (strlen($ext) + 1)) : $hero;
+
+  // Wider set for hero banners
+  $heroWidths = [640, 960, 1280, 1600, 1920];
+  // Container is max-w-5xl (≈1024px). Use 100vw on small screens.
+  $heroSizes  = '(min-width:1280px) 1024px, (min-width:1024px) 1024px, 100vw';
+
+  $srcsetOrig = $isLocalPath
+      ? implode(', ', array_map(fn($w) => "{$base}-{$w}.{$ext} {$w}w", $heroWidths))
+      : '';
+  $srcsetWebp = $isLocalPath
+      ? implode(', ', array_map(fn($w) => "{$base}-{$w}.webp {$w}w", $heroWidths))
+      : '';
+  $srcsetAvif = $isLocalPath
+      ? implode(', ', array_map(fn($w) => "{$base}-{$w}.avif {$w}w", $heroWidths))
+      : '';
 @endphp
 
 {{-- Feature image + title (orientation-aware) --}}
@@ -30,16 +56,22 @@
       })()
     "
   >
-    <img
-      x-ref="hero"
-      src="{{ $post->image_url }}"
-      alt="{{ $post->title }}"
-      loading="eager" fetchpriority="high"
-      sizes="(min-width: 1024px) 1024px, 100vw"
-      :class="portrait
-        ? 'block w-full h-auto object-contain max-h-[80vh]'
-        : 'block w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]'"
-    />
+    <picture class="block">
+      @if($isLocalPath)
+        <source type="image/avif" srcset="{{ $srcsetAvif }}" sizes="{{ $heroSizes }}">
+        <source type="image/webp" srcset="{{ $srcsetWebp }}" sizes="{{ $heroSizes }}">
+      @endif
+      <img
+        x-ref="hero"
+        src="{{ $hero }}"
+        @if($isLocalPath) srcset="{{ $srcsetOrig }}" sizes="{{ $heroSizes }}" @endif
+        alt="{{ $post->title }}"
+        loading="eager" fetchpriority="high" decoding="async"
+        :class="portrait
+          ? 'block w-full h-auto object-contain max-h-[80vh]'
+          : 'block w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]'"
+      />
+    </picture>
   </figure>
 
   <h1 class="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-stone-100">
@@ -56,7 +88,6 @@
 {{-- Meta bar --}}
 <div class="max-w-5xl mx-auto px-4 mt-3">
   <div class="flex flex-wrap items-center gap-3">
-
     {{-- Author chip --}}
     <a href="{{ $author ? route('profile.public', $author->id) : '#' }}"
        class="group inline-flex items-center gap-3 rounded-xl border px-3 py-2

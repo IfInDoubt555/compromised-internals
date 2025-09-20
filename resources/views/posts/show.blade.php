@@ -39,6 +39,22 @@
         ],
         'description' => $desc,
     ];
+
+    // --- Responsive hero image variants (local images only) ---
+    $hero = $post->image_url;
+    $pathOnly = parse_url($hero, PHP_URL_PATH) ?? $hero;
+    $isLocalPath = \Illuminate\Support\Str::startsWith($pathOnly, ['/storage', 'storage/']);
+
+    $ext  = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
+    $base = $ext ? substr($hero, 0, - (strlen($ext) + 1)) : $hero;
+
+    // Wide set for hero banners; container is ~1024px (max-w-5xl)
+    $heroWidths = [640, 960, 1280, 1600, 1920];
+    $heroSizes  = '(min-width:1280px) 1024px, (min-width:1024px) 1024px, 100vw';
+
+    $srcsetOrig = $isLocalPath ? implode(', ', array_map(fn($w) => "{$base}-{$w}.{$ext} {$w}w", $heroWidths)) : '';
+    $srcsetWebp = $isLocalPath ? implode(', ', array_map(fn($w) => "{$base}-{$w}.webp {$w}w", $heroWidths)) : '';
+    $srcsetAvif = $isLocalPath ? implode(', ', array_map(fn($w) => "{$base}-{$w}.avif {$w}w", $heroWidths)) : '';
 @endphp
 
 @push('head')
@@ -94,7 +110,7 @@
   </div>
 </div>
 
-{{-- Feature image + title (intrinsic sizing) --}}
+{{-- Feature image + title (orientation-aware + responsive sources) --}}
 <div class="max-w-5xl mx-auto px-4">
   <figure
     class="rounded-2xl overflow-hidden ring-1 ring-black/5 dark:ring-white/10 shadow-xl"
@@ -108,16 +124,22 @@
       })()
     "
   >
-    <img
-      x-ref="hero"
-      src="{{ $post->image_url }}"
-      alt="{{ $post->title }}"
-      loading="eager" fetchpriority="high"
-      sizes="(min-width: 1024px) 1024px, 100vw"
-      :class="portrait
-        ? 'block w-full h-auto object-contain max-h-[80vh]'
-        : 'block w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]'"
-    />
+    <picture class="block">
+      @if($isLocalPath)
+        <source type="image/avif" srcset="{{ $srcsetAvif }}" sizes="{{ $heroSizes }}">
+        <source type="image/webp" srcset="{{ $srcsetWebp }}" sizes="{{ $heroSizes }}">
+      @endif
+      <img
+        x-ref="hero"
+        src="{{ $hero }}"
+        @if($isLocalPath) srcset="{{ $srcsetOrig }}" sizes="{{ $heroSizes }}" @endif
+        alt="{{ $post->title }}"
+        loading="eager" fetchpriority="high" decoding="async"
+        :class="portrait
+          ? 'block w-full h-auto object-contain max-h-[80vh]'
+          : 'block w-full h-auto object-cover aspect-[16/9] md:aspect-[2/1] xl:aspect-[21/9]'"
+      />
+    </picture>
   </figure>
 
   <h1 class="mt-6 text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-stone-100">
@@ -234,8 +256,6 @@
       </div>
     @endif
 
-    
-
     @if ($post->comments->count())
       <div class="space-y-4 mb-6 mt-10">
         <h2 class="text-xl font-bold text-slate-900 dark:text-stone-100">Comments</h2>
@@ -261,28 +281,27 @@
               {!! $comment->body_html !!}
             </div>
 
-              @can('update', $comment)
-                <form x-show="editing" method="POST" action="{{ route('comments.update', $comment) }}"
-                      class="mt-2 flex flex-col gap-2">
-                  @csrf
-                  <input type="text" name="body" x-model="body"
-                         class="border rounded px-2 py-1 text-sm w-full
-                                border-gray-300 dark:border-white/10
-                                bg-white dark:bg-stone-800/60
-                                text-slate-900 dark:text-stone-100">
-                  <div class="flex gap-2">
-                    <button type="submit"
-                            class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600">
-                      Update
-                    </button>
-                    <button type="button" @click="editing = false"
-                            class="text-sm text-gray-500 dark:text-stone-400 hover:underline">
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              @endcan
-            </div>
+            @can('update', $comment)
+              <form x-show="editing" method="POST" action="{{ route('comments.update', $comment) }}"
+                    class="mt-2 flex flex-col gap-2">
+                @csrf
+                <input type="text" name="body" x-model="body"
+                       class="border rounded px-2 py-1 text-sm w-full
+                              border-gray-300 dark:border-white/10
+                              bg-white dark:bg-stone-800/60
+                              text-slate-900 dark:text-stone-100">
+                <div class="flex gap-2">
+                  <button type="submit"
+                          class="px-3 py-1 text-sm bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                    Update
+                  </button>
+                  <button type="button" @click="editing = false"
+                          class="text-sm text-gray-500 dark:text-stone-400 hover:underline">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            @endcan
 
             <div class="flex gap-3">
               @can('update', $comment)
@@ -309,6 +328,7 @@
     @else
       <p class="mt-6 mb-6 text-gray-500 italic dark:text-stone-400">No comments yet. Be the first to chime in!</p>
     @endif
+
     {{-- Composer moved to the bottom (where the new comment will appear) --}}
     @auth
       @php $invalid = $errors->has('body'); @endphp

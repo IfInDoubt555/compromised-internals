@@ -62,6 +62,38 @@ class Post extends Model
         return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
     }
 
+    // Return a URL to a specific variant, e.g. -640.webp
+public function variantUrl(int $w, ?string $format = null): ?string
+{
+    $path = (string) $this->image_path;
+    if ($path === '') return null;
+
+    $dot = strrpos($path, '.');
+    if ($dot === false) return null;
+
+    $base = substr($path, 0, $dot);
+    $ext  = strtolower($format ?: substr($path, $dot + 1));
+
+    $variant = "{$base}-{$w}.{$ext}";
+    return Storage::url($variant);
+    }
+
+    /**
+     * Build a srcset like "…-480.webp 480w, …-768.webp 768w, …"
+     * Only includes variants that exist.
+     */
+    public function srcset(array $widths, ?string $format = null): string
+    {
+        $out = [];
+        foreach ($widths as $w) {
+            $url = $this->variantUrl($w, $format);
+            // If you want to skip non-existent files, uncomment the exists() check:
+            // if (!\Storage::exists(str_replace('/storage/', '', $url))) continue;
+            if ($url) $out[] = "{$url} {$w}w";
+        }
+        return implode(', ', $out);
+    }
+
     /** ---------- Accessors ---------- */
     public function getBodyHtmlAttribute(): string
     {

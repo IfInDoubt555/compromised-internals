@@ -19,18 +19,18 @@
 >
   {{-- Top bar --}}
   <div class="mb-4 flex flex-wrap items-center gap-2">
-    <div class="flex gap-2">
-      <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='article' }" @click="tab='article'">Article</button>
-      <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='card' }"    @click="tab='card'">List Card</button>
-      <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='featured' }" @click="tab='featured'">Featured Card</button>
+    <div class="flex gap-2" role="tablist" aria-label="Preview tabs">
+      <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='article' }" @click="tab='article'" role="tab" :aria-selected="tab==='article'">Article</button>
+      <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='card' }"    @click="tab='card'"    role="tab" :aria-selected="tab==='card'">List Card</button>
+      <button class="ci-btn-secondary" :class="{ 'ci-btn-primary': tab==='featured' }" @click="tab='featured'" role="tab" :aria-selected="tab==='featured'">Featured Card</button>
     </div>
 
     <div class="ml-auto flex flex-wrap items-center gap-2">
       {{-- Status pill --}}
-      @if(!$isPublished)
+      @if (! $isPublished)
         <span class="px-2 py-1 text-xs font-semibold rounded-md bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
           {{ $isScheduled ? 'Scheduled' : 'Draft' }}
-          @if($isScheduled && $post->published_at)
+          @if ($isScheduled && $post->published_at)
             · {{ $post->published_at->timezone(config('app.timezone'))->format('M j, Y H:i') }}
           @endif
         </span>
@@ -44,14 +44,14 @@
       <a href="{{ route('admin.posts.edit', $post) }}" class="ci-btn-secondary">Edit</a>
 
       {{-- View public (only when published) --}}
-      @if($isPublished)
+      @if ($isPublished)
         <a href="{{ route('blog.show', $post->slug) }}" class="ci-btn-secondary" target="_blank" rel="noopener noreferrer">View public</a>
       @endif
 
       {{-- Publish now (only if authorized + not already published) --}}
       @can('update', $post)
-        @unless($isPublished)
-          <form method="POST" action="{{ route('admin.publish.now', $post) }}">
+        @unless ($isPublished)
+          <form method="POST" action="{{ route('admin.publish.now', ['post' => $post]) }}">
             @csrf
             <button type="submit" class="ci-btn-primary">Publish now</button>
           </form>
@@ -60,8 +60,8 @@
     </div>
   </div>
 
-  {{-- Article preview (identical to public; uses body_html + intrinsic hero in the partial) --}}
-  <div x-show="tab==='article'" x-cloak>
+  {{-- Article preview (identical to public; responsive hero handled inside the partial) --}}
+  <div x-show="tab==='article'" x-cloak role="tabpanel">
     @include('posts.partials.article-preview', [
       'post'        => $post,
       'isPreview'   => true,
@@ -70,12 +70,12 @@
   </div>
 
   {{-- List-card preview --}}
-  <div x-show="tab==='card'" x-cloak class="max-w-5xl mx-auto">
+  <div x-show="tab==='card'" x-cloak class="max-w-5xl mx-auto" role="tabpanel">
     @include('partials.blog-post-card', ['post' => $post, 'variant' => 'compact'])
   </div>
 
   {{-- Featured-card preview --}}
-  <div x-show="tab==='featured'" x-cloak class="max-w-5xl mx-auto">
+  <div x-show="tab==='featured'" x-cloak class="max-w-5xl mx-auto" role="tabpanel">
     @include('partials.blog-post-card', ['post' => $post, 'variant' => 'featured'])
   </div>
 </div>

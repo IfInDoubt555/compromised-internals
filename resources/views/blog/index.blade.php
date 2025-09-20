@@ -20,6 +20,38 @@
             'url'   => url('/'),
         ],
     ];
+
+    // ---- Preload the first card image responsively (local images only) ----
+    /** @var \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Support\Collection $posts */
+    $first = isset($posts) && $posts->count() ? $posts->first() : null;
+
+    $preloadAvif = $preloadWebp = $preloadOrig = '';
+    $preloadSizes = '(min-width:1024px) 720px, 100vw';  // ~card width on desktop
+
+    if ($first) {
+        $hero = $first->thumbnail_url ?? asset('images/default-post.png');
+        $pathOnly = parse_url($hero, PHP_URL_PATH) ?? $hero;
+        $isLocalPath = \Illuminate\Support\Str::startsWith($pathOnly, ['/storage', 'storage/']);
+
+        if ($isLocalPath) {
+            $ext  = strtolower(pathinfo($pathOnly, PATHINFO_EXTENSION));
+            $base = $ext ? substr($hero, 0, - (strlen($ext) + 1)) : $hero;
+
+            // Reasonable widths for list cards
+            $widths = [480, 720, 960];
+
+            $srcsetOrig = implode(', ', array_map(fn($w) => "{$base}-{$w}.{$ext} {$w}w", $widths));
+            $srcsetWebp = implode(', ', array_map(fn($w) => "{$base}-{$w}.webp {$w}w", $widths));
+            $srcsetAvif = implode(', ', array_map(fn($w) => "{$base}-{$w}.avif {$w}w", $widths));
+
+            $preloadAvif = $srcsetAvif;
+            $preloadWebp = $srcsetWebp;
+            $preloadOrig = $srcsetOrig;
+        } else {
+            // External image – just preload the direct URL to avoid broken variants
+            $preloadOrig = $hero;
+        }
+    }
 @endphp
 
 @push('head')
@@ -42,6 +74,18 @@
     <script type="application/ld+json" nonce="@cspNonce">
         @json($ld, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE)
     </script>
+
+    {{-- Preload the first visible card image for better LCP --}}
+    @if($first)
+        @if($preloadAvif)
+            <link rel="preload" as="image" type="image/avif" imagesrcset="{{ $preloadAvif }}" imagesizes="{{ $preloadSizes }}">
+            <link rel="preload" as="image" type="image/webp" imagesrcset="{{ $preloadWebp }}" imagesizes="{{ $preloadSizes }}">
+            <link rel="preload" as="image" imagesrcset="{{ $preloadOrig }}" imagesizes="{{ $preloadSizes }}">
+        @else
+            {{-- external or no variants --}}
+            <link rel="preload" as="image" href="{{ $preloadOrig }}">
+        @endif
+    @endif
 @endpush
 
 @section('content')
