@@ -333,7 +333,7 @@
         @endforeach
       </div>
     @else
-      <p class="mt-6 mb-6 text-gray-500 italic dark:text-stone-400">No comments yet. Be the first to chime in!</p>
+      <p class="mt-6 mb-6 text-gray-700 italic dark:text-stone-300">No comments yet. Be the first to chime in!</p>
     @endif
 
     {{-- Composer moved to the bottom (where the new comment will appear) --}}
