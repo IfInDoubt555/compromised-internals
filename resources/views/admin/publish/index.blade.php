@@ -43,7 +43,7 @@
                 {{-- Quick publish now --}}
                 <form method="POST" action="{{ route('admin.publish.now', $p) }}" class="inline">
                   @csrf
-                  <button class="ci-cta ml-2">Publish now</button>
+                  <button type="submit" class="ci-cta ml-2">Publish now</button>
                 </form>
               </td>
             </tr>

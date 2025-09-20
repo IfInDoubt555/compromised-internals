@@ -38,22 +38,22 @@
         <span class="px-2 py-1 text-xs font-semibold rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">
           Published
         </span>
-      @endif>
+      @endif
 
       {{-- Edit --}}
       <a href="{{ route('admin.posts.edit', $post) }}" class="ci-btn-secondary">Edit</a>
 
       {{-- View public (only when published) --}}
       @if($isPublished)
-        <a href="{{ route('blog.show', $post->slug) }}" class="ci-btn-secondary" target="_blank" rel="noopener">View public</a>
+        <a href="{{ route('blog.show', $post->slug) }}" class="ci-btn-secondary" target="_blank" rel="noopener noreferrer">View public</a>
       @endif
 
       {{-- Publish now (only if authorized + not already published) --}}
       @can('update', $post)
         @unless($isPublished)
-          <form method="POST" action="{{ route('admin.publish.now', ['post' => $post]) }}">
+          <form method="POST" action="{{ route('admin.publish.now', $post) }}">
             @csrf
-            <button class="ci-btn-primary">Publish now</button>
+            <button type="submit" class="ci-btn-primary">Publish now</button>
           </form>
         @endunless
       @endcan

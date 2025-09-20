@@ -33,7 +33,9 @@
         <select id="board_id" name="board_id" class="ci-select">
           <option value="">— None —</option>
           @foreach($boards as $b)
-            <option value="{{ $b->id }}" @selected(old('board_id', $post->board_id) === $b->id)>{{ $b->name }}</option>
+            <option value="{{ $b->id }}" @selected((int) old('board_id', $post->board_id) === (int) $b->id)>
+              {{ $b->name }}
+            </option>
           @endforeach
         </select>
         @error('board_id') <p class="ci-error">{{ $message }}</p> @enderror
@@ -53,7 +55,7 @@
       >{{ old('excerpt', $post->excerpt) }}</textarea>
       <div class="mt-1 flex items-center justify-between">
         <p class="text-xs text-gray-500 dark:text-stone-400">Max 160 characters.</p>
-        <p class="text-xs text-gray-500 dark:text-stone-400" x-text="excerptCount + '/160`"></p>
+        <p class="text-xs text-gray-500 dark:text-stone-400" x-text="`${excerptCount}/160`"></p>
       </div>
       @error('excerpt') <p class="ci-error">{{ $message }}</p> @enderror
     </div>
@@ -69,6 +71,11 @@
     <div class="mb-6">
       <span class="ci-label mb-2">Feature Image (optional)</span>
       <input id="image_path" type="file" name="image_path" accept="image/*" class="block">
+      @if($post->image_path)
+        <div class="mt-3">
+          <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="max-h-40 rounded-lg ring-1 ring-black/5 dark:ring-white/10">
+        </div>
+      @endif
       <p class="ci-help mt-2">JPG/PNG/WebP • up to 5 MB</p>
       @error('image_path') <p class="ci-error mt-1">{{ $message }}</p> @enderror
     </div>

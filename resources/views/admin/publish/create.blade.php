@@ -71,6 +71,7 @@
       <textarea
         name="excerpt"
         id="excerpt"
+        maxlength="160"
         class="w-full px-4 py-2 rounded-xl border bg-white border-gray-300
                focus:ring focus:ring-blue-200 focus:border-blue-400
                dark:bg-stone-800/60 dark:text-stone-100 dark:border-white/10 dark:placeholder-stone-500"
@@ -81,14 +82,14 @@
     {{-- Body --}}
     <label class="block mb-6">
       <span class="ci-label mb-1">Body</span>
-      <textarea name="body" class="ci-textarea h-56" placeholder="Write your content…">{{ old('body') }}</textarea>
+      <textarea name="body" class="ci-textarea h-56" placeholder="Write your content…" required>{{ old('body') }}</textarea>
       @error('body') <p class="ci-error mt-1">{{ $message }}</p> @enderror
     </label>
 
     {{-- Feature Image --}}
     <div class="mb-6">
       <span class="ci-label mb-2">Feature Image (optional)</span>
-      <input type="file" name="image_path" class="block">
+      <input type="file" name="image_path" accept="image/*" class="block">
       <p class="ci-help mt-2">JPG/PNG/WebP • up to 5 MB</p>
       @error('image_path') <p class="ci-error mt-1">{{ $message }}</p> @enderror
     </div>
@@ -98,11 +99,11 @@
       'model'      => null,
       'namePrefix' => '',
       'field'      => 'status',
-      'dateField'  => 'scheduled_for',  // <-- matches your current store() validation
+      'dateField'  => 'scheduled_for',  // store() expects this; published_at set server-side
     ])
 
     <div class="text-right mt-6">
-      <button class="ci-btn-primary">Create</button>
+      <button type="submit" class="ci-btn-primary">Create</button>
     </div>
   </form>
 </div>
