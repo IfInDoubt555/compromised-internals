@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+
 use App\Http\Requests\Concerns\SanitizesInput;
 use App\Rules\NoBannedWords;
 
-class StoreReplyRequest extends FormRequest
+class StoreReplyRequest extends BaseFormRequest
 {
     use SanitizesInput;
 
@@ -28,3 +28,4 @@ class StoreReplyRequest extends FormRequest
         ];
     }
 }
+

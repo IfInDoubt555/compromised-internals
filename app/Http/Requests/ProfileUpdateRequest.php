@@ -3,11 +3,11 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+
 use Illuminate\Validation\Rule;
 use App\Rules\NoBannedWords;
 
-class ProfileUpdateRequest extends FormRequest
+class ProfileUpdateRequest extends BaseFormRequest
 {
     public function rules(): array
     {
@@ -36,3 +36,4 @@ class ProfileUpdateRequest extends FormRequest
         ];
     }
 }
+

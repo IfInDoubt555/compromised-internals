@@ -58,3 +58,4 @@ trait SanitizesInput
         $this->merge([$slugField => $slug]);
     }
 }
+

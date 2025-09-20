@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+
 use Illuminate\Support\Facades\Http;
 use App\Rules\NoBannedWords;
 
-class ContactMessageRequest extends FormRequest
+class ContactMessageRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
@@ -47,3 +47,4 @@ class ContactMessageRequest extends FormRequest
         ];
     }
 }
+

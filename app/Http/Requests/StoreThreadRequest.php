@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Concerns\SanitizesInput;
 use App\Models\Thread;
 
-class StoreThreadRequest extends FormRequest
+class StoreThreadRequest extends BaseFormRequest
 {
     use SanitizesInput;
 
@@ -40,3 +39,4 @@ class StoreThreadRequest extends FormRequest
         ];
     }
 }
+

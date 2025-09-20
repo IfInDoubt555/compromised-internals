@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+
 use App\Http\Requests\Concerns\SanitizesInput;
 use App\Models\Reply;
 use App\Rules\NoBannedWords;
 
-class UpdateReplyRequest extends FormRequest
+class UpdateReplyRequest extends BaseFormRequest
 {
     use SanitizesInput;
 
@@ -31,3 +31,4 @@ class UpdateReplyRequest extends FormRequest
         ];
     }
 }
+

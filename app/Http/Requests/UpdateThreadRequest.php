@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+
 use App\Http\Requests\Concerns\SanitizesInput;
 use Illuminate\Validation\Rule;
 use App\Models\Thread;
 
-class UpdateThreadRequest extends FormRequest
+class UpdateThreadRequest extends BaseFormRequest
 {
     use SanitizesInput;
 
@@ -55,3 +55,4 @@ class UpdateThreadRequest extends FormRequest
         ];
     }
 }
+

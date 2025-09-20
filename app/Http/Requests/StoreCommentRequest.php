@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+
 use App\Rules\NoBannedWords;
 use Illuminate\Support\Str;
 
-class StoreCommentRequest extends FormRequest
+class StoreCommentRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {
@@ -34,3 +34,4 @@ class StoreCommentRequest extends FormRequest
         }
     }
 }
+

@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+
 use Illuminate\Support\Facades\Auth;
 use App\Rules\NoBannedWords;
 
 
-class StorePostRequest extends FormRequest
+class StorePostRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,3 +34,4 @@ class StorePostRequest extends FormRequest
         ];
     }
 }
+
