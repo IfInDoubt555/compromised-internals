@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
+use App\Models\Board;
+use App\Models\Tag;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
-use App\Models\User;
-use App\Models\Board;
-use App\Models\Tag;
-
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\MarkdownConverter;
+use Mews\Purifier\Facades\Purifier;
 
 class Post extends Model
 {
@@ -30,10 +29,10 @@ class Post extends Model
         'user_id',
         'board_id',
         // scheduling
-        'status',          // draft | scheduled | published | approved (legacy)
-        'scheduled_for',   // datetime (UTC) - legacy helper
-        'published_at',    // datetime (UTC)
-        // 'publish_status',   // legacy BC; still read in helpers
+        'status',         // draft | scheduled | published | approved (legacy)
+        'scheduled_for',  // datetime (UTC) - legacy helper
+        'published_at',   // datetime (UTC)
+        // 'publish_status', // legacy BC; still read in helpers
     ];
 
     protected function casts(): array
@@ -45,28 +44,8 @@ class Post extends Model
     }
 
     /** ---------- Relations ---------- */
-    public function user()  { return $this->belongsTo(User::class); }
+    public function user() { return $this->belongsTo(User::class); }
     public function board() { return $this->belongsTo(Board::class); }
-
-    public function getBodyHtmlAttribute(): string
-    {
-        /** @var MarkdownConverter|null $converter */
-        static $converter = null;
-    
-        if ($converter === null) {
-            $config = [
-                'html_input'         => 'allow', // allow <u>, <a>, etc.
-                'allow_unsafe_links' => false,
-            ];
-        
-            $environment = new Environment($config);
-            $environment->addExtension(new CommonMarkCoreExtension());
-        
-            $converter = new MarkdownConverter($environment);
-        }
-    
-        return $converter->convert((string) $this->body)->getContent();
-    }
 
     public function likes()
     {
@@ -81,6 +60,59 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'post_tag')->withTimestamps();
+    }
+
+    /** ---------- Accessors ---------- */
+    public function getBodyHtmlAttribute(): string
+    {
+        /** @var MarkdownConverter|null $converter */
+        static $converter = null;
+
+        if ($converter === null) {
+            $config = [
+                'html_input'         => 'allow',  // allow safe inline HTML in Markdown source
+                'allow_unsafe_links' => false,
+            ];
+
+            $environment = new Environment($config);
+            $environment->addExtension(new CommonMarkCoreExtension());
+
+            $converter = new MarkdownConverter($environment);
+        }
+
+        $html = $converter->convert((string) $this->body)->getContent();
+
+        // Sanitize to match public rendering (adjust profile if you have a custom one)
+        return Purifier::clean($html, 'default');
+    }
+
+    public function getImageUrlAttribute(): string
+    {
+        $p = (string) $this->image_path;
+
+        if ($p !== '' && Str::startsWith($p, ['http://', 'https://', '//'])) {
+            return $p;
+        }
+        if ($p !== '') {
+            return Storage::url($p); // e.g. /storage/xyz.jpg
+        }
+        return asset('images/default-post.png');
+    }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        return $this->image_url;
+    }
+
+    public function getExcerptForDisplayAttribute(): string
+    {
+        $raw = $this->excerpt ?: strip_tags((string) $this->body);
+        return Str::limit(Str::of($raw)->squish(), 160);
+    }
+
+    public function getMetaDescriptionAttribute(): string
+    {
+        return $this->excerpt_for_display;
     }
 
     /** ---------- Status helpers ---------- */
@@ -109,7 +141,6 @@ class Post extends Model
     }
 
     /** ---------- Scopes ---------- */
-    // KEEP this robust one; REMOVE the simple status-only version
     public function scopePublished(Builder $q): Builder
     {
         return $q->where(function ($q) {
@@ -149,50 +180,20 @@ class Post extends Model
 
     public function scopeScheduled(Builder $q): Builder
     {
-        // New flow schedules via future published_at + status 'scheduled'
+        // New flow schedules via 'scheduled' status; UI sorts by published_at
         return $q->where('status', 'scheduled');
     }
 
     /** ---------- Routing ---------- */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    /** ---------- Accessors ---------- */
-    public function getImageUrlAttribute(): string
-    {
-        $p = (string) $this->image_path;
-
-        if ($p !== '' && Str::startsWith($p, ['http://', 'https://', '//'])) {
-            return $p;
-        }
-        if ($p !== '') {
-            return Storage::url($p); // e.g. /storage/xyz.jpg
-        }
-        return asset('images/default-post.png');
-    }
-
-    public function getThumbnailUrlAttribute(): string
-    {
-        return $this->image_url;
-    }
-
-    public function getExcerptForDisplayAttribute(): string
-    {
-        $raw = $this->excerpt ?: strip_tags((string) $this->body);
-        return Str::limit(Str::of($raw)->squish(), 160);
-    }
-
-    public function getMetaDescriptionAttribute(): string
-    {
-        return $this->excerpt_for_display;
-    }
-
     /** ---------- Model events ---------- */
-    protected static function booted()
+    protected static function booted(): void
     {
-        static::saving(function ($post) {
+        static::saving(function (self $post): void {
             if (empty($post->slug) && !empty($post->title)) {
                 $post->slug = Str::slug($post->title);
             }
@@ -202,14 +203,14 @@ class Post extends Model
         });
     }
 
+    /** ---------- Feed ordering ---------- */
     public function scopeOrderForFeed(Builder $q): Builder
     {
         return $q->orderByRaw('COALESCE(published_at, created_at) DESC');
     }
 
-
     /** ---------- Convenience ---------- */
-    public function isLikedBy(?User $user)
+    public function isLikedBy(?User $user): bool
     {
         if (!$user) return false;
         return $this->likes()->where('user_id', $user->id)->exists();
