@@ -16,6 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+        ->withProviders([
+        \App\Providers\AppServiceProvider::class,
+        \App\Providers\AuthServiceProvider::class,
+  //    \App\Providers\EventServiceProvider::class,
+        \App\Providers\RouteServiceProvider::class, // 👈 loads routes/admin.php
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })
